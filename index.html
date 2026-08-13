@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solana, on the wire — an engineering readout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<style>
+:root{
+  --bg:#0A0D13;
+  --panel:#10141D;
+  --panel-2:#141A27;
+  --grid:#1A2233;
+  --line:#232C41;
+  --ink:#D8E0EC;
+  --dim:#7A87A0;
+  --faint:#4A5570;
+  --amber:#FFB454;   /* CH-02 · transaction signal */
+  --cyan:#5BD7E8;    /* CH-01 · network signal */
+  --red:#FF5C7A;     /* CH-03 · adversarial signal */
+  --green:#7EE787;   /* protection / confirmed */
+  --violet:#A78BFA;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* graph-paper substrate */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:56px 56px;
+  opacity:.28;
+  pointer-events:none;
+  z-index:0;
+}
+::selection{background:rgba(91,215,232,.25)}
+
+/* ---------- slot clock header (signature) ---------- */
+.slotbar{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(10,13,19,.88);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.slotbar-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+  padding:10px 24px;
+}
+.slotbar .brand{
+  font-family:"Chakra Petch",sans-serif;font-weight:700;
+  letter-spacing:.06em;font-size:.85rem;white-space:nowrap;
+}
+.slotbar .brand span{color:var(--cyan)}
+.slot-readout{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;
+  color:var(--dim);display:flex;align-items:center;gap:10px;white-space:nowrap;
+}
+.slot-readout b{color:var(--amber);font-weight:600;font-variant-numeric:tabular-nums}
+.sweep{
+  flex:1;height:6px;border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;position:relative;min-width:60px;
+  background:var(--panel);
+}
+.sweep i{
+  position:absolute;inset:0;transform-origin:left;
+  background:linear-gradient(90deg, rgba(255,180,84,0), var(--amber));
+  animation:sweep .4s linear infinite;
+}
+@keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.slot-nav{display:flex;gap:14px}
+.slot-nav a{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;
+  color:var(--dim);text-decoration:none;padding:3px 2px;
+  border-bottom:1px solid transparent;
+}
+.slot-nav a:hover,.slot-nav a:focus-visible{color:var(--ink);border-color:var(--cyan)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
+@media(max-width:820px){.slot-nav{display:none}.slot-readout .hide-s{display:none}}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+section{padding:96px 0 40px;scroll-margin-top:70px}
+
+.ch-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.ch-tag{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;
+  padding:4px 10px;border:1px solid var(--line);border-radius:3px;color:var(--dim);
+  background:var(--panel);
+}
+.ch-tag i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.ch-01 i{background:var(--cyan)} .ch-02 i{background:var(--amber)}
+.ch-03 i{background:var(--red)} .ch-04 i{background:var(--green)}
+h2{
+  font-family:"Chakra Petch",sans-serif;font-weight:700;
+  font-size:clamp(1.5rem,3.4vw,2.2rem);letter-spacing:.01em;
+}
+.ch-sub{color:var(--dim);max-width:62ch;margin-bottom:36px}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  position:relative;
+  overflow:hidden;
+}
+.panel .corner{position:absolute;width:10px;height:10px;border-color:var(--faint);border-style:solid;opacity:.8}
+.panel .c-tl{top:6px;left:6px;border-width:1px 0 0 1px}
+.panel .c-tr{top:6px;right:6px;border-width:1px 1px 0 0}
+.panel .c-bl{bottom:6px;left:6px;border-width:0 0 1px 1px}
+.panel .c-br{bottom:6px;right:6px;border-width:0 1px 1px 0}
+.panel-label{
+  position:absolute;top:10px;left:18px;
+  font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;color:var(--faint);
+}
+
+.reveal{opacity:0;transform:translateY(18px)}
+.no-motion .reveal{opacity:1;transform:none}
+
+/* ---------- hero ---------- */
+.hero{padding:150px 0 60px}
+.hero-kicker{
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.2em;
+  color:var(--cyan);margin-bottom:18px;
+}
+h1{
+  font-family:"Chakra Petch",sans-serif;font-weight:700;line-height:1.04;
+  font-size:clamp(2.4rem,6.4vw,4.6rem);letter-spacing:.005em;
+}
+h1 .thin{color:var(--dim);font-weight:500}
+.hero-sub{color:var(--dim);max-width:58ch;margin:22px 0 34px;font-size:1.05rem}
+.hero-scope{padding:34px 18px 12px;margin-bottom:22px}
+.hero-scope svg{display:block;width:100%;height:auto}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+}
+.hstat{background:var(--panel);padding:16px 18px}
+.hstat b{
+  font-family:"Chakra Petch",sans-serif;font-size:1.35rem;font-weight:700;display:block;
+  font-variant-numeric:tabular-nums;
+}
+.hstat span{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;color:var(--dim)}
+.hstat:nth-child(1) b{color:var(--amber)} .hstat:nth-child(2) b{color:var(--cyan)}
+.hstat:nth-child(3) b{color:var(--green)} .hstat:nth-child(4) b{color:var(--violet)}
+@media(max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- svg shared ---------- */
+svg text{font-family:"IBM Plex Mono",monospace}
+.lbl{fill:var(--dim);font-size:11px;letter-spacing:.06em}
+.lbl-b{fill:var(--ink);font-size:12px;letter-spacing:.04em;font-weight:600}
+.lbl-f{fill:var(--faint);font-size:10px;letter-spacing:.08em}
+.edge{stroke:var(--line);stroke-width:1.5;fill:none}
+.diagram{padding:44px 18px 20px}
+.diagram svg{display:block;width:100%;height:auto}
+
+/* ---------- role cards / tool cards ---------- */
+.cards{display:grid;gap:14px;margin-top:18px}
+.cards-3{grid-template-columns:repeat(3,1fr)}
+.cards-4{grid-template-columns:repeat(4,1fr)}
+.cards-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.cards-3,.cards-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cards-3,.cards-4,.cards-2{grid-template-columns:1fr}}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:18px 18px 16px;
+}
+.card h4{
+  font-family:"Chakra Petch",sans-serif;font-size:.95rem;font-weight:600;
+  margin-bottom:6px;display:flex;align-items:center;gap:9px;
+}
+.card h4 i{width:9px;height:9px;border-radius:2px;flex:none}
+.card p{font-size:.86rem;color:var(--dim);line-height:1.55}
+.card .mono-tag{
+  font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;
+  color:var(--faint);display:block;margin-bottom:10px;
+}
+.i-cyan{background:var(--cyan)} .i-amber{background:var(--amber)}
+.i-red{background:var(--red)} .i-green{background:var(--green)} .i-violet{background:var(--violet)}
+
+/* two-column split */
+.split{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;align-items:stretch}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.notes{padding:44px 22px 20px}
+.notes ul{list-style:none}
+.notes li{
+  padding:11px 0;border-bottom:1px dashed var(--line);
+  font-size:.87rem;color:var(--dim);display:flex;gap:12px;
+}
+.notes li:last-child{border-bottom:none}
+.notes li b{color:var(--ink);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:.76rem;letter-spacing:.05em;flex:none;padding-top:2px;min-width:96px}
+
+/* pipeline scroller */
+.pipe-scroll{overflow-x:auto;scrollbar-width:thin}
+.pipe-scroll svg{min-width:940px}
+
+/* latency ladder */
+.ladder{padding:48px 22px 26px}
+.lrow{display:grid;grid-template-columns:220px 1fr 90px;gap:14px;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line)}
+.lrow:last-child{border-bottom:none}
+.lname{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;color:var(--ink)}
+.lname span{display:block;color:var(--faint);font-size:.62rem;margin-top:2px;letter-spacing:.1em}
+.ltrack{height:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.lfill{height:100%;transform-origin:left;transform:scaleX(0);border-radius:4px}
+.no-motion .lfill{transform:scaleX(1)}
+.lval{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--amber);text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:680px){.lrow{grid-template-columns:1fr 70px}.ltrack{grid-column:1/-1;order:3}}
+
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 44px}
+footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;color:var(--faint);max-width:80ch}
+
+.glow-amber{filter:drop-shadow(0 0 6px rgba(255,180,84,.9))}
+.glow-cyan{filter:drop-shadow(0 0 6px rgba(91,215,232,.9))}
+.glow-red{filter:drop-shadow(0 0 6px rgba(255,92,122,.9))}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .sweep i{animation:none;transform:scaleX(.6)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SLOT CLOCK ═══════════ -->
+<header class="slotbar" aria-label="Live slot clock">
+  <div class="slotbar-inner">
+    <div class="brand">SOLANA<span>//</span>SCOPE</div>
+    <div class="slot-readout">
+      <span class="hide-s">SLOT</span><b id="slotNum">358,412,907</b>
+      <span class="hide-s">·&nbsp;400&nbsp;ms</span>
+    </div>
+    <div class="sweep" aria-hidden="true"><i></i></div>
+    <nav class="slot-nav" aria-label="Sections">
+      <a href="#ch1">CH-01 NETWORK</a>
+      <a href="#ch2">CH-02 TX FLOW</a>
+      <a href="#ch3">CH-03 MEV</a>
+      <a href="#ch4">CH-04 LATENCY</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="wrap">
+<section class="hero">
+  <p class="hero-kicker reveal">ENGINEERING READOUT · REV 2026-08</p>
+  <h1 class="reveal">Solana,<br><span class="thin">on the wire.</span></h1>
+  <p class="hero-sub reveal">Every 400 milliseconds, a new leader stamps transactions into a verifiable clock, shreds the block across a relay tree, and the fastest machines on earth race to be first in line. This page puts the whole system under the scope — four channels, one sweep at a time.</p>
+
+  <div class="panel hero-scope reveal">
+    <span class="panel-label">TRACE · BLOCK PRODUCTION, CONTINUOUS</span>
+    <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+    <svg viewBox="0 0 1140 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production">
+      <g stroke="var(--grid)" stroke-width="1">
+        <line x1="0" y1="55" x2="1140" y2="55"/><line x1="0" y1="110" x2="1140" y2="110"/><line x1="0" y1="165" x2="1140" y2="165"/>
+      </g>
+      <!-- slot tick marks -->
+      <g class="lbl-f" text-anchor="middle">
+        <text x="142" y="212">slot n</text><text x="427" y="212">n+1</text><text x="712" y="212">n+2</text><text x="997" y="212">n+3</text>
+      </g>
+      <g stroke="var(--line)" stroke-dasharray="3 5"><line x1="285" y1="20" x2="285" y2="196"/><line x1="570" y1="20" x2="570" y2="196"/><line x1="855" y1="20" x2="855" y2="196"/></g>
+      <!-- amber tx trace -->
+      <path id="heroTrace" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"
+        d="M0,110 L60,110 70,64 82,152 94,110 150,110 160,84 172,136 184,110 250,110
+           M285,110 L345,110 355,58 367,158 379,110 430,110 440,90 452,130 464,110 535,110
+           M570,110 L620,110 630,70 642,148 654,110 700,110 712,80 724,140 736,110 820,110
+           M855,110 L915,110 925,62 937,154 949,110 1010,110 1020,88 1032,132 1044,110 1140,110"/>
+      <circle id="heroDot" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/>
+    </svg>
+  </div>
+
+  <div class="hero-stats reveal" role="list">
+    <div class="hstat" role="listitem"><b>400 ms</b><span>TARGET SLOT TIME</span></div>
+    <div class="hstat" role="listitem"><b>&lt; 1 s</b><span>OPTIMISTIC CONFIRMATION</span></div>
+    <div class="hstat" role="listitem"><b>~13 s</b><span>FULL FINALITY (32 SLOTS)</span></div>
+    <div class="hstat" role="listitem"><b>1000s</b><span>TX / SECOND SUSTAINED</span></div>
+  </div>
+</section>
+
+<!-- ═══════════ CH-01 · ARCHITECTURE ═══════════ -->
+<section id="ch1">
+  <div class="ch-head reveal">
+    <span class="ch-tag ch-01"><i></i>CH-01 · TOPOLOGY</span>
+    <h2>One leader, a tree of validators</h2>
+  </div>
+  <p class="ch-sub reveal">Solana has no mempool and no mining race. A published, stake-weighted schedule assigns each ~400 ms slot to a single <b style="color:var(--amber)">leader</b>, who builds the block. Everyone else validates and votes. Blocks are cut into small packets called <i>shreds</i> and pushed down a fan-out relay tree — the Turbine protocol — so propagation cost stays low even with thousands of nodes.</p>
+
+  <div class="split reveal">
+    <div class="panel diagram">
+      <span class="panel-label">FIG 1.1 · TURBINE SHRED PROPAGATION</span>
+      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+      <svg id="turbineSvg" viewBox="0 0 720 430" role="img" aria-label="Diagram of the Turbine tree: leader at top relaying shreds to two layers of validators">
+        <!-- edges leader -> layer1 -->
+        <g class="edge">
+          <line x1="360" y1="86" x2="150" y2="196"/><line x1="360" y1="86" x2="360" y2="196"/><line x1="360" y1="86" x2="570" y2="196"/>
+          <!-- layer1 -> layer2 -->
+          <line x1="150" y1="224" x2="80" y2="330"/><line x1="150" y1="224" x2="200" y2="330"/>
+          <line x1="360" y1="224" x2="310" y2="330"/><line x1="360" y1="224" x2="420" y2="330"/>
+          <line x1="570" y1="224" x2="520" y2="330"/><line x1="570" y1="224" x2="640" y2="330"/>
+        </g>
+        <!-- leader -->
+        <g>
+          <rect x="308" y="34" width="104" height="52" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.5"/>
+          <text x="360" y="56" text-anchor="middle" class="lbl-b" fill="var(--amber)">LEADER</text>
+          <text x="360" y="74" text-anchor="middle" class="lbl-f">slot n · builds block</text>
+        </g>
+        <!-- layer 1 -->
+        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2">
+          <circle cx="150" cy="210" r="15"/><circle cx="360" cy="210" r="15"/><circle cx="570" cy="210" r="15"/>
+        </g>
+        <text x="150" y="248" text-anchor="middle" class="lbl-f">RELAY LAYER · high stake</text>
+        <!-- layer 2 -->
+        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2" opacity=".8">
+          <circle cx="80" cy="340" r="11"/><circle cx="200" cy="340" r="11"/><circle cx="310" cy="340" r="11"/>
+          <circle cx="420" cy="340" r="11"/><circle cx="520" cy="340" r="11"/><circle cx="640" cy="340" r="11"/>
+        </g>
+        <text x="360" y="382" text-anchor="middle" class="lbl-f">DOWNSTREAM VALIDATORS · re-broadcast, replay, vote</text>
+        <text x="360" y="412" text-anchor="middle" class="lbl">shreds ≈ 1,280-byte packets · erasure-coded · tree reshuffles per shred</text>
+        <g id="shredDots"></g>
+      </svg>
+    </div>
+    <div class="panel notes">
+      <span class="panel-label">CLUSTER CONSTANTS</span>
+      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+      <ul>
+        <li><b>PoH</b>A continuous SHA-256 hash chain acts as a clock — events are ordered by where they land in the hash stream, before consensus.</li>
+        <li><b>SCHEDULE</b>Leaders are drawn per epoch (~2 days), weighted by stake, in runs of 4 consecutive slots each.</li>
+        <li><b>TOWER BFT</b>Validators vote on forks with exponentially growing lockouts; the heaviest fork wins.</li>
+        <li><b>GOSSIP</b>Nodes discover peers and exchange metadata over a gossip plane, separate from the shred path.</li>
+        <li><b>CLIENTS</b>Agave (Rust) runs most of the cluster; Firedancer (C, by Jump) is the performance-focused second client.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cards cards-3 reveal">
+    <div class="card"><span class="mono-tag">ROLE / 01</span><h4><i class="i-amber"></i>Leader</h4><p>The validator whose slot it is. Ingests transactions, executes them, weaves them into the PoH stream, and shreds the result out to the tree.</p></div>
+    <div class="card"><span class="mono-tag">ROLE / 02</span><h4><i class="i-cyan"></i>Validator</h4><p>Staked node that replays the leader's block, verifies every signature and state change, and votes. ~1,000+ of them, stake-weighted.</p></div>
+    <div class="card"><span class="mono-tag">ROLE / 03</span><h4><i class="i-violet"></i>RPC node</h4><p>Unstaked full node serving reads and accepting transactions from wallets and apps — the cluster's front door, not part of consensus.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ CH-02 · TRANSACTION FLOW ═══════════ -->
+<section id="ch2">
+  <div class="ch-head reveal">
+    <span class="ch-tag ch-02"><i></i>CH-02 · SIGNAL PATH</span>
+    <h2>Life of a transaction</h2>
+  </div>
+  <p class="ch-sub reveal">There is no waiting room. Gulf Stream forwards your signed transaction straight to the current and upcoming leaders, where it enters the Transaction Processing Unit — a hardware-style pipeline. Non-conflicting transactions execute in parallel (Sealevel), get stamped into Proof of History, and are on their way to every validator before your wallet finishes its spinner.</p>
+
+  <div class="panel diagram pipe-scroll reveal">
+    <span class="panel-label">FIG 2.1 · SIGNAL PATH, WALLET → FINALITY (FOLLOW THE PACKET)</span>
+    <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+    <svg id="pipeSvg" viewBox="0 0 1100 330" role="img" aria-label="Pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
+      <!-- hidden motion path -->
+      <path id="pipePath" fill="none" stroke="none"
+        d="M60,90 L235,90 L235,90 L400,90 L400,90 L545,90 L680,90 L815,90 L950,90 L950,90 L1040,90"/>
+      <!-- connective spine -->
+      <line x1="60" y1="90" x2="1040" y2="90" stroke="var(--line)" stroke-width="2"/>
+      <!-- stage boxes -->
+      <g id="pipeStages">
+        <g class="pstage" data-x="60">
+          <rect x="15" y="60" width="90" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="60" y="86" text-anchor="middle" class="lbl-b">WALLET</text>
+          <text x="60" y="104" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        </g>
+        <g class="pstage">
+          <rect x="190" y="60" width="90" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="235" y="86" text-anchor="middle" class="lbl-b">RPC</text>
+          <text x="235" y="104" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        </g>
+        <g class="pstage">
+          <rect x="345" y="60" width="110" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="400" y="86" text-anchor="middle" class="lbl-b">GULF STREAM</text>
+          <text x="400" y="104" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        </g>
+        <g class="pstage">
+          <rect x="495" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="545" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
+          <text x="545" y="104" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        </g>
+        <g class="pstage">
+          <rect x="630" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="680" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text>
+          <text x="680" y="104" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
+        </g>
+        <g class="pstage">
+          <rect x="765" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="815" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
+          <text x="815" y="104" text-anchor="middle" class="lbl-f">ordered in time</text>
+        </g>
+        <g class="pstage">
+          <rect x="900" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
+          <text x="950" y="86" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
+          <text x="950" y="104" text-anchor="middle" class="lbl-f">shred broadcast</text>
+        </g>
+      </g>
+      <!-- TPU bracket -->
+      <path d="M495,140 L495,152 L865,152 L865,140" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
+      <text x="680" y="172" text-anchor="middle" class="lbl" fill="var(--amber)">LEADER'S TPU — TRANSACTION PROCESSING UNIT</text>
+      <!-- confirmation ladder -->
+      <g>
+        <line x1="60" y1="228" x2="1040" y2="228" stroke="var(--line)" stroke-width="1"/>
+        <g fill="var(--green)">
+          <circle cx="300" cy="228" r="4"/><circle cx="560" cy="228" r="4"/><circle cx="830" cy="228" r="4"/>
+        </g>
+        <text x="300" y="256" text-anchor="middle" class="lbl-f">PROCESSED · in a block</text>
+        <text x="560" y="256" text-anchor="middle" class="lbl-f">CONFIRMED · supermajority voted</text>
+        <text x="830" y="256" text-anchor="middle" class="lbl-f">FINALIZED · 32 rooted slots</text>
+        <text x="550" y="300" text-anchor="middle" class="lbl">validators replay the block, then send votes — which are themselves transactions on chain</text>
+      </g>
+      <circle id="packet" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(-20,90)"/>
+    </svg>
+  </div>
+
+  <div class="cards cards-3 reveal">
+    <div class="card"><span class="mono-tag">WHY IT'S FAST / 01</span><h4><i class="i-amber"></i>No mempool</h4><p>Transactions carry a recent blockhash and get streamed directly to scheduled leaders. Nothing pools publicly waiting to be picked — it expires in ~150 blocks (~1 min) if unprocessed.</p></div>
+    <div class="card"><span class="mono-tag">WHY IT'S FAST / 02</span><h4><i class="i-amber"></i>Declared state</h4><p>Every transaction lists the accounts it reads and writes up front. Sealevel uses those lists to run non-overlapping transactions on all cores at once.</p></div>
+    <div class="card"><span class="mono-tag">WHY IT'S FAST / 03</span><h4><i class="i-amber"></i>Fees as bids</h4><p>Base fee per signature plus an optional priority fee per compute unit. Priority is priced per account, so a hot market gets expensive without taxing the whole chain.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ CH-03 · MEV ═══════════ -->
+<section id="ch3">
+  <div class="ch-head reveal">
+    <span class="ch-tag ch-03"><i></i>CH-03 · ADVERSARIAL SIGNAL</span>
+    <h2>MEV: the dark trace</h2>
+  </div>
+  <p class="ch-sub reveal">Whoever orders transactions can profit from that ordering. On Solana the game is different from Ethereum — with no public mempool, extraction runs through leader-adjacent infrastructure: Jito's out-of-protocol auction, private transaction feeds, and raw spam racing. The two dominant strategies are atomic arbitrage across DEXes and, more corrosively, sandwiching user swaps.</p>
+
+  <div class="split reveal">
+    <div class="panel diagram">
+      <span class="panel-label">FIG 3.1 · ANATOMY OF A SANDWICH</span>
+      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+      <svg id="sandwichSvg" viewBox="0 0 700 360" role="img" aria-label="Diagram of a sandwich attack: attacker buy before the victim's swap and attacker sell after, with the price impact curve">
+        <!-- block frame -->
+        <rect x="30" y="34" width="300" height="290" rx="8" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+        <text x="180" y="22" text-anchor="middle" class="lbl-f">BLOCK n · EXECUTION ORDER ↓</text>
+        <g id="sandRows">
+          <g class="srow">
+            <rect x="50" y="58" width="260" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.3"/>
+            <text x="66" y="84" class="lbl-b" fill="var(--red)">1 · ATTACKER BUYS</text>
+            <text x="66" y="104" class="lbl-f">pushes price up first</text>
+          </g>
+          <g class="srow">
+            <rect x="50" y="146" width="260" height="62" rx="6" fill="rgba(255,180,84,.08)" stroke="var(--amber)" stroke-width="1.3"/>
+            <text x="66" y="172" class="lbl-b" fill="var(--amber)">2 · YOUR SWAP</text>
+            <text x="66" y="192" class="lbl-f">fills at the worse price</text>
+          </g>
+          <g class="srow">
+            <rect x="50" y="234" width="260" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.3"/>
+            <text x="66" y="260" class="lbl-b" fill="var(--red)">3 · ATTACKER SELLS</text>
+            <text x="66" y="280" class="lbl-f">pockets the spread</text>
+          </g>
+        </g>
+        <!-- price impact curve -->
+        <g>
+          <line x1="400" y1="60" x2="400" y2="300" stroke="var(--line)"/>
+          <line x1="400" y1="300" x2="660" y2="300" stroke="var(--line)"/>
+          <text x="392" y="56" text-anchor="end" class="lbl-f">PRICE</text>
+          <text x="660" y="318" text-anchor="end" class="lbl-f">ORDER →</text>
+          <path id="sandCurve" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"
+                d="M405,268 L455,268 C475,268 480,208 500,204 L545,196 C565,192 570,148 590,144 L612,140 C632,140 636,238 656,244"/>
+          <g class="lbl-f">
+            <text x="452" y="250">fair</text>
+            <text x="520" y="182">+impact</text>
+            <text x="606" y="124" fill="var(--red)">you fill here</text>
+            <text x="600" y="268">exit</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="panel diagram">
+      <span class="panel-label">FIG 3.2 · JITO BUNDLE AUCTION</span>
+      <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+      <svg id="jitoSvg" viewBox="0 0 440 360" role="img" aria-label="Flow of searcher bundles through the Jito block engine auction to the leader, with tips flowing to validators and stakers">
+        <!-- searchers -->
+        <g fill="var(--panel-2)" stroke="var(--red)" stroke-width="1.2">
+          <circle cx="60" cy="60" r="13"/><circle cx="60" cy="120" r="13"/><circle cx="60" cy="180" r="13"/>
+        </g>
+        <text x="60" y="216" text-anchor="middle" class="lbl-f">SEARCHERS</text>
+        <g class="edge"><line x1="76" y1="60" x2="180" y2="112"/><line x1="76" y1="120" x2="180" y2="120"/><line x1="76" y1="180" x2="180" y2="128"/></g>
+        <!-- block engine -->
+        <rect x="182" y="86" width="120" height="70" rx="6" fill="var(--panel-2)" stroke="var(--violet)" stroke-width="1.4"/>
+        <text x="242" y="114" text-anchor="middle" class="lbl-b" fill="var(--violet)">BLOCK ENGINE</text>
+        <text x="242" y="134" text-anchor="middle" class="lbl-f">sealed-bid auction</text>
+        <line x1="302" y1="121" x2="380" y2="121" class="edge"/>
+        <!-- leader -->
+        <rect x="352" y="92" width="70" height="58" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+        <text x="387" y="118" text-anchor="middle" class="lbl-b" fill="var(--amber)">LEADER</text>
+        <text x="387" y="136" text-anchor="middle" class="lbl-f">top of block</text>
+        <!-- tips flow -->
+        <path d="M387,150 L387,232" class="edge" stroke-dasharray="4 5"/>
+        <rect x="272" y="234" width="150" height="52" rx="6" fill="var(--panel-2)" stroke="var(--green)" stroke-width="1.3"/>
+        <text x="347" y="256" text-anchor="middle" class="lbl-b" fill="var(--green)">TIPS</text>
+        <text x="347" y="274" text-anchor="middle" class="lbl-f">→ validators + stakers</text>
+        <text x="220" y="330" text-anchor="middle" class="lbl">bundles: ≤ 5 txs, atomic, all-or-nothing,</text>
+        <text x="220" y="348" text-anchor="middle" class="lbl">sequential — losers pay nothing</text>
+        <g id="jitoDots"></g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="cards cards-2 reveal" style="margin-top:14px">
+    <div class="card"><span class="mono-tag">EXTRACTION / TOOLS</span>
+      <h4><i class="i-red"></i>How value gets taken</h4>
+      <p><b style="color:var(--ink)">Atomic arb</b> — price gaps between DEX pools closed in one bundle, risk-free if it lands. <b style="color:var(--ink)">Jito bundles</b> — pay a tip to win top-of-block placement. <b style="color:var(--ink)">Private order flow</b> — some operators run modified validators that leak or sell a view of incoming transactions; sandwiching survives there even after Jito shut its public mempool in March 2024. <b style="color:var(--ink)">Spam racing</b> — flooding duplicate transactions to win by sheer arrival probability.</p></div>
+    <div class="card"><span class="mono-tag">PROTECTION / TOOLS</span>
+      <h4><i class="i-green"></i>How users defend</h4>
+      <p><b style="color:var(--ink)">Tight slippage</b> — caps the worst price a sandwich can force on you. <b style="color:var(--ink)">MEV-protected RPCs</b> — endpoints (Jito's among them) that route around leaked order flow. <b style="color:var(--ink)">Priority fees + tips</b> — faster inclusion shrinks the attack window. <b style="color:var(--ink)">Limit orders & RFQ</b> — a fixed price can't be sandwiched. Aggregators increasingly bake these in by default.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ CH-04 · LATENCY ═══════════ -->
+<section id="ch4">
+  <div class="ch-head reveal">
+    <span class="ch-tag ch-04"><i></i>CH-04 · LATENCY FLOOR</span>
+    <h2>The microsecond arms race</h2>
+  </div>
+  <p class="ch-sub reveal">When the whole game resolves inside a 400 ms slot, geography is destiny. Serious trading firms treat Solana like an exchange matching engine: colocate next to the leader, read shreds before blocks are even assembled, and hold staked, first-class lanes into the TPU. The stack below is standard HFT practice, ported on-chain.</p>
+
+  <div class="panel ladder reveal">
+    <span class="panel-label">FIG 4.1 · LATENCY LADDER (LOG SCALE)</span>
+    <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+    <div class="lrow"><div class="lname">SLOT TIME<span>THE BUDGET</span></div><div class="ltrack"><div class="lfill" data-w="1"    style="background:var(--amber)"></div></div><div class="lval">400 ms</div></div>
+    <div class="lrow"><div class="lname">CROSS-OCEAN RTT<span>WRONG CONTINENT</span></div><div class="ltrack"><div class="lfill" data-w=".887" style="background:var(--red)"></div></div><div class="lval">~120 ms</div></div>
+    <div class="lrow"><div class="lname">SAME-REGION RTT<span>RIGHT CITY</span></div><div class="ltrack"><div class="lfill" data-w=".65"  style="background:var(--cyan)"></div></div><div class="lval">~20 ms</div></div>
+    <div class="lrow"><div class="lname">SAME-RACK HOP<span>COLOCATED</span></div><div class="ltrack"><div class="lfill" data-w=".37"  style="background:var(--cyan)"></div></div><div class="lval">~500 µs</div></div>
+    <div class="lrow"><div class="lname">KERNEL-BYPASS NIC<span>USERSPACE NETWORKING</span></div><div class="ltrack"><div class="lfill" data-w=".13"  style="background:var(--green)"></div></div><div class="lval">~10 µs</div></div>
+  </div>
+
+  <div class="cards cards-4 reveal" style="margin-top:14px">
+    <div class="card"><span class="mono-tag">EDGE / 01</span><h4><i class="i-cyan"></i>Colocation</h4><p>Validators cluster in a few metros — Frankfurt, Amsterdam, New York, Tokyo. Firms place bare-metal boxes in the same facilities and chase the leader schedule across regions.</p></div>
+    <div class="card"><span class="mono-tag">EDGE / 02</span><h4><i class="i-cyan"></i>Shred streaming</h4><p>Services like Jito ShredStream deliver raw shreds the moment they leave the leader — a view of the block tens to hundreds of milliseconds before RPCs report it.</p></div>
+    <div class="card"><span class="mono-tag">EDGE / 03</span><h4><i class="i-green"></i>Staked lanes</h4><p>Stake-weighted QoS reserves the leader's inbound QUIC capacity for staked peers. Firms lease stake or run validators just to own a guaranteed on-ramp when blocks are full.</p></div>
+    <div class="card"><span class="mono-tag">EDGE / 04</span><h4><i class="i-violet"></i>Faster rails</h4><p>Firedancer rebuilds the validator in HFT-grade C with kernel-bypass networking; DoubleZero lays dedicated fiber between validator hubs to cut public-internet jitter.</p></div>
+  </div>
+
+  <div class="panel notes reveal" style="margin-top:14px">
+    <span class="panel-label">FIELD NOTES · WHAT CUTTING-EDGE LOOKS LIKE IN 2026</span>
+    <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+    <ul>
+      <li><b>CONVERGENCE</b>The Solana latency stack now mirrors traditional HFT: colocation, private fiber, kernel bypass, FPGA-friendly parsing — the exchange just happens to be a distributed ledger.</li>
+      <li><b>LEADER-AWARE</b>Everything is scheduled around the public leader rotation: routing, stake, even which datacenter your strategy wakes up in for the next four slots.</li>
+      <li><b>BLOCK ZERO</b>The frontier is acting on shreds mid-slot — reacting to a transaction before the block containing it formally exists.</li>
+      <li><b>THE TENSION</b>Every microsecond shaved centralizes advantage; every protocol change (SWQoS, bundle auctions, multiple concurrent leaders on the roadmap) is an attempt to keep the race fair-ish.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>SOLANA//SCOPE · AN ENGINEERING READOUT — FIGURES ARE ILLUSTRATIVE ORDERS OF MAGNITUDE, NOT LIVE TELEMETRY. SLOT COUNTER IS SIMULATED AT 400 MS. BUILT WITH ANIME.JS.</p>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof anime === 'undefined';
+  if (reduced) document.body.classList.add('no-motion');
+
+  /* ── slot clock ── */
+  let slot = 358412907;
+  const slotEl = document.getElementById('slotNum');
+  setInterval(()=>{ slot++; slotEl.textContent = slot.toLocaleString('en-US'); }, 400);
+
+  /* ── reveal on scroll ── */
+  const started = new Set();
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el = e.target;
+      io.unobserve(el);
+      if(!reduced){
+        anime({targets: el, opacity:[0,1], translateY:[18,0], duration:700, easing:'easeOutCubic'});
+      }
+      // section-specific triggers
+      const id = el.closest('section') ? el.closest('section').id : '';
+      fire(el, id);
+    });
+  }, {threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  function fire(el, id){
+    if(el.classList.contains('hero-scope') && !started.has('hero')){ started.add('hero'); heroAnim(); }
+    if(el.querySelector && el.querySelector('#turbineSvg') && !started.has('turbine')){ started.add('turbine'); turbineAnim(); }
+    if(el.querySelector && el.querySelector('#pipeSvg') && !started.has('pipe')){ started.add('pipe'); pipeAnim(); }
+    if(el.querySelector && el.querySelector('#sandwichSvg') && !started.has('sand')){ started.add('sand'); sandwichAnim(); }
+    if(el.querySelector && el.querySelector('#jitoSvg') && !started.has('jito')){ started.add('jito'); jitoAnim(); }
+    if(el.classList.contains('ladder') && !started.has('ladder')){ started.add('ladder'); ladderAnim(); }
+  }
+
+  /* ── hero trace ── */
+  function heroAnim(){
+    if(reduced) return;
+    anime({
+      targets:'#heroTrace',
+      strokeDashoffset:[anime.setDashoffset, 0],
+      duration:2400, easing:'easeInOutSine'
+    });
+    const p = anime.path('#heroTrace');
+    anime({
+      targets:'#heroDot',
+      translateX:p('x'), translateY:p('y'),
+      duration:6000, easing:'linear', loop:true, delay:600,
+      update:(a)=>{ /* keep cx/cy at 0 origin */ }
+    });
+    document.getElementById('heroDot').setAttribute('cx',0);
+    document.getElementById('heroDot').setAttribute('cy',0);
+  }
+
+  /* ── turbine shreds ── */
+  function turbineAnim(){
+    const svg = document.getElementById('turbineSvg');
+    const holder = document.getElementById('shredDots');
+    const L = [360,86];
+    const L1 = [[150,210],[360,210],[570,210]];
+    const L2 = [[[80,340],[200,340]],[[310,340],[420,340]],[[520,340],[640,340]]];
+    function dot(){
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('r','4.5'); c.setAttribute('fill','var(--amber)');
+      c.setAttribute('class','glow-amber'); c.setAttribute('opacity','0');
+      holder.appendChild(c); return c;
+    }
+    if(reduced){ // static: place three dots mid-edge
+      L1.forEach((t,i)=>{ const c=dot(); c.setAttribute('cx',(L[0]+t[0])/2); c.setAttribute('cy',(L[1]+t[1])/2); c.setAttribute('opacity','1'); });
+      return;
+    }
+    const tl = anime.timeline({loop:true, easing:'easeInQuad'});
+    // wave 1: leader -> layer 1
+    L1.forEach((t,i)=>{
+      const c = dot();
+      tl.add({
+        targets:c,
+        cx:[L[0], t[0]], cy:[L[1], t[1]],
+        opacity:[{value:1,duration:80},{value:1,duration:520},{value:0,duration:150}],
+        duration:750, delay:i*90
+      }, 0);
+    });
+    // wave 2: layer 1 -> layer 2
+    L1.forEach((s,i)=>{
+      L2[i].forEach((t,j)=>{
+        const c = dot();
+        c.setAttribute('fill','var(--cyan)'); c.setAttribute('class','glow-cyan'); c.setAttribute('r','3.6');
+        tl.add({
+          targets:c,
+          cx:[s[0], t[0]], cy:[s[1], t[1]],
+          opacity:[{value:1,duration:80},{value:1,duration:470},{value:0,duration:150}],
+          duration:700, delay:i*90 + j*60
+        }, 700);
+      });
+    });
+    tl.add({duration:600}, 1500); // breathing room before loop
+  }
+
+  /* ── pipeline packet ── */
+  function pipeAnim(){
+    if(reduced) return;
+    const path = anime.path('#pipePath');
+    const stages = document.querySelectorAll('#pipeStages .pstage rect');
+    const tl = anime.timeline({loop:true});
+    tl.add({
+      targets:'#packet',
+      translateX:path('x'), translateY:path('y'),
+      duration:5600, easing:'linear'
+    }, 0);
+    // stage pulses roughly synced to packet arrival (path is linear, 60→1040 over 5600ms)
+    const xs = [60,235,400,545,680,815,950];
+    xs.forEach((x,i)=>{
+      const t = ((x-60)/(1040-60))*5600;
+      tl.add({
+        targets:stages[i],
+        strokeWidth:[{value:3,duration:140},{value:1.4,duration:420}],
+        easing:'easeOutQuad'
+      }, Math.max(0,t-70));
+    });
+    tl.add({targets:'#packet', opacity:[1,0], duration:250, easing:'linear'}, 5350);
+    tl.add({targets:'#packet', opacity:[0,1], duration:150, easing:'linear'}, 5820);
+    tl.add({duration:400}, 5600);
+  }
+
+  /* ── sandwich ── */
+  function sandwichAnim(){
+    if(reduced) return;
+    anime({
+      targets:'#sandRows .srow',
+      opacity:[0,1], translateX:[-24,0],
+      delay:anime.stagger(260), duration:600, easing:'easeOutCubic'
+    });
+    anime({
+      targets:'#sandCurve',
+      strokeDashoffset:[anime.setDashoffset,0],
+      duration:1600, delay:500, easing:'easeInOutSine'
+    });
+    // menace pulse on attacker rows
+    anime({
+      targets:'#sandRows .srow:nth-child(1) rect, #sandRows .srow:nth-child(3) rect',
+      opacity:[{value:.65,duration:900},{value:1,duration:900}],
+      loop:true, delay:1800, easing:'easeInOutSine'
+    });
+  }
+
+  /* ── jito flow ── */
+  function jitoAnim(){
+    const holder = document.getElementById('jitoDots');
+    function dot(color){
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('r','4'); c.setAttribute('fill',color); c.setAttribute('opacity','0');
+      holder.appendChild(c); return c;
+    }
+    if(reduced) return;
+    const searchers = [[76,60],[76,120],[76,180]];
+    const engineIn = [182,121], engineOut=[302,121], leader=[360,121];
+    const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+    // bids in
+    searchers.forEach((s,i)=>{
+      const c = dot('var(--red)'); c.setAttribute('class','glow-red');
+      tl.add({
+        targets:c,
+        cx:[s[0], engineIn[0]], cy:[s[1], engineIn[1]],
+        opacity:[{value:1,duration:80},{value:1,duration:560},{value:0,duration:120}],
+        duration:760, delay:i*140
+      }, 0);
+    });
+    // winner out
+    const w = dot('var(--violet)');
+    tl.add({
+      targets:w,
+      cx:[engineOut[0], leader[0]], cy:[engineOut[1], leader[1]],
+      opacity:[{value:1,duration:80},{value:1,duration:440},{value:0,duration:120}],
+      duration:640
+    }, 1150);
+    // tip down
+    const t = dot('var(--green)');
+    tl.add({
+      targets:t,
+      cx:[387,387], cy:[152, 230],
+      opacity:[{value:1,duration:80},{value:1,duration:440},{value:0,duration:140}],
+      duration:660
+    }, 1850);
+    tl.add({duration:700}, 2500);
+  }
+
+  /* ── latency ladder ── */
+  function ladderAnim(){
+    const fills = document.querySelectorAll('.lfill');
+    fills.forEach(f=>{ f.style.transform = 'scaleX(0)'; });
+    if(reduced){ fills.forEach(f=>{ f.style.transform = 'scaleX('+f.dataset.w+')'; }); return; }
+    anime({
+      targets:fills,
+      scaleX:(el)=>[0, parseFloat(el.dataset.w)],
+      delay:anime.stagger(150),
+      duration:1100,
+      easing:'easeOutQuart'
+    });
+  }
+})();
+</script>
+</body>
+</html>
