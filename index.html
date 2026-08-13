@@ -165,6 +165,7 @@ section{padding:96px 0 40px;scroll-margin-top:70px}
 .ch-tag i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:baseline}
 .ch-01 i{background:var(--cyan)} .ch-02 i{background:var(--amber)}
 .ch-03 i{background:var(--red)} .ch-04 i{background:var(--green)}
+.ch-05 i{background:var(--violet)}
 h2{
   font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-weight:700;
   font-size:clamp(1.5rem,3.4vw,2.2rem);letter-spacing:.01em;
@@ -206,6 +207,8 @@ h2[data-idx]::after{
 
 /* hidden state only when JS+motion will reveal it — JS-off and reduced-motion see everything */
 .js .reveal{opacity:0;transform:translateY(18px)}
+/* inline transform is cleared post-reveal (a transformed ancestor would re-anchor position:fixed) */
+.js .reveal.revealed{opacity:1;transform:none}
 .no-motion .reveal{opacity:1;transform:none}
 
 /* ---------- hero ---------- */
@@ -408,6 +411,106 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
   .dock-cols{grid-template-columns:1fr}
   .dock-col-head{position:sticky;top:86px;z-index:2;background:var(--panel);margin:0 -16px;padding:8px 16px 10px}
 }
+/* ---------- v2 CH-05: heat grid ---------- */
+.grid-panel{padding:44px 18px 22px}
+.tgrid{width:100%;border-collapse:separate;border-spacing:0}
+.tgrid th{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;
+  color:var(--dim);font-weight:500;padding:6px 2px 12px;text-align:center;
+}
+.tgrid th .th-g{color:var(--cc);font-size:.9rem;display:block;line-height:1.1}
+.tgrid td{text-align:center;padding:2px;border-top:1px dashed color-mix(in srgb, var(--line) 60%, transparent)}
+.tgrid .th-label{text-align:left;width:auto}
+.tlabel{
+  display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  padding:9px 8px 9px 0;min-height:44px;color:var(--ink);
+}
+.tlabel b{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.05em;font-weight:600}
+.tlabel .tdef{display:block;font-size:.72rem;color:var(--faint);margin-top:1px}
+.tcell{
+  width:44px;height:44px;display:inline-grid;place-items:center;
+  background:none;border:none;cursor:pointer;color:var(--violet);
+}
+.cm{width:16px;height:16px;display:inline-block;transition:transform .15s ease}
+.cm-hot{background:currentColor}
+.cm-active{border:1px solid currentColor;background:linear-gradient(135deg, currentColor 0 50%, transparent 50%)}
+.cm-limited{border:1px solid currentColor}
+.cm-none{width:10px;height:0;border-top:2px dashed currentColor;opacity:.45}
+.tgrid tbody tr:hover .tcell,.tgrid tbody tr:focus-within .tcell{color:var(--cc)}
+.tgrid tbody tr:hover .cm,.tgrid tbody tr:focus-within .cm{transform:scale(1.06)}
+.no-motion .tgrid .cm{transform:none}
+.tlegend{display:flex;gap:18px;padding:14px 4px 0;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.06em;color:var(--faint);align-items:center;flex-wrap:wrap}
+.tlegend .cm{width:11px;height:11px;color:var(--violet);margin-right:6px;vertical-align:-1px}
+.tlegend .cm-none{width:10px;height:0}
+@media(max-width:700px){
+  .grid-panel{padding:40px 10px 18px}
+  .tlabel .tdef{display:none}
+  .tcell{width:38px;height:40px}
+  .cm{width:14px;height:14px}
+}
+@media(max-width:480px){
+  .tgrid th .th-n{display:none}
+  .tcell{width:36px}
+}
+/* cell popover / mobile bottom sheet */
+.tpop{
+  position:absolute;z-index:30;width:min(330px, calc(100% - 20px));
+  background:var(--panel-2);border:1px solid color-mix(in srgb, var(--violet) 45%, var(--line));
+  border-radius:8px;padding:14px 16px;box-shadow:0 14px 34px rgba(0,0,0,.55);
+}
+.tpop[hidden]{display:none}
+.tpop h5{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.08em;color:var(--ink);margin:0 26px 6px 0}
+.tpop h5 .st{color:var(--violet)}
+.tpop p{font-size:.82rem;color:var(--dim);line-height:1.55;margin-top:4px}
+.tpop .tp-def{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--faint);letter-spacing:.04em}
+.tp-close{
+  position:absolute;top:4px;right:4px;min-width:36px;min-height:36px;
+  background:none;border:none;color:var(--dim);cursor:pointer;font-size:.85rem;
+}
+.tp-close:hover{color:var(--ink)}
+.tp-tools{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.tp-tool{
+  display:inline-flex;align-items:center;min-height:36px;padding:0 12px;
+  background:var(--panel);border:1px solid color-mix(in srgb, var(--violet) 45%, var(--line));
+  border-radius:5px;color:var(--violet);cursor:pointer;
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.06em;
+}
+.tp-tool:hover{color:var(--ink);border-color:var(--violet)}
+@media(max-width:700px){
+  .tpop{
+    position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;max-width:none;
+    border-radius:12px 12px 0 0;border-left:none;border-right:none;border-bottom:none;
+    padding:16px 18px calc(18px + env(safe-area-inset-bottom));z-index:70;
+  }
+}
+/* ---------- v2 CH-05: tool bench ---------- */
+.bench{margin-top:26px}
+.panel-label-inline{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;color:var(--faint)}
+.bench-filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0;align-items:center}
+.bf-label{font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;color:var(--faint);margin-right:2px}
+.bf-gap{flex-basis:100%;height:0}
+.chip[aria-pressed="true"]{color:var(--ink);border-color:color-mix(in srgb, var(--cc) 60%, var(--line))}
+.chip[aria-pressed="true"] i{background:var(--cc)}
+.tool-card{position:relative;scroll-margin-top:96px;padding-right:86px}
+.tool-card h4{padding-right:0}
+.tool-card .stance{
+  position:absolute;top:14px;right:14px;
+  font-family:"IBM Plex Mono",monospace;font-size:.58rem;letter-spacing:.12em;
+  padding:3px 8px;border-radius:3px;border:1px solid var(--line);
+}
+.stance-extract{color:var(--red);border-color:color-mix(in srgb, var(--red) 50%, var(--line))}
+.stance-protect{color:var(--green);border-color:color-mix(in srgb, var(--green) 50%, var(--line))}
+.stance-neutral{color:var(--dim)}
+.tool-badges{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.tb{display:inline-flex;align-items:center;gap:5px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.06em;color:var(--dim)}
+.tb i{width:4px;height:12px;border-radius:1px;background:var(--tb-c)}
+.tool-card[hidden]{display:none}
+.tool-card.flash{animation:cardflash .6s ease}
+@keyframes cardflash{0%{box-shadow:0 0 0 2px var(--violet)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}}
+.bench-delta{margin-top:16px;font-size:.85rem;color:var(--dim);max-width:72ch}
+.bench-delta::before{content:"Δ  ";font-family:"IBM Plex Mono",monospace;color:var(--violet)}
+@media(max-width:700px){.tool-card{padding-right:18px}.tool-card .stance{position:static;display:inline-block;margin-bottom:8px}}
+
 /* no-JS fallback tables */
 .dock-fallback{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel);overflow-x:auto}
 .dock-fallback h3{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;color:var(--dim);margin-bottom:10px;font-weight:500}
@@ -514,6 +617,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       <a href="#ch2">CH-02 TX FLOW</a>
       <a href="#ch3">CH-03 MEV</a>
       <a href="#ch4">CH-04 LATENCY</a>
+      <a href="#ch5">CH-05 BENCH</a>
     </nav>
   </div>
 </header>
@@ -592,6 +696,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <a href="#ch2">CH-02 TX FLOW</a>
   <a href="#ch3">CH-03 MEV</a>
   <a href="#ch4">CH-04 LATENCY</a>
+  <a href="#ch5">CH-05 BENCH</a>
 </nav>
 
 <!-- ═══════════ CH-01 · ARCHITECTURE ═══════════ -->
@@ -1042,6 +1147,53 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   </div>
 </section>
 
+<!-- ═══════════ CH-05 · CROSS-CHAIN BENCH ═══════════ -->
+<section id="ch5">
+  <div class="ch-head reveal">
+    <span class="ch-tag ch-05"><i></i>CH-05 · CROSS-CHAIN BENCH</span>
+    <h2 data-idx="05">Same game, different tables.</h2>
+  </div>
+  <p class="ch-sub reveal">Every chain with an ordering market grows the same organs: an auction where position is sold, a protection rail that shields users from it, and a fast-data feed for whoever pays for the early look. The bench below lays them side by side — eight techniques, five chains, and the tooling that runs the table.</p>
+
+  <div class="panel grid-panel reveal" id="gridPanel">
+    <span class="panel-label">FIG 5.1 · TECHNIQUE × CHAIN HEAT GRID</span>
+    <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
+    <div class="tgrid-mount"></div>
+  </div>
+
+  <div class="bench reveal" id="benchMount">
+    <div class="panel-label-row"><span class="panel-label-inline">FIG 5.2 · TOOL BENCH — GROUPED BY FUNCTION, FILTERED BY CHAIN / STANCE</span></div>
+    <div class="bench-filters"></div>
+    <div class="bench-cards cards cards-3"></div>
+    <p class="bench-delta"></p>
+  </div>
+
+  <noscript><div class="dock-fallback">
+    <h3>FIG 5.1 · TECHNIQUE × CHAIN (hot / active / limited / none)</h3>
+    <table>
+      <tr><th>technique</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th></tr>
+      <tr><td>Atomic arbitrage — same-block multi-pool price closing</td><td>hot</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
+      <tr><td>Sandwiching — bracketing a victim swap</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
+      <tr><td>Liquidations — racing to repay undercollateralized loans</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>none</td></tr>
+      <tr><td>Backrunning — riding immediately after a known tx</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
+      <tr><td>JIT liquidity — flashing LP depth around a big swap</td><td>active</td><td>hot</td><td>limited</td><td>none</td><td>none</td></tr>
+      <tr><td>CEX–DEX arb — off-chain vs on-chain price gaps</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>limited</td></tr>
+      <tr><td>Spam / probabilistic racing — duplicate-flooding for placement</td><td>hot</td><td>limited</td><td>active</td><td>none</td><td>none</td></tr>
+      <tr><td>Mint / launch sniping — first-block buys on new listings</td><td>hot</td><td>active</td><td>active</td><td>limited</td><td>none</td></tr>
+    </table>
+    <h3>FIG 5.2 · TOOL BENCH</h3>
+    <table>
+      <tr><th>function</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th></tr>
+      <tr><td>Ordering auction</td><td>Jito Block Engine (bundles + tips)</td><td>Flashbots MEV-Boost / BuilderNet</td><td>bloXroute / 48Club validator rails</td><td>out-of-band accelerators (miner-direct)</td><td>—</td></tr>
+      <tr><td>Protection RPC</td><td>Jito MEV-protect endpoints</td><td>Flashbots Protect, MEV Blocker</td><td>48Club Privacy RPC, bloXroute protect</td><td>n/a (RBF hygiene)</td><td>protocol-level (shielded pool)</td></tr>
+      <tr><td>Order-flow auction / intents</td><td>Jupiter (routing + limit/DCA)</td><td>CoW Swap, UniswapX, 1inch Fusion</td><td>1inch, KyberSwap</td><td>—</td><td>—</td></tr>
+      <tr><td>Fast data feed</td><td>Jito ShredStream, Geyser plugins</td><td>bloXroute BDN, relay streams, mempool ws</td><td>bloXroute BDN</td><td>FIBRE / compact relays, mempool.space APIs</td><td>standard p2p</td></tr>
+      <tr><td>Priority market</td><td>priority fees per CU + Jito tips</td><td>EIP-1559 tips + builder bids</td><td>gas tips + private bids</td><td>sat/vB fee market</td><td>minimal fee market</td></tr>
+      <tr><td>Node/client edge</td><td>Firedancer, SWQoS stake, DoubleZero</td><td>ePBS research, preconfirmations, Reth/erigon perf</td><td>fast-finality client tuning</td><td>Stratum v2</td><td>—</td></tr>
+    </table>
+  </div></noscript>
+</section>
+
 <footer>
   <div class="wrap">
     <p>SOLANA//SCOPE · AN ENGINEERING READOUT — FIGURES ARE ILLUSTRATIVE ORDERS OF MAGNITUDE, NOT LIVE TELEMETRY. SLOT COUNTER IS SIMULATED AT 400 MS. BUILT WITH ANIME.JS.</p>
@@ -1068,7 +1220,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     "latency":  ["decision window", "does colocation matter", "fast-data rails", "preconfirmations", "frontier"]
   },
   "sol": {
-    "glyph": "◎", "name": "SOL",
+    "glyph": "◎", "name": "SOL", "color": "#5BD7E8",
     "topology": ["PoS + PoH clock, Tower BFT", "400 ms", "scheduled leader, stake-weighted, published", "~1,000+ validators", "Turbine shred tree", "high — 12+ cores, 256GB+ RAM, NVMe"],
     "txflow":   ["none — Gulf Stream streams to leaders", "base per sig + priority per CU, per-account markets", "parallel (Sealevel, declared accounts)", "< 1 s", "~13 s (32 rooted slots)", "blockhash expires ~1 min"],
     "mev":      ["none public; leaks via infra", "Jito bundles, out-of-protocol auction", "atomic arb, sandwich via private flow, spam racing", "tight slippage, MEV-protect RPCs, tips"],
@@ -1177,7 +1329,164 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         "delta": "A 75 s private chain has no latency game at all — that's the point."
       }
     }
-  }
+  },
+  "benchCols": ["sol", "eth", "bnb", "btc", "zec"],
+  "techniques": [
+    {
+      "id": "atomic-arb", "name": "Atomic arbitrage", "short": "Atomic arb",
+      "def": "same-block multi-pool price closing",
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "notes": {
+        "sol": "Multi-DEX routes close price gaps inside one Jito bundle — all-or-nothing, so a miss costs only the tip.",
+        "eth": "Flash-loan-funded multi-pool loops are the classic; builders pack them at the top of the block.",
+        "bnb": "Same EVM playbook as ETH, with thinner competition and faster blocks.",
+        "btc": "No expressive contracts to route through — nothing closes atomically.",
+        "zec": "No on-chain DEX layer; there is no price to arbitrage."
+      },
+      "tools": { "sol": "jito-be", "eth": "mev-boost", "bnb": "bnb-rails" }
+    },
+    {
+      "id": "sandwich", "name": "Sandwiching", "short": "Sandwich",
+      "def": "bracketing a victim swap",
+      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "notes": {
+        "sol": "Needs a view of pending flow, so it lives on leaked and private order flow — Jito closing its public mempool in 2024 pushed it underground, not away.",
+        "eth": "The canonical MEV play: spot a swap in the mempool, bracket it via a builder bundle.",
+        "bnb": "Historically rampant on the public mempool; private-tx rails drained much of it — hot cooled to active.",
+        "btc": "No AMMs to bracket; ordering games on BTC are fee games.",
+        "zec": "Amounts and recipients are shielded — there is nothing to target."
+      },
+      "tools": { "sol": "jito-protect", "eth": "flashbots-protect", "bnb": "club48", "zec": "zec-shield" }
+    },
+    {
+      "id": "liquidations", "name": "Liquidations", "short": "Liquidations",
+      "def": "racing to repay undercollateralized loans",
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "none" },
+      "notes": {
+        "sol": "Perps and lending keepers race per-account; priority fees decide who repays first.",
+        "eth": "Aave and Compound liquidations are a benchmark MEV market — bots bid gas against each other.",
+        "bnb": "Venus and its forks run the same keeper races at BNB cadence.",
+        "btc": "Only on L2s and sidechains that host lending — the base layer has none.",
+        "zec": "No on-chain lending; nothing to liquidate."
+      },
+      "tools": { "sol": "sol-priority", "eth": "eth-priority", "bnb": "bnb-rails" }
+    },
+    {
+      "id": "backrun", "name": "Backrunning", "short": "Backrun",
+      "def": "riding immediately after a known tx",
+      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "notes": {
+        "sol": "Bundle position two: ride directly behind a known state change — an oracle update, a big swap.",
+        "eth": "MEV-Share turned backrunning into a paid market for order flow — extraction with a revenue share.",
+        "bnb": "The same trailing plays behind large swaps; validator-adjacent rails carry them.",
+        "btc": "State is just UTXOs — there is no composable state change to ride.",
+        "zec": "State transitions are hidden; there is nothing visible to follow."
+      },
+      "tools": { "sol": "jito-be", "eth": "flashbots-protect", "bnb": "bnb-rails" }
+    },
+    {
+      "id": "jit", "name": "JIT liquidity", "short": "JIT LP",
+      "def": "flashing LP depth around a big swap",
+      "cells": { "sol": "active", "eth": "hot", "bnb": "limited", "btc": "none", "zec": "none" },
+      "notes": {
+        "sol": "Flash liquidity around large CLMM swaps — present, but less dominant than on Uniswap v3.",
+        "eth": "Native to Uniswap v3: mint deep liquidity one block, collect the fee, burn it the next.",
+        "bnb": "Pancake v3 supports it; thinner flow keeps it marginal.",
+        "btc": "No AMM liquidity to flash.",
+        "zec": "No AMM liquidity to flash."
+      },
+      "tools": { "eth": "cow" }
+    },
+    {
+      "id": "cexdex", "name": "CEX–DEX arb", "short": "CEX-DEX",
+      "def": "off-chain vs on-chain price gaps",
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "limited" },
+      "notes": {
+        "sol": "The dominant institutional play: colocated firms close CEX–Solana gaps thousands of times a day.",
+        "eth": "The largest MEV category by revenue; integrated builders internalize it.",
+        "bnb": "A natural fit — the venue gap to the affiliated CEX is one hop.",
+        "btc": "Venue-to-venue arb exists, but it moves at custody speed, not block speed.",
+        "zec": "Thin listings arbitrage slowly across exchanges; nothing on-chain competes."
+      },
+      "tools": { "sol": "shredstream", "eth": "bdn", "bnb": "bdn" }
+    },
+    {
+      "id": "spam", "name": "Spam / probabilistic racing", "short": "Spam race",
+      "def": "duplicate-flooding for placement",
+      "cells": { "sol": "hot", "eth": "limited", "bnb": "active", "btc": "none", "zec": "none" },
+      "notes": {
+        "sol": "Duplicate-blast the same trade through many RPCs; SWQoS pricing is squeezing it out — hot, but declining.",
+        "eth": "12-second blocks make packet racing pointless; the gas auction replaced it.",
+        "bnb": "Fast blocks still reward duplicate submission on thin margins.",
+        "btc": "Racing is a fee auction, not a packet race.",
+        "zec": "Nothing to race for."
+      },
+      "tools": { "sol": "firedancer" }
+    },
+    {
+      "id": "snipe", "name": "Mint / launch sniping", "short": "Snipe",
+      "def": "first-block buys on new listings",
+      "cells": { "sol": "hot", "eth": "active", "bnb": "active", "btc": "limited", "zec": "none" },
+      "notes": {
+        "sol": "The launchpad meta: bots fight for the first slots after a pool goes live.",
+        "eth": "First-block buys on new pairs; snipe bots and services abound.",
+        "bnb": "Launch culture keeps snipe bots busy.",
+        "btc": "The ordinals and BRC-20 era minted a brief first-in snipe market.",
+        "zec": "No token launches on-chain."
+      },
+      "tools": { "sol": "jito-be", "eth": "bdn" }
+    }
+  ],
+  "toolFns": ["Ordering auction", "Protection RPC", "Order-flow auction / intents", "Fast data feed", "Priority market", "Node/client edge"],
+  "tools": [
+    { "id": "jito-be", "fn": "Ordering auction", "name": "Jito Block Engine", "chains": ["sol"], "stance": "neutral",
+      "blurb": "Sealed-bid bundle auction; tips buy top-of-block placement.", "links_technique": ["atomic-arb", "backrun", "snipe"] },
+    { "id": "mev-boost", "fn": "Ordering auction", "name": "Flashbots MEV-Boost / BuilderNet", "chains": ["eth"], "stance": "neutral",
+      "blurb": "Proposers outsource block building to competing builders — PBS in practice.", "links_technique": ["atomic-arb", "sandwich", "liquidations"] },
+    { "id": "bnb-rails", "fn": "Ordering auction", "name": "bloXroute / 48Club validator rails", "chains": ["bnb"], "stance": "neutral",
+      "blurb": "Validator-adjacent submission lanes for bundles and private transactions.", "links_technique": ["sandwich", "backrun", "liquidations"] },
+    { "id": "btc-accel", "fn": "Ordering auction", "name": "Out-of-band accelerators", "chains": ["btc"], "stance": "neutral",
+      "blurb": "Miner-direct fee deals to jump the sat/vB queue.", "links_technique": [] },
+    { "id": "jito-protect", "fn": "Protection RPC", "name": "Jito MEV-protect endpoints", "chains": ["sol"], "stance": "protect",
+      "blurb": "Submission endpoints that route around leaked order flow.", "links_technique": ["sandwich"] },
+    { "id": "flashbots-protect", "fn": "Protection RPC", "name": "Flashbots Protect / MEV Blocker", "chains": ["eth"], "stance": "protect",
+      "blurb": "Private submission with backrun refunds — sandwiches starve.", "links_technique": ["sandwich", "backrun"] },
+    { "id": "club48", "fn": "Protection RPC", "name": "48Club Privacy RPC / bloXroute protect", "chains": ["bnb"], "stance": "protect",
+      "blurb": "Private transaction lanes that skip the public mempool.", "links_technique": ["sandwich"] },
+    { "id": "zec-shield", "fn": "Protection RPC", "name": "Shielded pool (protocol-level)", "chains": ["zec"], "stance": "protect",
+      "blurb": "Privacy is the protection — the protocol hides the order flow itself.", "links_technique": ["sandwich"] },
+    { "id": "jupiter", "fn": "Order-flow auction / intents", "name": "Jupiter", "chains": ["sol"], "stance": "protect",
+      "blurb": "Routing, limit orders and DCA that internalize price impact before MEV can.", "links_technique": ["sandwich"] },
+    { "id": "cow", "fn": "Order-flow auction / intents", "name": "CoW Swap · UniswapX · 1inch Fusion", "chains": ["eth"], "stance": "protect",
+      "blurb": "Intents and batch auctions: solvers compete to fill you; MEV comes back as price improvement.", "links_technique": ["sandwich", "jit"] },
+    { "id": "kyber", "fn": "Order-flow auction / intents", "name": "1inch · KyberSwap", "chains": ["bnb"], "stance": "protect",
+      "blurb": "Aggregation with private-fill options.", "links_technique": ["sandwich"] },
+    { "id": "shredstream", "fn": "Fast data feed", "name": "Jito ShredStream · Geyser plugins", "chains": ["sol"], "stance": "extract",
+      "blurb": "Raw shreds and account updates before blocks assemble — the mid-slot view.", "links_technique": ["cexdex", "snipe"] },
+    { "id": "bdn", "fn": "Fast data feed", "name": "bloXroute BDN · relay streams", "chains": ["eth", "bnb"], "stance": "extract",
+      "blurb": "A private backbone that sees and ships transactions faster than public gossip.", "links_technique": ["cexdex", "backrun"] },
+    { "id": "fibre", "fn": "Fast data feed", "name": "FIBRE / compact relays · mempool.space APIs", "chains": ["btc"], "stance": "neutral",
+      "blurb": "Miner block relay plus public mempool telemetry.", "links_technique": [] },
+    { "id": "zec-p2p", "fn": "Fast data feed", "name": "Standard p2p", "chains": ["zec"], "stance": "neutral",
+      "blurb": "Nothing faster exists because nothing needs to.", "links_technique": [] },
+    { "id": "sol-priority", "fn": "Priority market", "name": "Priority fees per CU + Jito tips", "chains": ["sol"], "stance": "neutral",
+      "blurb": "Per-account fee markets price hot state; tips price position.", "links_technique": ["liquidations", "spam"] },
+    { "id": "eth-priority", "fn": "Priority market", "name": "EIP-1559 tips + builder bids", "chains": ["eth"], "stance": "neutral",
+      "blurb": "Tips get you included; builder bids get you placed.", "links_technique": ["liquidations"] },
+    { "id": "bnb-priority", "fn": "Priority market", "name": "Gas tips + private bids", "chains": ["bnb"], "stance": "neutral",
+      "blurb": "Thin public fees, validator-adjacent private bids.", "links_technique": [] },
+    { "id": "btc-priority", "fn": "Priority market", "name": "sat/vB fee market", "chains": ["btc"], "stance": "neutral",
+      "blurb": "The original priority market — price per virtual byte.", "links_technique": [] },
+    { "id": "firedancer", "fn": "Node/client edge", "name": "Firedancer · SWQoS · DoubleZero", "chains": ["sol"], "stance": "neutral",
+      "blurb": "HFT-grade client, staked lanes, private fiber — the latency stack as a product.", "links_technique": ["spam", "cexdex"] },
+    { "id": "eth-edge", "fn": "Node/client edge", "name": "ePBS research · preconfs · Reth/Erigon perf", "chains": ["eth"], "stance": "neutral",
+      "blurb": "Protocol roadmap and client performance as the edge.", "links_technique": [] },
+    { "id": "bnb-edge", "fn": "Node/client edge", "name": "Fast-finality client tuning", "chains": ["bnb"], "stance": "neutral",
+      "blurb": "Sub-second finality work in the post-Maxwell clients.", "links_technique": [] },
+    { "id": "stratum", "fn": "Node/client edge", "name": "Stratum v2", "chains": ["btc"], "stance": "neutral",
+      "blurb": "Miner-side protocol modernization — job negotiation, lower latency.", "links_technique": [] }
+  ],
+  "benchDelta": "The tools converge because the problem converges: wherever ordering is worth money, someone builds the auction, someone sells the shield, and someone lays the fiber."
 }
 </script>
 
@@ -1216,7 +1525,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       const el = e.target;
       io.unobserve(el);
       if(!reduced){
-        anime({targets: el, opacity:[0,1], translateY:[18,0], duration:700, easing:'easeOutCubic'});
+        anime({targets: el, opacity:[0,1], translateY:[18,0], duration:700, easing:'easeOutCubic',
+          complete:()=>{ el.classList.add('revealed'); el.style.opacity=''; el.style.transform=''; }});
       }
       // section-specific triggers
       const id = el.closest('section') ? el.closest('section').id : '';
@@ -1235,6 +1545,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     if(el.querySelector && el.querySelector('#sandwichSvg') && !started.has('sand')){ started.add('sand'); sandwichAnim(); }
     if(el.querySelector && el.querySelector('#jitoSvg') && !started.has('jito')){ started.add('jito'); jitoAnim(); }
     if(el.classList.contains('ladder') && !started.has('ladder')){ started.add('ladder'); ladderAnim(); }
+    if(el.id === 'gridPanel' && !started.has('grid')){ started.add('grid'); gridCascade(); }
   }
 
   /* ── hero trace (desktop svg or 2-slot mobile crop) ── */
@@ -2004,6 +2315,166 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   }
 
   renderDocks();
+
+  /* ═══════════ v2 · SPEC 3 — CH-05 cross-chain bench ═══════════ */
+  const colColor = cid => cid==='sol' ? CD.sol.color : CD.chains[cid].color;
+  const glyphOf  = cid => cid==='sol' ? CD.sol.glyph : CD.chains[cid].glyph;
+  const nameOf   = cid => cid==='sol' ? 'SOL' : CD.chains[cid].name;
+
+  function renderGrid(){
+    if(!CD || !CD.techniques) return;
+    const mount = document.querySelector('.tgrid-mount'); if(!mount) return;
+    let html = '<table class="tgrid"><thead><tr><th class="th-label" scope="col"><span class="th-n">TECHNIQUE</span></th>';
+    CD.benchCols.forEach(cid=>{
+      html += `<th scope="col" style="--cc:${colColor(cid)}"><span class="th-g" aria-hidden="true">${glyphOf(cid)}</span><span class="th-n">${nameOf(cid)}</span></th>`;
+    });
+    html += '</tr></thead><tbody>';
+    CD.techniques.forEach(t=>{
+      html += `<tr><td class="th-label"><button class="tlabel" data-tech="${t.id}" aria-expanded="false"><b>${esc(t.short)}</b><span class="tdef">${esc(t.def)}</span></button></td>`;
+      CD.benchCols.forEach(cid=>{
+        const st = t.cells[cid];
+        html += `<td style="--cc:${colColor(cid)}"><button class="tcell" data-tech="${t.id}" data-chain="${cid}" aria-expanded="false" aria-label="${esc(t.name)} on ${nameOf(cid)}: ${st}"><span class="cm cm-${st}"></span></button></td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '<div class="tlegend"><span><i class="cm cm-hot"></i>hot — primary venue</span><span><i class="cm cm-active"></i>active</span><span><i class="cm cm-limited"></i>limited</span><span><i class="cm cm-none"></i>none</span></div>';
+    mount.innerHTML = html;
+    wireGrid(mount);
+  }
+
+  function gridCascade(){
+    if(reduced) return;
+    const cms = document.querySelectorAll('#gridPanel .tcell .cm');
+    cms.forEach(el=>el.style.opacity=0);
+    anime({targets:cms, opacity:[0,1], scale:[.4,1],
+      delay:anime.stagger(24, {grid:[CD.benchCols.length, CD.techniques.length], from:0}),
+      duration:300, easing:'easeOutQuad'});
+  }
+
+  function wireGrid(mount){
+    const panel = document.getElementById('gridPanel');
+    const pop = document.createElement('div');
+    pop.className = 'tpop'; pop.setAttribute('role','dialog'); pop.hidden = true;
+    panel.appendChild(pop);
+    let opener = null;
+    function closePop(focusBack){
+      if(pop.hidden) return;
+      pop.hidden = true;
+      if(opener){ opener.setAttribute('aria-expanded','false'); if(focusBack) opener.focus(); opener = null; }
+    }
+    function openPop(btn){
+      const t = CD.techniques.find(x=>x.id===btn.dataset.tech);
+      const cid = btn.dataset.chain;
+      if(opener) opener.setAttribute('aria-expanded','false');
+      opener = btn; btn.setAttribute('aria-expanded','true');
+      const state = cid ? t.cells[cid] : null;
+      const toolId = cid ? (t.tools||{})[cid] : null;
+      const tool = toolId ? CD.tools.find(x=>x.id===toolId) : null;
+      pop.setAttribute('aria-label', t.name + (cid ? ' on '+nameOf(cid) : ''));
+      pop.innerHTML =
+        `<button class="tp-close" aria-label="Close">✕</button>`+
+        `<h5>${esc(t.name)}${cid ? ' × '+nameOf(cid) : ''}${state ? ' · <span class="st">'+state.toUpperCase()+'</span>' : ''}</h5>`+
+        `<p class="tp-def">${esc(t.def)}</p>`+
+        (cid ? `<p>${esc(t.notes[cid])}</p>` : '')+
+        (tool ? `<div class="tp-tools"><button class="tp-tool" data-tool="${tool.id}">↳ ${esc(tool.name)}</button></div>` : '');
+      pop.hidden = false;
+      if(!window.matchMedia('(max-width:700px)').matches){
+        const pb = panel.getBoundingClientRect(), bb = btn.getBoundingClientRect();
+        let left = bb.left - pb.left + bb.width/2 - pop.offsetWidth/2;
+        left = Math.max(10, Math.min(left, pb.width - pop.offsetWidth - 10));
+        let top = bb.bottom - pb.top + 8;
+        if(top + pop.offsetHeight > panel.offsetHeight - 8) top = bb.top - pb.top - pop.offsetHeight - 8;
+        pop.style.left = left+'px'; pop.style.top = Math.max(6,top)+'px';
+      } else { pop.style.left=''; pop.style.top=''; }
+      pop.querySelector('.tp-close').focus();
+    }
+    mount.addEventListener('click', e=>{
+      const btn = e.target.closest('.tcell, .tlabel'); if(!btn) return;
+      if(opener===btn && !pop.hidden){ closePop(true); return; }
+      openPop(btn);
+    });
+    pop.addEventListener('click', e=>{
+      if(e.target.closest('.tp-close')){ closePop(true); return; }
+      const tb = e.target.closest('.tp-tool');
+      if(tb){ closePop(false); jumpToTool(tb.dataset.tool); }
+    });
+    pop.addEventListener('keydown', e=>{
+      if(e.key==='Escape'){ e.stopPropagation(); closePop(true); return; }
+      if(e.key==='Tab'){
+        const f = pop.querySelectorAll('button');
+        if(!f.length) return;
+        const first = f[0], last = f[f.length-1];
+        if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      }
+    });
+    document.addEventListener('click', e=>{
+      if(!pop.hidden && !e.target.closest('.tpop') && !e.target.closest('.tcell, .tlabel')) closePop(false);
+    });
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !pop.hidden) closePop(true); });
+  }
+
+  function renderBench(){
+    if(!CD || !CD.tools) return;
+    const mount = document.getElementById('benchMount'); if(!mount) return;
+    const cardsEl = mount.querySelector('.bench-cards');
+    cardsEl.innerHTML = CD.tools.map(t=>
+      `<div class="card tool-card" id="tool-${t.id}" data-chains="${t.chains.join(' ')}" data-stance="${t.stance}">`+
+      `<span class="mono-tag">${esc(t.fn).toUpperCase()}</span>`+
+      `<span class="stance stance-${t.stance}">${t.stance.toUpperCase()}</span>`+
+      `<h4>${esc(t.name)}</h4>`+
+      `<p>${esc(t.blurb)}</p>`+
+      `<div class="tool-badges">${t.chains.map(c=>`<span class="tb" style="--tb-c:${colColor(c)}"><i></i>${nameOf(c)}</span>`).join('')}</div>`+
+      `</div>`).join('');
+    mount.querySelector('.bench-delta').textContent = CD.benchDelta;
+
+    const fEl = mount.querySelector('.bench-filters');
+    const chains = ['all','sol','eth','bnb','btc','zec'];
+    const stances = ['all','extract','protect','neutral'];
+    const stanceColor = s => s==='extract' ? 'var(--red)' : s==='protect' ? 'var(--green)' : 'var(--violet)';
+    fEl.innerHTML =
+      '<span class="bf-label">CHAIN</span>'+
+      chains.map(c=>`<button class="chip chip-f" data-f="chain" data-v="${c}" aria-pressed="${c==='all'}" style="--cc:${c==='all'?'var(--violet)':colColor(c)}"><i></i>${c==='all'?'ALL':nameOf(c)}</button>`).join('')+
+      '<span class="bf-gap"></span><span class="bf-label">STANCE</span>'+
+      stances.map(s=>`<button class="chip chip-f" data-f="stance" data-v="${s}" aria-pressed="${s==='all'}" style="--cc:${stanceColor(s)}"><i></i>${s.toUpperCase()}</button>`).join('');
+    const sel = {chain:'all', stance:'all'};
+    fEl.addEventListener('click', e=>{
+      const b = e.target.closest('.chip-f'); if(!b) return;
+      sel[b.dataset.f] = b.dataset.v;
+      fEl.querySelectorAll(`.chip-f[data-f="${b.dataset.f}"]`).forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+      applyFilter();
+    });
+    function applyFilter(){
+      const cards = Array.from(cardsEl.querySelectorAll('.tool-card'));
+      const show = c => (sel.chain==='all' || c.dataset.chains.split(' ').includes(sel.chain)) &&
+                        (sel.stance==='all' || c.dataset.stance===sel.stance);
+      if(reduced){ cards.forEach(c=>{ c.hidden = !show(c); }); return; }
+      const out = cards.filter(c=>!c.hidden && !show(c));
+      const inn = cards.filter(c=>c.hidden && show(c));
+      const revealIn = ()=>{
+        inn.forEach(c=>{ c.hidden = false; });
+        if(inn.length) anime({targets:inn, opacity:[0,1], scale:[.95,1], duration:200, easing:'easeOutQuad'});
+      };
+      if(out.length){
+        anime({targets:out, opacity:[1,0], scale:[1,.92], duration:180, easing:'easeInQuad',
+          complete:()=>{ out.forEach(c=>{ c.hidden = true; c.style.opacity=''; c.style.transform=''; }); revealIn(); }});
+      } else revealIn();
+    }
+  }
+
+  function jumpToTool(id){
+    const card = document.getElementById('tool-'+id);
+    if(!card) return;
+    if(card.hidden){
+      document.querySelectorAll('.bench-filters .chip-f[data-v="all"]').forEach(b=>b.click());
+    }
+    card.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block:'center'});
+    card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
+  }
+
+  renderGrid();
+  renderBench();
 })();
 </script>
 </body>
