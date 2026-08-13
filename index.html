@@ -351,6 +351,73 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 .lval{white-space:nowrap}
 @media(max-width:700px){.lrow{grid-template-columns:1fr 70px}.ltrack{grid-column:1/-1;order:3}}
 
+/* ---------- v2 compare docks ---------- */
+.dock-mount{margin-top:14px}
+.dock{
+  background:var(--panel);border:1px solid var(--line);
+  border-top:1px solid color-mix(in srgb, var(--ch) 35%, var(--line));
+  border-radius:8px;position:relative;
+}
+.dock-bar{display:flex;align-items:center;gap:14px;padding:8px 14px;flex-wrap:wrap}
+.dock-label{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.16em;color:var(--faint);white-space:nowrap}
+.dock-chips{
+  display:flex;gap:8px;min-width:0;overflow-x:auto;scrollbar-width:none;
+  mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);
+  padding:0 12px;margin:0 -12px;
+}
+.dock-chips::-webkit-scrollbar{display:none}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;min-height:44px;min-width:44px;padding:0 14px;
+  background:var(--panel-2);border:1px solid var(--line);border-radius:6px;
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.1em;color:var(--dim);
+  cursor:pointer;position:relative;flex:none;
+}
+.chip i{width:5px;height:16px;border:1px solid var(--cc);border-radius:1px;background:transparent;flex:none}
+.chip .shield{width:11px;height:13px;fill:none;stroke:var(--cc);stroke-width:1.2;flex:none}
+.chip:hover{color:var(--ink)}
+.chip[aria-selected="true"]{color:var(--ink);border-color:color-mix(in srgb, var(--cc) 60%, var(--line))}
+.chip[aria-selected="true"] i{background:var(--cc)}
+.chip[aria-selected="true"] .shield{fill:color-mix(in srgb, var(--cc) 30%, transparent)}
+.chip[aria-selected="true"]::after{content:"";position:absolute;left:10px;right:10px;bottom:6px;height:1px;background:var(--cc)}
+.dock-body{overflow:hidden}
+.dock-body[hidden]{display:none}
+.dock-cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.dock-col{background:var(--panel);padding:12px 16px 16px;min-width:0}
+.dock-col-head{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.12em;color:var(--faint);
+  padding:6px 0 10px;
+}
+.dock-col-head b{color:var(--ink);font-weight:600}
+.dock-col-head .mark{color:var(--ch)}
+.dock-col-chain .dock-col-head .mark{color:var(--cc)}
+.mini-wrap{border:1px solid var(--line);border-radius:6px;background:var(--panel-2);margin-bottom:12px;padding:8px;-webkit-user-select:none;user-select:none}
+.mini-wrap svg{display:block;width:100%;height:auto}
+.mini-wrap svg[hidden]{display:none}
+.dm-row{padding:8px 0 8px 12px;border-bottom:1px dashed var(--line);box-shadow:inset 2px 0 0 transparent}
+.dm-row:last-child{border-bottom:none}
+.dm-row.adv{box-shadow:inset 2px 0 0 var(--adv-c, var(--ch))}
+.dm-k{display:block;font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.1em;color:var(--faint);margin-bottom:2px}
+.dm-v{font-size:.84rem;color:var(--ink);opacity:.92;line-height:1.5}
+.dock-delta{
+  padding:12px 16px;border-top:1px solid var(--line);
+  font-size:.85rem;color:var(--dim);
+}
+.dock-delta::before{content:"Δ  ";font-family:"IBM Plex Mono",monospace;color:var(--ch)}
+@media(max-width:700px){
+  .dock-cols{grid-template-columns:1fr}
+  .dock-col-head{position:sticky;top:86px;z-index:2;background:var(--panel);margin:0 -16px;padding:8px 16px 10px}
+}
+/* no-JS fallback tables */
+.dock-fallback{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel);overflow-x:auto}
+.dock-fallback h3{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;color:var(--dim);margin-bottom:10px;font-weight:500}
+.dock-fallback table{border-collapse:collapse;font-size:.78rem;min-width:680px}
+.dock-fallback th,.dock-fallback td{border:1px solid var(--line);padding:6px 9px;text-align:left;color:var(--dim);vertical-align:top}
+.dock-fallback th{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em}
+.dock-fallback ul{margin:12px 0 0;padding-left:18px;font-size:.8rem;color:var(--dim)}
+.dock-fallback li{margin-bottom:4px}
+.dock-fallback li b{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:.7rem}
+
 /* ---------- v2 chrome: ruler, CRT, watermark ---------- */
 /* left ruler — the v2 signature; ≥1100px only */
 .ruler{display:none}
@@ -582,6 +649,26 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     </div>
   </div>
 
+  <div class="dock-mount reveal" data-ch="ch1"></div>
+  <noscript><div class="dock-fallback">
+    <h3>COMPARE · TOPOLOGY — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <table>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
+      <tr><td>consensus</td><td>PoS + PoH clock, Tower BFT</td><td>PoW, Nakamoto (longest chain)</td><td>PoS, Gasper (LMD-GHOST + Casper FFG)</td><td>PoSA, ~45 rotating validators (21 produce per epoch)</td><td>PoW (Equihash), Nakamoto</td></tr>
+      <tr><td>block / slot cadence</td><td>400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s (post-Maxwell '25)</td><td>75 s</td></tr>
+      <tr><td>who proposes</td><td>scheduled leader, stake-weighted, published</td><td>any miner, hash-race</td><td>RANDAO-selected proposer per slot</td><td>elected validator rotation</td><td>any miner</td></tr>
+      <tr><td>validating set</td><td>~1,000+ validators</td><td>~tens of thousands of nodes, mining in ~few large pools</td><td>~1M validators (32 ETH each), ~10k nodes</td><td>dozens (permissioned-ish, stake+authority)</td><td>thousands of nodes, pooled mining</td></tr>
+      <tr><td>block propagation</td><td>Turbine shred tree</td><td>gossip flood + compact blocks / FIBRE</td><td>gossip + blob sidecars</td><td>gossip (geth-derived)</td><td>gossip flood (BTC-style)</td></tr>
+      <tr><td>hardware floor</td><td>high — 12+ cores, 256GB+ RAM, NVMe</td><td>low — laptop-class full node</td><td>mid — consumer-plus</td><td>mid-high</td><td>low-mid</td></tr>
+    </table>
+    <ul>
+      <li><b>BTC</b> — BTC maximizes who <em>can</em> validate; SOL maximizes what a validator can do per second.</li>
+      <li><b>ETH</b> — ETH spreads trust across ~a million small stakes; SOL concentrates work in fewer, heavier machines.</li>
+      <li><b>BNB</b> — BNB buys sub-second blocks with a small permissioned set — closer to SOL's speed, further from its openness.</li>
+      <li><b>ZEC</b> — ZEC keeps BTC's shape and spends its innovation budget on privacy, not throughput.</li>
+    </ul>
+  </div></noscript>
+
   <div class="cards cards-3 reveal">
     <div class="card"><span class="mono-tag">ROLE / 01</span><h4><i class="i-amber"></i>Leader</h4><p>The validator whose slot it is. Ingests transactions, executes them, weaves them into the PoH stream, and shreds the result out to the tree.</p></div>
     <div class="card"><span class="mono-tag">ROLE / 02</span><h4><i class="i-cyan"></i>Validator</h4><p>Staked node that replays the leader's block, verifies every signature and state change, and votes. ~1,000+ of them, stake-weighted.</p></div>
@@ -720,6 +807,26 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     </svg>
   </div>
 
+  <div class="dock-mount reveal" data-ch="ch2"></div>
+  <noscript><div class="dock-fallback">
+    <h3>COMPARE · TX FLOW — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <table>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
+      <tr><td>pre-block staging</td><td>none — Gulf Stream streams to leaders</td><td>public mempool, fee-rate sorted</td><td>public mempool + private order flow (builders)</td><td>public mempool (fast blocks drain it)</td><td>public mempool; shielded txs reveal nothing but fee</td></tr>
+      <tr><td>fee model</td><td>base per sig + priority per CU, per-account markets</td><td>sat/vB auction</td><td>EIP-1559 base burn + tip</td><td>low fixed-ish gas, tip auction</td><td>sat-style, near-zero</td></tr>
+      <tr><td>execution</td><td>parallel (Sealevel, declared accounts)</td><td>UTXO script (no general contracts)</td><td>sequential EVM</td><td>sequential EVM</td><td>UTXO + shielded circuits (no general contracts)</td></tr>
+      <tr><td>inclusion latency (typ.)</td><td>&lt; 1 s</td><td>minutes–hours (fee dependent)</td><td>~12–24 s</td><td>~1–2 s</td><td>~1–3 min</td></tr>
+      <tr><td>finality</td><td>~13 s (32 rooted slots)</td><td>probabilistic, ~60 min at 6 conf</td><td>~13–15 min (2 epochs)</td><td>seconds (fast finality post-'25 upgrades)</td><td>probabilistic, ~hours conservative</td></tr>
+      <tr><td>expiry / replay</td><td>blockhash expires ~1 min</td><td>RBF replaceable</td><td>nonce-replaceable</td><td>nonce-replaceable</td><td>standard UTXO</td></tr>
+    </table>
+    <ul>
+      <li><b>BTC</b> — BTC's mempool is a waiting room; Solana deleted the room.</li>
+      <li><b>ETH</b> — Same 'confirmed vs finalized' ladder — ETH just climbs it 60× slower and in sequence.</li>
+      <li><b>BNB</b> — On paper BNB now rivals SOL's cadence; the EVM still executes one transaction at a time.</li>
+      <li><b>ZEC</b> — ZEC's flow is BTC's flow — except validators can't even see what they're ordering.</li>
+    </ul>
+  </div></noscript>
+
   <div class="cards cards-3 reveal">
     <div class="card"><span class="mono-tag">WHY IT'S FAST / 01</span><h4><i class="i-amber"></i>No mempool</h4><p>Transactions carry a recent blockhash and get streamed directly to scheduled leaders. Nothing pools publicly waiting to be picked — it expires in ~150 blocks (~1 min) if unprocessed.</p></div>
     <div class="card"><span class="mono-tag">WHY IT'S FAST / 02</span><h4><i class="i-amber"></i>Declared state</h4><p>Every transaction lists the accounts it reads and writes up front. Sealevel uses those lists to run non-overlapping transactions on all cores at once.</p></div>
@@ -849,6 +956,24 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     </div>
   </div>
 
+  <div class="dock-mount reveal" data-ch="ch3"></div>
+  <noscript><div class="dock-fallback">
+    <h3>COMPARE · MEV — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <table>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
+      <tr><td>visibility of pending txs</td><td>none public; leaks via infra</td><td>fully public mempool</td><td>public mempool + private channels</td><td>public mempool, tiny window</td><td>shielded txs opaque by design</td></tr>
+      <tr><td>ordering market</td><td>Jito bundles, out-of-protocol auction</td><td>fee-rate + out-of-band accelerators</td><td>PBS: builders → relays → proposers (MEV-Boost)</td><td>validator-adjacent (bloXroute, 48Club private txs)</td><td>effectively none</td></tr>
+      <tr><td>dominant plays</td><td>atomic arb, sandwich via private flow, spam racing</td><td>fee sniping, time-bandit (theoretical), ordinals-era fee wars</td><td>sandwich, backrun, liquidations, CEX-DEX arb</td><td>sandwich (historically heavy), arb</td><td>~none (no DEX layer, hidden amounts)</td></tr>
+      <tr><td>user protection</td><td>tight slippage, MEV-protect RPCs, tips</td><td>RBF awareness; little to protect</td><td>Flashbots Protect, CoW/intents, private RPCs</td><td>private-tx RPCs, slippage</td><td>privacy <em>is</em> the protection</td></tr>
+    </table>
+    <ul>
+      <li><b>BTC</b> — No smart contracts, no sandwiches — BTC's MEV is mostly a fee story.</li>
+      <li><b>ETH</b> — ETH industrialized MEV into a supply chain; Solana runs the same auction inside 400 ms.</li>
+      <li><b>BNB</b> — Fast blocks + concentrated validators made BNB a sandwich hotspot until private-tx rails matured.</li>
+      <li><b>ZEC</b> — ZEC is the control group: hide the order flow and extraction has nothing to grip.</li>
+    </ul>
+  </div></noscript>
+
   <div class="cards cards-2 reveal" style="margin-top:14px">
     <div class="card"><span class="mono-tag">EXTRACTION / TOOLS</span>
       <h4><i class="i-red"></i>How value gets taken</h4>
@@ -878,6 +1003,25 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     <div class="lrow"><div class="lname"><span class="l-long">KERNEL-BYPASS NIC</span><span class="l-short">KBYPASS NIC</span><span>USERSPACE NETWORKING</span></div><div class="ltrack"><div class="lfill" data-w=".13"  style="background:var(--green);transform:scaleX(.13)"></div></div><div class="lval">~10 µs</div></div>
   </div>
 
+  <div class="dock-mount reveal" data-ch="ch4"></div>
+  <noscript><div class="dock-fallback">
+    <h3>COMPARE · LATENCY — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <table>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
+      <tr><td>decision window</td><td>~400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s</td><td>75 s</td></tr>
+      <tr><td>does colocation matter</td><td>decisive — leader-adjacent placement</td><td>barely (relay networks like FIBRE for miners)</td><td>yes — relay/builder proximity</td><td>yes — validator proximity</td><td>no</td></tr>
+      <tr><td>fast-data rails</td><td>ShredStream, SWQoS staked lanes, DoubleZero fiber</td><td>FIBRE / compact-block relays</td><td>bloXroute BDN, relay colocation, mempool streams</td><td>bloXroute BDN</td><td>none needed</td></tr>
+      <tr><td>preconfirmations</td><td>optimistic conf &lt; 1 s; the shred race is the de-facto preconf; Alpenglow targets ~150 ms finality</td><td>zero-conf acceptance, mostly dead post-RBF; Lightning for instant commit</td><td>the explicit frontier — based/proposer preconfs (Bolt, Primev commitments), ePBS groundwork</td><td>fast finality in seconds stands in; no separate preconf market</td><td>n/a — nothing trades on sub-block timing</td></tr>
+      <tr><td>frontier</td><td>act on shreds mid-slot</td><td>mining latency (stratum, pool hops)</td><td>ePBS, preconfirmations</td><td>sub-second finality tuning</td><td>n/a</td></tr>
+    </table>
+    <ul>
+      <li><b>BTC</b> — BTC's race is measured in exahashes, not microseconds.</li>
+      <li><b>ETH</b> — ETH's 12 s slot forgives a slow network; Solana's 400 ms does not.</li>
+      <li><b>BNB</b> — The closest analog to Solana's arms race — one order of magnitude behind.</li>
+      <li><b>ZEC</b> — A 75 s private chain has no latency game at all — that's the point.</li>
+    </ul>
+  </div></noscript>
+
   <div class="cards cards-4 reveal" style="margin-top:14px">
     <div class="card"><span class="mono-tag">EDGE / 01</span><h4><i class="i-cyan"></i>Colocation</h4><p>Validators cluster in a few metros — Frankfurt, Amsterdam, New York, Tokyo. Firms place bare-metal boxes in the same facilities and chase the leader schedule across regions.</p></div>
     <div class="card"><span class="mono-tag">EDGE / 02</span><h4><i class="i-cyan"></i>Shred streaming</h4><p>Services like Jito ShredStream deliver raw shreds the moment they leave the leader — a view of the block tens to hundreds of milliseconds before RPCs report it.</p></div>
@@ -892,6 +1036,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       <li><b>CONVERGENCE</b>The Solana latency stack now mirrors traditional HFT: colocation, private fiber, kernel bypass, FPGA-friendly parsing — the exchange just happens to be a distributed ledger.</li>
       <li><b>LEADER-AWARE</b>Everything is scheduled around the public leader rotation: routing, stake, even which datacenter your strategy wakes up in for the next four slots.</li>
       <li><b>BLOCK ZERO</b>The frontier is acting on shreds mid-slot — reacting to a transaction before the block containing it formally exists.</li>
+      <li><b>PRECONF</b>Optimistic confirmation already lands under a second; Alpenglow's ~150 ms finality target would collapse the gap preconfirmations exist to fill — while Ethereum builds an explicit preconf market (Bolt, Primev) to paper over its 12 s slots.</li>
       <li><b>THE TENSION</b>Every microsecond shaved centralizes advantage; every protocol change (SWQoS, bundle auctions, multiple concurrent leaders on the roadmap) is an attempt to keep the race fair-ish.</li>
     </ul>
   </div>
@@ -903,6 +1048,138 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   </div>
 </footer>
 </div>
+
+<!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
+<script type="application/json" id="chainData">
+{
+  "meta": { "dated": "2026-08", "note": "teaching figures, orders of magnitude; ~ marks volatile numbers" },
+  "sectionOrder": ["topology", "txflow", "mev", "latency"],
+  "sectionOf": { "ch1": "topology", "ch2": "txflow", "ch3": "mev", "ch4": "latency" },
+  "sectionMeta": {
+    "topology": { "title": "TOPOLOGY", "solDiagram": "sol-tree" },
+    "txflow":   { "title": "TX FLOW",  "solDiagram": "sol-direct" },
+    "mev":      { "title": "MEV",      "solDiagram": "sol-bundle" },
+    "latency":  { "title": "LATENCY",  "solDiagram": "window" }
+  },
+  "metricKeys": {
+    "topology": ["consensus", "block / slot cadence", "who proposes", "validating set", "block propagation", "hardware floor"],
+    "txflow":   ["pre-block staging", "fee model", "execution", "inclusion latency (typ.)", "finality", "expiry / replay"],
+    "mev":      ["visibility of pending txs", "ordering market", "dominant plays", "user protection"],
+    "latency":  ["decision window", "does colocation matter", "fast-data rails", "preconfirmations", "frontier"]
+  },
+  "sol": {
+    "glyph": "◎", "name": "SOL",
+    "topology": ["PoS + PoH clock, Tower BFT", "400 ms", "scheduled leader, stake-weighted, published", "~1,000+ validators", "Turbine shred tree", "high — 12+ cores, 256GB+ RAM, NVMe"],
+    "txflow":   ["none — Gulf Stream streams to leaders", "base per sig + priority per CU, per-account markets", "parallel (Sealevel, declared accounts)", "< 1 s", "~13 s (32 rooted slots)", "blockhash expires ~1 min"],
+    "mev":      ["none public; leaks via infra", "Jito bundles, out-of-protocol auction", "atomic arb, sandwich via private flow, spam racing", "tight slippage, MEV-protect RPCs, tips"],
+    "latency":  ["~400 ms", "decisive — leader-adjacent placement", "ShredStream, SWQoS staked lanes, DoubleZero fiber", "optimistic conf < 1 s; the shred race is the de-facto preconf; Alpenglow targets ~150 ms finality", "act on shreds mid-slot"],
+    "windowMs": 400
+  },
+  "chainOrder": ["btc", "eth", "bnb", "zec"],
+  "chains": {
+    "btc": {
+      "name": "BTC", "label": "Bitcoin", "color": "#F7931A", "glyph": "₿",
+      "windowMs": 600000,
+      "diagrams": { "topology": "miners", "txflow": "mempool", "mev": "feeladder", "latency": "window" },
+      "topology": {
+        "metrics": ["PoW, Nakamoto (longest chain)", "~10 min", "any miner, hash-race", "~tens of thousands of nodes, mining in ~few large pools", "gossip flood + compact blocks / FIBRE", "low — laptop-class full node"],
+        "adv":     ["", "sol", "", "chain", "", "chain"],
+        "delta": "BTC maximizes who *can* validate; SOL maximizes what a validator can do per second."
+      },
+      "txflow": {
+        "metrics": ["public mempool, fee-rate sorted", "sat/vB auction", "UTXO script (no general contracts)", "minutes–hours (fee dependent)", "probabilistic, ~60 min at 6 conf", "RBF replaceable"],
+        "adv":     ["sol", "", "sol", "sol", "sol", ""],
+        "delta": "BTC's mempool is a waiting room; Solana deleted the room."
+      },
+      "mev": {
+        "metrics": ["fully public mempool", "fee-rate + out-of-band accelerators", "fee sniping, time-bandit (theoretical), ordinals-era fee wars", "RBF awareness; little to protect"],
+        "adv":     ["sol", "", "", ""],
+        "delta": "No smart contracts, no sandwiches — BTC's MEV is mostly a fee story."
+      },
+      "latency": {
+        "metrics": ["~10 min", "barely (relay networks like FIBRE for miners)", "FIBRE / compact-block relays", "zero-conf acceptance, mostly dead post-RBF; Lightning for instant commit", "mining latency (stratum, pool hops)"],
+        "adv":     ["", "", "", "", ""],
+        "delta": "BTC's race is measured in exahashes, not microseconds."
+      }
+    },
+    "eth": {
+      "name": "ETH", "label": "Ethereum", "color": "#8A9EF5", "glyph": "Ξ",
+      "windowMs": 12000,
+      "diagrams": { "topology": "slotwheel", "txflow": "builder", "mev": "threehop", "latency": "window" },
+      "topology": {
+        "metrics": ["PoS, Gasper (LMD-GHOST + Casper FFG)", "12 s", "RANDAO-selected proposer per slot", "~1M validators (32 ETH each), ~10k nodes", "gossip + blob sidecars", "mid — consumer-plus"],
+        "adv":     ["", "sol", "", "chain", "", "chain"],
+        "delta": "ETH spreads trust across ~a million small stakes; SOL concentrates work in fewer, heavier machines."
+      },
+      "txflow": {
+        "metrics": ["public mempool + private order flow (builders)", "EIP-1559 base burn + tip", "sequential EVM", "~12–24 s", "~13–15 min (2 epochs)", "nonce-replaceable"],
+        "adv":     ["sol", "", "sol", "sol", "sol", ""],
+        "delta": "Same 'confirmed vs finalized' ladder — ETH just climbs it 60× slower and in sequence."
+      },
+      "mev": {
+        "metrics": ["public mempool + private channels", "PBS: builders → relays → proposers (MEV-Boost)", "sandwich, backrun, liquidations, CEX-DEX arb", "Flashbots Protect, CoW/intents, private RPCs"],
+        "adv":     ["sol", "", "", ""],
+        "delta": "ETH industrialized MEV into a supply chain; Solana runs the same auction inside 400 ms."
+      },
+      "latency": {
+        "metrics": ["12 s", "yes — relay/builder proximity", "bloXroute BDN, relay colocation, mempool streams", "the explicit frontier — based/proposer preconfs (Bolt, Primev commitments), ePBS groundwork", "ePBS, preconfirmations"],
+        "adv":     ["", "", "", "chain", ""],
+        "delta": "ETH's 12 s slot forgives a slow network; Solana's 400 ms does not."
+      }
+    },
+    "bnb": {
+      "name": "BNB", "label": "BNB Chain", "color": "#F0B90B", "glyph": "◆",
+      "windowMs": 750,
+      "diagrams": { "topology": "ring", "txflow": "fastdrain", "mev": "sandwich", "latency": "window" },
+      "topology": {
+        "metrics": ["PoSA, ~45 rotating validators (21 produce per epoch)", "~0.75 s (post-Maxwell '25)", "elected validator rotation", "dozens (permissioned-ish, stake+authority)", "gossip (geth-derived)", "mid-high"],
+        "adv":     ["", "sol", "", "sol", "", ""],
+        "delta": "BNB buys sub-second blocks with a small permissioned set — closer to SOL's speed, further from its openness."
+      },
+      "txflow": {
+        "metrics": ["public mempool (fast blocks drain it)", "low fixed-ish gas, tip auction", "sequential EVM", "~1–2 s", "seconds (fast finality post-'25 upgrades)", "nonce-replaceable"],
+        "adv":     ["sol", "", "sol", "sol", "chain", ""],
+        "delta": "On paper BNB now rivals SOL's cadence; the EVM still executes one transaction at a time."
+      },
+      "mev": {
+        "metrics": ["public mempool, tiny window", "validator-adjacent (bloXroute, 48Club private txs)", "sandwich (historically heavy), arb", "private-tx RPCs, slippage"],
+        "adv":     ["sol", "", "", ""],
+        "delta": "Fast blocks + concentrated validators made BNB a sandwich hotspot until private-tx rails matured."
+      },
+      "latency": {
+        "metrics": ["~0.75 s", "yes — validator proximity", "bloXroute BDN", "fast finality in seconds stands in; no separate preconf market", "sub-second finality tuning"],
+        "adv":     ["", "", "", "", ""],
+        "delta": "The closest analog to Solana's arms race — one order of magnitude behind."
+      }
+    },
+    "zec": {
+      "name": "ZEC", "label": "Zcash", "color": "#E8D28A", "glyph": "⛨",
+      "windowMs": 75000,
+      "diagrams": { "topology": "miners-shield", "txflow": "mempool-shielded", "mev": "shieldbounce", "latency": "window" },
+      "topology": {
+        "metrics": ["PoW (Equihash), Nakamoto", "75 s", "any miner", "thousands of nodes, pooled mining", "gossip flood (BTC-style)", "low-mid"],
+        "adv":     ["", "sol", "", "", "", "chain"],
+        "delta": "ZEC keeps BTC's shape and spends its innovation budget on privacy, not throughput."
+      },
+      "txflow": {
+        "metrics": ["public mempool; shielded txs reveal nothing but fee", "sat-style, near-zero", "UTXO + shielded circuits (no general contracts)", "~1–3 min", "probabilistic, ~hours conservative", "standard UTXO"],
+        "adv":     ["", "", "", "sol", "sol", ""],
+        "delta": "ZEC's flow is BTC's flow — except validators can't even see what they're ordering."
+      },
+      "mev": {
+        "metrics": ["shielded txs opaque by design", "effectively none", "~none (no DEX layer, hidden amounts)", "privacy *is* the protection"],
+        "adv":     ["chain", "", "", "chain"],
+        "delta": "ZEC is the control group: hide the order flow and extraction has nothing to grip."
+      },
+      "latency": {
+        "metrics": ["75 s", "no", "none needed", "n/a — nothing trades on sub-block timing", "n/a"],
+        "adv":     ["", "", "", "", ""],
+        "delta": "A 75 s private chain has no latency game at all — that's the point."
+      }
+    }
+  }
+}
+</script>
 
 <script>
 (function(){
@@ -1197,6 +1474,536 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       easing:'easeOutQuart'
     });
   }
+
+  /* ═══════════ v2 · SPEC 2 — compare docks (rendered from #chainData) ═══════════ */
+  const CD = (()=>{ try { return JSON.parse(document.getElementById('chainData').textContent); } catch(e){ return null; } })();
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const em  = s => esc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const SHIELD = '<svg class="shield" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 1 L11 3 V7 C11 10 8.8 12.2 6 13 C3.2 12.2 1 10 1 7 V3 Z"/></svg>';
+
+  /* mini-diagram templates — ≤8 shapes, exactly one loop each.
+     draw() returns inner SVG; loop() returns one anime timeline (or null). */
+  const MINI = {
+    'sol-tree': {
+      draw: () => `
+        <rect x="132" y="14" width="56" height="26" rx="4" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.2"/>
+        <text x="160" y="31" text-anchor="middle" class="lbl-f" fill="var(--amber)">LEADER</text>
+        <g class="edge">
+          <line x1="160" y1="40" x2="80" y2="96"/><line x1="160" y1="40" x2="160" y2="96"/><line x1="160" y1="40" x2="240" y2="96"/>
+          <line x1="80" y1="116" x2="48" y2="162"/><line x1="80" y1="116" x2="112" y2="162"/>
+          <line x1="240" y1="116" x2="208" y2="162"/><line x1="240" y1="116" x2="272" y2="162"/>
+        </g>
+        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.1">
+          <circle cx="80" cy="106" r="10"/><circle cx="160" cy="106" r="10"/><circle cx="240" cy="106" r="10"/>
+        </g>
+        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1" opacity=".75">
+          <circle cx="48" cy="170" r="7"/><circle cx="112" cy="170" r="7"/><circle cx="208" cy="170" r="7"/><circle cx="272" cy="170" r="7"/>
+        </g>
+        <text x="160" y="194" text-anchor="middle" class="lbl-f">TURBINE FAN-OUT</text>
+        <circle class="md" r="4" fill="var(--amber)" opacity="0" cx="160" cy="40"/>`,
+      loop: svg => {
+        const d = svg.querySelector('.md'); const tl = anime.timeline({loop:true, easing:'easeInQuad'});
+        [[80,106],[160,106],[240,106]].forEach((t,i)=>{
+          tl.add({targets:d, cx:[160,t[0]], cy:[40,t[1]],
+                  opacity:[{value:1,duration:60},{value:1,duration:400},{value:0,duration:120}], duration:580}, i*640);
+        });
+        tl.add({duration:500}, 1920);
+        return tl;
+      }
+    },
+    'miners': {
+      draw: (c,o) => `
+        <text x="160" y="22" text-anchor="middle" class="lbl-f">MINERS · HASH RACE</text>
+        <g fill="var(--panel-2)" stroke="${c}" stroke-width="1.2">
+          <circle class="mnr" cx="48" cy="62" r="12"/><circle class="mnr" cx="128" cy="62" r="12"/>
+          <circle class="mnr" cx="208" cy="62" r="12"/><circle class="mnr" cx="288" cy="62" r="12"/>
+        </g>
+        <rect x="130" y="126" width="60" height="30" rx="4" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="160" y="145" text-anchor="middle" class="lbl-f">BLOCK</text>
+        ${o.shield ? `<path d="M204 122 L214 126 V133 C214 139 209.6 143.4 204 145 C198.4 143.4 194 139 194 133 V126 Z" fill="none" stroke="${c}" stroke-width="1.2"/>` : ''}
+        <text x="160" y="186" text-anchor="middle" class="lbl-f">${o.shield ? 'BTC SHAPE · SHIELDED CONTENTS' : 'FIRST VALID HASH WINS'}</text>
+        <circle class="md" r="4" fill="${c}" opacity="0" cx="0" cy="0"/>`,
+      loop: (svg,c) => {
+        const m = svg.querySelectorAll('.mnr'), d = svg.querySelector('.md');
+        const xs = [48,128,208,288];
+        const tl = anime.timeline({loop:true, easing:'easeInOutSine'});
+        xs.forEach((x,k)=>{
+          const t0 = k*1150;
+          tl.add({targets:m, opacity:[{value:.35,duration:260},{value:1,duration:260}], delay:anime.stagger(60)}, t0);
+          tl.add({targets:m[k], strokeWidth:[{value:3,duration:120},{value:1.2,duration:260}]}, t0+560);
+          tl.add({targets:d, cx:[x,160], cy:[74,126],
+                  opacity:[{value:1,duration:60},{value:1,duration:300},{value:0,duration:100}], duration:460, easing:'easeInQuad'}, t0+640);
+        });
+        return tl;
+      }
+    },
+    'slotwheel': {
+      draw: c => {
+        let segs = '';
+        for(let i=0;i<12;i++){
+          const a = (i/12)*Math.PI*2 - Math.PI/2;
+          const x1 = 160 + 46*Math.cos(a), y1 = 102 + 46*Math.sin(a);
+          const x2 = 160 + 62*Math.cos(a), y2 = 102 + 62*Math.sin(a);
+          segs += `<line class="seg" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="4" opacity=".22"/>`;
+        }
+        return `
+        <circle cx="160" cy="102" r="54" fill="none" stroke="var(--line)"/>
+        ${segs}
+        <text x="160" y="99" text-anchor="middle" class="lbl-f">RANDAO PICKS</text>
+        <text x="160" y="114" text-anchor="middle" class="lbl-f">1 PROPOSER / 12 s</text>
+        <text x="160" y="192" text-anchor="middle" class="lbl-f">SLOT WHEEL · SCALED TO 2 s</text>`;
+      },
+      loop: svg => {
+        const segs = svg.querySelectorAll('.seg');
+        const tl = anime.timeline({loop:true, easing:'linear'});
+        segs.forEach((s,i)=>{
+          tl.add({targets:s, opacity:[{value:1,duration:80},{value:.22,duration:240}]}, i*160);
+        });
+        return tl;
+      }
+    },
+    'ring': {
+      draw: c => {
+        let dots = '';
+        const pos = [];
+        for(let i=0;i<9;i++){
+          const a = (i/9)*Math.PI*2 - Math.PI/2;
+          const x = +(160 + 56*Math.cos(a)).toFixed(1), y = +(102 + 56*Math.sin(a)).toFixed(1);
+          pos.push([x,y]);
+          dots += `<circle cx="${x}" cy="${y}" r="6" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>`;
+        }
+        return `
+        ${dots}
+        <circle class="mkr" cx="${pos[0][0]}" cy="${pos[0][1]}" r="11" fill="none" stroke="${c}" stroke-width="1.8"/>
+        <text x="160" y="99" text-anchor="middle" class="lbl-f">ROTATING</text>
+        <text x="160" y="114" text-anchor="middle" class="lbl-f">PRODUCER</text>
+        <text x="160" y="192" text-anchor="middle" class="lbl-f">SMALL ELECTED SET · ~0.75 s BLOCKS</text>`;
+      },
+      loop: svg => {
+        const mkr = svg.querySelector('.mkr');
+        const cx = [], cy = [];
+        for(let i=1;i<=9;i++){
+          const a = ((i%9)/9)*Math.PI*2 - Math.PI/2;
+          cx.push({value:+(160 + 56*Math.cos(a)).toFixed(1), duration:300});
+          cy.push({value:+(102 + 56*Math.sin(a)).toFixed(1), duration:300});
+        }
+        return anime({targets:mkr, cx, cy, loop:true, easing:'linear'});
+      }
+    },
+    'sol-direct': {
+      draw: () => `
+        <rect x="24" y="78" width="72" height="44" rx="5" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="60" y="97" text-anchor="middle" class="lbl-f">WALLET</text>
+        <text x="60" y="112" text-anchor="middle" class="lbl-f">sign</text>
+        <line x1="96" y1="100" x2="224" y2="100" class="edge"/>
+        <rect x="224" y="78" width="72" height="44" rx="5" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.2"/>
+        <text x="260" y="97" text-anchor="middle" class="lbl-f" fill="var(--amber)">LEADER</text>
+        <text x="260" y="112" text-anchor="middle" class="lbl-f">executes</text>
+        <text x="160" y="176" text-anchor="middle" class="lbl-f">GULF STREAM · NO MEMPOOL</text>
+        <circle class="md" r="4.5" fill="var(--amber)" class="md" opacity="0" cx="96" cy="100"/>`,
+      loop: svg => {
+        const d = svg.querySelector('.md');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        tl.add({targets:d, cx:[96,224], opacity:[{value:1,duration:70},{value:1,duration:600},{value:0,duration:120}], duration:800}, 0);
+        tl.add({duration:600}, 800);
+        return tl;
+      }
+    },
+    'mempool': {
+      draw: (c,o) => {
+        const dotFill = o.outline ? 'none' : c;
+        const dotStroke = o.outline ? ` stroke="${c}" stroke-width="1.2"` : '';
+        let dots = '';
+        [66,88,110,132,154].forEach(y=>{ dots += `<circle class="pd" cx="91" cy="${y}" r="6" fill="${dotFill}"${dotStroke}/>`; });
+        return `
+        <rect x="36" y="44" width="110" height="122" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="91" y="34" text-anchor="middle" class="lbl-f">MEMPOOL</text>
+        ${o.shield ? `<path d="M136 50 L146 54 V61 C146 67 141.6 71.4 136 73 C130.4 71.4 126 67 126 61 V54 Z" fill="none" stroke="${c}" stroke-width="1.2"/>` : ''}
+        ${dots}
+        <line x1="146" y1="100" x2="216" y2="100" class="edge"/>
+        <rect x="216" y="78" width="80" height="44" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="256" y="103" text-anchor="middle" class="lbl-f">MINER</text>
+        <text x="160" y="190" text-anchor="middle" class="lbl-f">${o.shield ? 'CONTENTS HIDDEN · FEE VISIBLE' : 'TOP FEE SCOOPED FIRST'}</text>`;
+      },
+      loop: svg => {
+        const dots = svg.querySelectorAll('.pd');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        tl.add({targets:dots, opacity:[{value:.25,duration:1},{value:1,duration:300}], delay:anime.stagger(110)}, 0);
+        tl.add({targets:dots[0], cx:[91,256], cy:[66,100], duration:520, easing:'easeInQuad'}, 900);
+        tl.add({targets:dots[0], opacity:[1,0], duration:140}, 1420);
+        tl.add({targets:[dots[1],dots[2],dots[3],dots[4]], cy:'-=22', duration:340, delay:anime.stagger(50)}, 1500);
+        tl.add({targets:dots, opacity:[{value:0,duration:180}], duration:200}, 2200);
+        tl.add({targets:dots[0], cx:91, cy:66, duration:1}, 2420);
+        tl.add({targets:[dots[1],dots[2],dots[3],dots[4]], cy:'+=22', duration:1}, 2420);
+        tl.add({duration:250}, 2430);
+        return tl;
+      }
+    },
+    'builder': {
+      draw: c => `
+        <rect x="18" y="76" width="84" height="48" rx="5" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="60" y="96" text-anchor="middle" class="lbl-f">MEMPOOL</text>
+        <text x="60" y="111" text-anchor="middle" class="lbl-f">+ private flow</text>
+        <line x1="102" y1="100" x2="118" y2="100" class="edge"/>
+        <rect x="118" y="76" width="84" height="48" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="160" y="96" text-anchor="middle" class="lbl-f">BUILDER</text>
+        <text x="160" y="111" text-anchor="middle" class="lbl-f">packs block</text>
+        <line x1="202" y1="100" x2="218" y2="100" class="edge"/>
+        <rect x="218" y="76" width="84" height="48" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="260" y="96" text-anchor="middle" class="lbl-f">PROPOSER</text>
+        <text x="260" y="111" text-anchor="middle" class="lbl-f">signs best bid</text>
+        <text x="160" y="182" text-anchor="middle" class="lbl-f">ORDER FLOW SOLD FORWARD</text>
+        <circle class="md" r="4.5" fill="${c}" opacity="0" cx="60" cy="100"/>`,
+      loop: svg => {
+        const d = svg.querySelector('.md');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        tl.add({targets:d, cx:[60,160], opacity:[{value:1,duration:70},{value:1,duration:430}], duration:500}, 0);
+        tl.add({targets:d, cx:[160,260], duration:500}, 700);
+        tl.add({targets:d, opacity:[1,0], duration:140}, 1200);
+        tl.add({duration:500}, 1340);
+        return tl;
+      }
+    },
+    'fastdrain': {
+      draw: c => `
+        <rect x="36" y="62" width="100" height="76" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="86" y="52" text-anchor="middle" class="lbl-f">MEMPOOL</text>
+        <line x1="136" y1="100" x2="216" y2="100" class="edge"/>
+        <rect x="216" y="78" width="80" height="44" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="256" y="103" text-anchor="middle" class="lbl-f">BLOCK</text>
+        <text x="160" y="182" text-anchor="middle" class="lbl-f">FAST BLOCKS · NOTHING POOLS</text>
+        <circle class="md" r="4.5" fill="${c}" opacity="0" cx="8" cy="100"/>`,
+      loop: svg => {
+        const d = svg.querySelector('.md');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        tl.add({targets:d, cx:[8,86], opacity:[{value:1,duration:60},{value:1,duration:340}], duration:400}, 0);
+        tl.add({targets:d, cx:[86,256], duration:420, easing:'easeInQuad'}, 520);
+        tl.add({targets:d, opacity:[1,0], duration:120}, 940);
+        tl.add({duration:400}, 1060);
+        return tl;
+      }
+    },
+    'sol-bundle': {
+      draw: () => `
+        <g fill="var(--panel-2)" stroke="var(--red)" stroke-width="1.1">
+          <circle class="src" cx="36" cy="52" r="8"/><circle class="src" cx="36" cy="100" r="8"/><circle class="src" cx="36" cy="148" r="8"/>
+        </g>
+        <g class="edge"><line x1="44" y1="52" x2="110" y2="94"/><line x1="44" y1="100" x2="110" y2="100"/><line x1="44" y1="148" x2="110" y2="106"/></g>
+        <rect x="110" y="76" width="100" height="48" rx="5" fill="var(--panel-2)" stroke="var(--violet)" stroke-width="1.2"/>
+        <text x="160" y="96" text-anchor="middle" class="lbl-f" fill="var(--violet)">AUCTION</text>
+        <text x="160" y="111" text-anchor="middle" class="lbl-f">sealed bids</text>
+        <line x1="210" y1="100" x2="240" y2="100" class="edge"/>
+        <rect x="240" y="80" width="64" height="40" rx="5" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.2"/>
+        <text x="272" y="104" text-anchor="middle" class="lbl-f" fill="var(--amber)">LEADER</text>
+        <text x="160" y="182" text-anchor="middle" class="lbl-f">JITO BUNDLES · TOP OF BLOCK</text>
+        <circle class="b1" r="4" fill="var(--red)" opacity="0" cx="36" cy="52"/>
+        <circle class="b2" r="4" fill="var(--violet)" opacity="0" cx="210" cy="100"/>`,
+      loop: svg => {
+        const b1 = svg.querySelector('.b1'), b2 = svg.querySelector('.b2');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        [[36,52],[36,100],[36,148]].forEach((s,i)=>{
+          tl.add({targets:b1, cx:[s[0],110], cy:[s[1],100],
+                  opacity:[{value:1,duration:50},{value:1,duration:330},{value:0,duration:80}], duration:460}, i*380);
+        });
+        tl.add({targets:b2, cx:[210,272], opacity:[{value:1,duration:60},{value:1,duration:300},{value:0,duration:100}], duration:460}, 1450);
+        tl.add({duration:500}, 1910);
+        return tl;
+      }
+    },
+    'feeladder': {
+      draw: c => `
+        <line x1="90" y1="30" x2="90" y2="170" stroke="var(--line)"/>
+        <text transform="rotate(-90 70 100)" x="70" y="100" text-anchor="middle" class="lbl-f">FEE RATE</text>
+        <g stroke="var(--line)" stroke-dasharray="3 5">
+          <line x1="90" y1="50" x2="260" y2="50"/><line x1="90" y1="85" x2="260" y2="85"/>
+          <line x1="90" y1="120" x2="260" y2="120"/><line x1="90" y1="155" x2="260" y2="155"/>
+        </g>
+        <circle class="fd" cx="175" cy="50" r="7.5" fill="${c}"/>
+        <circle class="fd" cx="175" cy="85" r="6.5" fill="${c}" opacity=".8"/>
+        <circle class="fd" cx="175" cy="120" r="5.5" fill="${c}" opacity=".6"/>
+        <circle class="fd" cx="175" cy="155" r="4.5" fill="${c}" opacity=".45"/>
+        <text x="272" y="54" class="lbl-f">next in</text>
+        <text x="272" y="159" class="lbl-f">waits</text>
+        <text x="160" y="192" text-anchor="middle" class="lbl-f">REORDERED BY sat/vB · RBF BUMPS</text>`,
+      loop: svg => {
+        const d = svg.querySelectorAll('.fd');
+        const tl = anime.timeline({loop:true, easing:'easeInOutCubic'});
+        tl.add({targets:d[3], cy:[155,50], duration:600}, 400);
+        tl.add({targets:d[0], cy:[50,85], duration:500}, 450);
+        tl.add({targets:d[1], cy:[85,120], duration:500}, 500);
+        tl.add({targets:d[2], cy:[120,155], duration:500}, 550);
+        tl.add({duration:900}, 1100);
+        return tl;
+      }
+    },
+    'threehop': {
+      draw: c => `
+        <rect x="18" y="76" width="84" height="48" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="60" y="96" text-anchor="middle" class="lbl-f">BUILDER</text>
+        <text x="60" y="111" text-anchor="middle" class="lbl-f">bundles in</text>
+        <line x1="102" y1="100" x2="122" y2="100" class="edge"/>
+        <rect x="122" y="76" width="76" height="48" rx="5" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.2"/>
+        <text x="160" y="96" text-anchor="middle" class="lbl-f">RELAY</text>
+        <text x="160" y="111" text-anchor="middle" class="lbl-f">blind handoff</text>
+        <line x1="198" y1="100" x2="218" y2="100" class="edge"/>
+        <rect x="218" y="76" width="84" height="48" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.2"/>
+        <text x="260" y="96" text-anchor="middle" class="lbl-f">PROPOSER</text>
+        <text x="260" y="111" text-anchor="middle" class="lbl-f">MEV-Boost</text>
+        <circle class="s1" r="4" fill="var(--red)" opacity="0" cx="10" cy="60"/>
+        <circle class="s2" r="4" fill="var(--red)" opacity="0" cx="10" cy="140"/>
+        <circle class="hop" r="4.5" fill="${c}" opacity="0" cx="60" cy="100"/>
+        <text x="160" y="182" text-anchor="middle" class="lbl-f">SEARCHERS FEED THE SUPPLY CHAIN</text>`,
+      loop: svg => {
+        const s1 = svg.querySelector('.s1'), s2 = svg.querySelector('.s2'), hop = svg.querySelector('.hop');
+        const tl = anime.timeline({loop:true, easing:'easeInOutQuad'});
+        tl.add({targets:s1, cx:[10,52], cy:[60,88], opacity:[{value:1,duration:50},{value:1,duration:300},{value:0,duration:80}], duration:430}, 0);
+        tl.add({targets:s2, cx:[10,52], cy:[140,112], opacity:[{value:1,duration:50},{value:1,duration:300},{value:0,duration:80}], duration:430}, 180);
+        tl.add({targets:hop, cx:[60,160], opacity:[{value:1,duration:60},{value:1,duration:340}], duration:400}, 700);
+        tl.add({targets:hop, cx:[160,260], duration:400}, 1150);
+        tl.add({targets:hop, opacity:[1,0], duration:120}, 1550);
+        tl.add({duration:450}, 1670);
+        return tl;
+      }
+    },
+    'sandwich': {
+      draw: () => `
+        <rect class="sr1" x="70" y="36" width="180" height="34" rx="4" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.1"/>
+        <text x="84" y="57" class="lbl-f" fill="var(--red)">1 · ATTACKER BUYS</text>
+        <rect x="70" y="84" width="180" height="34" rx="4" fill="rgba(255,180,84,.08)" stroke="var(--amber)" stroke-width="1.1"/>
+        <text x="84" y="105" class="lbl-f" fill="var(--amber)">2 · YOUR SWAP</text>
+        <rect class="sr3" x="70" y="132" width="180" height="34" rx="4" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.1"/>
+        <text x="84" y="153" class="lbl-f" fill="var(--red)">3 · ATTACKER SELLS</text>
+        <text x="160" y="192" text-anchor="middle" class="lbl-f">SAME ANATOMY AS FIG 3.1 · FASTER BLOCKS</text>`,
+      loop: svg => anime({
+        targets:[svg.querySelector('.sr1'), svg.querySelector('.sr3')],
+        opacity:[{value:.55,duration:900},{value:1,duration:900}],
+        loop:true, easing:'easeInOutSine'
+      })
+    },
+    'shieldbounce': {
+      draw: c => `
+        <g fill="var(--panel-2)" stroke="${c}" stroke-width="1.2">
+          <rect x="110" y="40" width="70" height="26" rx="5"/>
+          <rect x="140" y="88" width="70" height="26" rx="5"/>
+          <rect x="120" y="138" width="70" height="26" rx="5"/>
+        </g>
+        <g class="lbl-f" fill="${c}">
+          <text x="145" y="57" text-anchor="middle">⛨</text><text x="175" y="105" text-anchor="middle">⛨</text><text x="155" y="155" text-anchor="middle">⛨</text>
+        </g>
+        <text x="160" y="192" text-anchor="middle" class="lbl-f">SHIELDED NOTES · NOTHING TO GRIP</text>
+        <circle class="bd" r="4.5" fill="var(--red)" opacity="0" cx="16" cy="101"/>`,
+      loop: svg => {
+        const d = svg.querySelector('.bd');
+        const tl = anime.timeline({loop:true});
+        tl.add({targets:d, cx:[16,132], opacity:[{value:1,duration:80},{value:1,duration:520}], duration:600, easing:'easeInQuad'}, 0);
+        tl.add({targets:d, cx:[132,16], opacity:[{value:1,duration:420},{value:0,duration:160}], duration:580, easing:'easeOutQuad'}, 620);
+        tl.add({duration:600}, 1200);
+        return tl;
+      }
+    },
+    'window': {
+      draw: (c,o) => {
+        const frac = Math.max(.06, Math.min(1, (Math.log10(o.ms) - 2) / (Math.log10(600000) - 2)));
+        const w = Math.round(278 * frac);
+        return `
+        <text x="20" y="72" class="lbl-f">DECISION WINDOW</text>
+        <text x="300" y="72" text-anchor="end" class="lbl" fill="${c}">${esc(o.label)}</text>
+        <rect x="20" y="90" width="280" height="14" rx="7" fill="var(--panel-2)" stroke="var(--line)"/>
+        <rect class="wfill" x="21" y="91" width="${w}" height="12" rx="6" fill="${c}" opacity=".35" data-w="${w}"/>
+        <line class="wcur" x1="21" y1="84" x2="21" y2="110" stroke="${c}" stroke-width="1.5"/>
+        <text x="20" y="132" class="lbl-f" opacity=".7">LOG SCALE · ALL CHAINS SHARE THIS BAR</text>`;
+      },
+      loop: svg => {
+        const cur = svg.querySelector('.wcur');
+        const w = +svg.querySelector('.wfill').dataset.w;
+        return anime({targets:cur, translateX:[0,w], duration:2000, easing:'linear', loop:true});
+      }
+    }
+  };
+
+  function makeMini(tpl, color, opts, labelText){
+    const svg = document.createElementNS(SVGNS,'svg');
+    svg.setAttribute('viewBox','0 0 320 200');
+    svg.setAttribute('role','img');
+    if(labelText) svg.setAttribute('aria-label', labelText);
+    svg.innerHTML = MINI[tpl].draw(color, opts||{});
+    if(!reduced){
+      const inst = MINI[tpl].loop(svg, color, opts||{});
+      if(inst) registerLoop(svg, inst);
+    }
+    return svg;
+  }
+
+  function metricsHtml(keys, vals){
+    return keys.map((k,i)=>
+      `<div class="dm-row"><span class="dm-k">${esc(k)}</span><span class="dm-v">${esc(vals[i])}</span></div>`
+    ).join('');
+  }
+
+  function renderDocks(){
+    if(!CD) return;
+    document.querySelectorAll('.dock-mount').forEach(mount=>{
+      const chId = mount.dataset.ch;
+      const sec = CD.sectionOf[chId];
+      const keys = CD.metricKeys[sec];
+      const dock = document.createElement('div');
+      dock.className = 'dock';
+      dock.dataset.section = sec;
+      dock.dataset.active = '';
+      const chipsHtml = CD.chainOrder.map(cid=>{
+        const ch = CD.chains[cid];
+        const glyph = cid==='zec' ? SHIELD : '<i aria-hidden="true"></i>';
+        return `<button class="chip" role="tab" id="chip-${chId}-${cid}" data-chain="${cid}"
+                aria-selected="false" aria-controls="dockpanel-${chId}" tabindex="-1"
+                style="--cc:${ch.color}">${glyph}vs ${ch.name}</button>`;
+      }).join('');
+      dock.innerHTML = `
+        <div class="dock-bar">
+          <span class="dock-label" id="docklabel-${chId}">COMPARE ▸</span>
+          <div class="dock-chips" role="tablist" aria-labelledby="docklabel-${chId}">${chipsHtml}</div>
+        </div>
+        <div class="dock-body" id="dockpanel-${chId}" role="tabpanel" hidden>
+          <div class="dock-cols">
+            <div class="dock-col dock-col-sol">
+              <div class="dock-col-head"><span class="mark">◤</span> <b>SOL</b> — reference</div>
+              <div class="mini-wrap sol-mini"></div>
+              <div class="dock-metrics">${metricsHtml(keys, CD.sol[sec])}</div>
+            </div>
+            <div class="dock-col dock-col-chain">
+              <div class="dock-col-head"><span class="mark">◤</span> <b class="head-name"></b><span class="head-tail"> — selected</span></div>
+              <div class="mini-wrap chain-minis"></div>
+              <div class="dock-metrics">${metricsHtml(keys, keys.map(()=>' '))}</div>
+            </div>
+          </div>
+          <div class="dock-delta"></div>
+        </div>`;
+      mount.appendChild(dock);
+
+      // SOL mini
+      const solTpl = CD.sectionMeta[sec].solDiagram;
+      const solOpts = solTpl==='window' ? {ms:CD.sol.windowMs, label:CD.sol.latency[0]} : {};
+      mount.querySelector('.sol-mini').appendChild(
+        makeMini(solTpl, 'var(--cyan)', solOpts, 'SOL '+sec+' mini-diagram'));
+
+      // one pre-rendered mini per chain (display toggled — swap stays <100ms)
+      const minis = mount.querySelector('.chain-minis');
+      CD.chainOrder.forEach(cid=>{
+        const ch = CD.chains[cid];
+        const tpl = ch.diagrams[sec];
+        const opts = tpl==='window' ? {ms:ch.windowMs, label:ch[sec].metrics[0]}
+                   : tpl==='miners' && cid==='zec' ? {shield:true}
+                   : tpl==='mempool' ? {} : {};
+        if(tpl==='miners-shield'){ /* alias */ }
+        const realTpl = tpl==='miners-shield' ? 'miners' : tpl==='mempool-shielded' ? 'mempool' : tpl;
+        const realOpts = tpl==='miners-shield' ? {shield:true}
+                       : tpl==='mempool-shielded' ? {outline:true, shield:true}
+                       : opts;
+        const svg = makeMini(realTpl, ch.color, realOpts, ch.name+' '+sec+' mini-diagram');
+        svg.dataset.chain = cid;
+        svg.setAttribute('hidden',''); /* SVG lacks the HTMLElement .hidden property */
+        minis.appendChild(svg);
+      });
+
+      wireDock(dock, chId);
+    });
+  }
+
+  function setChain(dock, cid){
+    const sec = dock.dataset.section;
+    const chain = CD.chains[cid];
+    const cdata = chain[sec];
+    dock.style.setProperty('--cc', chain.color);
+    dock.querySelectorAll('.chip').forEach(ch=>ch.setAttribute('aria-selected', String(ch.dataset.chain===cid)));
+    dock.querySelector('.dock-body').setAttribute('aria-labelledby', dock.querySelector('.chip[data-chain="'+cid+'"]').id);
+    dock.querySelector('.head-name').textContent = chain.name;
+    const rows = dock.querySelectorAll('.dock-col-chain .dm-row');
+    rows.forEach((r,i)=>{
+      r.querySelector('.dm-v').textContent = cdata.metrics[i];
+      r.classList.toggle('adv', cdata.adv[i]==='chain');
+      r.style.setProperty('--adv-c', chain.color);
+    });
+    dock.querySelectorAll('.dock-col-sol .dm-row').forEach((r,i)=>{
+      r.classList.toggle('adv', cdata.adv[i]==='sol');
+    });
+    dock.querySelector('.dock-delta').innerHTML = em(cdata.delta);
+    dock.querySelectorAll('.chain-minis svg').forEach(s=>{
+      if(s.dataset.chain===cid) s.removeAttribute('hidden'); else s.setAttribute('hidden','');
+    });
+    dock.dataset.active = cid;
+  }
+
+  function openDock(dock){
+    const body = dock.querySelector('.dock-body');
+    const wasClosing = dock.dataset.anim === 'closing';
+    if(!body.hidden && !wasClosing) return;
+    if(!reduced) anime.remove(body); /* kill any in-flight open/close tween */
+    body.hidden = false;
+    if(reduced){ body.style.height='auto'; body.style.opacity='1'; return; }
+    dock.dataset.anim = 'opening';
+    const h = body.scrollHeight;
+    if(!wasClosing){ body.style.height='0px'; body.style.opacity='0'; }
+    body.style.overflow = 'hidden';
+    anime({targets:body, height:h, opacity:1, duration:380, easing:'easeOutCubic',
+      complete:()=>{ body.style.height='auto'; body.style.overflow=''; dock.dataset.anim=''; }});
+  }
+
+  function closeDock(dock){
+    const body = dock.querySelector('.dock-body');
+    if(body.hidden) return;
+    const done = ()=>{
+      body.hidden = true; body.style.height='auto'; body.style.opacity='1'; body.style.overflow='';
+      dock.querySelectorAll('.chip').forEach(ch=>ch.setAttribute('aria-selected','false'));
+      dock.dataset.active = ''; dock.dataset.anim = '';
+    };
+    if(reduced){ done(); return; }
+    anime.remove(body);
+    dock.dataset.anim = 'closing';
+    body.style.height = body.getBoundingClientRect().height+'px'; body.style.overflow='hidden';
+    anime({targets:body, height:0, opacity:0, duration:320, easing:'easeOutCubic', complete:done});
+  }
+
+  function swapChain(dock, cid){
+    if(reduced){ setChain(dock, cid); return; }
+    const col = dock.querySelector('.dock-col-chain');
+    anime.remove(col);
+    anime({targets:col, translateX:[0,-12], opacity:[1,0], duration:140, easing:'easeInQuad',
+      complete:()=>{
+        setChain(dock, cid);
+        anime({targets:col, translateX:[-12,0], opacity:[0,1], duration:200, easing:'easeOutCubic'});
+      }});
+  }
+
+  function wireDock(dock, chId){
+    const chips = Array.from(dock.querySelectorAll('.chip'));
+    chips[0].tabIndex = 0;
+    dock.addEventListener('click', e=>{
+      const chip = e.target.closest('.chip'); if(!chip) return;
+      const cid = chip.dataset.chain;
+      const body = dock.querySelector('.dock-body');
+      if(body.hidden || dock.dataset.anim==='closing'){ setChain(dock, cid); openDock(dock); }
+      else if(dock.dataset.active===cid){ closeDock(dock); }
+      else swapChain(dock, cid);
+    });
+    chips.forEach((ch,i)=>{
+      ch.addEventListener('keydown', e=>{
+        let j = null;
+        if(e.key==='ArrowRight') j = (i+1)%chips.length;
+        else if(e.key==='ArrowLeft') j = (i-1+chips.length)%chips.length;
+        else if(e.key==='Home') j = 0;
+        else if(e.key==='End') j = chips.length-1;
+        if(j!==null){ e.preventDefault(); chips.forEach(c=>c.tabIndex=-1); chips[j].tabIndex=0; chips[j].focus(); }
+      });
+    });
+    dock.addEventListener('keydown', e=>{
+      if(e.key==='Escape' && !dock.querySelector('.dock-body').hidden){
+        closeDock(dock);
+        chips.find(c=>c.tabIndex===0).focus();
+      }
+    });
+  }
+
+  renderDocks();
 })();
 </script>
 </body>
