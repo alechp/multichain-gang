@@ -2,13 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Solana, on the wire — an engineering readout</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <style>
+/* fallback metrics for Chakra Petch — no layout shift on font swap */
+@font-face{
+  font-family:"Chakra Petch Fallback";
+  src:local("Arial Bold"),local("Arial");
+  size-adjust:105%;ascent-override:100%;descent-override:26%;line-gap-override:0%;
+}
 :root{
   --bg:#0A0D13;
   --panel:#10141D;
@@ -58,6 +64,9 @@ body::before{
   pointer-events:none;
   z-index:0;
 }
+@media(max-width:700px){
+  body::before{background-size:40px 40px;opacity:.2}
+}
 ::selection{background:rgba(91,215,232,.25)}
 
 /* ---------- slot clock header (signature) ---------- */
@@ -67,13 +76,17 @@ body::before{
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
+@supports not (backdrop-filter:blur(10px)){
+  .slotbar{background:rgba(10,13,19,.97)}
+}
 .slotbar-inner{
   max-width:1200px;margin:0 auto;
   display:flex;align-items:center;gap:20px;
   padding:10px 24px;
+  padding-top:calc(10px + env(safe-area-inset-top));
 }
 .slotbar .brand{
-  font-family:"Chakra Petch",sans-serif;font-weight:700;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-weight:700;
   letter-spacing:.06em;font-size:.85rem;white-space:nowrap;
 }
 .slotbar .brand span{color:var(--cyan)}
@@ -109,10 +122,39 @@ body::before{
 .slot-nav a:hover,.slot-nav a:focus-visible{color:var(--ink);border-color:var(--cyan)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
 @media(max-width:820px){.slot-nav{display:none}.slot-readout .hide-s{display:none}}
+/* <700px: two-line compact slot bar — brand + slot on line 1, full-width sweep below */
+@media(max-width:700px){
+  .slotbar-inner{flex-wrap:wrap;gap:6px 14px;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top))}
+  .sweep{order:3;flex-basis:100%}
+}
+
+/* section nav as a scrollable chip row below the hero — replaces the hidden slot-nav */
+.nav-chips{display:none}
+@media(max-width:820px){
+  .nav-chips{
+    display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity;
+    padding:4px 2px 12px;margin-top:-28px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+  }
+  .nav-chips::-webkit-scrollbar{display:none}
+  .nav-chips a{
+    flex:none;scroll-snap-align:start;display:inline-flex;align-items:center;
+    min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:6px;
+    background:var(--panel);color:var(--dim);text-decoration:none;
+    font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;white-space:nowrap;
+  }
+  .nav-chips a:active,.nav-chips a:focus-visible{color:var(--ink);border-color:var(--cyan)}
+}
 
 /* ---------- layout ---------- */
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 section{padding:96px 0 40px;scroll-margin-top:70px}
+@media(max-width:700px){
+  .wrap{padding:0 16px}
+  section{padding:72px 0 32px;scroll-margin-top:92px}
+}
 
 .ch-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:8px}
 .ch-tag{
@@ -124,7 +166,7 @@ section{padding:96px 0 40px;scroll-margin-top:70px}
 .ch-01 i{background:var(--cyan)} .ch-02 i{background:var(--amber)}
 .ch-03 i{background:var(--red)} .ch-04 i{background:var(--green)}
 h2{
-  font-family:"Chakra Petch",sans-serif;font-weight:700;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-weight:700;
   font-size:clamp(1.5rem,3.4vw,2.2rem);letter-spacing:.01em;
   padding-bottom:10px;
   background:linear-gradient(var(--ch),var(--ch)) left bottom / 44px 3px no-repeat;
@@ -173,7 +215,7 @@ h2[data-idx]::after{
   color:var(--cyan);margin-bottom:18px;
 }
 h1{
-  font-family:"Chakra Petch",sans-serif;font-weight:700;line-height:1.04;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-weight:700;line-height:1.04;
   font-size:clamp(2.6rem,7.5vw,5.4rem);letter-spacing:.005em;
 }
 .h1-line{display:inline-block}
@@ -187,13 +229,13 @@ h1 .thin{color:var(--dim);font-weight:500}
 }
 .hstat{background:var(--panel);padding:16px 18px}
 .hstat b{
-  font-family:"Chakra Petch",sans-serif;font-size:1.6rem;font-weight:700;display:block;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-size:1.6rem;font-weight:700;display:block;
   font-variant-numeric:tabular-nums;
 }
 .hstat span{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.1em;color:var(--dim)}
 .hstat:nth-child(1) b{color:var(--amber)} .hstat:nth-child(2) b{color:var(--cyan)}
 .hstat:nth-child(3) b{color:var(--green)} .hstat:nth-child(4) b{color:var(--violet)}
-@media(max-width:720px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
 
 /* ---------- svg shared ---------- */
 svg text{font-family:"IBM Plex Mono",monospace}
@@ -210,7 +252,7 @@ svg text{font-family:"IBM Plex Mono",monospace}
 .cards-4{grid-template-columns:repeat(4,1fr)}
 .cards-2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:900px){.cards-3,.cards-4{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.cards-3,.cards-4,.cards-2{grid-template-columns:1fr}}
+@media(max-width:480px){.cards-3,.cards-4,.cards-2{grid-template-columns:1fr}}
 .card{
   background:var(--panel);border:1px solid var(--line);border-radius:8px;
   padding:18px 18px 16px;
@@ -223,7 +265,7 @@ svg text{font-family:"IBM Plex Mono",monospace}
 }
 .no-motion .card:hover,.no-motion .card:focus-within{transform:none}
 .card h4{
-  font-family:"Chakra Petch",sans-serif;font-size:.95rem;font-weight:600;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-size:.95rem;font-weight:600;
   margin-bottom:6px;display:flex;align-items:center;gap:9px;
   position:relative;width:fit-content;
 }
@@ -254,9 +296,39 @@ svg text{font-family:"IBM Plex Mono",monospace}
 .notes li:last-child{border-bottom:none}
 .notes li b{color:var(--ink);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:.76rem;letter-spacing:.05em;flex:none;padding-top:2px;min-width:96px}
 
-/* pipeline scroller */
+/* figures never trigger text selection on tap */
+.diagram,.hero-scope,.ladder{-webkit-user-select:none;user-select:none}
+
+/* pipeline scroller (horizontal variant, ≥700px) */
 .pipe-scroll{overflow-x:auto;scrollbar-width:thin}
-.pipe-scroll svg{min-width:940px}
+.pipe-scroll svg.pipe-h{min-width:940px}
+
+/* ---------- mobile diagram variants ---------- */
+/* svg.<class> outranks the generic .diagram svg / .hero-scope svg display rules */
+svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
+@media(max-width:700px){
+  /* hero scope: 2-slot crop so strokes stay ≥1.5px rendered */
+  svg.hero-svg-d{display:none}
+  svg.hero-svg-m{display:block}
+  /* pipeline: vertical rebuild replaces the 940px pan */
+  .pipe-scroll{overflow-x:visible}
+  svg.pipe-h{display:none}
+  svg.pipe-v{display:block;max-width:400px;margin:0 auto}
+  /* sandwich: block stack first, price curve below */
+  #sandwichSvg{display:none}
+  svg.sand-m{display:block}
+  svg.sand-m + svg.sand-m{margin-top:18px}
+  /* turbine: bigger nodes + labels */
+  #turbineSvg .lbl{font-size:13px}
+  #turbineSvg .lbl-b{font-size:13px}
+  #turbineSvg .lbl-f{font-size:12px}
+  #turbineSvg g.l1 circle{r:18px}
+  #turbineSvg g.l2 circle{r:13px}
+  /* jito: label bump only */
+  #jitoSvg .lbl{font-size:13px}
+  #jitoSvg .lbl-b{font-size:14px}
+  #jitoSvg .lbl-f{font-size:12px}
+}
 
 /* latency ladder */
 .ladder{padding:48px 22px 26px}
@@ -276,7 +348,8 @@ svg text{font-family:"IBM Plex Mono",monospace}
 .lfill{height:100%;transform-origin:left;border-radius:4px}
 .lrow{position:relative;z-index:1}
 .lval{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--amber);text-align:right;font-variant-numeric:tabular-nums}
-@media(max-width:680px){.lrow{grid-template-columns:1fr 70px}.ltrack{grid-column:1/-1;order:3}}
+.lval{white-space:nowrap}
+@media(max-width:700px){.lrow{grid-template-columns:1fr 70px}.ltrack{grid-column:1/-1;order:3}}
 
 /* ---------- v2 chrome: ruler, CRT, watermark ---------- */
 /* left ruler — the v2 signature; ≥1100px only */
@@ -315,7 +388,7 @@ svg text{font-family:"IBM Plex Mono",monospace}
 /* CH-04 oversized display moment */
 .ladder .watermark{
   position:absolute;top:-18px;right:4px;z-index:0;
-  font-family:"Chakra Petch",sans-serif;font-weight:700;font-size:8rem;line-height:1;
+  font-family:"Chakra Petch","Chakra Petch Fallback",sans-serif;font-weight:700;font-size:8rem;line-height:1;
   letter-spacing:-.02em;color:transparent;
   -webkit-text-stroke:1px color-mix(in srgb, var(--green) 28%, transparent);
   pointer-events:none;user-select:none;
@@ -324,7 +397,7 @@ svg text{font-family:"IBM Plex Mono",monospace}
 @media(max-width:700px){.ladder .watermark{display:none}}
 
 /* footer */
-footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 44px}
+footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 calc(44px + env(safe-area-inset-bottom))}
 footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;color:var(--faint);max-width:80ch}
 
 .glow-amber{filter:drop-shadow(0 0 6px rgba(255,180,84,.9))}
@@ -388,7 +461,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <div class="panel hero-scope reveal">
     <span class="panel-label">TRACE · BLOCK PRODUCTION, CONTINUOUS</span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
-    <svg viewBox="0 0 1140 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production">
+    <svg id="heroSvgD" class="hero-svg-d" viewBox="0 0 1140 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production">
       <g id="heroGrid" stroke="var(--grid)" stroke-width="1">
         <line x1="0" y1="55" x2="1140" y2="55"/><line x1="0" y1="110" x2="1140" y2="110"/><line x1="0" y1="165" x2="1140" y2="165"/>
       </g>
@@ -416,6 +489,26 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
            M855,110 L915,110 925,62 937,154 949,110 1010,110 1020,88 1032,132 1044,110 1140,110"/>
       <circle id="heroDot" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/>
     </svg>
+    <!-- mobile crop: two slots, same stroke weights render ~2× -->
+    <svg id="heroSvgM" class="hero-svg-m" viewBox="0 0 570 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production, two slots">
+      <g id="heroGridM" stroke="var(--grid)" stroke-width="1">
+        <line x1="0" y1="55" x2="570" y2="55"/><line x1="0" y1="110" x2="570" y2="110"/><line x1="0" y1="165" x2="570" y2="165"/>
+      </g>
+      <g class="lbl-f" text-anchor="middle">
+        <text x="142" y="212">slot n</text><text x="427" y="212">n+1</text>
+      </g>
+      <g stroke="var(--line)" stroke-dasharray="3 5"><line x1="285" y1="20" x2="285" y2="196"/></g>
+      <path id="heroTrace2M" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" opacity=".4"
+        d="M0,110 L110,110 120,92 132,128 144,110 215,110 225,98 237,122 249,110 285,110
+           M285,110 L390,110 400,90 412,130 424,110 480,110 490,96 502,124 514,110 570,110"/>
+      <path id="heroTraceGlowM" class="afterglow" fill="none" stroke="var(--amber)" stroke-width="6" stroke-linecap="round"
+        d="M0,110 L60,110 70,64 82,152 94,110 150,110 160,84 172,136 184,110 250,110
+           M285,110 L345,110 355,58 367,158 379,110 430,110 440,90 452,130 464,110 570,110"/>
+      <path id="heroTraceM" class="trace" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"
+        d="M0,110 L60,110 70,64 82,152 94,110 150,110 160,84 172,136 184,110 250,110
+           M285,110 L345,110 355,58 367,158 379,110 430,110 440,90 452,130 464,110 570,110"/>
+      <circle id="heroDotM" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/>
+    </svg>
   </div>
 
   <div class="hero-stats reveal" role="list">
@@ -425,6 +518,14 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     <div class="hstat" role="listitem"><b>1000s</b><span>TX / SECOND SUSTAINED</span></div>
   </div>
 </section>
+
+<!-- mobile section nav: scrollable chips (slot-nav is hidden ≤820px) -->
+<nav class="nav-chips" aria-label="Sections">
+  <a href="#ch1">CH-01 NETWORK</a>
+  <a href="#ch2">CH-02 TX FLOW</a>
+  <a href="#ch3">CH-03 MEV</a>
+  <a href="#ch4">CH-04 LATENCY</a>
+</nav>
 
 <!-- ═══════════ CH-01 · ARCHITECTURE ═══════════ -->
 <section id="ch1">
@@ -454,12 +555,12 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
           <text x="360" y="74" text-anchor="middle" class="lbl-f">slot n · builds block</text>
         </g>
         <!-- layer 1 -->
-        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2">
+        <g class="l1" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2">
           <circle cx="150" cy="210" r="15"/><circle cx="360" cy="210" r="15"/><circle cx="570" cy="210" r="15"/>
         </g>
         <text x="150" y="248" text-anchor="middle" class="lbl-f">RELAY LAYER · high stake</text>
         <!-- layer 2 -->
-        <g fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2" opacity=".8">
+        <g class="l2" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2" opacity=".8">
           <circle cx="80" cy="340" r="11"/><circle cx="200" cy="340" r="11"/><circle cx="310" cy="340" r="11"/>
           <circle cx="420" cy="340" r="11"/><circle cx="520" cy="340" r="11"/><circle cx="640" cy="340" r="11"/>
         </g>
@@ -499,7 +600,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <div class="panel diagram pipe-scroll reveal">
     <span class="panel-label">FIG 2.1 · SIGNAL PATH, WALLET → FINALITY (FOLLOW THE PACKET)</span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
-    <svg id="pipeSvg" viewBox="0 0 1100 330" role="img" aria-label="Pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
+    <svg id="pipeSvg" class="pipe-h" viewBox="0 0 1100 330" role="img" aria-label="Pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
       <!-- hidden motion path -->
       <path id="pipePath" fill="none" stroke="none"
         d="M60,90 L235,90 L235,90 L400,90 L400,90 L545,90 L680,90 L815,90 L950,90 L950,90 L1040,90"/>
@@ -559,6 +660,64 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       </g>
       <circle id="packet" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(-20,90)"/>
     </svg>
+    <!-- vertical rebuild <700px: same stages stacked, packet runs downward -->
+    <svg id="pipeSvgV" class="pipe-v" viewBox="0 0 390 980" role="img" aria-label="Vertical pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
+      <path id="pipePathV" fill="none" stroke="none" d="M195,20 L195,700"/>
+      <line x1="195" y1="70" x2="195" y2="670" stroke="var(--line)" stroke-width="2"/>
+      <g id="pipeStagesV">
+        <g class="pstage">
+          <rect x="115" y="40" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="66" text-anchor="middle" class="lbl-b">WALLET</text>
+          <text x="195" y="84" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="135" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="161" text-anchor="middle" class="lbl-b">RPC</text>
+          <text x="195" y="179" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="230" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="256" text-anchor="middle" class="lbl-b">GULF STREAM</text>
+          <text x="195" y="274" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="325" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="351" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
+          <text x="195" y="369" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="420" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="446" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text>
+          <text x="195" y="464" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="515" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="541" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
+          <text x="195" y="559" text-anchor="middle" class="lbl-f">ordered in time</text>
+        </g>
+        <g class="pstage">
+          <rect x="115" y="610" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
+          <text x="195" y="636" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
+          <text x="195" y="654" text-anchor="middle" class="lbl-f">shred broadcast</text>
+        </g>
+      </g>
+      <!-- TPU bracket as a left-edge rule -->
+      <path d="M108,325 L98,325 L98,575 L108,575" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
+      <text transform="rotate(-90 78 450)" x="78" y="450" text-anchor="middle" class="lbl" fill="var(--amber)">LEADER'S TPU</text>
+      <!-- confirmation ladder, continued downward -->
+      <g>
+        <line x1="60" y1="730" x2="60" y2="890" stroke="var(--line)" stroke-width="1"/>
+        <g fill="var(--green)">
+          <circle cx="60" cy="740" r="4"/><circle cx="60" cy="810" r="4"/><circle cx="60" cy="880" r="4"/>
+        </g>
+        <text x="82" y="744" class="lbl-f">PROCESSED · in a block</text>
+        <text x="82" y="814" class="lbl-f">CONFIRMED · supermajority voted</text>
+        <text x="82" y="884" class="lbl-f">FINALIZED · 32 rooted slots</text>
+        <text x="195" y="936" text-anchor="middle" class="lbl">validators replay the block, then vote —</text>
+        <text x="195" y="956" text-anchor="middle" class="lbl">votes are themselves on-chain transactions</text>
+      </g>
+      <circle id="packetV" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(195,-10)"/>
+    </svg>
   </div>
 
   <div class="cards cards-3 reveal">
@@ -617,6 +776,44 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
             <text x="606" y="124" fill="var(--red)">you fill here</text>
             <text x="600" y="268">exit</text>
           </g>
+        </g>
+      </svg>
+      <!-- mobile split: block stack full-width, curve below -->
+      <svg id="sandSvgM1" class="sand-m" viewBox="20 6 320 328" role="img" aria-label="Sandwich attack execution order: attacker buys, your swap, attacker sells">
+        <rect x="30" y="34" width="300" height="290" rx="8" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+        <text x="180" y="22" text-anchor="middle" class="lbl-f">BLOCK n · EXECUTION ORDER ↓</text>
+        <g id="sandRowsM">
+          <g class="srow">
+            <rect x="50" y="58" width="260" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.3"/>
+            <text x="66" y="84" class="lbl-b" fill="var(--red)">1 · ATTACKER BUYS</text>
+            <text x="66" y="104" class="lbl-f">pushes price up first</text>
+          </g>
+          <g class="srow">
+            <rect x="50" y="146" width="260" height="62" rx="6" fill="rgba(255,180,84,.08)" stroke="var(--amber)" stroke-width="1.3"/>
+            <text x="66" y="172" class="lbl-b" fill="var(--amber)">2 · YOUR SWAP</text>
+            <text x="66" y="192" class="lbl-f">fills at the worse price</text>
+          </g>
+          <g class="srow">
+            <rect x="50" y="234" width="260" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)" stroke-width="1.3"/>
+            <text x="66" y="260" class="lbl-b" fill="var(--red)">3 · ATTACKER SELLS</text>
+            <text x="66" y="280" class="lbl-f">pockets the spread</text>
+          </g>
+        </g>
+      </svg>
+      <svg id="sandSvgM2" class="sand-m" viewBox="382 38 288 292" role="img" aria-label="Price impact curve of the sandwich: fair price, impact, your fill, attacker exit">
+        <line x1="400" y1="60" x2="400" y2="300" stroke="var(--line)"/>
+        <line x1="400" y1="300" x2="660" y2="300" stroke="var(--line)"/>
+        <text x="408" y="56" class="lbl-f">PRICE</text>
+        <text x="660" y="318" text-anchor="end" class="lbl-f">ORDER →</text>
+        <path class="afterglow" fill="none" stroke="var(--red)" stroke-width="6" stroke-linecap="round"
+              d="M405,268 L455,268 C475,268 480,208 500,204 L545,196 C565,192 570,148 590,144 L612,140 C632,140 636,238 656,244"/>
+        <path id="sandCurveM" class="trace" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"
+              d="M405,268 L455,268 C475,268 480,208 500,204 L545,196 C565,192 570,148 590,144 L612,140 C632,140 636,238 656,244"/>
+        <g class="lbl-f">
+          <text x="452" y="250">fair</text>
+          <text x="520" y="182">+impact</text>
+          <text x="656" y="124" text-anchor="end" fill="var(--red)">you fill here</text>
+          <text x="600" y="268">exit</text>
         </g>
       </svg>
     </div>
@@ -731,6 +928,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     if(!loops.has(el)){ loops.set(el, []); pauseIO.observe(el); }
     loops.get(el).push(inst);
   }
+  /* which responsive variant of a figure is actually rendered */
+  const isVis = el => !!el && el.getClientRects().length > 0;
 
   /* ── reveal on scroll ── */
   const started = new Set();
@@ -761,28 +960,33 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     if(el.classList.contains('ladder') && !started.has('ladder')){ started.add('ladder'); ladderAnim(); }
   }
 
-  /* ── hero trace ── */
+  /* ── hero trace (desktop svg or 2-slot mobile crop) ── */
   function heroAnim(){
     if(reduced) return;
+    const m = !isVis(document.getElementById('heroSvgD'));
+    const trace = m ? '#heroTraceM' : '#heroTrace';
+    const glow  = m ? '#heroTraceGlowM' : '#heroTraceGlow';
+    const t2    = m ? '#heroTrace2M' : '#heroTrace2';
+    const dot   = document.getElementById(m ? 'heroDotM' : 'heroDot');
     anime({
-      targets:'#heroTrace, #heroTraceGlow',
+      targets:trace+', '+glow,
       strokeDashoffset:[anime.setDashoffset, 0],
       duration:2400, easing:'easeInOutSine'
     });
     anime({
-      targets:'#heroTrace2',
+      targets:t2,
       strokeDashoffset:[anime.setDashoffset, 0],
       duration:2400, delay:500, easing:'easeInOutSine'
     });
-    const p = anime.path('#heroTrace');
+    const p = anime.path(trace);
     const dotLoop = anime({
-      targets:'#heroDot',
+      targets:dot,
       translateX:p('x'), translateY:p('y'),
       duration:6000, easing:'linear', loop:true, delay:600
     });
     registerLoop(document.querySelector('.hero-scope'), dotLoop);
-    document.getElementById('heroDot').setAttribute('cx',0);
-    document.getElementById('heroDot').setAttribute('cy',0);
+    dot.setAttribute('cx',0);
+    dot.setAttribute('cy',0);
   }
 
   /* ── turbine shreds ── */
@@ -830,53 +1034,60 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     registerLoop(svg, tl);
   }
 
-  /* ── pipeline packet ── */
+  /* ── pipeline packet (horizontal ≥700px, vertical rebuild below) ── */
   function pipeAnim(){
     if(reduced) return;
-    const path = anime.path('#pipePath');
-    const stages = document.querySelectorAll('#pipeStages .pstage rect');
+    const useV = !isVis(document.getElementById('pipeSvg'));
+    const svg = document.getElementById(useV ? 'pipeSvgV' : 'pipeSvg');
+    const path = anime.path(useV ? '#pipePathV' : '#pipePath');
+    const packet = useV ? '#packetV' : '#packet';
+    const stages = svg.querySelectorAll('.pstage rect');
     const tl = anime.timeline({loop:true});
     tl.add({
-      targets:'#packet',
+      targets:packet,
       translateX:path('x'), translateY:path('y'),
       duration:5600, easing:'linear'
     }, 0);
-    // stage pulses roughly synced to packet arrival (path is linear, 60→1040 over 5600ms)
-    const xs = [60,235,400,545,680,815,950];
-    xs.forEach((x,i)=>{
-      const t = ((x-60)/(1040-60))*5600;
+    // stage pulses synced to packet arrival (both paths are linear)
+    const marks = useV
+      ? [70,165,260,355,450,545,640].map(y=>((y-20)/680)*5600)
+      : [60,235,400,545,680,815,950].map(x=>((x-60)/(1040-60))*5600);
+    marks.forEach((t,i)=>{
       tl.add({
         targets:stages[i],
         strokeWidth:[{value:3,duration:140},{value:1.4,duration:420}],
         easing:'easeOutQuad'
       }, Math.max(0,t-70));
     });
-    tl.add({targets:'#packet', opacity:[1,0], duration:250, easing:'linear'}, 5350);
-    tl.add({targets:'#packet', opacity:[0,1], duration:150, easing:'linear'}, 5820);
+    tl.add({targets:packet, opacity:[1,0], duration:250, easing:'linear'}, 5350);
+    tl.add({targets:packet, opacity:[0,1], duration:150, easing:'linear'}, 5820);
     tl.add({duration:400}, 5600);
-    registerLoop(document.getElementById('pipeSvg'), tl);
+    registerLoop(svg, tl);
   }
 
-  /* ── sandwich ── */
+  /* ── sandwich (desktop split panel or stacked mobile svgs) ── */
   function sandwichAnim(){
     if(reduced) return;
+    const m = !isVis(document.getElementById('sandwichSvg'));
+    const rows = m ? '#sandRowsM' : '#sandRows';
+    const curve = m ? '#sandCurveM' : '#sandCurve';
     anime({
-      targets:'#sandRows .srow',
+      targets:rows+' .srow',
       opacity:[0,1], translateX:[-24,0],
       delay:anime.stagger(260), duration:600, easing:'easeOutCubic'
     });
     anime({
-      targets:'#sandCurve',
+      targets:curve,
       strokeDashoffset:[anime.setDashoffset,0],
       duration:1600, delay:500, easing:'easeInOutSine'
     });
     // menace pulse on attacker rows
     const pulse = anime({
-      targets:'#sandRows .srow:nth-child(1) rect, #sandRows .srow:nth-child(3) rect',
+      targets:rows+' .srow:nth-child(1) rect, '+rows+' .srow:nth-child(3) rect',
       opacity:[{value:.65,duration:900},{value:1,duration:900}],
       loop:true, delay:1800, easing:'easeInOutSine'
     });
-    registerLoop(document.getElementById('sandwichSvg'), pulse);
+    registerLoop(document.getElementById(m ? 'sandSvgM1' : 'sandwichSvg'), pulse);
   }
 
   /* ── jito flow ── */
@@ -923,7 +1134,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
 
   /* ── hero boot sequence: once, ~1.6s, skippable by scroll ── */
   function gridDraw(){
-    anime({targets:'#heroGrid line', strokeDashoffset:[anime.setDashoffset,0],
+    anime({targets:'#heroGrid line, #heroGridM line', strokeDashoffset:[anime.setDashoffset,0],
            duration:700, easing:'easeInOutSine', delay:anime.stagger(80)});
   }
   function boot(){
