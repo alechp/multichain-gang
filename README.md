@@ -2,7 +2,7 @@
 
 An interactive engineering instrument for Solana: five oscilloscope-styled
 channels cover consensus topology, transaction flow, MEV, low-latency
-infrastructure, and a cross-chain bench. The public page remains one
+infrastructure, and a cross-chain bench. The static page remains one
 self-contained HTML file; a separate local journal collects public observations
 and runs paper-only historical simulators.
 
@@ -17,6 +17,16 @@ Open `index.html` directly, or serve the repository root:
 There is no page build step. anime.js and the web fonts are optional network
 enhancements; reduced motion, a blocked CDN, and JavaScript-off all preserve the
 teaching content.
+
+The live page opens behind a session-only access-code console. This is a casual
+access gate, not a security boundary: GitHub Pages still serves the HTML and
+source publicly. True confidentiality requires authenticated hosting (or an
+eligible organization-owned private Pages site).
+
+To rotate the code, hash a new normalized value and replace the `digest` in the
+head access bootstrap; never commit the plaintext code:
+
+    node -e "const{createHash}=require('node:crypto');console.log(createHash('sha256').update('NEW-CODE'.trim().toUpperCase()).digest('hex'))"
 
 ## Run the local journal
 
@@ -43,8 +53,9 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 
 - 49-term hover/tap documentation with primary links and keyboard-accessible
   pinned REF cards.
-- A 24-cue read-through transport, persisted reading scale, and complete manual,
-  reduced-motion, and CDN-failure modes.
+- A 24-cue read-through transport with authored takeaway notes, a target
+  spotlight, persisted reading scale, and complete manual, reduced-motion, and
+  CDN-failure modes.
 - In-place field notes with stable anchors, local persistence, Markdown/JSON
   export, import, orphan recovery, and private-mode fallback.
 - 53 unique hash-routed entity channels spanning techniques, tools, chains, and
@@ -62,6 +73,6 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 
 ## Status
 
-v3.0 shipped on 2026-08-14. The public figures are illustrative orders of
+v3.0 shipped on 2026-08-14. The figures are illustrative orders of
 magnitude dated 2026-08, not live telemetry; live observations remain local to
 the journal.

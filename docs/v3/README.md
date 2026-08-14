@@ -27,6 +27,11 @@ Status: **implemented and released as `v3.0` on 2026-08-14.** The append-only
 execution record and explicitly skipped external/profile gates are in
 `08-ORCHESTRATION.md` §16.
 
+Post-release hardening adds a session access-code console, structural text
+containment for termified grid/flex copy, and a 24-note guided-playthrough layer
+that spotlights the active target. The access console is a client-side gate for
+the static public artifact, not server-side authentication.
+
 Release snapshot: the page is 403,622 raw bytes, exposes 49 hoverdoc terms, 24
 cues, field notes, and 53 unique entity routes. The journal suite passes 36
 tests / 332 assertions and its live acceptance database contains three watched

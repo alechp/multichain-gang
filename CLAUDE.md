@@ -1,13 +1,13 @@
 # SOLANA//SCOPE — project context
 
 v3.0 is implemented and published from `main` / repository root at
-https://alechp.github.io/solana/. The public instrument is a single-file static
+https://alechp.github.io/solana/. The instrument is a single-file static
 site; `journal/` is a separate local-only Bun/SQLite application and must never
 be deployed with the page.
 
 ## Files
 
-- `index.html` — self-contained public instrument, CH-01…CH-05, no build step.
+- `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
 - `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
 - `scripts/audit-*.mjs` — executable page regression gates.
 - `journal/` — read-only collectors, SQLite store, CLI, paper simulators, and localhost workbench.
@@ -15,8 +15,13 @@ be deployed with the page.
 
 ## Page conventions
 
-- Keep the public page in one `index.html`: inline CSS/JS/JSON, Google Fonts,
+- Keep the page in one `index.html`: inline CSS/JS/JSON, Google Fonts,
   and anime.js via cdnjs; no bundler or framework.
+- The access console stores only a SHA-256 digest and unlocks per browser tab.
+  Never commit its plaintext code. Its audit bypass is restricted to `file:`,
+  `localhost`, and `127.0.0.1`; do not expose a production query bypass.
+- The client-side gate deters casual access but cannot make static GitHub Pages
+  confidential. Do not describe it as authentication or a security boundary.
 - Consumer code stays inside the byte-unique V3A/B/C/E CSS/JS/HTML/JSON zones.
   V3D owns shared foundations. Do not redefine `window.SCOPE` primitives:
   `Overlay`, `Router`, `Store`, `positionOverlay`, `termify`, and `Runtime`.
@@ -25,6 +30,8 @@ be deployed with the page.
   each entity's name, kind, tagline, and first link.
 - Preserve channel/chain tokens, reading-scale hooks, stable
   `data-note-anchor` values, and hash routes shaped as `#/e/<id>`.
+- Keep termified prose inside a containing element when its parent is flex/grid;
+  injected `.term` buttons must not split anonymous text into layout items.
 - Every animation degrades. Reduced motion and anime-CDN failure render complete
   static content; JS-off exposes the fallback tables, glossary, and entity index.
 - Register legacy loops through `registerLoop(el, inst)` so offscreen animation

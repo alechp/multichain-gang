@@ -315,6 +315,7 @@ svg text{font-family:"IBM Plex Mono",monospace}
 }
 .notes li:last-child{border-bottom:none}
 .notes li b{color:var(--ink);font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:.76rem;letter-spacing:.05em;flex:none;padding-top:2px;min-width:96px}
+.notes li>span{min-width:0;flex:1}
 
 /* figures never trigger text selection on tap */
 .diagram,.hero-scope,.ladder{-webkit-user-select:none;user-select:none}
@@ -718,6 +719,24 @@ footer p,.ruler b{color:var(--lbl)}
 .channel-legend{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:12px}
 .channel-legend span{color:var(--legend-c,var(--lbl))}
 
+/* Client-side access gate for the static Pages build. Deployment-level
+   privacy still belongs at the host or edge. */
+html:not([data-scope-unlocked]){overflow:hidden;background:var(--bg)}
+html:not([data-scope-unlocked]) body{overflow:hidden}
+html:not([data-scope-unlocked]) body>:not(#scopeAccessGate){visibility:hidden!important}
+.access-gate{
+  --access-c:var(--cyan);visibility:visible!important;position:fixed;inset:0;z-index:1000;
+  display:grid;place-items:center;padding:22px;color:var(--ink);
+  background:linear-gradient(rgba(26,34,51,.36) 1px,transparent 1px),linear-gradient(90deg,rgba(26,34,51,.36) 1px,transparent 1px),radial-gradient(circle at 50% 38%,rgba(91,215,232,.09),transparent 34%),var(--bg);
+  background-size:48px 48px,48px 48px,auto,auto;
+}
+html[data-scope-unlocked] .access-gate{display:none}
+.access-console{position:relative;width:min(520px,100%);padding:26px 26px 24px;border:1px solid var(--line);background:rgba(16,20,29,.96);box-shadow:0 28px 90px rgba(0,0,0,.5),0 0 42px rgba(91,215,232,.05);clip-path:polygon(0 10px,10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
+.access-console::before,.access-console::after{content:"";position:absolute;width:18px;height:18px;pointer-events:none}.access-console::before{left:8px;top:8px;border-left:1px solid var(--access-c);border-top:1px solid var(--access-c)}.access-console::after{right:8px;bottom:8px;border-right:1px solid var(--access-c);border-bottom:1px solid var(--access-c)}
+.access-kicker,.access-readout,.access-form label,.access-status{font-family:"IBM Plex Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:.12em}.access-kicker{margin:0 0 18px;color:var(--access-c);font-size:.64rem}.access-title{margin:0;white-space:nowrap;font:600 clamp(2rem,8vw,3.2rem)/.9 "Chakra Petch",sans-serif;letter-spacing:-.035em}.access-title span{display:block;color:var(--lbl);font-size:.38em;line-height:1.4;letter-spacing:.14em}.access-readout{margin:20px 0;color:var(--lbl);font-size:.65rem;line-height:1.7}
+.access-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.access-form label{grid-column:1/-1;color:var(--lbl);font-size:.58rem}.access-form input,.access-form button{min-height:46px;border:1px solid var(--line);border-radius:2px;font:600 .76rem "IBM Plex Mono",monospace}.access-form input{min-width:0;padding:0 13px;background:var(--bg);color:var(--ink);letter-spacing:.08em}.access-form input:focus{outline:1px solid var(--access-c);outline-offset:2px}.access-form button{padding:0 16px;background:var(--panel-2);color:var(--access-c);cursor:pointer}.access-form button:is(:hover,:focus-visible){border-color:var(--access-c);color:var(--ink)}.access-form button:disabled{opacity:.5;cursor:wait}.access-status{grid-column:1/-1;min-height:1.4em;margin:2px 0 0;color:var(--lbl);font-size:.58rem}.access-console[data-denied] .access-status{color:var(--red)}.access-console[data-denied]{--access-c:var(--red)}
+@media(max-width:520px){.access-console{padding:22px 18px}.access-form{grid-template-columns:1fr}.access-form label,.access-status{grid-column:1}.access-form button{width:100%}}
+
 /* Shared Overlay surface: consumers own their visual component styles. */
 .scope-overlay-scrim{position:fixed;inset:0;z-index:60;background:rgba(4,6,10,.58)}
 body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
@@ -822,7 +841,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 .p-r{display:flex;align-items:center;gap:8px;min-width:140px;flex:1}.p-t{display:flex!important;gap:2px!important;height:34px!important;min-width:110px!important;flex:1;padding:10px 3px!important;overflow:hidden}.p-g{position:relative;min-width:2px;flex:1;background:color-mix(in srgb,var(--sc) 26%,var(--line));overflow:hidden}.p-g.is-past{background:color-mix(in srgb,var(--sc) 72%,var(--line))}.p-g.is-now{background:var(--sc)}.p-b[data-state=playing] .p-g.is-now:after{content:"";position:absolute;inset:0;background:var(--ink);transform-origin:left;animation:p-a var(--dwell) linear}.p-b[data-state=paused] .p-g.is-now:after{animation-play-state:paused}@keyframes p-a{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .p-o{width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--lbl)}.p-o b{color:var(--pc)}.p-u{position:absolute;left:12px;bottom:56px;width:auto!important;height:27px!important;color:var(--pc)!important;border-style:dashed!important}.p-b[data-engaged=false]{width:min(320px,100%);margin:auto}.p-b[data-engaged=false] :is(.p-s,.p-v,.p-n,.p-o,.p-l){display:none}
 .p-d{position:fixed;z-index:65;right:16px;bottom:76px;width:min(440px,calc(100vw - 32px));max-height:min(72vh,650px);overflow:auto;padding:14px;border:1px solid var(--line);border-radius:7px;background:var(--panel);pointer-events:auto;font:500 .64rem/1.3 "IBM Plex Mono",monospace}.p-h{display:flex;gap:10px;position:sticky;top:-14px;margin:-14px -14px 10px;padding:13px 14px;background:var(--panel);border-bottom:1px solid var(--line)}.p-h b{flex:1}.p-x{border:0;background:none;color:var(--lbl);font:inherit}.p-z{display:none}.p-d ol{list-style:none}.p-q{display:grid;grid-template-columns:54px 1fr auto;gap:9px;width:100%;padding:9px;border:1px solid transparent;background:none;color:var(--lbl);text-align:left;cursor:pointer}.p-q:hover,.p-q:focus-visible,.p-q[aria-current=true]{border-color:var(--cc);color:var(--ink)}.p-q i{color:var(--cc);font-style:normal}.p-k{display:flex;align-items:center;gap:9px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);color:var(--lbl)}.p-k button{padding:6px;background:var(--panel-2);font:inherit}.p-f{animation:p-f .65s}@keyframes p-f{50%{color:var(--violet)}}
-@media(max-width:700px){.p-m{width:calc(100% - 20px);bottom:calc(8px + env(safe-area-inset-bottom))}.p-b{gap:4px;padding:5px}.p-b :is(.p-s,.p-o,.p-l){display:none}.p-r{min-width:70px;gap:4px}.p-t{min-width:65px!important}.p-b button{min-width:32px;padding:0 5px}.p-d{left:0;right:0;bottom:0;width:auto;max-height:82vh;border-radius:12px 12px 0 0;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.p-z{display:flex;gap:4px;margin-bottom:12px}.p-z button{height:34px;padding:0 13px}}@media(prefers-reduced-motion:reduce){.p-g.is-now:after,.p-f{animation:none}}
+.p-a{--pc:var(--cyan);position:absolute;left:50%;bottom:53px;width:min(590px,calc(100vw - 32px));transform:translateX(-50%);padding:12px 14px 13px;border:1px solid color-mix(in srgb,var(--pc) 44%,var(--line));border-left:3px solid var(--pc);background:rgba(16,20,29,.97);box-shadow:0 14px 42px rgba(0,0,0,.42);pointer-events:none}.p-a[hidden],.p-hl[hidden]{display:none!important}.p-a header{display:flex;align-items:center;gap:9px;margin-bottom:6px;font:600 .58rem/1 "IBM Plex Mono",monospace;letter-spacing:.13em;color:var(--pc)}.p-a header::before{content:"//"}.p-a header span{margin-left:auto;color:var(--lbl);font-weight:500}.p-a p{margin:0;color:var(--ink);font-size:.82rem;line-height:1.45}
+.p-hl{--pc:var(--cyan);position:fixed;z-index:55;pointer-events:none;border:1px solid var(--pc);box-shadow:0 0 0 9999px rgba(3,6,10,.43),inset 0 0 24px color-mix(in srgb,var(--pc) 7%,transparent),0 0 20px color-mix(in srgb,var(--pc) 16%,transparent);transition:left .16s linear,top .16s linear,width .16s linear,height .16s linear}.p-hl::before,.p-hl::after{content:"";position:absolute;width:12px;height:12px}.p-hl::before{left:-4px;top:-4px;border-left:2px solid var(--pc);border-top:2px solid var(--pc)}.p-hl::after{right:-4px;bottom:-4px;border-right:2px solid var(--pc);border-bottom:2px solid var(--pc)}.p-hl span{position:absolute;left:8px;top:-23px;max-width:min(70vw,480px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--pc);font:600 .56rem/1 "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+@media(max-width:700px){.p-m{width:calc(100% - 20px);bottom:calc(8px + env(safe-area-inset-bottom))}.p-b{gap:4px;padding:5px}.p-b :is(.p-s,.p-o,.p-l){display:none}.p-r{min-width:70px;gap:4px}.p-t{min-width:65px!important}.p-b button{min-width:32px;padding:0 5px}.p-d{left:0;right:0;bottom:0;width:auto;max-height:82vh;border-radius:12px 12px 0 0;padding-bottom:calc(18px + env(safe-area-inset-bottom))}.p-z{display:flex;gap:4px;margin-bottom:12px}.p-z button{height:34px;padding:0 13px}.p-a{bottom:50px;width:calc(100vw - 20px);padding:10px 11px}.p-a p{font-size:.76rem;line-height:1.4}.p-hl span{top:6px;max-width:calc(100% - 16px);padding:4px;background:rgba(16,20,29,.9)}}@media(prefers-reduced-motion:reduce){.p-g.is-now:after,.p-f{animation:none}.p-hl{transition:none}}
 /* ==/V3B:CSS== */
 /* ==V3C:CSS== */
 .sn-ctl{display:flex;gap:5px}.sn-ctl,.sn-head,.sn-ctx,.sn-group h3{font-family:"IBM Plex Mono",monospace}.sn-ctl button,.sn-btn{min-height:44px;padding:6px 9px;border:1px solid var(--line);background:var(--panel);color:var(--lbl);font:600 .62rem "IBM Plex Mono",monospace}.sn-ctl [aria-pressed=true]{color:var(--amber);border-color:var(--amber)}.sn-mob{display:none}
@@ -902,6 +923,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 .entity-channel[data-entity-static] .entity-diagram [data-phase]{opacity:1;transform:none;transition:none}
 .entity-steps{display:grid;gap:1px;margin-top:1px;background:var(--line);list-style:none;counter-reset:entity-step}
 .entity-steps li{counter-increment:entity-step;display:grid;grid-template-columns:34px 1fr;gap:10px;padding:10px 13px;background:var(--panel);color:var(--lbl);font-size:.84rem;transition:background 180ms ease,color 180ms ease}
+.entity-steps li>span{min-width:0}
 .entity-steps li::before{content:counter(entity-step,decimal-leading-zero);font:600 .67rem/1.7 "IBM Plex Mono",monospace;color:var(--violet)}
 .entity-steps li[aria-current="step"]{background:color-mix(in srgb,var(--violet) 10%,var(--panel));color:var(--ink)}
 .entity-channel[data-entity-static] .entity-steps li{color:var(--dim);background:var(--panel)}
@@ -951,8 +973,53 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 }
 /* ==/V3E:CSS== */
 </style>
+<script>
+(()=>{
+  const access=Object.freeze({key:'scope.access.v1',digest:'be747ea92909fd239d3f0f6d03783838c85c03f7d69539c1984f4b0d4867a8ef'});
+  const local=location.protocol==='file:'||location.hostname==='127.0.0.1'||location.hostname==='localhost';
+  const audit=local&&new URLSearchParams(location.search).has('scope-audit');
+  try{if(audit||sessionStorage.getItem(access.key)===access.digest)document.documentElement.dataset.scopeUnlocked=audit?'audit':'session'}catch(error){if(audit)document.documentElement.dataset.scopeUnlocked='audit'}
+  window.__scopeAccess=access;
+})();
+</script>
 </head>
-<body data-rev="v3-2026-08-14.1">
+<body data-rev="v3-2026-08-14.2">
+
+<section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
+  <div class="access-console">
+    <p class="access-kicker">RESTRICTED INSTRUMENT · AUTH CHANNEL 00</p>
+    <h2 class="access-title" id="scopeAccessTitle">SOLANA//SCOPE <span>operator access required</span></h2>
+    <p class="access-readout">This engineering readout is not open by default. Enter the shared operator code to energize the five channels.</p>
+    <form class="access-form" id="scopeAccessForm">
+      <label for="scopeAccessCode">Access code</label>
+      <input id="scopeAccessCode" name="code" type="password" autocomplete="off" autocapitalize="characters" spellcheck="false" required aria-describedby="scopeAccessStatus">
+      <button type="submit">UNLOCK ▸</button>
+      <p class="access-status" id="scopeAccessStatus" role="status" aria-live="polite">CHANNEL LOCKED · CODE REQUIRED</p>
+    </form>
+    <noscript><p class="access-status">JAVASCRIPT IS REQUIRED TO VERIFY THE ACCESS CODE.</p></noscript>
+  </div>
+</section>
+<script>
+(()=>{
+  const gate=document.getElementById('scopeAccessGate'),root=document.documentElement,access=window.__scopeAccess;
+  if(root.hasAttribute('data-scope-unlocked')){gate.setAttribute('aria-hidden','true');return}
+  const form=document.getElementById('scopeAccessForm'),input=document.getElementById('scopeAccessCode'),status=document.getElementById('scopeAccessStatus'),consolePanel=gate.querySelector('.access-console'),submit=form.querySelector('button');
+  input.focus({preventScroll:true});
+  input.addEventListener('input',()=>{delete consolePanel.dataset.denied;status.textContent='CHANNEL LOCKED · CODE REQUIRED'});
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();submit.disabled=true;status.textContent='VERIFYING OPERATOR CODE…';
+    try{
+      const bytes=new TextEncoder().encode(input.value.trim().toUpperCase());
+      const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),byte=>byte.toString(16).padStart(2,'0')).join('');
+      if(hash!==access.digest)throw new Error('denied');
+      try{sessionStorage.setItem(access.key,access.digest)}catch(error){}
+      root.dataset.scopeUnlocked='code';gate.setAttribute('aria-hidden','true');input.value='';
+      requestAnimationFrame(()=>{dispatchEvent(new Event('resize'));const heading=document.querySelector('.hero h1,h1:not(#scopeAccessTitle)');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});heading.addEventListener('blur',()=>heading.removeAttribute('tabindex'),{once:true})}});
+    }catch(error){consolePanel.dataset.denied='';status.textContent=error.message==='denied'?'CODE REJECTED · CHECK AND RETRY':'VERIFICATION UNAVAILABLE';input.select()}
+    finally{submit.disabled=false}
+  });
+})();
+</script>
 
 <!-- shared SVG filters: phosphor bloom for traces -->
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
@@ -1119,11 +1186,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <span class="panel-label"><b>READOUT</b><span>CLUSTER CONSTANTS</span></span>
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <ul>
-        <li><b>PoH</b>A continuous SHA-256 hash chain acts as a clock — events are ordered by where they land in the hash stream, before consensus.</li>
-        <li><b>SCHEDULE</b>Leaders are drawn per epoch (~2 days), weighted by stake, in runs of 4 consecutive slots each.</li>
-        <li><b>TOWER BFT</b>Validators vote on forks with exponentially growing lockouts; the heaviest fork wins.</li>
-        <li><b>GOSSIP</b>Nodes discover peers and exchange metadata over a gossip plane, separate from the shred path.</li>
-        <li><b>CLIENTS</b>Agave (Rust) runs most of the cluster; Firedancer (C, by Jump) is the performance-focused second client.</li>
+        <li><b>PoH</b><span>A continuous SHA-256 hash chain acts as a clock — events are ordered by where they land in the hash stream, before consensus.</span></li>
+        <li><b>SCHEDULE</b><span>Leaders are drawn per epoch (~2 days), weighted by stake, in runs of 4 consecutive slots each.</span></li>
+        <li><b>TOWER BFT</b><span>Validators vote on forks with exponentially growing lockouts; the heaviest fork wins.</span></li>
+        <li><b>GOSSIP</b><span>Nodes discover peers and exchange metadata over a gossip plane, separate from the shred path.</span></li>
+        <li><b>CLIENTS</b><span>Agave (Rust) runs most of the cluster; Firedancer (C, by Jump) is the performance-focused second client.</span></li>
       </ul>
     </div>
   </div>
@@ -1538,11 +1605,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     <span class="panel-label"><b>FIELD NOTES</b><span>WHAT CUTTING-EDGE LOOKS LIKE IN 2026</span></span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <ul>
-      <li><b>CONVERGENCE</b>The Solana latency stack now mirrors traditional HFT: colocation, private fiber, kernel bypass, FPGA-friendly parsing — the exchange just happens to be a distributed ledger.</li>
-      <li><b>LEADER-AWARE</b>Everything is scheduled around the public leader rotation: routing, stake, even which datacenter your strategy wakes up in for the next four slots.</li>
-      <li><b>BLOCK ZERO</b>The frontier is acting on shreds mid-slot — reacting to a transaction before the block containing it formally exists.</li>
-      <li><b>PRECONF</b>Optimistic confirmation already lands under a second; Alpenglow's ~150 ms finality target would collapse the gap preconfirmations exist to fill — while Ethereum builds an explicit preconf market (Bolt, Primev) to paper over its 12 s slots.</li>
-      <li><b>THE TENSION</b>Every microsecond shaved centralizes advantage; every protocol change (SWQoS, bundle auctions, multiple concurrent leaders on the roadmap) is an attempt to keep the race fair-ish.</li>
+      <li><b>CONVERGENCE</b><span>The Solana latency stack now mirrors traditional HFT: colocation, private fiber, kernel bypass, FPGA-friendly parsing — the exchange just happens to be a distributed ledger.</span></li>
+      <li><b>LEADER-AWARE</b><span>Everything is scheduled around the public leader rotation: routing, stake, even which datacenter your strategy wakes up in for the next four slots.</span></li>
+      <li><b>BLOCK ZERO</b><span>The frontier is acting on shreds mid-slot — reacting to a transaction before the block containing it formally exists.</span></li>
+      <li><b>PRECONF</b><span>Optimistic confirmation already lands under a second; Alpenglow's ~150 ms finality target would collapse the gap preconfirmations exist to fill — while Ethereum builds an explicit preconf market (Bolt, Primev) to paper over its 12 s slots.</span></li>
+      <li><b>THE TENSION</b><span>Every microsecond shaved centralizes advantage; every protocol change (SWQoS, bundle auctions, multiple concurrent leaders on the roadmap) is an attempt to keep the race fair-ish.</span></li>
     </ul>
   </div>
 </section>
@@ -1774,7 +1841,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v3-2026-08-14.1",
+  "_rev": "v3-2026-08-14.2",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -1830,30 +1897,30 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   "==/V3A:JSON==": null,
   "==V3B:JSON==": null,
   "cues": [
-    {"id":"hero-trace","anchor":".hero-scope","ch":"ch1","title":"TRACE · block production","dwellMs":7000,"action":"restart-figure"},
-    {"id":"hero-stats","anchor":".hero-stats","ch":"ch1","title":"READOUT · slot constants","dwellMs":5000,"action":"none"},
-    {"id":"ch1-intro","anchor":"#ch1 .ch-sub","ch":"ch1","title":"CH-01 · topology","dwellMs":9000,"action":"none"},
-    {"id":"fig-1-1","anchor":"#turbineSvg","ch":"ch1","title":"FIG 1.1 · Turbine tree","dwellMs":8000,"action":"restart-figure"},
-    {"id":"ch1-readout","anchor":"#ch1 .notes","ch":"ch1","title":"READOUT · cluster constants","dwellMs":6000,"action":"none"},
-    {"id":"ch1-dock","anchor":".dock-mount[data-ch='ch1']","ch":"ch1","title":"COMPARE · topology × ETH","dwellMs":8000,"action":"open-dock:eth"},
-    {"id":"ch2-intro","anchor":"#ch2 .ch-sub","ch":"ch2","title":"CH-02 · transaction flow","dwellMs":9000,"action":"none"},
-    {"id":"fig-2-1","anchor":"#ch2 .pipe-scroll","ch":"ch2","title":"FIG 2.1 · signal path","dwellMs":9000,"action":"restart-figure"},
-    {"id":"ch2-dock","anchor":".dock-mount[data-ch='ch2']","ch":"ch2","title":"COMPARE · flow × BTC","dwellMs":8000,"action":"open-dock:btc"},
-    {"id":"ch3-intro","anchor":"#ch3 .ch-sub","ch":"ch3","title":"CH-03 · adversarial flow","dwellMs":9000,"action":"none"},
-    {"id":"fig-3-1","anchor":"#sandwichSvg","ch":"ch3","title":"FIG 3.1 · sandwich anatomy","dwellMs":8000,"action":"restart-figure"},
-    {"id":"fig-3-2","anchor":"#jitoSvg","ch":"ch3","title":"FIG 3.2 · bundle auction","dwellMs":8000,"action":"restart-figure"},
-    {"id":"ch3-dock","anchor":".dock-mount[data-ch='ch3']","ch":"ch3","title":"COMPARE · MEV × ETH","dwellMs":8000,"action":"open-dock:eth"},
-    {"id":"ch4-intro","anchor":"#ch4 .ch-sub","ch":"ch4","title":"CH-04 · latency edge","dwellMs":9000,"action":"none"},
-    {"id":"fig-4-1","anchor":"#ch4 .ladder","ch":"ch4","title":"FIG 4.1 · latency ladder","dwellMs":8000,"action":"restart-figure"},
-    {"id":"ch4-dock","anchor":".dock-mount[data-ch='ch4']","ch":"ch4","title":"COMPARE · latency × BNB","dwellMs":8000,"action":"open-dock:bnb"},
-    {"id":"ch4-notes","anchor":"#ch4 .notes","ch":"ch4","title":"FIELD NOTES · 2026 frontier","dwellMs":8000,"action":"none"},
-    {"id":"ch5-intro","anchor":"#ch5 .ch-sub","ch":"ch5","title":"CH-05 · cross-chain bench","dwellMs":9000,"action":"none"},
-    {"id":"fig-5-1","anchor":"#gridPanel","ch":"ch5","title":"FIG 5.1 · technique heat grid","dwellMs":8000,"action":"cascade"},
-    {"id":"grid-sandwich","anchor":"#gridPanel .tcell[data-tech='sandwich'][data-chain='sol']","ch":"ch5","title":"DETAIL · sandwich × SOL","dwellMs":6500,"action":"cascade","activate":true},
-    {"id":"fig-5-2","anchor":"#benchMount","ch":"ch5","title":"FIG 5.2 · protection bench","dwellMs":8000,"action":"flash-legend","filter":"protect"},
-    {"id":"tool-protect","anchor":"#tool-jito-protect","ch":"ch5","title":"TOOL · Jito protect rail","dwellMs":6500,"action":"none"},
-    {"id":"bench-delta","anchor":"#benchMount .bench-delta","ch":"ch5","title":"DELTA · convergent tooling","dwellMs":6500,"action":"none"},
-    {"id":"footer","anchor":"footer","ch":"ch5","title":"END · channel legend","dwellMs":5000,"action":"flash-legend"}
+    {"id":"hero-trace","anchor":".hero-scope","ch":"ch1","title":"TRACE · block production","note":"Solana does not wait for global agreement before every stage. A scheduled leader turns time into a production line.","dwellMs":7000,"action":"restart-figure"},
+    {"id":"hero-stats","anchor":".hero-stats","ch":"ch1","title":"READOUT · slot constants","note":"Anchor on the asymmetry: ~400 ms slots make network placement and pipeline efficiency first-order constraints.","dwellMs":5000,"action":"none"},
+    {"id":"ch1-intro","anchor":"#ch1 .ch-sub","ch":"ch1","title":"CH-01 · topology","note":"One scheduled leader produces; a stake-weighted tree distributes; votes make the resulting history costly to reverse.","dwellMs":9000,"action":"none"},
+    {"id":"fig-1-1","anchor":"#turbineSvg","ch":"ch1","title":"FIG 1.1 · Turbine tree","note":"Turbine is a bandwidth strategy, not consensus. Shreds fan out redundantly so one leader need not send a full block to every validator.","dwellMs":8000,"action":"restart-figure"},
+    {"id":"ch1-readout","anchor":"#ch1 .notes","ch":"ch1","title":"READOUT · cluster constants","note":"PoH orders; Tower BFT commits; the leader schedule says who works next. Keep those jobs distinct.","dwellMs":6000,"action":"none"},
+    {"id":"ch1-dock","anchor":".dock-mount[data-ch='ch1']","ch":"ch1","title":"COMPARE · topology × ETH","note":"Both networks separate proposal from agreement, but Solana compresses the cadence and leans harder on scheduled, capable machines.","dwellMs":8000,"action":"open-dock:eth"},
+    {"id":"ch2-intro","anchor":"#ch2 .ch-sub","ch":"ch2","title":"CH-02 · transaction flow","note":"A transaction declares the accounts it will touch. That declaration lets the runtime schedule non-conflicting work in parallel.","dwellMs":9000,"action":"none"},
+    {"id":"fig-2-1","anchor":"#ch2 .pipe-scroll","ch":"ch2","title":"FIG 2.1 · signal path","note":"Follow the packet: wallet → RPC → leader ingress → signature checks → account locks → execution → PoH record → shreds.","dwellMs":9000,"action":"restart-figure"},
+    {"id":"ch2-dock","anchor":".dock-mount[data-ch='ch2']","ch":"ch2","title":"COMPARE · flow × BTC","note":"Bitcoin waits in a public fee-sorted room; Solana forwards toward near-future leaders. Queue topology changes the races each chain creates.","dwellMs":8000,"action":"open-dock:btc"},
+    {"id":"ch3-intro","anchor":"#ch3 .ch-sub","ch":"ch3","title":"CH-03 · adversarial flow","note":"MEV is an ordering problem before it is a trading strategy. Ask who sees intent, who controls placement, and where the auction is explicit.","dwellMs":9000,"action":"none"},
+    {"id":"fig-3-1","anchor":"#sandwichSvg","ch":"ch3","title":"FIG 3.1 · sandwich anatomy","note":"The victim's slippage is the budget: buy before, let the victim move price, then sell after.","dwellMs":8000,"action":"restart-figure"},
+    {"id":"fig-3-2","anchor":"#jitoSvg","ch":"ch3","title":"FIG 3.2 · bundle auction","note":"Jito turns privileged ordering into a visible market: atomic bundles compete with tips for a leader's scarce block position.","dwellMs":8000,"action":"restart-figure"},
+    {"id":"ch3-dock","anchor":".dock-mount[data-ch='ch3']","ch":"ch3","title":"COMPARE · MEV × ETH","note":"Ethereum externalizes building into a supply chain; Solana runs a leader-local auction inside a much shorter window.","dwellMs":8000,"action":"open-dock:eth"},
+    {"id":"ch4-intro","anchor":"#ch4 .ch-sub","ch":"ch4","title":"CH-04 · latency edge","note":"At 400 ms, geography and network variance are part of the execution model, not operational trivia.","dwellMs":9000,"action":"none"},
+    {"id":"fig-4-1","anchor":"#ch4 .ladder","ch":"ch4","title":"FIG 4.1 · latency ladder","note":"Read the logarithmic gap: crossing an ocean consumes a meaningful fraction of a slot; same-rack and kernel-bypass paths do not.","dwellMs":8000,"action":"restart-figure"},
+    {"id":"ch4-dock","anchor":".dock-mount[data-ch='ch4']","ch":"ch4","title":"COMPARE · latency × BNB","note":"Both chains reward validator proximity, but Solana's leader schedule makes the target machine and timing unusually explicit.","dwellMs":8000,"action":"open-dock:bnb"},
+    {"id":"ch4-notes","anchor":"#ch4 .notes","ch":"ch4","title":"FIELD NOTES · 2026 frontier","note":"The frontier copies HFT: colocation, private fiber, fast feeds, and specialized clients. The trade-off is concentrated advantage.","dwellMs":8000,"action":"none"},
+    {"id":"ch5-intro","anchor":"#ch5 .ch-sub","ch":"ch5","title":"CH-05 · cross-chain bench","note":"Across chains, the same organs recur: ordering market, protection rail, fast-data feed, priority market, and optimized client.","dwellMs":9000,"action":"none"},
+    {"id":"fig-5-1","anchor":"#gridPanel","ch":"ch5","title":"FIG 5.1 · technique heat grid","note":"Hot cells reveal where programmability, visible flow, and valuable state transitions overlap.","dwellMs":8000,"action":"cascade"},
+    {"id":"grid-sandwich","anchor":"#gridPanel .tcell[data-tech='sandwich'][data-chain='sol']","ch":"ch5","title":"DETAIL · sandwich × SOL","note":"Active does not mean Ethereum-like: Solana lacks a public mempool, so private infrastructure and bundle paths determine visibility.","dwellMs":6500,"action":"cascade","activate":true},
+    {"id":"fig-5-2","anchor":"#benchMount","ch":"ch5","title":"FIG 5.2 · protection bench","note":"Protection products are not altruistic add-ons; they are the counter-market created by extractive ordering.","dwellMs":8000,"action":"flash-legend","filter":"protect"},
+    {"id":"tool-protect","anchor":"#tool-jito-protect","ch":"ch5","title":"TOOL · Jito protect rail","note":"A protected endpoint changes the route, not consensus. It reduces exposure to leaked order flow and targets leaders directly.","dwellMs":6500,"action":"none"},
+    {"id":"bench-delta","anchor":"#benchMount .bench-delta","ch":"ch5","title":"DELTA · convergent tooling","note":"Different chain designs converge on the same commercial stack because scarce ordering produces the same incentives.","dwellMs":6500,"action":"none"},
+    {"id":"footer","anchor":"footer","ch":"ch5","title":"END · channel legend","note":"Hold the color map: cyan network, amber transaction flow, red extraction, green protection, violet cross-chain comparison.","dwellMs":5000,"action":"flash-legend"}
   ],
   "==/V3B:JSON==": null,
   "==V3C:JSON==": null,
@@ -3452,6 +3519,50 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 // ==/V3A:JS==
 // ==V3B:JS==
 (function(J){"use strict";const{Overlay:E,Store:k,Runtime:u}=J,d=document.getElementById("playbarMount");if(!d||!E||!k||!u)return;let B;try{B=JSON.parse(document.getElementById("chainData").textContent).cues||[]}catch{return}const A={ch1:"var(--cyan)",ch2:"var(--amber)",ch3:"var(--red)",ch4:"var(--green)",ch5:"var(--violet)"},H=[.85,1,1.1,1.25,1.4],K=k.create("playbar.cue",{version:1,defaultValue:{v:1,index:0},validate:e=>Number.isInteger(e.index)}),F=k.create("reading.scale",{version:1,defaultValue:{v:1,index:1},validate:e=>Number.isInteger(e.index)&&e.index>=0&&e.index<5}),N=k.create("playbar.shortcuts",{version:1,defaultValue:{v:1,enabled:!1},validate:e=>typeof e.enabled=="boolean"});let s=[],r,p,S,G,w,g,a=0,n="idle",q=0,f=null,L=!1,o=N.get().enabled,i=F.get().index,x=!1,U=!1,j,Z=!1,v=-1;try{L=sessionStorage.getItem("scope.v3.playbar.manual")==="1"}catch{}const m=e=>{try{return document.querySelector(e.anchor)}catch{return null}},V=e=>String(e).replace(/[&<>"']/g,t=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[t]),M=e=>e.ch.toUpperCase().replace("CH","CH-0"),C=e=>e.dwellMs||Math.max(4e3,(m(e)?.textContent.match(/\S+/g)||[]).length*240);function $(e){i=Math.max(0,Math.min(4,e)),document.documentElement.style.setProperty("--reading-scale",H[i]),F.set({v:1,index:i}),document.querySelectorAll("[data-scale]").forEach(t=>{t.disabled=t.dataset.scale==="down"&&i===0||t.dataset.scale==="up"&&i===4,t.setAttribute("aria-pressed",t.dataset.scale==="reset"&&i===1?"true":"false")}),document.querySelectorAll(".p-zs").forEach(t=>t.textContent=Math.round(H[i]*100)+"%")}function I(){let e=a,t=1/0;return s.forEach((l,v)=>{const D=m(l)?.getBoundingClientRect();if(!D)return;const z=Math.abs(D.top+D.height/2-innerHeight*.475);z<t&&(t=z,e=v)}),e}function O(){r.dataset.engaged="true",g?.remove(),g=null}function y(){r&&(r.dataset.state=n,r.style.setProperty("--pc",A[s[a]?.ch]||A.ch1),w.textContent=n==="playing"?"\u2161":n==="done"?"\u21BB":"\u25B6",w.setAttribute("aria-label",n==="playing"?"Pause read-through":n==="done"?"Replay read-through":x||L?"Step to next cue":"Play read-through"),G.innerHTML=`<b>${M(s[a])}</b> \xB7 ${V(s[a].title)} <span class="p-c">${String(a+1).padStart(2,"0")}/${String(s.length).padStart(2,"0")}</span>`,S.setAttribute("aria-label",`Cue list: ${s[a].title}, ${a+1} of ${s.length}`),r.style.setProperty("--dwell",C(s[a])+"ms"),S.querySelectorAll(".p-g").forEach((e,t)=>{e.classList.toggle("is-past",t<a),e.classList.toggle("is-now",t===a)}),p?.querySelectorAll(".p-q").forEach((e,t)=>e.setAttribute("aria-current",t===a?"true":"false")))}function b(){n==="playing"&&(clearTimeout(q),n="paused",y(),requestAnimationFrame(()=>{n=="paused"&&(a=I(),P(),y())}))}function P(){K.set({v:1,index:a})}function W(e){f&&(u.closeDock(f),f=null);const t=e.action||"none",l=m(e);if(t==="restart-figure")u.restartFigure(l);else if(t.startsWith("open-dock:"))f=l,u.openDock(l,t.split(":")[1]);else if(t==="cascade")u.cascade(),e.activate&&(Z=!0,setTimeout(()=>{l?.click(),requestAnimationFrame(()=>Z=!1)},120));else if(t==="flash-legend"){const v=l?.querySelector?.(".panel-label,.panel-label-inline")||l;v?.classList.remove("p-f"),v&&(v.offsetWidth,v.classList.add("p-f"))}e.filter&&u.filterBench(e.filter)}function c(e,t=!1){clearTimeout(q),a=Math.max(0,Math.min(s.length-1,e)),x&&(v=a),P(),y();const l=s[a];m(l).scrollIntoView({behavior:x?"auto":"smooth",block:"center"}),W(l),x&&requestAnimationFrame(()=>requestAnimationFrame(()=>{v>-1&&(a=v,P(),y(),v=-1)})),t&&!x&&!L&&(q=setTimeout(()=>{a===s.length-1?(n="done",f&&u.closeDock(f),f=null,y()):c(a+1,!0)},C(l)))}function R(){if(O(),x||L){n="manual",c(n==="done"||a===s.length-1?0:n==="idle"?a:a+1);return}if(n==="playing"){b();return}n==="idle"||n==="done"?a=0:a=I(),n="playing",c(a,!0)}function h(e){O(),n==="playing"&&b(),n="manual",c(a+e)}function Q(){O(),r.querySelector(".p-l")?.setAttribute("aria-expanded","true"),E.open({element:p,trigger:document.activeElement,modal:!0,scrim:!1,lockScroll:!1,sheet:!0,focusTarget:p.querySelector('[aria-current="true"]'),onClose:()=>r.querySelector(".p-l")?.setAttribute("aria-expanded","false")})}function X(e){L=!0;try{sessionStorage.setItem("scope.v3.playbar.manual","1")}catch{}clearTimeout(q),n="manual",E.close(p,{restoreFocus:!1,reason:"cue"}),c(e)}function Y(){r.addEventListener("click",e=>{const t=e.target.closest("button");t&&(t===w?R():t.classList.contains("p-v")?h(-1):t.classList.contains("p-n")?h(1):t===S||t.classList.contains("p-l")?Q():t.dataset.scale?$(t.dataset.scale==="reset"?1:i+(t.dataset.scale==="up"?1:-1)):t.classList.contains("p-u")&&(n="paused",c(a)))}),r.addEventListener("keydown",e=>{if(e.target!==r||e.altKey||e.ctrlKey||e.metaKey)return;const t={ArrowLeft:()=>h(-1),ArrowRight:()=>h(1),Home:()=>{n="manual",c(0)},End:()=>{n="manual",c(s.length-1)}," ":R};t[e.key]&&(e.preventDefault(),t[e.key]())}),p.addEventListener("click",e=>{const t=e.target.closest("button");t&&(t.classList.contains("p-x")?E.close(p):t.classList.contains("p-q")?X(+t.dataset.i):t.dataset.scale?$(t.dataset.scale==="reset"?1:i+(t.dataset.scale==="up"?1:-1)):t.classList.contains("p-y")&&(o=!o,N.set({v:1,enabled:o}),t.setAttribute("aria-pressed",o),t.textContent=o?"\u2328 GLOBAL ON":"\u2328 GLOBAL OFF"))})}function T(){if(U||(U=!0,s=B.filter(t=>m(t)),!s.length))return;x=matchMedia("(prefers-reduced-motion: reduce)").matches||typeof anime>"u"||document.body.classList.contains("no-motion"),a=Math.max(0,Math.min(s.length-1,K.get().index)),d.innerHTML=`<div class="p-b" role="region" aria-label="Read-through controls" tabindex="0" data-state="idle" data-engaged="false"><div class="p-s" aria-label="Reading scale"><button data-scale="down" aria-label="Decrease reading scale">A\u2212</button><button data-scale="reset" aria-label="Reset reading scale">A</button><button data-scale="up" aria-label="Increase reading scale">A+</button></div><button class="p-v" aria-label="Previous cue">\u25C0</button><button class="p-p" aria-label="Play read-through">\u25B6</button><button class="p-n" aria-label="Next cue">\u25B6</button><div class="p-r"><button class="p-t"></button><span class="p-o" aria-live="polite"></span></div><button class="p-l" aria-label="Open cue list" aria-expanded="false">\u2261</button></div><section class="p-d" aria-labelledby="p-d-title" hidden><div class="p-h"><b id="p-d-title">CUE REGISTER \xB7 <span class="p-zs"></span></b><button class="p-x" aria-label="Close cue list">ESC \xD7</button></div><div class="p-z" aria-label="Reading scale"><button data-scale="down">A\u2212</button><button data-scale="reset">A</button><button data-scale="up">A+</button></div><ol>${s.map((t,l)=>`<li><button class="p-q" data-i="${l}" style="--cc:${A[t.ch]}"><i>${M(t)}</i><span>${V(t.title)}</span><small>${Math.ceil(C(t)/1e3)}s</small></button></li>`).join("")}</ol><div class="p-k"><button class="p-y" aria-pressed="${o}">${o?"\u2328 GLOBAL ON":"\u2328 GLOBAL OFF"}</button><span>J / K + SPACE \xB7 ignores editors</span></div></section>`,r=d.querySelector(".p-b"),p=d.querySelector(".p-d"),S=d.querySelector(".p-t"),G=d.querySelector(".p-o"),w=d.querySelector(".p-p"),S.innerHTML=s.map(t=>`<i class="p-g" style="--sc:${A[t.ch]}"></i>`).join("");let e=!1;try{e=sessionStorage.getItem("scope.v3.playbar.resume-offered")==="1",sessionStorage.setItem("scope.v3.playbar.resume-offered","1")}catch{}a>0&&!e&&(g=document.createElement("button"),g.className="p-u",g.textContent="RESUME @ "+M(s[a]),r.append(g)),$(i),Y(),y(),j=new IntersectionObserver(()=>{n!=="playing"&&v<0&&(a=I(),P(),y())},{rootMargin:"-45% 0px -50% 0px"}),s.forEach(t=>j.observe(m(t)))}addEventListener("wheel",b,{passive:!0,capture:!0}),addEventListener("touchmove",b,{passive:!0,capture:!0}),document.addEventListener("visibilitychange",()=>{document.hidden&&b()}),document.addEventListener("focusin",e=>{n==="playing"&&!r?.contains(e.target)&&!(Z&&e.target.closest(".tpop"))&&e.target.matches("a,button,input,textarea,select,[contenteditable]")&&b()}),document.addEventListener("keydown",e=>{const t=e.target.matches("input,textarea,select,[contenteditable]"),l=e.altKey||e.ctrlKey||e.metaKey||e.shiftKey;n==="playing"&&!t&&["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," "].includes(e.key)&&b(),!(!o||t||l||r?.contains(e.target))&&(e.key==="j"||e.key==="k"||e.key===" ")&&(e.preventDefault(),e.key==="j"?h(1):e.key==="k"?h(-1):R())}),addEventListener("scroll",T,{passive:!0,once:!0}),queueMicrotask(()=>document.body.classList.contains("no-motion")?T():setTimeout(T,1750))})(window.SCOPE||{});
+(function scopePlaythroughGuidance(scope){
+  'use strict';
+  const mount=document.getElementById('playbarMount');
+  if(!mount)return;
+  let cues=[];
+  try{cues=JSON.parse(document.getElementById('chainData').textContent).cues||[]}catch(error){return}
+  const colors={ch1:'var(--cyan)',ch2:'var(--amber)',ch3:'var(--red)',ch4:'var(--green)',ch5:'var(--violet)'};
+  let bar,note,noteMeta,noteBody,frame,frameLabel,target,current=-1,raf=0,observer;
+  const cueTarget=cue=>{try{let node=document.querySelector(cue.anchor);while(node&&(!node.getClientRects().length||getComputedStyle(node).visibility==='hidden'))node=node.parentElement;return node}catch(error){return null}};
+  function position(){
+    raf=0;
+    if(!target||!target.isConnected||!bar||bar.dataset.engaged!=='true'){if(frame)frame.hidden=true;return}
+    const rect=target.getBoundingClientRect(),topLimit=64,bottomLimit=innerHeight-(innerWidth<=700?152:126);
+    if(rect.bottom<topLimit||rect.top>bottomLimit){frame.hidden=true;return}
+    const pad=8,left=Math.max(8,rect.left-pad),right=Math.min(innerWidth-8,rect.right+pad),top=Math.max(topLimit,rect.top-pad),bottom=Math.min(bottomLimit,rect.bottom+pad);
+    if(right-left<24||bottom-top<24){frame.hidden=true;return}
+    frame.hidden=false;Object.assign(frame.style,{left:left+'px',top:top+'px',width:right-left+'px',height:bottom-top+'px'});
+  }
+  const queuePosition=()=>{if(!raf)raf=requestAnimationFrame(position)};
+  function sync(){
+    if(!bar||!note||!frame)return;
+    if(bar.dataset.engaged!=='true'){note.hidden=true;frame.hidden=true;target=null;current=-1;return}
+    const segments=Array.from(bar.querySelectorAll('.p-g')),index=segments.findIndex(segment=>segment.classList.contains('is-now'));
+    if(index<0||!cues[index])return;
+    const cue=cues[index],color=colors[cue.ch]||colors.ch1;
+    if(index!==current){
+      current=index;target=cueTarget(cue);note.style.setProperty('--pc',color);frame.style.setProperty('--pc',color);
+      noteMeta.textContent=String(index+1).padStart(2,'0')+' / '+String(cues.length).padStart(2,'0');
+      noteBody.textContent=cue.note||cue.title;frameLabel.textContent='FOCUS · '+cue.title;note.hidden=false;
+      target?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
+    }
+    queuePosition();
+  }
+  function install(){
+    bar=mount.querySelector('.p-b');if(!bar)return false;
+    mount.insertAdjacentHTML('afterbegin','<aside class="p-a" role="note" aria-live="polite" hidden><header>AUTHOR NOTE <span></span></header><p></p></aside>');
+    note=mount.querySelector('.p-a');noteMeta=note.querySelector('header span');noteBody=note.querySelector('p');
+    frame=document.createElement('div');frame.className='p-hl';frame.hidden=true;frame.setAttribute('aria-hidden','true');frame.innerHTML='<span></span>';document.body.appendChild(frame);frameLabel=frame.querySelector('span');
+    observer=new MutationObserver(sync);observer.observe(bar,{subtree:true,attributes:true,attributeFilter:['class','data-engaged','data-state']});
+    addEventListener('scroll',queuePosition,{passive:true});addEventListener('resize',queuePosition,{passive:true});sync();return true;
+  }
+  if(!install())new MutationObserver((records,waiting)=>{if(install())waiting.disconnect()}).observe(mount,{childList:true});
+  scope.PlaythroughGuidance=Object.freeze({get state(){return{current,target:target?.dataset.noteAnchor||target?.id||null,visible:!!note&&!note.hidden}}});
+})(window.SCOPE||{});
 // ==/V3B:JS==
 // ==V3C:JS==
 (function(L){const c=(t,e=document)=>e.querySelector(t),m=(t,e=document)=>e.querySelectorAll(t),E=c("#scopeNotes"),N=c(".sn-pins",E),o=c(".sn-card",E),f=c(".sn-draw",E),y=c(".sn-file",E),R=c(".sn-live",E),d=L.Overlay,g=document.body.dataset.rev||"",j=t=>t&&Array.isArray(t.notes)&&t.notes.every(e=>e.id&&e.anchor&&typeof e.body=="string"&&Number.isFinite(e.frac)),O=L.Store.create("notes",{version:1,defaultValue:{v:1,pageRev:g,notes:[]},validate:j});let A=O.get(),r=A.notes,b=!1,h=null,C=!1,$="",S=A.pageRev!==g,P=0;const p=t=>String(t||"").replace(/[&<>"']/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[e]),x=t=>[...m("[data-note-anchor]")].find(e=>e.dataset.noteAnchor===t),F=t=>(t.innerText||t.textContent||"").replace(/\s+/g," ").trim().slice(0,80),D=()=>new Date().toISOString(),I=t=>new Date(t).toISOString().slice(0,16).replace("T"," ");function i(t){R.hidden=!1,R.textContent=t,clearTimeout(i.x),i.x=setTimeout(()=>R.hidden=!0,2500)}function v(t){let e={v:1,pageRev:g,notes:r};return t&&JSON.stringify(e).length>204800?(i("NOTE LIMIT \u2014 export first"),J(),!1):(O.set(e),V(),!0)}function U(t){return`<div class="sn-ctl sn-${t}"><button class="sn-arm" aria-pressed="false" aria-label="Arm field-note placement">\u25C9 NOTES</button><button class="sn-count" aria-label="Open field notes">\u25C9 0</button></div>`}c(".slotbar-inner").insertAdjacentHTML("beforeend",U("desk")),c(".nav-chips").insertAdjacentHTML("beforeend",U("mob"));function B(t){m("[data-note-anchor]").forEach(e=>{t&&!e.dataset.snTab?(e.dataset.snTab=e.getAttribute("tabindex")??"_",e.tabIndex=0):!t&&e.dataset.snTab&&(e.dataset.snTab==="_"?e.removeAttribute("tabindex"):e.setAttribute("tabindex",e.dataset.snTab),delete e.dataset.snTab)})}function T(t=!0,e=""){if(b=t,$=t?e:"",document.body.classList.toggle("sn-on",t),B(t),m(".sn-arm").forEach(n=>n.setAttribute("aria-pressed",t)),t){let n=d.top();n&&d.close(n,{restoreFocus:!1}),i(e?"RE-PIN ARMED":"NOTES ARMED \u2014 click a surface")}}function M(){let t={};r.forEach(e=>(t[e.anchor]??=[]).push(e)),N.innerHTML="",Object.entries(t).forEach(([e,n])=>{let s=x(e);if(!s||!s.getClientRects().length)return;let a=s.getBoundingClientRect(),u=n.reduce((Q,tt)=>Q+tt.frac,0)/n.length,l=document.createElement("button");l.className="sn-pin",l.dataset.anchor=e,l.ariaLabel=(n.length>1?n.length+" notes":"Note")+" on "+e,l.style.left=Math.max(scrollX,Math.min(scrollX+innerWidth-44,a.right+scrollX-3))+"px",l.style.top=a.top+scrollY+u*a.height-22+"px",l.innerHTML="\u25C9"+(n.length>1?"<b>"+n.length+"</b>":""),N.append(l)})}function V(){m(".sn-count").forEach(t=>{t.textContent="\u25C9 "+r.length,t.ariaLabel="Open "+r.length+" field notes"}),M(),f.hidden||H()}function W(t,e){let n=t.getBoundingClientRect(),s=r.find(l=>l.id===$),a=D(),u=e==null?.5:Math.max(.03,Math.min(.97,(e-n.top)/Math.max(1,n.height)));if(s){s.anchor=t.dataset.noteAnchor,s.frac=u,s.context=F(t),s.updatedAt=a,$="",T(!1),v(),i("NOTE RE-PINNED");return}T(!1),X({id:crypto.randomUUID?crypto.randomUUID():"n"+Date.now(),anchor:t.dataset.noteAnchor,frac:u,body:"",context:F(t),createdAt:a,updatedAt:a},t,!0)}function k(t,e,n,s=!1){d.open({element:t,trigger:e instanceof HTMLElement?e:c(".sn-arm"),scrim:!0,lockScroll:s,sheet:!0,focusTarget:n,onClose:()=>{h=null,o.style.left=o.style.top=""}}),t===o&&innerWidth>700&&requestAnimationFrame(()=>{let a=L.positionOverlay(e.getBoundingClientRect(),o.getBoundingClientRect(),{placement:"right"});o.style.left=a.left+"px",o.style.top=a.top+"px"})}function w(t,e="Close"){return`<div class="sn-head"><span>${t}</span><button class="sn-x" aria-label="${e}">\u2715</button></div>`}function X(t,e,n=!1){h=t,C=n,o.innerHTML=w(`<strong>NOTE</strong> \xB7 ${p(t.anchor)} \xB7 ${I(t.createdAt)}`,"Cancel note")+`<p class="sn-ctx">${p(t.context)}</p><textarea aria-label="Note text" placeholder="Write a field note\u2026">${p(t.body)}</textarea><div class="sn-actions"><button class="sn-btn sn-save">SAVE</button>${n?"":'<button class="sn-btn sn-del">DELETE</button>'}</div>`,k(o,e,c("textarea",o))}function _(t){return p(t).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>").replace(/\*([^*]+)\*/g,"<em>$1</em>").replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>').replace(/\n/g,"<br>")}function z(t,e){let n=r.filter(s=>s.anchor===t);o.innerHTML=w(`<strong>FIELD NOTES</strong> \xB7 ${p(t)}`)+n.map(s=>`<article class="sn-read"><p class="sn-ctx">${I(s.updatedAt)} \xB7 ${p(s.context)}</p><div class="sn-body">${_(s.body)}</div><div class="sn-actions"><button class="sn-btn" data-edit="${s.id}">EDIT</button><button class="sn-btn" data-del="${s.id}">DELETE</button></div></article>`).join(""),k(o,e,c(".sn-x",o))}function q(t){let e=x(t.anchor);if(!e)return"\u26A0 UNANCHORED";let n=e.closest("section[id]")?.id||t.anchor.slice(0,3);return{ch1:"CH-01 \xB7 NETWORK",ch2:"CH-02 \xB7 TX FLOW",ch3:"CH-03 \xB7 MEV",ch4:"CH-04 \xB7 LATENCY",ch5:"CH-05 \xB7 BENCH"}[n]||"CH-05 \xB7 BENCH"}function H(){let t={};r.forEach(e=>(t[q(e)]??=[]).push(e)),f.innerHTML=w(`<strong>FIELD NOTES \xB7 ${r.length}</strong>${O.sessionOnly?" \xB7 NOTES \xB7 SESSION ONLY":""}`)+(S?'<p class="sn-warn">PAGE REVISED SINCE NOTES \u2014 CHECK ANCHORS</p>':"")+(r.length?"":"<p>No notes yet. Arm NOTES, then click a surface.</p>")+Object.entries(t).map(([e,n])=>`<section class="sn-group"><h3>${e}</h3>${n.map(s=>`<article class="sn-item"><button class="sn-jump" data-jump="${s.id}"><small>${p(s.context||s.anchor)}</small>${p(s.body.split(`
@@ -3653,7 +3764,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <div class="entity-layout">
         <div class="entity-copy">
           <section aria-labelledby="entityWhat"><h3 class="entity-section-label" id="entityWhat">WHAT IT IS</h3>${(entity.body || []).map(para=>`<p>${renderLite(para)}</p>`).join('')}</section>
-          <section aria-labelledby="entityHow"><h3 class="entity-section-label" id="entityHow">HOW IT WORKS</h3><div class="entity-diagram-wrap">${diagramHtml(entity)}<ol class="entity-steps">${(entity.how?.steps || []).map(step=>`<li>${esc(step)}</li>`).join('')}</ol></div></section>
+          <section aria-labelledby="entityHow"><h3 class="entity-section-label" id="entityHow">HOW IT WORKS</h3><div class="entity-diagram-wrap">${diagramHtml(entity)}<ol class="entity-steps">${(entity.how?.steps || []).map(step=>`<li><span>${esc(step)}</span></li>`).join('')}</ol></div></section>
           <section aria-labelledby="entityLinks"><h3 class="entity-section-label" id="entityLinks">LINKS</h3><ul class="entity-link-list">${links.map(link=>`<li><a href="${esc(link.safe)}" target="_blank" rel="noopener"><span class="entity-link-kind">${esc(link.kind)}</span><span>${esc(link.label)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>
           <section aria-labelledby="entityRelated"><h3 class="entity-section-label" id="entityRelated">RELATED</h3><div class="entity-related">${related.length ? related.map(key=>`<button type="button" class="entity-chip entity-door" data-entity-id="${esc(key)}">${esc(entities[key].name)}</button>`).join('') : '<span class="entity-empty">No related channels loaded.</span>'}</div></section>
           <section aria-labelledby="entityAppears"><h3 class="entity-section-label" id="entityAppears">APPEARS ON</h3><div class="entity-appears">${appears.length ? appears.map(hit=>`<a class="entity-appear-link" href="${esc(hit.href)}">${esc(hit.label)}</a>`).join('') : '<span class="entity-empty">Reference index only.</span>'}</div></section>

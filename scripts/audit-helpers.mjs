@@ -5,7 +5,9 @@ import { chromium } from 'playwright';
 
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-export const targetUrl = process.env.SCOPE_URL || pathToFileURL(resolve('index.html')).href;
+const localAuditUrl = new URL(pathToFileURL(resolve('index.html')).href);
+localAuditUrl.searchParams.set('scope-audit', '1');
+export const targetUrl = process.env.SCOPE_URL || localAuditUrl.href;
 
 export async function launchAuditBrowser() {
   const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ||
@@ -27,6 +29,9 @@ export async function openAuditPage(browser, width, options = {}) {
     await page.route(/^https?:\/\//, route => route.abort('blockedbyclient'));
   }
   await page.goto(targetUrl, { waitUntil: 'load' });
+  if (new URL(targetUrl).searchParams.has('scope-audit')) {
+    await page.evaluate(() => { document.documentElement.dataset.scopeUnlocked = 'audit'; });
+  }
   await page.evaluate(() => document.fonts ? document.fonts.ready : Promise.resolve());
   await page.waitForTimeout(options.settleMs || 80);
   return { context, page, errors };
