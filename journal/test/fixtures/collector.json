@@ -1,0 +1,145 @@
+{
+  "collectedAt": 1700000400,
+  "addresses": {
+    "11111111111111111111111111111111": {
+      "signatures": [
+        {
+          "signature": "3333333333333333333333333333333333333333333333333333333333333333",
+          "slot": 101,
+          "blockTime": 1700000100,
+          "err": false
+        }
+      ],
+      "balances": {
+        "slot": 104,
+        "solLamports": 2500000000,
+        "tokenBalances": {
+          "So11111111111111111111111111111111111111112": 1.25
+        }
+      }
+    },
+    "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA": {
+      "signatures": [
+        {
+          "signature": "4444444444444444444444444444444444444444444444444444444444444444",
+          "slot": 102,
+          "blockTime": 1700000200,
+          "err": false
+        }
+      ],
+      "balances": {
+        "slot": 104,
+        "solLamports": 500000000,
+        "tokenBalances": {}
+      }
+    },
+    "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4": {
+      "signatures": [
+        {
+          "signature": "5555555555555555555555555555555555555555555555555555555555555555",
+          "slot": 103,
+          "blockTime": 1700000300,
+          "err": false
+        }
+      ],
+      "balances": {
+        "slot": 104,
+        "solLamports": 1000000000,
+        "tokenBalances": {
+          "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": 42
+        }
+      }
+    }
+  },
+  "transactions": {
+    "3333333333333333333333333333333333333333333333333333333333333333": {
+      "slot": 101,
+      "blockTime": 1700000100,
+      "meta": {
+        "fee": 7000,
+        "err": null,
+        "computeUnitsConsumed": 150000,
+        "innerInstructions": []
+      },
+      "transaction": {
+        "message": {
+          "accountKeys": [],
+          "instructions": [
+            {
+              "programId": "ComputeBudget111111111111111111111111111111",
+              "parsed": {
+                "type": "setComputeUnitLimit",
+                "info": { "units": 200000 }
+              }
+            },
+            {
+              "programId": "ComputeBudget111111111111111111111111111111",
+              "parsed": {
+                "type": "setComputeUnitPrice",
+                "info": { "microLamports": 10000 }
+              }
+            },
+            {
+              "programId": "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4"
+            },
+            {
+              "programId": "11111111111111111111111111111111",
+              "parsed": {
+                "type": "transfer",
+                "info": {
+                  "destination": "96gYZGLnJYVFmbjzopPSU6QiEV5fGqZNyN9nmNhvrZU5",
+                  "lamports": 2000
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "4444444444444444444444444444444444444444444444444444444444444444": {
+      "slot": 102,
+      "blockTime": 1700000200,
+      "meta": {
+        "fee": 5000,
+        "err": null,
+        "innerInstructions": []
+      },
+      "transaction": {
+        "message": {
+          "accountKeys": [],
+          "instructions": [
+            {
+              "programId": "11111111111111111111111111111111",
+              "parsed": {
+                "type": "transfer",
+                "info": {
+                  "destination": "11111111111111111111111111111111",
+                  "lamports": 100
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "5555555555555555555555555555555555555555555555555555555555555555": {
+      "slot": 103,
+      "blockTime": 1700000300,
+      "meta": {
+        "fee": 5000,
+        "err": null,
+        "innerInstructions": []
+      },
+      "transaction": {
+        "message": {
+          "accountKeys": [],
+          "instructions": [
+            {
+              "programId": "Vote111111111111111111111111111111111111111"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
