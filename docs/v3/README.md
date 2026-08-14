@@ -32,6 +32,12 @@ containment for termified grid/flex copy, and a 24-note guided-playthrough layer
 that spotlights the active target. The access console is a client-side gate for
 the static public artifact, not server-side authentication.
 
+The subsequent command-channel extension deliberately adds three local assets
+outside the single-file core: pinned Fuse.js 7.5.0, palette behavior, and palette
+styles. It indexes 136 local records, integrates all five sections, and exposes
+global Left/Right cue traversal plus Space autoplay/pause without capturing keys
+inside editors, interactive controls, or overlays.
+
 Release snapshot: the page is 403,622 raw bytes, exposes 49 hoverdoc terms, 24
 cues, field notes, and 53 unique entity routes. The journal suite passes 36
 tests / 332 assertions and its live acceptance database contains three watched

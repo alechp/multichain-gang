@@ -2,9 +2,9 @@
 
 An interactive engineering instrument for Solana: five oscilloscope-styled
 channels cover consensus topology, transaction flow, MEV, low-latency
-infrastructure, and a cross-chain bench. The static page remains one
-self-contained HTML file; a separate local journal collects public observations
-and runs paper-only historical simulators.
+infrastructure, and a cross-chain bench. The core instrument remains one HTML
+file, with local command-channel assets; a separate local journal collects
+public observations and runs paper-only historical simulators.
 
 **Live:** https://alechp.github.io/solana/
 
@@ -14,9 +14,9 @@ Open `index.html` directly, or serve the repository root:
 
     npx serve .
 
-There is no page build step. anime.js and the web fonts are optional network
-enhancements; reduced motion, a blocked CDN, and JavaScript-off all preserve the
-teaching content.
+There is no page build step. Fuse.js 7.5.0 is vendored locally for the command
+palette; anime.js and the web fonts are optional network enhancements. Reduced
+motion, a blocked CDN, and JavaScript-off all preserve the teaching content.
 
 The live page opens behind a session-only access-code console. This is a casual
 access gate, not a security boundary: GitHub Pages still serves the HTML and
@@ -43,7 +43,10 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 
 ## Layout
 
-    index.html                      v3 public instrument (CH-01 … CH-05)
+    index.html                      v3 instrument core (CH-01 … CH-05)
+    scripts/command-palette.js      command channel, search index, keyboard bridge
+    styles/command-palette.css      responsive command-channel surface
+    vendor/fuse.basic.min.js        pinned local Fuse.js 7.5.0 basic build
     scripts/audit-*.mjs             page fit, contrast, foundation, degradation QA
     journal/                        local SQLite collector, CLI, workbench, simulators
     docs/v3/                        implemented v3 specification and execution ledger
@@ -56,6 +59,9 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 - A 24-cue read-through transport with authored takeaway notes, a target
   spotlight, persisted reading scale, and complete manual, reduced-motion, and
   CDN-failure modes.
+- Global Left/Right focus traversal and Space autoplay/pause, plus a `⌘K` /
+  `Ctrl+K` command channel with five-section jumps and fuzzy local search across
+  136 section, cue, entity, tool, chain, and glossary records.
 - In-place field notes with stable anchors, local persistence, Markdown/JSON
   export, import, orphan recovery, and private-mode fallback.
 - 53 unique hash-routed entity channels spanning techniques, tools, chains, and
@@ -69,6 +75,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-svg-fit.mjs
     node scripts/audit-contrast.mjs
     node scripts/audit-degradation.mjs
+    node scripts/audit-command-channel.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
