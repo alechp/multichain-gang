@@ -20,6 +20,7 @@ export const cexdexGapWatch: Simulator = {
   id: "cexdex-gap-watch",
   label: "CEX/DEX gap watch",
   description: "Historical price-gap detector over two already-collected public series.",
+  metricScope: "global",
   params: [
     {
       id: "dexSeries",

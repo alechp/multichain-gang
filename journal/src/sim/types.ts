@@ -48,6 +48,7 @@ export interface Simulator {
   label: string;
   description: string;
   params: ParamSpec[];
+  metricScope?: "address" | "global";
   metricRequests(params: SimParams, address: string): MetricRequest[];
   run(ctx: SimContext): SimResult;
 }

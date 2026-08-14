@@ -72,6 +72,7 @@ permitted.
 bun run journal -- watch ls
 bun run journal -- show <address>
 bun run journal -- sim priority-fee-sweep --address <address> --window 30d
+bun run journal -- sim jito-tip-band --address <address> --window 30d
 bun run journal -- sim cexdex-gap-watch --address <address> --window 30d
 bun run journal -- note add "reviewed the historical trace" --address <address>
 bun run journal -- export --md --out journal.md
@@ -83,6 +84,9 @@ bun run serve
 Every simulator result is stamped `PAPER · HYPOTHETICAL`, lists at least three
 assumptions and two caveats, and is saved for note linkage. These are
 retrospective detectors and estimators—not live planning or advice. The
+`jito-tip-band` model describes the collected public Jito landed-tip
+percentiles; its address is watch-context only because those metrics are
+global. It does not recommend a tip or predict inclusion. The
 `cexdex-gap-watch` model requires two already-collected price series
 (`venue.dex.price` and `venue.cex.price`, keyed to the same market).
 

@@ -8,6 +8,7 @@ import { openJournalDatabase, type JournalDatabase } from "../src/db";
 import { addressDetail, EMPTY_COMMAND, workbenchState } from "../src/sim/data";
 import { exportJson, exportMarkdown, importJson } from "../src/sim/export";
 import { executeSimulator, PAPER_STAMP, validateSimResult } from "../src/sim";
+import { JitoSource } from "../src/sources/jito";
 import { FixtureRpcSource, type RpcFixture } from "../src/sources/rpc";
 import { handleWorkbenchRequest, startWorkbenchServer } from "../web/server";
 
@@ -17,10 +18,16 @@ const CONFIG_PATH = resolve(JOURNAL_ROOT, "journal.config.json");
 const COLLECTOR_FIXTURE_PATH = resolve(import.meta.dir, "fixtures", "collector.json");
 const VENUE_FIXTURE_PATH = resolve(import.meta.dir, "fixtures", "workbench-venue.json");
 const ADDRESS = "11111111111111111111111111111111";
+const JITO_CONTEXT_ADDRESS = "6".repeat(44);
 const fixture = JSON.parse(readFileSync(COLLECTOR_FIXTURE_PATH, "utf8")) as RpcFixture;
 const venue = JSON.parse(readFileSync(VENUE_FIXTURE_PATH, "utf8")) as {
   series: Array<{ ts: number; series: string; key: string; value: number }>;
 };
+const jitoFixture = [
+  ["2023-11-14T23:20:00Z", 0.000001, 0.000002, 0.000003, 0.000005, 0.0000022],
+  ["2023-11-15T00:20:00Z", 0.0000015, 0.0000025, 0.000004, 0.000007, 0.0000024],
+  ["2023-11-15T01:20:00Z", 0.0000012, 0.0000022, 0.0000035, 0.000006, 0.0000023],
+] as const;
 const tempRoots: string[] = [];
 const databases: JournalDatabase[] = [];
 
@@ -51,6 +58,29 @@ async function collectedDatabase(root: string): Promise<JournalDatabase> {
   if (summary.failures.length > 0) throw new Error(JSON.stringify(summary.failures));
   for (const metric of venue.series) database.upsertMetric(metric);
   return database;
+}
+
+async function seedJitoFixture(database: JournalDatabase, count = jitoFixture.length): Promise<void> {
+  let index = 0;
+  const source = new JitoSource({
+    fetch: async () => {
+      const row = jitoFixture[index];
+      if (row === undefined) throw new Error("Jito fixture exhausted");
+      index += 1;
+      return Response.json([{
+        time: row[0],
+        landed_tips_25th_percentile: row[1],
+        landed_tips_50th_percentile: row[2],
+        landed_tips_75th_percentile: row[3],
+        landed_tips_95th_percentile: row[4],
+        landed_tips_99th_percentile: row[4] * 1.25,
+        ema_landed_tips_50th_percentile: row[5],
+      }]);
+    },
+  });
+  for (let fixtureIndex = 0; fixtureIndex < count; fixtureIndex += 1) {
+    for (const metric of await source.metrics()) database.upsertMetric(metric);
+  }
 }
 
 async function runCli(databasePath: string, args: string[]): Promise<{
@@ -134,6 +164,75 @@ describe("paper simulators and journal export", () => {
     expect(exportJson(imported, new Date("2026-08-14T00:00:00Z"))).toBe(json);
   });
 
+  test("runs, saves, links, and exports the global Jito tip band", async () => {
+    const root = tempRoot();
+    const database = await collectedDatabase(root);
+    await seedJitoFixture(database);
+    database.upsertAddress({
+      address: JITO_CONTEXT_ADDRESS,
+      label: "Context-only watch",
+      tags: ["context"],
+      active: true,
+    });
+    const run = executeSimulator({
+      database,
+      id: "jito-tip-band",
+      address: JITO_CONTEXT_ADDRESS,
+      windowSeconds: 30 * 86_400,
+      runTs: 1_700_020_000,
+    });
+    validateSimResult(run.result);
+    const result = run.result as ReturnType<typeof JSON.parse>;
+    expect(result.stamp).toBe(PAPER_STAMP);
+    expect(result.summary).toContain("3 collected Jito tip-floor snapshots");
+    expect(result.series).toHaveLength(6);
+    expect(result.series.every((series: { points: unknown[] }) => series.points.length > 0)).toBe(true);
+    expect(result.metrics).toContainEqual({ k: "OBSERVED SNAPSHOTS", v: "3" });
+    expect(database.listSimRuns().some((saved) => saved.id === run.id)).toBe(true);
+    const entry = database.addJournalEntry({
+      ts: 1_700_020_100,
+      body: "Reviewed the collected Jito percentile band.",
+      address: JITO_CONTEXT_ADDRESS,
+      simRun: run.id,
+      tags: ["jito", "live-shape"],
+    });
+    expect(database.listJournalEntries({ tag: "jito" })[0]?.simRun).toBe(run.id);
+    const markdown = exportMarkdown(database, new Date("2026-08-14T00:00:00Z"));
+    expect(markdown).toContain("jito-tip-band");
+    expect(markdown).toContain(entry.body);
+    expect(markdown).toContain("Historical landed-tip percentiles do not guarantee");
+  });
+
+  test("keeps empty and one-snapshot Jito results honest and stable", async () => {
+    const root = tempRoot();
+    const database = await collectedDatabase(root);
+    const empty = executeSimulator({
+      database,
+      id: "jito-tip-band",
+      address: ADDRESS,
+      windowSeconds: 30 * 86_400,
+      runTs: 1_700_020_000,
+    }).result as ReturnType<typeof JSON.parse>;
+    expect(empty.summary).toStartWith("No collected Jito");
+    expect(empty.series.every((series: { points: unknown[] }) => series.points.length === 0)).toBe(true);
+    expect(empty.metrics).toContainEqual({ k: "LATEST P50", v: "n/a" });
+    validateSimResult(empty);
+
+    await seedJitoFixture(database, 1);
+    const single = executeSimulator({
+      database,
+      id: "jito-tip-band",
+      address: ADDRESS,
+      windowSeconds: 30 * 86_400,
+      runTs: 1_700_020_100,
+    }).result as ReturnType<typeof JSON.parse>;
+    expect(single.summary).toStartWith("One collected Jito");
+    expect(single.metrics).toContainEqual({ k: "OBSERVED SNAPSHOTS", v: "1" });
+    expect(single.series.find((series: { name: string }) => series.name.includes("p25–p75"))
+      ?.points).toHaveLength(1);
+    validateSimResult(single);
+  });
+
   test("keeps an empty store instructive and stable", () => {
     const root = tempRoot();
     const database = openDatabase(join(root, "empty.db"));
@@ -150,6 +249,7 @@ describe("workbench CLI", () => {
     const root = tempRoot();
     const databasePath = join(root, "journal.db");
     const database = await collectedDatabase(root);
+    await seedJitoFixture(database);
     database.close();
     databases.pop();
 
@@ -171,6 +271,13 @@ describe("workbench CLI", () => {
     ]);
     expect(gap.exitCode).toBe(0);
     expect(gap.stdout).toContain(PAPER_STAMP);
+    const jito = await runCli(databasePath, [
+      "sim", "jito-tip-band", "--address", ADDRESS, "--window", "30d",
+    ]);
+    expect(jito.exitCode).toBe(0);
+    expect(jito.stdout).toContain(PAPER_STAMP);
+    expect(jito.stdout).toMatch(/OBSERVED SNAPSHOTS\s+3/);
+    expect(jito.stdout.split("\n").every((line) => Array.from(line).length <= 80)).toBe(true);
 
     const inspect = openJournalDatabase(databasePath);
     const runId = inspect.listSimRuns()[0]?.id;
@@ -190,11 +297,11 @@ describe("workbench CLI", () => {
     expect((await runCli(databasePath, ["export", "--md", "--out", markdownPath])).exitCode).toBe(0);
     expect((await runCli(databasePath, ["export", "--json", "--out", jsonPath])).exitCode).toBe(0);
     expect(readFileSync(markdownPath, "utf8")).toContain("### Caveats");
-    expect(JSON.parse(readFileSync(jsonPath, "utf8")).simRuns).toHaveLength(2);
+    expect(JSON.parse(readFileSync(jsonPath, "utf8")).simRuns).toHaveLength(3);
     const importedPath = join(root, "cli-import.db");
     expect((await runCli(importedPath, ["import", jsonPath])).exitCode).toBe(0);
     const imported = openJournalDatabase(importedPath);
-    expect(imported.count("sim_runs")).toBe(2);
+    expect(imported.count("sim_runs")).toBe(3);
     expect(imported.count("journal_entries")).toBe(1);
     imported.close();
   });
@@ -229,6 +336,7 @@ describe("local HTTP workbench", () => {
     expect(state.selected?.latest["balance.sol"]).toBe(
       addressDetail(database, ADDRESS)?.latest["balance.sol"],
     );
+    expect(state.simulators.map((simulator) => simulator.id)).toContain("jito-tip-band");
     const simResponse = await request("/api/sim", {
         method: "POST",
         headers: { "content-type": "application/json" },
