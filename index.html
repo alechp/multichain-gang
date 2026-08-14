@@ -1692,9 +1692,20 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     <table>
       <thead><tr><th>Name</th><th>Kind</th><th>One-line readout</th><th>Primary source</th></tr></thead>
       <tbody>
+        <tr><td>Atomic arbitrage</td><td>technique</td><td>An all-or-nothing route that closes an executable price gap across venues.</td><td><a href="https://ethereum.org/developers/docs/mev/">Ethereum MEV documentation ↗</a></td></tr>
         <tr><td>Sandwiching</td><td>technique</td><td>A three-transaction extraction pattern that brackets a price-sensitive swap.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect docs ↗</a></td></tr>
+        <tr><td>Liquidations</td><td>technique</td><td>A keeper race to repay unsafe debt in exchange for discounted collateral.</td><td><a href="https://aave.com/help/borrowing/liquidations">Aave liquidation guide ↗</a></td></tr>
+        <tr><td>Backrunning</td><td>technique</td><td>A transaction placed directly after the state change that creates its opportunity.</td><td><a href="https://docs.flashbots.net/flashbots-mev-share/introduction">Flashbots MEV-Share docs ↗</a></td></tr>
+        <tr><td>JIT liquidity</td><td>technique</td><td>A concentrated position added for one known swap and removed immediately after it.</td><td><a href="https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity">Uniswap liquidity docs ↗</a></td></tr>
+        <tr><td>CEX–DEX arbitrage</td><td>technique</td><td>A non-atomic hedge between an on-chain pool and a centralized order book.</td><td><a href="https://app.uniswap.org/whitepaper.pdf">Uniswap v2 whitepaper ↗</a></td></tr>
+        <tr><td>Spam / probabilistic racing</td><td>technique</td><td>Redundant submissions that buy extra chances to reach scarce state first.</td><td><a href="https://solana.com/docs/core/fees">Solana fee docs ↗</a></td></tr>
+        <tr><td>Mint / launch sniping</td><td>technique</td><td>The first-valid-state race when scarce inventory or a new market opens.</td><td><a href="https://www.metaplex.com/docs/smart-contracts/candy-machine/mint">Metaplex minting docs ↗</a></td></tr>
         <tr><td>Jito Block Engine</td><td>tool</td><td>Solana's sealed-bid bundle auction for atomic, leader-bound transaction packages.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito low-latency transaction send docs ↗</a></td></tr>
         <tr><td>Solana</td><td>chain</td><td>A parallel runtime organized around a roughly 400 ms leader schedule and explicit account locks.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction docs ↗</a></td></tr>
+        <tr><td>Ethereum</td><td>chain</td><td>A proof-of-stake EVM with a public fee market and specialized block builders.</td><td><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/">Ethereum PoS docs ↗</a></td></tr>
+        <tr><td>BNB Chain</td><td>chain</td><td>A sub-second EVM network run by a compact, stake-elected producer cohort.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/">BNB Smart Chain docs ↗</a></td></tr>
+        <tr><td>Bitcoin</td><td>chain</td><td>A proof-of-work UTXO ledger with fee-rate ordering and probabilistic settlement.</td><td><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin whitepaper ↗</a></td></tr>
+        <tr><td>Zcash</td><td>chain</td><td>A proof-of-work UTXO chain with zero-knowledge shielded value pools.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -1764,15 +1775,46 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   "==/V3C:JSON==": null,
   "==V3E:JSON==": null,
   "entities": {
+    "atomic-arb": {
+      "kind": "technique",
+      "name": "Atomic arbitrage",
+      "tagline": "One indivisible route that closes a price gap or leaves no trade behind.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "Atomic arbitrage buys an underpriced asset in one venue and sells it into a richer venue inside one all-or-nothing execution path. The captured spread must cover pool fees, network fees, price impact, and any ordering payment. If a required leg cannot clear at the simulated state, the route reverts instead of leaving the searcher with unwanted inventory. That atomicity turns a fragile sequence into one priced decision.",
+        "The atomic boundary usually covers on-chain legs only. A Solana searcher can sequence several transactions in a bundle; an EVM searcher can compose calls in one transaction, often with temporary liquidity. Competition pushes most predictable value into priority fees, builder payments, or tips, so the durable edge is faster state, better routing, and fewer failed bids. Execution quality, not mere detection, determines who survives the auction."
+      ],
+      "how": {
+        "diagram": "intent-batch",
+        "params": {},
+        "steps": [
+          "A searcher compares executable prices across pools",
+          "The route is simulated with fees and price impact",
+          "All swap legs are packaged behind one failure boundary",
+          "The route lands only while its net spread stays positive"
+        ]
+      },
+      "signals": [
+        {"k": "failure boundary", "v": "all legs land or all revert"},
+        {"k": "gross edge", "v": "cross-venue executable price gap"},
+        {"k": "net edge", "v": "spread − fees − impact − ordering bid"}
+      ],
+      "links": [
+        {"label": "Ethereum MEV documentation", "url": "https://ethereum.org/developers/docs/mev/", "kind": "official"},
+        {"label": "Jito bundle documentation", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"},
+        {"label": "Uniswap v2 whitepaper", "url": "https://app.uniswap.org/whitepaper.pdf", "kind": "research"}
+      ],
+      "related": ["backrun", "cexdex", "sandwich"]
+    },
     "sandwich": {
       "kind": "technique",
       "name": "Sandwiching",
       "tagline": "The three-transaction bracket that turns a user's price impact into someone else's spread.",
       "chains": ["sol", "eth", "bnb"],
       "body": [
-        "A sandwich places an attacker buy immediately before a price-sensitive swap and an attacker sell immediately after it. The victim moves the pool price between those two legs; the attacker exits into that movement. The three operations must be ordered tightly enough that no competing transaction breaks the bracket.",
-        "The technique needs early order-flow visibility, reliable placement, and a victim whose slippage limit leaves room for extraction. On Solana, private or leaked transaction flow can supply the preview while bundles and leader-adjacent infrastructure supply ordering. Fast blocks shrink the decision window; they do not remove the economic pattern.",
-        "Protection changes the path or the auction. Private submission hides the swap from public observers, intent systems make solvers compete for the fill, and strict slippage bounds reduce the available spread. A protected route is not a promise of best execution, but it removes the attacker's easiest input: a visible, permissive order."
+        "A sandwich places an attacker buy immediately before a price-sensitive swap and an attacker sell immediately after it. The victim moves the pool price between those two legs; the attacker exits into that movement. The three operations must be ordered tightly enough that no competing transaction breaks the bracket. Its profit is the victim's worsened execution, net of fees and ordering costs.",
+        "The technique needs early order-flow visibility, reliable placement, and a victim whose slippage limit leaves room for extraction. On Solana, private or leaked transaction flow can supply the preview while bundles and leader-adjacent infrastructure supply ordering. Fast blocks shrink the decision window; they do not remove the economic pattern. The advantage comes from information and proximity rather than the consensus protocol itself.",
+        "Protection changes the path or the auction. Private submission hides the swap from public observers, intent systems make solvers compete for the fill, and strict slippage bounds reduce the available spread. A protected route is not a promise of best execution, but it removes the attacker's easiest input: a visible, permissive order. Users should still verify route policy and the price they actually received."
       ],
       "how": {
         "diagram": "sandwich",
@@ -1791,10 +1833,197 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       ],
       "links": [
         {"label": "Flashbots Protect overview", "url": "https://docs.flashbots.net/flashbots-protect/overview", "kind": "official"},
+        {"label": "Jito low-latency transaction send", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"},
+        {"label": "Ethereum MEV documentation", "url": "https://ethereum.org/developers/docs/mev/", "kind": "official"}
+      ],
+      "related": ["atomic-arb", "backrun", "jit", "jito-be"],
+      "term": "sandwich"
+    },
+    "liquidations": {
+      "kind": "technique",
+      "name": "Liquidations",
+      "tagline": "The keeper race that converts an unsafe loan into repaid debt and discounted collateral.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "A lending protocol marks a position liquidatable when collateral no longer covers debt by its configured safety rules. A liquidator repays an allowed portion of that debt and receives collateral plus a protocol-set incentive. The action protects the pool from bad debt, but the right to collect the incentive goes to whichever valid transaction changes the position first. Eligibility is permissionless.",
+        "Liquidation searchers watch oracle updates, account health, and pending repayments, then simulate the seize-and-sell route. Their bid must leave room for execution costs, slippage, and the chance that a rival lands first. Because the eligibility boundary and reward parameters belong to each market, a bot must read live protocol state rather than hard-code a universal threshold. Every opportunity is therefore a live state calculation."
+      ],
+      "how": {
+        "diagram": "window",
+        "params": {},
+        "steps": [
+          "A keeper recomputes borrower health from protocol state",
+          "A price or balance update crosses the liquidation boundary",
+          "Competing keepers bid to repay the eligible debt first",
+          "The winner receives collateral and closes its inventory risk"
+        ]
+      },
+      "signals": [
+        {"k": "trigger", "v": "market-specific health threshold"},
+        {"k": "reward", "v": "discounted collateral − unwind costs"},
+        {"k": "race input", "v": "oracle + account state + priority bid"}
+      ],
+      "links": [
+        {"label": "Aave health factor and liquidations", "url": "https://aave.com/help/borrowing/liquidations", "kind": "official"},
+        {"label": "Compound liquidation documentation", "url": "https://docs.compound.finance/v2/comptroller/#liquidate-borrow", "kind": "docs"},
+        {"label": "Solana fee documentation", "url": "https://solana.com/docs/core/fees", "kind": "docs"}
+      ],
+      "related": ["backrun", "cexdex", "spam"]
+    },
+    "backrun": {
+      "kind": "technique",
+      "name": "Backrunning",
+      "tagline": "A transaction placed directly after the state change that creates its opportunity.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "A backrun reacts to a known transaction rather than racing ahead of it. The target might move a pool price, refresh an oracle, or open a liquidation. The searcher's transaction is valuable only after that state change, so the ordering product is a reliable trailing position with enough information to simulate the new state. Without adjacency, the planned response may be worthless.",
+        "Backrunning can restore prices after a swap and may be less harmful than bracketing the user, but it still assigns value from ordering. Private-flow systems can auction the trailing slot and return part of the proceeds to the order source. The core risks are target failure, stale simulation, and another state change inserted between target and response. That gap is why simulation and cancellation discipline matter."
+      ],
+      "how": {
+        "diagram": "sol-bundle",
+        "params": {},
+        "steps": [
+          "A target transaction reveals a predictable state transition",
+          "Searchers simulate responses against the target's post-state",
+          "Competing responses bid for the first trailing position",
+          "Target and winning response land in the required order"
+        ]
+      },
+      "signals": [
+        {"k": "required order", "v": "target → searcher response"},
+        {"k": "common triggers", "v": "large swap · oracle update · liquidation"},
+        {"k": "principal risk", "v": "target failure or intervening state"}
+      ],
+      "links": [
+        {"label": "Flashbots MEV-Share introduction", "url": "https://docs.flashbots.net/flashbots-mev-share/introduction", "kind": "official"},
+        {"label": "Jito bundle documentation", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"},
+        {"label": "MEV-Share reference implementation", "url": "https://github.com/flashbots/mev-share", "kind": "research"}
+      ],
+      "related": ["atomic-arb", "liquidations", "cexdex"]
+    },
+    "jit": {
+      "kind": "technique",
+      "name": "JIT liquidity",
+      "tagline": "Liquidity that appears for one incoming swap, earns its fee, then disappears.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "Just-in-time liquidity is a concentrated position minted immediately before a known swap and removed immediately after it. The provider chooses a narrow range around the expected execution price, supplies unusually deep liquidity for that one trade, and earns a share of the fee while reducing the swap's price impact. The swap sees more depth exactly where it needs it most.",
+        "The position is not free yield. The provider takes the opposite side of the user's trade and can lose to adverse selection when the external price moves. Success depends on seeing the order, pricing inventory risk, securing adjacent ordering, and withdrawing after the swap. Batch auctions and private order flow can turn that bilateral race into explicit solver competition immediately."
+      ],
+      "how": {
+        "diagram": "intent-batch",
+        "params": {},
+        "steps": [
+          "A pending swap reveals size, direction, and price limit",
+          "A provider prices a narrow concentrated-liquidity position",
+          "Liquidity is added immediately before the swap executes",
+          "The position is removed and inventory is hedged afterward"
+        ]
+      },
+      "signals": [
+        {"k": "required order", "v": "mint → swap → burn"},
+        {"k": "income", "v": "swap fee + execution improvement"},
+        {"k": "principal risk", "v": "adverse selection + hedge slippage"}
+      ],
+      "links": [
+        {"label": "Uniswap concentrated liquidity", "url": "https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity", "kind": "official"},
+        {"label": "Uniswap v3 core", "url": "https://github.com/Uniswap/v3-core", "kind": "docs"},
+        {"label": "Uniswap v3 whitepaper", "url": "https://uniswap.org/whitepaper-v3.pdf", "kind": "research"}
+      ],
+      "related": ["sandwich", "backrun", "cexdex"]
+    },
+    "cexdex": {
+      "kind": "technique",
+      "name": "CEX–DEX arbitrage",
+      "tagline": "The cross-market hedge that pulls an on-chain pool toward an off-chain order book.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "CEX–DEX arbitrage compares an automated market maker's executable price with a centralized exchange order book. The searcher trades the stale side on-chain and offsets the inventory on the exchange, moving the pool toward the wider market. Unlike a pure on-chain loop, the two venues do not share one atomic settlement boundary. Settlement risk remains even when both orders were correct at submission.",
+        "That broken boundary is the strategy's defining risk. The chain leg can fail while the hedge fills, an exchange can throttle or reject the hedge, and prices can move during transfer or confirmation. Competitive systems therefore value low-latency market data, pre-positioned inventory on both venues, careful size limits, and fast inclusion more than headline spread alone. Capital must be staged in advance."
+      ],
+      "how": {
+        "diagram": "window",
+        "params": {},
+        "steps": [
+          "The searcher compares executable depth on-chain and off-chain",
+          "Fees, impact, hedge latency, and inventory limits are priced",
+          "The on-chain leg bids for inclusion while the CEX leg hedges",
+          "Residual inventory is reconciled after both venues report fills"
+        ]
+      },
+      "signals": [
+        {"k": "price input", "v": "AMM curve ↔ CEX order book"},
+        {"k": "atomicity", "v": "none across venue boundary"},
+        {"k": "principal risk", "v": "leg risk + stale quote + inventory"}
+      ],
+      "links": [
+        {"label": "Ethereum MEV documentation", "url": "https://ethereum.org/developers/docs/mev/", "kind": "official"},
+        {"label": "Jito bundle documentation", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"},
+        {"label": "Uniswap v2 whitepaper", "url": "https://app.uniswap.org/whitepaper.pdf", "kind": "research"}
+      ],
+      "related": ["atomic-arb", "backrun", "spam"]
+    },
+    "spam": {
+      "kind": "technique",
+      "name": "Spam / probabilistic racing",
+      "tagline": "Many redundant packets buying one extra chance to arrive before a scarce state changes.",
+      "chains": ["sol", "bnb"],
+      "body": [
+        "A spam race submits many equivalent or near-equivalent transactions because the sender cannot reserve an ordering position directly. Each copy is another draw against packet loss, queue contention, and leader timing. Only one success is useful; the rest consume ingress, signature checks, and scheduler attention or fail against already-changed state. The strategy privatizes the small win while socializing the processing load.",
+        "The durable fixes make urgency explicit. Priority fees price scarce execution, stake-weighted ingress limits untrusted floods, and bundle auctions sell ordered atomic execution instead of rewarding duplication. Retries are still normal distributed-systems behavior, but a retry policy should react to expiry and observed status rather than broadcast an unbounded fan of identical work. Good clients back off when the chain has already answered."
+      ],
+      "how": {
+        "diagram": "swqos-lanes",
+        "params": {},
+        "steps": [
+          "A narrow opportunity appears without a reserved position",
+          "The searcher emits redundant candidates toward the leader",
+          "Ingress and scheduling admit only part of the flood",
+          "One copy wins; stale siblings fail or expire"
+        ]
+      },
+      "signals": [
+        {"k": "shape", "v": "many submissions · one useful state change"},
+        {"k": "externality", "v": "ingress + verification + scheduling load"},
+        {"k": "market alternative", "v": "priority bid or ordered bundle"}
+      ],
+      "links": [
+        {"label": "Solana fee documentation", "url": "https://solana.com/docs/core/fees", "kind": "official"},
+        {"label": "Solana transaction documentation", "url": "https://solana.com/docs/core/transactions", "kind": "docs"},
         {"label": "Jito low-latency transaction send", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"}
       ],
-      "related": ["jito-be", "backrun", "jito-protect"],
-      "term": "sandwich"
+      "related": ["snipe", "cexdex", "sol"]
+    },
+    "snipe": {
+      "kind": "technique",
+      "name": "Mint / launch sniping",
+      "tagline": "The first-valid-state race at the instant a scarce asset or market becomes available.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "A launch snipe targets the first block or slot in which a mint, sale, or new pool accepts transactions. Searchers monitor program state and clocks, prepare the transaction before activation, and compete on arrival or ordering. Scarcity makes the payoff discontinuous: landing one position earlier can separate an allocation from a clean failure. Bots turn that discontinuity into an infrastructure contest.",
+        "Not every fast mint is abusive; the same mechanics power legitimate collectors and market makers. Design determines the game. Allowlists, per-wallet limits, randomized allocation, commit-reveal flows, and guarded start conditions can reduce the reward for raw latency, while priority fees and private routes merely price the race more explicitly. Those choices move fairness into protocol design instead of network speed alone."
+      ],
+      "how": {
+        "diagram": "sol-bundle",
+        "params": {},
+        "steps": [
+          "The searcher watches activation state and scarce inventory",
+          "A valid mint or buy transaction is prepared before the opening",
+          "Submission is timed and bid for the earliest eligible position",
+          "The program accepts winners and rejects exhausted inventory"
+        ]
+      },
+      "signals": [
+        {"k": "trigger", "v": "mint start · pool creation · sale opening"},
+        {"k": "payoff shape", "v": "early allocation or failed attempt"},
+        {"k": "design defenses", "v": "guards · limits · randomized allocation"}
+      ],
+      "links": [
+        {"label": "Metaplex Candy Machine minting", "url": "https://www.metaplex.com/docs/smart-contracts/candy-machine/mint", "kind": "official"},
+        {"label": "Metaplex Candy Guards", "url": "https://www.metaplex.com/docs/smart-contracts/candy-machine/guards", "kind": "docs"},
+        {"label": "Solana fee documentation", "url": "https://solana.com/docs/core/fees", "kind": "docs"}
+      ],
+      "related": ["spam", "cexdex", "sandwich"]
     },
     "jito-be": {
       "kind": "tool",
@@ -1834,9 +2063,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "tagline": "A parallel execution network whose market structure is shaped by a roughly 400 ms leader clock.",
       "chains": ["sol"],
       "body": [
-        "Solana combines a scheduled proof-of-stake leader with Proof of History as a verifiable clock. Transactions declare the accounts they will read or write, allowing the Sealevel runtime to execute non-conflicting work in parallel. Turbine then breaks block data into shreds and propagates them through a tree.",
-        "The network does not rely on a conventional public mempool. Clients and RPC providers forward transactions toward current and upcoming leaders, creating a short, infrastructure-sensitive path to inclusion. Stake-weighted quality of service reserves forwarding capacity for staked peers when the network is busy.",
-        "That architecture makes time visible everywhere: blockhashes expire, leader turns arrive on schedule, and searchers act on partial shred data before a slot is complete. Consensus and execution stay protocol concerns; bundle auctions, premium links, and private routes form a separate market around them."
+        "Solana combines a scheduled proof-of-stake leader with Proof of History as a verifiable clock. Transactions declare the accounts they will read or write, allowing the Sealevel runtime to execute non-conflicting work in parallel. Turbine then breaks block data into shreds and propagates them through a tree. Account locks make this safe scheduling possible without serializing the entire block at runtime.",
+        "The network does not rely on a conventional public mempool. Clients and RPC providers forward transactions toward current and upcoming leaders, creating a short, infrastructure-sensitive path to inclusion. Stake-weighted quality of service reserves forwarding capacity for staked peers when the network is busy. Validators accept those packets through QUIC while prioritizing authenticated staked connections under heavy load for network resilience.",
+        "That architecture makes time visible everywhere: blockhashes expire, leader turns arrive on schedule, and searchers act on partial shred data before a slot is complete. Consensus and execution stay protocol concerns; bundle auctions, premium links, and private routes form a separate market around them. The result is a system where microstructure begins before final consensus is visible to users globally."
       ],
       "how": {
         "diagram": "sol-suite",
@@ -1855,10 +2084,138 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       ],
       "links": [
         {"label": "Solana transaction documentation", "url": "https://solana.com/docs/core/transactions", "kind": "official"},
-        {"label": "Tower BFT architecture", "url": "https://solana.com/news/tower-bft--solana-s-high-performance-implementation-of-pbft", "kind": "research"},
-        {"label": "Solana Explorer", "url": "https://explorer.solana.com/", "kind": "explorer"}
+        {"label": "Solana fee documentation", "url": "https://solana.com/docs/core/fees", "kind": "docs"},
+        {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}
       ],
       "related": ["jito-be", "poh", "turbine", "sealevel", "tower-bft"]
+    },
+    "eth": {
+      "kind": "chain",
+      "name": "Ethereum",
+      "tagline": "A proof-of-stake settlement network with a public execution market and a specialized block-building supply chain.",
+      "chains": ["eth"],
+      "body": [
+        "Ethereum divides time into 12-second slots. A proof-of-stake validator proposes an execution payload while committees attest to the chain head; checkpoint votes add economic finality over epochs. Transactions execute sequentially in the EVM, and EIP-1559 combines a protocol-adjusted base fee with an optional priority fee. Together, these layers separate rapid head choice from slower irreversible commitment under ordinary network conditions.",
+        "Its public mempool makes pending intent broadly visible, while private submission and proposer-builder separation route some flow through builders and relays. That split industrialized ordering: builders assemble the most valuable payload they can, proposers choose among bids, and users choose whether to expose a transaction to the public auction or a selected private path. The route becomes part of execution policy."
+      ],
+      "how": {
+        "diagram": "intent-batch",
+        "params": {},
+        "steps": [
+          "A proof-of-stake schedule assigns a proposer for the 12-second slot",
+          "Public and private transactions reach mempools or builders",
+          "One payload executes sequentially under EVM gas rules",
+          "Attestations choose the head and checkpoints advance finality"
+        ]
+      },
+      "signals": [
+        {"k": "slot", "v": "12 s · protocol cadence"},
+        {"k": "execution", "v": "sequential EVM gas market"},
+        {"k": "finality", "v": "2 epochs · ~13 min"}
+      ],
+      "links": [
+        {"label": "Ethereum proof-of-stake documentation", "url": "https://ethereum.org/developers/docs/consensus-mechanisms/pos/", "kind": "official"},
+        {"label": "Ethereum blocks documentation", "url": "https://ethereum.org/developers/docs/blocks/", "kind": "docs"},
+        {"label": "EIP-1559", "url": "https://eips.ethereum.org/EIPS/eip-1559", "kind": "research"},
+        {"label": "Etherscan", "url": "https://etherscan.io/", "kind": "explorer"}
+      ],
+      "related": ["sol", "bnb", "sandwich", "backrun", "liquidations"]
+    },
+    "bnb": {
+      "kind": "chain",
+      "name": "BNB Chain",
+      "tagline": "An EVM network that trades a compact elected validator set for sub-second block cadence.",
+      "chains": ["bnb"],
+      "body": [
+        "BNB Smart Chain runs an EVM-compatible execution layer under Proof of Staked Authority. Stake elects an active validator set, and a smaller rotating cohort produces blocks in turns. The compact producer path reduces coordination delay, while slashing and fast-finality votes constrain equivocation and make recent blocks harder to reverse. Participation is open through stake, but production remains intentionally bounded for speed.",
+        "The transaction market still looks familiar to Ethereum users: a public mempool, gas-priced EVM calls, nonce replacement, and private routes near validators. Faster blocks drain the queue quickly, so network position and builder access matter inside a narrower window. As of August 2026, the active set is ~45 validators and each epoch selects 21 producers. Inclusion strategy is therefore infrastructure-sensitive."
+      ],
+      "how": {
+        "diagram": "window",
+        "params": {},
+        "steps": [
+          "Staking ranks an active validator set for the daily election",
+          "Each epoch selects a 21-validator production cohort",
+          "The scheduled producer executes an EVM-compatible block",
+          "Validator votes add fast finality beyond ordinary fork choice"
+        ]
+      },
+      "signals": [
+        {"k": "active set", "v": "~45 validators · 2026"},
+        {"k": "producer cohort", "v": "21 per epoch · 2026"},
+        {"k": "block cadence", "v": "~0.75 s post-Maxwell · 2026"}
+      ],
+      "links": [
+        {"label": "BNB Smart Chain documentation", "url": "https://docs.bnbchain.org/bnb-smart-chain/", "kind": "official"},
+        {"label": "BSC validator overview", "url": "https://docs.bnbchain.org/bnb-smart-chain/validator/overview/", "kind": "docs"},
+        {"label": "BNB Chain client source", "url": "https://github.com/bnb-chain/bsc", "kind": "research"},
+        {"label": "BscScan", "url": "https://bscscan.com/", "kind": "explorer"}
+      ],
+      "related": ["eth", "sol", "sandwich", "cexdex", "spam"]
+    },
+    "btc": {
+      "kind": "chain",
+      "name": "Bitcoin",
+      "tagline": "A permissionless proof-of-work ledger where block space is won by fee rate and history settles probabilistically.",
+      "chains": ["btc"],
+      "body": [
+        "Bitcoin represents value as unspent transaction outputs. Wallets spend previous outputs, full nodes validate scripts and consensus rules, and miners select valid mempool transactions into candidate blocks. Proof of work turns each block into an expensive lottery ticket; nodes follow the valid chain with the most accumulated work. Difficulty retargeting keeps that global lottery near its long-run target cadence over time.",
+        "The ordering market is deliberately narrow. Transactions bid in fee per virtual byte, may signal replace-by-fee, and expose no general shared-state program for an atomic DEX route. Miners still optimize templates and relay speed, but confirmation remains probabilistic: each additional block adds work an alternative history would have to overcome. The base protocol promises validity, not an instant irreversible checkpoint."
+      ],
+      "how": {
+        "diagram": "stratum-jobs",
+        "params": {},
+        "steps": [
+          "A wallet spends UTXOs and broadcasts a signed transaction",
+          "Nodes validate it and relay it into local mempools",
+          "Miners build fee-aware templates and search proof-of-work nonces",
+          "The winning block propagates and the most-work history advances"
+        ]
+      },
+      "signals": [
+        {"k": "block target", "v": "~10 min average"},
+        {"k": "execution", "v": "UTXO scripts · no shared mutable VM"},
+        {"k": "finality", "v": "probabilistic · confidence grows with work"}
+      ],
+      "links": [
+        {"label": "Bitcoin whitepaper", "url": "https://bitcoin.org/bitcoin.pdf", "kind": "official"},
+        {"label": "Bitcoin block-chain guide", "url": "https://developer.bitcoin.org/devguide/block_chain.html", "kind": "docs"},
+        {"label": "Bitcoin transaction guide", "url": "https://developer.bitcoin.org/devguide/transactions.html", "kind": "docs"},
+        {"label": "mempool.space", "url": "https://mempool.space/", "kind": "explorer"}
+      ],
+      "related": ["zec", "eth", "spam", "snipe"]
+    },
+    "zec": {
+      "kind": "chain",
+      "name": "Zcash",
+      "tagline": "A Bitcoin-shaped proof-of-work chain whose shielded pool removes transaction-graph visibility.",
+      "chains": ["zec"],
+      "body": [
+        "Zcash extends a UTXO proof-of-work ledger with shielded value pools. A shielded spend proves authorization, value balance, and protocol rules without publishing sender, receiver, or amount. Nodes verify the zero-knowledge proof and nullifiers, so a hidden note cannot be spent twice even though its plaintext stays private. Commitment trees preserve the public history needed to prove hidden note membership later.",
+        "That opacity changes the ordering surface. Transparent transactions still enter a public mempool, but shielded flow withholds the graph that sandwich and liquidation searchers normally inspect, and the base chain has no general DEX execution layer. As of August 2026, Zebra is the current full-node path after the legacy `zcashd` client reached end of life. Privacy is therefore structural, not a relay preference."
+      ],
+      "how": {
+        "diagram": "miners-shield",
+        "params": {},
+        "steps": [
+          "A wallet consumes notes and constructs a zero-knowledge proof",
+          "Peers validate public commitments without learning hidden values",
+          "Miners include the transaction in a proof-of-work block",
+          "Nodes update note commitments and reject reused nullifiers"
+        ]
+      },
+      "signals": [
+        {"k": "block target", "v": "75 s · protocol target"},
+        {"k": "shielded data", "v": "sender · receiver · amount concealed"},
+        {"k": "node path", "v": "Zebra · August 2026"}
+      ],
+      "links": [
+        {"label": "Zcash protocol specification", "url": "https://zips.z.cash/protocol/protocol.pdf", "kind": "official"},
+        {"label": "Zcash developer documentation", "url": "https://zcash.github.io/", "kind": "docs"},
+        {"label": "Zebra full-node source", "url": "https://github.com/ZcashFoundation/zebra", "kind": "research"},
+        {"label": "Blockchair Zcash explorer", "url": "https://blockchair.com/zcash", "kind": "explorer"}
+      ],
+      "related": ["btc", "sol", "spam", "sandwich"]
     }
   },
   "==/V3E:JSON==": null,
