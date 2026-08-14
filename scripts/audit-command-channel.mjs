@@ -28,10 +28,12 @@ try{
 
     await page.evaluate(()=>SCOPE.Playbar.go(0));await page.waitForTimeout(350);await page.evaluate(()=>document.body.focus());
     await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(1050);
     const right=await page.evaluate(()=>({state:SCOPE.Playbar.state,active:document.activeElement?.className||document.activeElement?.tagName,top:SCOPE.Overlay.top()?.element?.id||null}));
-    if(right.state.index!==1)failures.push(`${width}px: ArrowRight did not advance ${JSON.stringify(right)}`);
+    if(right.state.index!==1)failures.push(`${width}px: ArrowRight did not hold after scroll settled ${JSON.stringify(right)}`);
     await page.keyboard.press('ArrowLeft');
-    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: ArrowLeft did not retreat`);
+    await page.waitForTimeout(1050);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: ArrowLeft did not hold after scroll settled`);
     await page.keyboard.press('Space');
     if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='playing')failures.push(`${width}px: Space did not start autoplay`);
     await page.keyboard.press('Space');
@@ -77,6 +79,12 @@ try{
   await page.route(/^https?:\/\//,route=>route.abort('blockedbyclient'));
   await page.goto(targetUrl,{waitUntil:'load'});
   await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit'});
+  await page.evaluate(()=>SCOPE.Playbar.go(0));await page.waitForTimeout(1050);await page.locator('.p-n').click();await page.waitForTimeout(1050);
+  const next=await page.evaluate(()=>{
+    const state=SCOPE.Playbar.state,cues=JSON.parse(document.getElementById('chainData').textContent).cues;
+    return {state,title:document.querySelector('.p-a h3')?.textContent,expected:cues[1]?.title};
+  });
+  if(next.state.index!==1||next.title!==next.expected)failures.push(`CDN-blocked: Next bounced after scroll settled ${JSON.stringify(next)}`);
   await page.locator('.p-t').click();await page.locator('.p-q[data-i="0"]').click();await page.locator('.p-p').click();
   if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='playing')failures.push('CDN-blocked: Play remained trapped in manual mode');
   await page.waitForTimeout(520);
@@ -93,4 +101,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (136 records), typo search, cue traversal, CDN-blocked autoplay, titled Author Notes, desktop Escape exit, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (136 records), settled Next/Arrow cue traversal, CDN-blocked autoplay, titled Author Notes, desktop Escape exit, static navbar, focus isolation, and 390/1200px overflow pass.');

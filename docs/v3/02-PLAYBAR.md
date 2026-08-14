@@ -81,7 +81,9 @@ the DOM, but each cue names a DOM anchor:
 - **Scroll-spy** keeps the bar honest while idle/paused: IntersectionObserver
   with `rootMargin: '-45% 0px -50% 0px'` (frauthy's centered band) marks the
   nearest cue as current, so prev/next are always relative to where the reader
-  actually is.
+  actually is. A programmatic cue jump locks its requested index until
+  `scrollend` (with a timer fallback), preventing the observer from bouncing a
+  Next/Previous command back to the cue that was nearest before scrolling.
 - Resume: current cue index persists via `Store` (`scope.v3.playbar.cue`);
   reload offers "RESUME @ CH-03" as a ghost chip on the bar for one session
   (sessionStorage), never auto-scrolls on load.
