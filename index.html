@@ -730,6 +730,123 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 /* ==V3C:CSS== */
 /* ==/V3C:CSS== */
 /* ==V3E:CSS== */
+.entity-channel{
+  --ch:var(--violet);
+  position:fixed;inset:0;z-index:70;overflow:auto;overscroll-behavior:contain;
+  background:
+    linear-gradient(rgba(26,34,51,.4) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,34,51,.4) 1px,transparent 1px),
+    radial-gradient(circle at 78% 9%,rgba(167,139,250,.09),transparent 34%),
+    var(--bg);
+  background-size:56px 56px,56px 56px,auto,auto;
+  color:var(--ink);
+}
+.entity-channel[hidden]{display:none}
+.entity-slotbar{
+  position:sticky;top:0;z-index:3;display:grid;grid-template-columns:1fr auto auto;
+  align-items:center;gap:12px;min-height:52px;padding:8px max(18px,calc((100vw - 1160px)/2));
+  padding-top:calc(8px + env(safe-area-inset-top));
+  border-bottom:1px solid var(--line);background:rgba(10,13,19,.94);backdrop-filter:blur(12px);
+}
+.entity-ref{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font:500 .68rem/1.2 "IBM Plex Mono",monospace;letter-spacing:.13em;color:var(--lbl);
+}
+.entity-ref b{color:var(--violet);font-weight:600}
+.entity-nav{display:flex;align-items:center;gap:4px}
+.entity-nav button,.entity-close{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:4px;background:var(--panel);
+  color:var(--ink);font:600 .78rem/1 "IBM Plex Mono",monospace;cursor:pointer;
+}
+.entity-nav button:hover:not(:disabled),.entity-nav button:focus-visible,.entity-close:hover,.entity-close:focus-visible{
+  border-color:var(--violet);color:var(--violet);outline:2px solid color-mix(in srgb,var(--violet) 32%,transparent);outline-offset:2px;
+}
+.entity-nav button:disabled{opacity:.34;cursor:not-allowed}
+.entity-page{width:min(1160px,100%);margin:0 auto;padding:clamp(38px,6vw,76px) 24px 100px}
+.entity-mast{position:relative;padding:0 0 38px;border-bottom:1px solid var(--line)}
+.entity-mast::before{
+  content:"CH-REF";position:absolute;right:0;top:-22px;
+  font:700 clamp(3rem,10vw,8.2rem)/1 "Chakra Petch","Chakra Petch Fallback",sans-serif;
+  letter-spacing:-.05em;color:rgba(167,139,250,.035);pointer-events:none;
+}
+.entity-kicker,.entity-section-label{
+  display:flex;align-items:center;gap:10px;font:600 .68rem/1.3 "IBM Plex Mono",monospace;
+  letter-spacing:.14em;color:var(--violet);text-transform:uppercase;
+}
+.entity-kicker::before,.entity-section-label::before{content:"//";color:var(--violet)}
+.entity-mast h2{
+  position:relative;max-width:18ch;margin-top:14px;font:700 clamp(2.5rem,7vw,5.8rem)/.94 "Chakra Petch","Chakra Petch Fallback",sans-serif;
+  letter-spacing:-.045em;color:var(--ink);
+}
+.entity-tagline{position:relative;max-width:62ch;margin-top:20px;font-size:clamp(1.05rem,2vw,1.28rem);color:var(--dim)}
+.entity-badges,.entity-related,.entity-appears{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.entity-badge{display:inline-flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;font:500 .65rem/1.5 "IBM Plex Mono",monospace;letter-spacing:.08em;color:var(--lbl)}
+.entity-badge i{width:5px;height:5px;border-radius:50%;background:var(--badge-c,var(--violet));box-shadow:0 0 6px var(--badge-c,var(--violet))}
+.entity-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,320px);gap:clamp(34px,6vw,78px);align-items:start;margin-top:46px}
+.entity-copy{min-width:0;max-width:72ch}
+.entity-copy section{padding:0;scroll-margin-top:0}
+.entity-copy section+section{margin-top:52px}
+.entity-copy p{margin-top:16px;font-size:calc(1rem * var(--reading-scale,1));color:var(--dim)}
+.entity-copy p strong{color:var(--ink)}
+.entity-copy p code{padding:1px 5px;border:1px solid var(--line);border-radius:3px;background:var(--panel-2);font:500 .85em "IBM Plex Mono",monospace;color:var(--amber)}
+.entity-copy p a,.entity-link-list a{color:var(--cyan);text-decoration-thickness:1px;text-underline-offset:3px}
+.entity-diagram-wrap{margin-top:18px;border:1px solid var(--line);background:rgba(16,20,29,.92);clip-path:polygon(0 8px,8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%)}
+.entity-diagram{display:block;width:100%;aspect-ratio:16/9;min-height:230px}
+.entity-diagram text{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;fill:var(--lbl)}
+.entity-diagram .edge{fill:none;stroke:var(--line);stroke-width:1.5}
+.entity-diagram [data-phase]{opacity:.24;transition:opacity 180ms ease,transform 220ms ease}
+.entity-diagram[data-active-phase="0"] [data-phase="0"],.entity-diagram[data-active-phase="1"] [data-phase="1"],
+.entity-diagram[data-active-phase="2"] [data-phase="2"],.entity-diagram[data-active-phase="3"] [data-phase="3"]{opacity:1}
+.entity-channel[data-entity-static] .entity-diagram [data-phase]{opacity:1;transform:none;transition:none}
+.entity-steps{display:grid;gap:1px;margin-top:1px;background:var(--line);list-style:none;counter-reset:entity-step}
+.entity-steps li{counter-increment:entity-step;display:grid;grid-template-columns:34px 1fr;gap:10px;padding:10px 13px;background:var(--panel);color:var(--lbl);font-size:.84rem;transition:background 180ms ease,color 180ms ease}
+.entity-steps li::before{content:counter(entity-step,decimal-leading-zero);font:600 .67rem/1.7 "IBM Plex Mono",monospace;color:var(--violet)}
+.entity-steps li[aria-current="step"]{background:color-mix(in srgb,var(--violet) 10%,var(--panel));color:var(--ink)}
+.entity-channel[data-entity-static] .entity-steps li{color:var(--dim);background:var(--panel)}
+.entity-signals{position:sticky;top:82px;border-top:2px solid var(--violet);background:var(--panel);box-shadow:0 18px 45px rgba(0,0,0,.18)}
+.entity-signals header{padding:13px 15px;border:1px solid var(--line);border-top:0;font:600 .67rem/1.3 "IBM Plex Mono",monospace;letter-spacing:.14em;color:var(--violet)}
+.entity-signal{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:12px;padding:12px 15px;border:1px solid var(--line);border-top:0}
+.entity-signal dt{font:500 .66rem/1.45 "IBM Plex Mono",monospace;letter-spacing:.07em;color:var(--lbl);text-transform:uppercase}
+.entity-signal dd{font:500 .76rem/1.45 "IBM Plex Mono",monospace;color:var(--ink);overflow-wrap:anywhere}
+.entity-link-list{display:grid;gap:1px;margin-top:18px;background:var(--line);list-style:none}
+.entity-link-list a{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 14px;background:var(--panel);text-decoration:none}
+.entity-link-kind{font:600 .6rem/1 "IBM Plex Mono",monospace;letter-spacing:.1em;color:var(--violet);text-transform:uppercase}
+.entity-link-list a:hover,.entity-link-list a:focus-visible{background:var(--panel-2);outline:1px solid var(--violet);outline-offset:-1px}
+.entity-door,.entity-appear-link,.entity-open-channel{
+  border:0;background:none;color:inherit;font:inherit;text-align:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--violet) 65%,transparent);text-underline-offset:3px;
+}
+.entity-door::after{content:" ▸";color:var(--violet);font-family:"IBM Plex Mono",monospace;font-size:.72em}
+.entity-door:hover,.entity-door:focus-visible,.entity-appear-link:hover,.entity-appear-link:focus-visible{color:var(--violet);outline:2px solid color-mix(in srgb,var(--violet) 36%,transparent);outline-offset:3px}
+.entity-chip,.entity-appear-link{display:inline-flex;align-items:center;min-height:34px;padding:5px 10px;border:1px solid var(--line);border-radius:3px;background:var(--panel);font:500 .68rem/1.3 "IBM Plex Mono",monospace;color:var(--ink);text-decoration:none}
+.entity-chip::before{content:"↳";margin-right:7px;color:var(--violet)}
+.entity-appear-link::before{content:"⌖";margin-right:7px;color:var(--violet)}
+.entity-open-channel{display:block;margin-top:12px;padding:8px 10px;border:1px solid var(--line);border-radius:3px;font:600 .65rem/1.2 "IBM Plex Mono",monospace;letter-spacing:.09em;color:var(--violet)}
+.entity-open-channel::after{content:""}
+.tool-card h4 .entity-door{font-family:inherit;font-weight:inherit}
+.dock-col-head .entity-door{font-weight:600}
+.tpop h5 .entity-door{font-weight:inherit}
+.entity-empty{padding:64px 24px;text-align:center;color:var(--lbl)}
+.entity-noscript{position:relative;z-index:1;width:min(1160px,calc(100% - 48px));margin:80px auto;padding:24px;border:1px solid var(--line);background:var(--panel);overflow-x:auto}
+.entity-noscript table{width:100%;margin-top:16px;border-collapse:collapse;table-layout:fixed;font-size:.82rem}
+.entity-noscript th,.entity-noscript td{padding:9px;border:1px solid var(--line);text-align:left;vertical-align:top}
+.entity-noscript td{overflow-wrap:anywhere}
+.entity-noscript th{font:600 .65rem "IBM Plex Mono",monospace;letter-spacing:.1em;color:var(--violet)}
+.entity-noscript a{color:var(--cyan)}
+@media(max-width:760px){
+  .entity-channel{background-size:40px 40px,40px 40px,auto,auto}
+  .entity-slotbar{grid-template-columns:minmax(0,1fr) auto;padding-left:14px;padding-right:14px}
+  .entity-nav{grid-column:1/-1;grid-row:2;justify-content:flex-end;border-top:1px solid var(--line);padding-top:7px}
+  .entity-close{grid-column:2;grid-row:1}
+  .entity-page{padding:34px 18px 76px}
+  .entity-layout{grid-template-columns:1fr;margin-top:34px}
+  .entity-signals{position:static;grid-row:1}
+  .entity-mast::before{display:none}
+  .entity-diagram{min-height:190px}
+}
+@media(prefers-reduced-motion:reduce){
+  .entity-diagram [data-phase]{opacity:1;transform:none;transition:none}
+  .entity-steps li{transition:none}
+}
 /* ==/V3E:CSS== */
 </style>
 </head>
@@ -1394,6 +1511,31 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ==V3C:HTML== -->
 <!-- ==/V3C:HTML== -->
 <!-- ==V3E:HTML== -->
+<article class="entity-channel" id="entityChannel" aria-labelledby="entityTitle" hidden>
+  <header class="entity-slotbar">
+    <div class="entity-ref"><b>CH-REF</b> · <span id="entityRef">ENTITY</span></div>
+    <nav class="entity-nav" aria-label="Entities of the same kind">
+      <button type="button" id="entityPrev" aria-label="Previous entity">←</button>
+      <button type="button" id="entityNext" aria-label="Next entity">→</button>
+    </nav>
+    <button type="button" class="entity-close" id="entityClose" aria-label="Close entity channel">✕</button>
+  </header>
+  <main class="entity-page" id="entityPage"></main>
+</article>
+<noscript>
+  <div class="entity-noscript" role="region" aria-labelledby="entityIndexTitle">
+    <p class="entity-section-label">REFERENCE CHANNEL</p>
+    <h2 id="entityIndexTitle">ENTITY INDEX</h2>
+    <table>
+      <thead><tr><th>Name</th><th>Kind</th><th>One-line readout</th><th>Primary source</th></tr></thead>
+      <tbody>
+        <tr><td>Sandwiching</td><td>technique</td><td>A three-transaction extraction pattern that brackets a price-sensitive swap.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect docs ↗</a></td></tr>
+        <tr><td>Jito Block Engine</td><td>tool</td><td>Solana's sealed-bid bundle auction for atomic, leader-bound transaction packages.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito low-latency transaction send docs ↗</a></td></tr>
+        <tr><td>Solana</td><td>chain</td><td>A parallel runtime organized around a roughly 400 ms leader schedule and explicit account locks.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction docs ↗</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</noscript>
 <!-- ==/V3E:HTML== -->
 
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
@@ -1407,6 +1549,104 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   "==V3C:JSON==": null,
   "==/V3C:JSON==": null,
   "==V3E:JSON==": null,
+  "entities": {
+    "sandwich": {
+      "kind": "technique",
+      "name": "Sandwiching",
+      "tagline": "The three-transaction bracket that turns a user's price impact into someone else's spread.",
+      "chains": ["sol", "eth", "bnb"],
+      "body": [
+        "A sandwich places an attacker buy immediately before a price-sensitive swap and an attacker sell immediately after it. The victim moves the pool price between those two legs; the attacker exits into that movement. The three operations must be ordered tightly enough that no competing transaction breaks the bracket.",
+        "The technique needs early order-flow visibility, reliable placement, and a victim whose slippage limit leaves room for extraction. On Solana, private or leaked transaction flow can supply the preview while bundles and leader-adjacent infrastructure supply ordering. Fast blocks shrink the decision window; they do not remove the economic pattern.",
+        "Protection changes the path or the auction. Private submission hides the swap from public observers, intent systems make solvers compete for the fill, and strict slippage bounds reduce the available spread. A protected route is not a promise of best execution, but it removes the attacker's easiest input: a visible, permissive order."
+      ],
+      "how": {
+        "diagram": "sandwich",
+        "params": {},
+        "steps": [
+          "A searcher observes a price-sensitive swap",
+          "The searcher buys immediately ahead of it",
+          "The victim executes at the moved pool price",
+          "The searcher sells immediately behind it"
+        ]
+      },
+      "signals": [
+        {"k": "required shape", "v": "attacker buy → victim swap → attacker sell"},
+        {"k": "primary defense", "v": "private flow + strict slippage"},
+        {"k": "Solana window", "v": "~400 ms slot cadence"}
+      ],
+      "links": [
+        {"label": "Flashbots Protect overview", "url": "https://docs.flashbots.net/flashbots-protect/overview", "kind": "official"},
+        {"label": "Jito low-latency transaction send", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "docs"}
+      ],
+      "related": ["jito-be", "backrun", "jito-protect"],
+      "term": "sandwich"
+    },
+    "jito-be": {
+      "kind": "tool",
+      "name": "Jito Block Engine",
+      "tagline": "The sealed-bid auction that sells atomic ordering inside a Solana leader's slot.",
+      "chains": ["sol"],
+      "body": [
+        "Jito's Block Engine accepts transaction bundles from searchers and forwards the winning package toward the scheduled leader. A bundle contains up to five transactions that execute sequentially and atomically: if one fails, the entire package fails. A tip signals what the searcher will pay for that placement.",
+        "The auction converts a timing race into an explicit market. Searchers compete on the value their bundle can return to the validator, while the leader receives a prepared ordering rather than an uncontrolled packet flood. This is infrastructure beside Solana consensus, not a consensus rule.",
+        "The economic edge is still latency-sensitive. A searcher must simulate current state, form a valid bundle, and reach the engine before the opportunity disappears. The engine can rank a valid bid; it cannot rescue stale state, a conflicting account lock, or a transaction that exhausts its compute budget."
+      ],
+      "how": {
+        "diagram": "sol-bundle",
+        "params": {},
+        "steps": [
+          "Searchers simulate and submit bundles of up to five transactions",
+          "The engine groups valid bids for the current leader window",
+          "A sealed-bid auction ranks bundles by value and constraints",
+          "The winning atomic package is forwarded for block inclusion"
+        ]
+      },
+      "signals": [
+        {"k": "bundle size", "v": "≤ 5 transactions · atomic"},
+        {"k": "auction cadence", "v": "per leader window · ~400 ms slots"},
+        {"k": "payment rail", "v": "bundle tip"}
+      ],
+      "links": [
+        {"label": "Jito low-latency transaction send", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "official"},
+        {"label": "Jito bundle explorer", "url": "https://explorer.jito.wtf/", "kind": "explorer"}
+      ],
+      "related": ["sandwich", "atomic-arb", "backrun", "shredstream"],
+      "term": "jito"
+    },
+    "sol": {
+      "kind": "chain",
+      "name": "Solana",
+      "tagline": "A parallel execution network whose market structure is shaped by a roughly 400 ms leader clock.",
+      "chains": ["sol"],
+      "body": [
+        "Solana combines a scheduled proof-of-stake leader with Proof of History as a verifiable clock. Transactions declare the accounts they will read or write, allowing the Sealevel runtime to execute non-conflicting work in parallel. Turbine then breaks block data into shreds and propagates them through a tree.",
+        "The network does not rely on a conventional public mempool. Clients and RPC providers forward transactions toward current and upcoming leaders, creating a short, infrastructure-sensitive path to inclusion. Stake-weighted quality of service reserves forwarding capacity for staked peers when the network is busy.",
+        "That architecture makes time visible everywhere: blockhashes expire, leader turns arrive on schedule, and searchers act on partial shred data before a slot is complete. Consensus and execution stay protocol concerns; bundle auctions, premium links, and private routes form a separate market around them."
+      ],
+      "how": {
+        "diagram": "sol-suite",
+        "params": {},
+        "steps": [
+          "The PoH clock advances the shared ordering signal",
+          "Clients forward declared-account transactions toward leaders",
+          "Sealevel schedules non-conflicting work in parallel",
+          "Turbine propagates block shreds while Tower BFT locks votes"
+        ]
+      },
+      "signals": [
+        {"k": "slot cadence", "v": "~400 ms"},
+        {"k": "execution", "v": "parallel over declared account locks"},
+        {"k": "finality", "v": "~13 s at 32 rooted slots"}
+      ],
+      "links": [
+        {"label": "Solana transaction documentation", "url": "https://solana.com/docs/core/transactions", "kind": "official"},
+        {"label": "Tower BFT architecture", "url": "https://solana.com/news/tower-bft--solana-s-high-performance-implementation-of-pbft", "kind": "research"},
+        {"label": "Solana Explorer", "url": "https://explorer.solana.com/", "kind": "explorer"}
+      ],
+      "related": ["jito-be", "poh", "turbine", "sealevel", "tower-bft"]
+    }
+  },
   "==/V3E:JSON==": null,
   "meta": { "dated": "2026-08", "note": "teaching figures, orders of magnitude; ~ marks volatile numbers" },
   "sectionOrder": ["topology", "txflow", "mev", "latency"],
@@ -2017,6 +2257,325 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 // ==V3C:JS==
 // ==/V3C:JS==
 // ==V3E:JS==
+(function(scope){
+  'use strict';
+
+  const shell=document.getElementById('entityChannel');
+  const page=document.getElementById('entityPage');
+  const ref=document.getElementById('entityRef');
+  const closeButton=document.getElementById('entityClose');
+  const prevButton=document.getElementById('entityPrev');
+  const nextButton=document.getElementById('entityNext');
+  const dataNode=document.getElementById('chainData');
+  if(!shell || !page || !dataNode) return;
+
+  let CD;
+  try{ CD=JSON.parse(dataNode.textContent); }catch(error){ return; }
+  const entities=CD.entities || {};
+  const baseTitle=document.title;
+  const motionStatic=matchMedia('(prefers-reduced-motion: reduce)').matches || typeof window.anime==='undefined';
+  const linkOrder={official:0,docs:1,explorer:2,research:3};
+  let pendingTrigger=null,activeId='',phaseTimer=0,closingFromRoute=false,decorateQueued=false;
+  if(motionStatic) shell.dataset.entityStatic='';
+
+  const esc=value=>String(value ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  const safeUrl=value=>{
+    try{
+      const url=new URL(String(value),location.href);
+      return url.protocol==='https:' || (url.origin===location.origin && url.protocol==='http:') ? url.href : '';
+    }catch(error){ return ''; }
+  };
+  function renderLite(value){
+    let html=esc(value);
+    html=html.replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g,(all,label,url)=>`<a href="${url}" target="_blank" rel="noopener">${label}</a>`);
+    html=html.replace(/`([^`]+)`/g,'<code>$1</code>');
+    html=html.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    return html.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+  }
+  const phaseGroup=(phase,content)=>`<g data-phase="${phase}">${content}</g>`;
+  const frame=(id,label,content)=>`<svg class="entity-diagram" data-template="${esc(id)}" data-active-phase="0" viewBox="0 0 640 360" role="img" aria-label="${esc(label)}">${content}</svg>`;
+  const node=(x,y,w,h,label,color='var(--violet)')=>`<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" fill="var(--panel-2)" stroke="${color}" stroke-width="1.5"/><text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" fill="${color}">${esc(label)}</text></g>`;
+
+  const DIAGRAMS=Object.freeze({
+    'sandwich':()=>frame('sandwich','Three ordered rows show a buy, victim swap, and sell',[
+      phaseGroup(0,`<rect x="116" y="48" width="408" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)"/><text x="140" y="84" fill="var(--red)">01 · ATTACKER BUYS</text>`),
+      phaseGroup(1,`<path d="M320 110V142" class="edge"/><rect x="116" y="142" width="408" height="62" rx="6" fill="rgba(255,180,84,.08)" stroke="var(--amber)"/><text x="140" y="178" fill="var(--amber)">02 · USER SWAP MOVES PRICE</text>`),
+      phaseGroup(2,`<path d="M320 204V236" class="edge"/><rect x="116" y="236" width="408" height="62" rx="6" fill="rgba(255,92,122,.08)" stroke="var(--red)"/><text x="140" y="272" fill="var(--red)">03 · ATTACKER SELLS</text>`),
+      phaseGroup(3,`<path d="M524 79H570V267H524" fill="none" stroke="var(--violet)"/><text x="582" y="177" text-anchor="middle" transform="rotate(90 582 177)" fill="var(--violet)">ATOMIC ORDER</text>`)
+    ].join('')),
+    'sol-bundle':()=>frame('sol-bundle','Searchers feed bundles into a sealed-bid auction and a leader',[
+      phaseGroup(0,`${node(34,54,126,44,'SEARCHER A','var(--red)')}${node(34,158,126,44,'SEARCHER B','var(--red)')}${node(34,262,126,44,'SEARCHER C','var(--red)')}`),
+      phaseGroup(1,`<path d="M160 76L246 151M160 180H246M160 284L246 209" class="edge"/>${node(246,128,154,104,'BUNDLE QUEUE')}`),
+      phaseGroup(2,`${node(438,132,160,96,'SEALED BIDS','var(--violet)')}<path d="M400 180H438" class="edge"/>`),
+      phaseGroup(3,`<circle cx="550" cy="180" r="16" fill="var(--amber)" opacity=".8"/><text x="550" y="232" text-anchor="middle" fill="var(--amber)">LEADER WINDOW</text>`)
+    ].join('')),
+    'poh-clock':()=>frame('poh-clock','Proof of History clock emits ordered ticks',[
+      phaseGroup(0,`<circle cx="170" cy="180" r="96" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="2"/><path d="M170 103V180L222 213" fill="none" stroke="var(--cyan)" stroke-width="3"/><text x="170" y="314" text-anchor="middle" fill="var(--cyan)">PoH CLOCK</text>`),
+      phaseGroup(1,`${node(322,66,180,52,'HASH n')}${node(390,154,180,52,'HASH n+1')}`),
+      phaseGroup(2,`<path d="M266 155L322 92M266 180L390 180" class="edge"/><circle cx="298" cy="117" r="5" fill="var(--amber)"/><circle cx="334" cy="180" r="5" fill="var(--amber)"/>`),
+      phaseGroup(3,`${node(322,252,180,52,'ORDER PROOF','var(--amber)')}<path d="M480 206L426 252" class="edge"/>`)
+    ].join('')),
+    'tower-lockout':()=>frame('tower-lockout','Tower votes accumulate longer lockouts over a block stack',[
+      phaseGroup(0,`<rect x="90" y="250" width="280" height="46" fill="var(--panel-2)" stroke="var(--cyan)"/><text x="112" y="278">SLOT 100 · VOTE</text>`),
+      phaseGroup(1,`<rect x="130" y="190" width="280" height="46" fill="var(--panel-2)" stroke="var(--cyan)"/><text x="152" y="218">SLOT 101 · LOCKOUT ×2</text>`),
+      phaseGroup(2,`<rect x="170" y="130" width="280" height="46" fill="var(--panel-2)" stroke="var(--cyan)"/><text x="192" y="158">SLOT 102 · LOCKOUT ×4</text>`),
+      phaseGroup(3,`<path d="M484 294V92M472 108L484 92L496 108" fill="none" stroke="var(--violet)"/><text x="516" y="196" transform="rotate(90 516 196)" text-anchor="middle" fill="var(--violet)">COMMITMENT GROWS</text>`)
+    ].join('')),
+    'swqos-lanes':()=>frame('swqos-lanes','Stake-weighted lanes feed a leader with reserved capacity',[
+      phaseGroup(0,`${node(34,54,126,42,'80% STAKED','var(--cyan)')}${node(34,142,126,42,'15% STAKED','var(--cyan)')}${node(34,230,126,42,'UNSTAKED')}`),
+      phaseGroup(1,`<path d="M160 75H420M160 163H420M160 251H420" fill="none" stroke="var(--line)" stroke-width="10"/><path d="M160 75H382" fill="none" stroke="var(--cyan)" stroke-width="3"/>`),
+      phaseGroup(2,`<circle cx="306" cy="75" r="7" fill="var(--cyan)"/><circle cx="246" cy="163" r="5" fill="var(--violet)"/><circle cx="200" cy="251" r="4" fill="var(--lbl)"/>`),
+      phaseGroup(3,`${node(420,119,168,88,'LEADER','var(--amber)')}<text x="504" y="230" text-anchor="middle">CAPACITY FOLLOWS STAKE</text>`)
+    ].join('')),
+    'lightning-channel':()=>frame('lightning-channel','Two peers update an off-chain payment channel before settlement',[
+      phaseGroup(0,`${node(38,140,126,74,'ALICE','var(--btc)')}${node(476,140,126,74,'BOB','var(--btc)')}`),
+      phaseGroup(1,`<path d="M164 177H476" fill="none" stroke="var(--btc)" stroke-width="6"/><text x="320" y="156" text-anchor="middle" fill="var(--btc)">2-of-2 CHANNEL</text>`),
+      phaseGroup(2,`<circle cx="250" cy="177" r="8" fill="var(--amber)"/><path d="M278 164L298 177L278 190" fill="none" stroke="var(--amber)"/>`),
+      phaseGroup(3,`${node(232,260,176,52,'SETTLE ON BTC')}<path d="M320 205V260" class="edge"/>`)
+    ].join('')),
+    'stratum-jobs':()=>frame('stratum-jobs','A mining pool distributes negotiated jobs to miners',[
+      phaseGroup(0,node(226,42,188,62,'POOL · JOB DECLARER','var(--btc)')),
+      phaseGroup(1,`<path d="M260 104L118 212M320 104V212M380 104L522 212" class="edge"/>`),
+      phaseGroup(2,`${node(52,212,132,56,'MINER 01')}${node(254,212,132,56,'MINER 02')}${node(456,212,132,56,'MINER 03')}`),
+      phaseGroup(3,`<path d="M118 212L268 104M320 212V104M522 212L372 104" fill="none" stroke="var(--amber)" stroke-dasharray="5 6"/><text x="320" y="318" text-anchor="middle" fill="var(--amber)">SHARES RETURN · JOBS STAY NEGOTIABLE</text>`)
+    ].join('')),
+    'intent-batch':()=>frame('intent-batch','User intents enter a batch where solvers compete to settle',[
+      phaseGroup(0,`${node(30,52,128,44,'INTENT A')}${node(30,158,128,44,'INTENT B')}${node(30,264,128,44,'INTENT C')}`),
+      phaseGroup(1,`${node(238,116,164,128,'BATCH AUCTION','var(--violet)')}<path d="M158 74L238 142M158 180H238M158 286L238 218" class="edge"/>`),
+      phaseGroup(2,`${node(482,72,128,44,'SOLVER 1','var(--green)')}${node(482,158,128,44,'SOLVER 2','var(--green)')}${node(482,244,128,44,'SOLVER 3','var(--green)')}`),
+      phaseGroup(3,`<path d="M482 94L402 142M482 180H402M482 266L402 218" fill="none" stroke="var(--green)" stroke-dasharray="5 6"/>`)
+    ].join('')),
+    'window':()=>frame('window','A cursor crosses a bounded decision window',[
+      phaseGroup(0,`<text x="72" y="128">DECISION WINDOW</text><rect x="72" y="152" width="496" height="36" rx="18" fill="var(--panel-2)" stroke="var(--line)"/>`),
+      phaseGroup(1,`<rect x="74" y="154" width="164" height="32" rx="16" fill="var(--violet)" opacity=".28"/>`),
+      phaseGroup(2,`<rect x="238" y="154" width="164" height="32" fill="var(--violet)" opacity=".4"/>`),
+      phaseGroup(3,`<rect x="402" y="154" width="164" height="32" rx="16" fill="var(--violet)" opacity=".62"/><path d="M542 136V204" stroke="var(--amber)" stroke-width="2"/>`)
+    ].join('')),
+    'sol-suite':()=>frame('sol-suite','Four Solana mini diagrams show topology, transaction flow, MEV, and latency',[
+      phaseGroup(0,`${node(36,42,252,112,'TOPOLOGY · TURBINE','var(--cyan)')}<path d="M86 124L162 74L238 124" class="edge"/>`),
+      phaseGroup(1,`${node(352,42,252,112,'TX FLOW · GULF STREAM','var(--amber)')}<path d="M392 116H564" stroke="var(--amber)" stroke-width="3"/>`),
+      phaseGroup(2,`${node(36,206,252,112,'MEV · BUNDLE AUCTION','var(--red)')}<circle cx="110" cy="266" r="7" fill="var(--red)"/><circle cx="160" cy="266" r="7" fill="var(--violet)"/>`),
+      phaseGroup(3,`${node(352,206,252,112,'LATENCY · 400 ms','var(--green)')}<rect x="390" y="258" width="176" height="12" rx="6" fill="var(--green)" opacity=".5"/>`)
+    ].join(''))
+  });
+  const diagramAliases={
+    'sol-tree':'sol-suite','sol-direct':'swqos-lanes','miners':'stratum-jobs','mempool':'intent-batch',
+    'feeladder':'swqos-lanes','slotwheel':'poh-clock','builder':'intent-batch','threehop':'intent-batch',
+    'ring':'poh-clock','fastdrain':'swqos-lanes','shieldbounce':'lightning-channel','miners-shield':'stratum-jobs',
+    'mempool-shielded':'intent-batch'
+  };
+
+  function diagramHtml(entity){
+    const requested=entity.how?.diagram || 'intent-batch';
+    const id=DIAGRAMS[requested] ? requested : (diagramAliases[requested] || 'intent-batch');
+    return DIAGRAMS[id](entity.how?.params || {});
+  }
+  const chainMeta=id=>{
+    if(id==='sol') return {name:CD.sol?.name || 'SOL',color:CD.sol?.color || 'var(--cyan)'};
+    const chain=CD.chains?.[id];
+    return {name:chain?.name || id.toUpperCase(),color:chain?.color || 'var(--violet)'};
+  };
+  function kindPeers(entity){
+    return Object.entries(entities).filter(([,item])=>item.kind===entity.kind).sort((a,b)=>a[1].name.localeCompare(b[1].name));
+  }
+  function updateNav(id,entity){
+    const peers=kindPeers(entity),index=peers.findIndex(([key])=>key===id);
+    const prev=peers.length>1 ? peers[(index-1+peers.length)%peers.length] : null;
+    const next=peers.length>1 ? peers[(index+1)%peers.length] : null;
+    [[prevButton,prev,'Previous'],[nextButton,next,'Next']].forEach(([button,target,label])=>{
+      button.disabled=!target;
+      button.dataset.entityTarget=target?.[0] || '';
+      button.setAttribute('aria-label',target ? `${label} ${entity.kind}: ${target[1].name}` : `${label} ${entity.kind} unavailable`);
+      button.title=target ? `${label}: ${target[1].name}` : '';
+    });
+  }
+  function appearsOn(id,entity){
+    const hits=[];
+    const add=(href,label)=>{ if(!hits.some(item=>item.href===href)) hits.push({href,label}); };
+    const needles=[entity.name,entity.term,id.replace(/-/g,' ')].filter(Boolean).map(value=>String(value).toLowerCase());
+    document.querySelectorAll('section[id^="ch"]').forEach(section=>{
+      if(section.id==='ch5') return;
+      const text=section.textContent.toLowerCase();
+      if(needles.some(needle=>needle.length>2 && text.includes(needle))){
+        const title=section.querySelector('h2')?.textContent.trim().replace(/\s+/g,' ');
+        const channel=/^ch(\d+)$/i.exec(section.id);
+        const code=channel ? `CH-${channel[1].padStart(2,'0')}` : section.id.toUpperCase();
+        add('#'+section.id,`${code}${title ? ' · '+title : ''}`);
+      }
+    });
+    if(entity.kind==='technique' && CD.techniques?.some(item=>item.id===id)) add('#gridPanel','CH-05 · TECHNIQUE GRID');
+    if(entity.kind==='tool' && CD.tools?.some(item=>item.id===id)) add('#benchMount','CH-05 · TOOL BENCH');
+    if(entity.kind==='chain'){
+      document.querySelectorAll('.dock[data-section]').forEach(dock=>add('#'+(dock.closest('section')?.id || 'ch1'),`COMPARE · ${(dock.dataset.section || 'chain').toUpperCase()}`));
+      add('#gridPanel','CH-05 · CROSS-CHAIN GRID');
+    }
+    return hits;
+  }
+  function startLoop(entity){
+    clearInterval(phaseTimer); phaseTimer=0;
+    const diagram=page.querySelector('.entity-diagram');
+    const steps=Array.from(page.querySelectorAll('.entity-steps li'));
+    if(!diagram || !steps.length) return;
+    const setPhase=index=>{
+      diagram.dataset.activePhase=String(index%Math.min(4,steps.length));
+      steps.forEach((step,i)=>i===index%steps.length ? step.setAttribute('aria-current','step') : step.removeAttribute('aria-current'));
+    };
+    setPhase(0);
+    if(motionStatic) return;
+    let phase=0;
+    phaseTimer=window.setInterval(()=>{ phase=(phase+1)%steps.length; setPhase(phase); },1200);
+  }
+  function stopLoop(){ clearInterval(phaseTimer); phaseTimer=0; }
+  function renderEntity(id){
+    const entity=entities[id];
+    if(!entity) return false;
+    activeId=id;
+    ref.textContent=`${String(entity.kind || 'entity').toUpperCase()} · ${id}`;
+    document.title=`${entity.name} — SOLANA//SCOPE`;
+    updateNav(id,entity);
+    const links=(entity.links || []).map(link=>({...link,safe:safeUrl(link.url)})).filter(link=>link.safe).sort((a,b)=>(linkOrder[a.kind] ?? 9)-(linkOrder[b.kind] ?? 9));
+    const related=(entity.related || []).filter(key=>entities[key]);
+    const appears=appearsOn(id,entity);
+    page.innerHTML=`
+      <header class="entity-mast">
+        <p class="entity-kicker">${esc(entity.kind || 'entity')} · ${esc(id)}</p>
+        <h2 id="entityTitle" tabindex="-1">${esc(entity.name)}</h2>
+        <p class="entity-tagline">${esc(entity.tagline)}</p>
+        <div class="entity-badges" aria-label="Chains">${(entity.chains || []).map(chain=>{ const meta=chainMeta(chain); return `<span class="entity-badge" style="--badge-c:${esc(meta.color)}"><i></i>${esc(meta.name)}</span>`; }).join('')}</div>
+      </header>
+      <div class="entity-layout">
+        <div class="entity-copy">
+          <section aria-labelledby="entityWhat"><h3 class="entity-section-label" id="entityWhat">WHAT IT IS</h3>${(entity.body || []).map(para=>`<p>${renderLite(para)}</p>`).join('')}</section>
+          <section aria-labelledby="entityHow"><h3 class="entity-section-label" id="entityHow">HOW IT WORKS</h3><div class="entity-diagram-wrap">${diagramHtml(entity)}<ol class="entity-steps">${(entity.how?.steps || []).map(step=>`<li>${esc(step)}</li>`).join('')}</ol></div></section>
+          <section aria-labelledby="entityLinks"><h3 class="entity-section-label" id="entityLinks">LINKS</h3><ul class="entity-link-list">${links.map(link=>`<li><a href="${esc(link.safe)}" target="_blank" rel="noopener"><span class="entity-link-kind">${esc(link.kind)}</span><span>${esc(link.label)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>
+          <section aria-labelledby="entityRelated"><h3 class="entity-section-label" id="entityRelated">RELATED</h3><div class="entity-related">${related.length ? related.map(key=>`<button type="button" class="entity-chip entity-door" data-entity-id="${esc(key)}">${esc(entities[key].name)}</button>`).join('') : '<span class="entity-empty">No related channels loaded.</span>'}</div></section>
+          <section aria-labelledby="entityAppears"><h3 class="entity-section-label" id="entityAppears">APPEARS ON</h3><div class="entity-appears">${appears.length ? appears.map(hit=>`<a class="entity-appear-link" href="${esc(hit.href)}">${esc(hit.label)}</a>`).join('') : '<span class="entity-empty">Reference index only.</span>'}</div></section>
+        </div>
+        <aside class="entity-signals" aria-label="Signals"><header>SIGNALS</header><dl>${(entity.signals || []).map(signal=>`<div class="entity-signal"><dt>${esc(signal.k)}</dt><dd>${esc(signal.v)}</dd></div>`).join('')}</dl></aside>
+      </div>`;
+    const prose=page.querySelector('.entity-copy');
+    if(prose && CD.terms) scope.termify(prose,{terms:CD.terms});
+    startLoop(entity);
+    return true;
+  }
+  function openEntity(route){
+    if(!renderEntity(route.id)) return;
+    if(!scope.Overlay.isOpen(shell)){
+      scope.Overlay.open({
+        element:shell,trigger:pendingTrigger,focusTarget:closeButton,
+        modal:true,scrim:false,lockScroll:true,outsideClose:false,sheet:false,
+        onClose:()=>{
+          stopLoop(); document.title=baseTitle; activeId='';
+          if(closingFromRoute) closingFromRoute=false;
+          else scope.Router.close();
+        }
+      });
+    }else page.querySelector('#entityTitle')?.focus({preventScroll:true});
+    pendingTrigger=null;
+    shell.scrollTop=0;
+  }
+  function closeForRoute(){
+    if(!scope.Overlay.isOpen(shell)) return;
+    closingFromRoute=true;
+    scope.Overlay.close(shell,{reason:'route'});
+  }
+  function goEntity(id,trigger){
+    if(!entities[id]) return false;
+    const top=scope.Overlay.top();
+    pendingTrigger=top && top.element.contains(trigger) && top.trigger instanceof HTMLElement
+      ? top.trigger
+      : (trigger instanceof HTMLElement ? trigger : null);
+    if(top && top.element!==shell) scope.Overlay.close(top,{restoreFocus:false,reason:'entity-route'});
+    return scope.Router.go('/e/'+id);
+  }
+
+  function replaceLabelWithDoor(label,id){
+    if(!label) return null;
+    if(!entities[id]){
+      if(label.matches('button.entity-door')){
+        const plain=document.createElement('b');
+        if(label.classList.contains('head-name')) plain.className='head-name';
+        plain.textContent=label.textContent; label.replaceWith(plain); return plain;
+      }
+      return label;
+    }
+    if(label.matches('button.entity-door')){ label.dataset.entityId=id; return label; }
+    const button=document.createElement('button');
+    button.type='button';button.className='entity-door';
+    if(label.classList.contains('head-name')) button.classList.add('head-name');
+    button.dataset.entityId=id;button.textContent=label.textContent;
+    label.replaceWith(button);return button;
+  }
+  function decorateGridPopover(pop){
+    if(pop.hidden) return;
+    const opener=document.querySelector('.tgrid [aria-expanded="true"][data-tech]');
+    const id=opener?.dataset.tech;
+    if(!id || !entities[id]) return;
+    const entity=entities[id],heading=pop.querySelector('h5');
+    if(heading && heading.dataset.entityTitle!==id){
+      const suffix=heading.textContent.startsWith(entity.name) ? heading.textContent.slice(entity.name.length) : '';
+      heading.textContent='';
+      const door=document.createElement('button'); door.type='button'; door.className='entity-door'; door.dataset.entityId=id; door.textContent=entity.name;
+      heading.append(door,document.createTextNode(suffix)); heading.dataset.entityTitle=id;
+    }
+    const tool=pop.querySelector('.tp-tool[data-tool]');
+    if(tool){
+      const toolId=tool.dataset.tool;
+      if(entities[toolId]){ tool.dataset.entityId=toolId; tool.classList.add('entity-door'); }
+      else{ delete tool.dataset.entityId; tool.classList.remove('entity-door'); }
+    }
+    if(!pop.querySelector('.entity-open-channel')){
+      const open=document.createElement('button');open.type='button';open.className='entity-open-channel entity-door';open.dataset.entityId=id;open.textContent='OPEN CHANNEL';pop.appendChild(open);
+    }
+  }
+  function decorateDoors(root=document){
+    root.querySelectorAll?.('.tool-card[id]').forEach(card=>{
+      const id=card.id.replace(/^tool-/,'');
+      const heading=card.querySelector('h4'); if(!heading) return;
+      let door=heading.querySelector(':scope > .entity-door');
+      if(entities[id] && !door){
+        const label=heading.textContent;
+        heading.textContent='';door=document.createElement('button');door.type='button';door.className='entity-door';door.dataset.entityId=id;door.textContent=label;heading.appendChild(door);
+      }else if(entities[id] && door) door.dataset.entityId=id;
+      else if(door) heading.textContent=door.textContent;
+    });
+    document.querySelectorAll('.dock-col-sol .dock-col-head').forEach(head=>replaceLabelWithDoor(head.querySelector('b,button.entity-door'),'sol'));
+    document.querySelectorAll('.dock-col-chain').forEach(col=>{
+      const dock=col.closest('.dock'),id=dock?.dataset.active;
+      if(id) replaceLabelWithDoor(col.querySelector('.head-name'),id);
+    });
+    document.querySelectorAll('.tpop').forEach(decorateGridPopover);
+  }
+  function queueDecorate(){
+    if(decorateQueued) return;
+    decorateQueued=true;
+    queueMicrotask(()=>{ decorateQueued=false; decorateDoors(document); });
+  }
+
+  scope.Router.on('entity',openEntity);
+  addEventListener('hashchange',()=>{ if(!scope.Router.parse(location.hash)) closeForRoute(); });
+  addEventListener('popstate',()=>{ if(!scope.Router.parse(location.hash)) closeForRoute(); });
+  closeButton.addEventListener('click',()=>scope.Overlay.close(shell,{reason:'button'}));
+  [prevButton,nextButton].forEach(button=>button.addEventListener('click',()=>{
+    if(button.dataset.entityTarget) scope.Router.go('/e/'+button.dataset.entityTarget);
+  }));
+  document.addEventListener('click',event=>{
+    const appear=event.target.closest('.entity-appear-link');
+    if(appear && shell.contains(appear)){
+      closingFromRoute=true;
+      scope.Overlay.close(shell,{restoreFocus:false,reason:'appears-on'});
+      return;
+    }
+    const door=event.target.closest('[data-entity-id],a[href^="#/e/"]');
+    if(!door) return;
+    const id=door.dataset.entityId || scope.Router.parse(door.getAttribute('href') || '')?.id;
+    if(!id || !entities[id]) return;
+    event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
+    goEntity(id,door);
+  },true);
+  new MutationObserver(queueDecorate).observe(document.body,{subtree:true,childList:true});
+  if(document.readyState==='loading') addEventListener('DOMContentLoaded',queueDecorate,{once:true}); else queueDecorate();
+})(window.SCOPE);
 // ==/V3E:JS==
 </script>
 
