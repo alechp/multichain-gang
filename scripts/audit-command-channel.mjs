@@ -18,7 +18,8 @@ try{
     await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit';document.body.tabIndex=-1;document.body.focus()});
 
     const engine=await page.evaluate(()=>({engine:SCOPE.CommandPalette?.engine,size:SCOPE.CommandPalette?.size,version:window.Fuse?.version}));
-    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==136)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==135)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    if((await page.evaluate(()=>SCOPE.CommandPalette.search('open field notes').some(item=>item.id==='notes'))))failures.push(`${width}px: hidden Notes command remains searchable`);
     await page.keyboard.press('Meta+K');
     if(!await page.locator('#scopeCommand').isVisible())failures.push(`${width}px: palette did not open`);
     await page.locator('#cmdInput').fill('turbne');
@@ -51,6 +52,25 @@ try{
     await page.waitForTimeout(500);
     const navbarAfter=await page.evaluate(()=>document.getElementById('slotNum')?.textContent);
     if(navbar.animated||navbar.slot!==navbarAfter)failures.push(`${width}px: navbar is not static ${JSON.stringify({navbar,navbarAfter})}`);
+    const hiddenNotes=await page.evaluate(()=>Array.from(document.querySelectorAll('.sn-ctl,#scopeNotes')).every(element=>!element.getClientRects().length));
+    if(!hiddenNotes)failures.push(`${width}px: Notes UI remains visible`);
+    const bottomDock=await page.evaluate(()=>{
+      const mount=document.getElementById('playbarMount'),bar=mount.querySelector('.p-b'),note=mount.querySelector('.p-a'),button=mount.querySelector('.p-pin');
+      return {state:SCOPE.ReaderDock?.state,dock:mount.dataset.dock,noteBottom:note.getBoundingClientRect().bottom,barTop:bar.getBoundingClientRect().top,label:button?.getAttribute('aria-label')};
+    });
+    if(bottomDock.state!=='bottom'||bottomDock.dock!=='bottom'||bottomDock.noteBottom>bottomDock.barTop+1||bottomDock.label!=='Pin reading bar to top')failures.push(`${width}px: invalid bottom dock ${JSON.stringify(bottomDock)}`);
+    await page.locator('.p-pin').click();await page.waitForTimeout(80);
+    const topDock=await page.evaluate(()=>{
+      const mount=document.getElementById('playbarMount'),bar=mount.querySelector('.p-b'),note=mount.querySelector('.p-a'),header=document.querySelector('.slotbar');
+      return {state:SCOPE.ReaderDock?.state,dock:mount.dataset.dock,headerBottom:header.getBoundingClientRect().bottom,barTop:bar.getBoundingClientRect().top,barBottom:bar.getBoundingClientRect().bottom,noteTop:note.getBoundingClientRect().top,label:mount.querySelector('.p-pin')?.getAttribute('aria-label')};
+    });
+    if(topDock.state!=='top'||topDock.dock!=='top'||topDock.barTop<topDock.headerBottom||topDock.noteTop<topDock.barBottom||topDock.label!=='Pin reading bar to bottom')failures.push(`${width}px: invalid top dock ${JSON.stringify(topDock)}`);
+    if(width===390){
+      await page.reload({waitUntil:'load'});await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit';SCOPE.Playbar.go(0)});await page.waitForTimeout(120);
+      const persisted=await page.evaluate(()=>({state:SCOPE.ReaderDock?.state,dock:document.getElementById('playbarMount').dataset.dock,label:document.querySelector('.p-pin')?.getAttribute('aria-label')}));
+      if(persisted.state!=='top'||persisted.dock!=='top'||persisted.label!=='Pin reading bar to bottom')failures.push(`390px: top dock did not persist ${JSON.stringify(persisted)}`);
+    }
+    await page.locator('.p-pin').click();
     if(width===1200){
       await page.keyboard.press('Space');await page.keyboard.press('Escape');
       const exited=await page.evaluate(()=>({state:SCOPE.Playbar.state,noteHidden:document.querySelector('.p-a')?.hidden,frameHidden:document.querySelector('.p-hl')?.hidden}));
@@ -101,4 +121,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (136 records), settled Next/Arrow cue traversal, CDN-blocked autoplay, titled Author Notes, desktop Escape exit, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (135 records), persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');

@@ -1,5 +1,8 @@
 # 03 — NOTES: click-in-place field notes
 
+> **Temporary UI status (2026-08-14):** hidden pending interaction repair.
+> Existing local note records are preserved; no migration or deletion runs.
+
 > **Status:** implemented 2026-08-14 — acceptance passed; 12,286 B CSS+JS
 > **Owner lane:** `C` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `04-STYLE-READABILITY.md` foundations (Overlay, Store, anchor ids)

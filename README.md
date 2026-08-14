@@ -3,7 +3,7 @@
 An interactive engineering instrument for Solana: five oscilloscope-styled
 channels cover consensus topology, transaction flow, MEV, low-latency
 infrastructure, and a cross-chain bench. The core instrument remains one HTML
-file, with local command-channel assets; a separate local journal collects
+file, with local interaction assets; a separate local journal collects
 public observations and runs paper-only historical simulators.
 
 **Live:** https://alechp.github.io/solana/
@@ -46,6 +46,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     index.html                      v3 instrument core (CH-01 … CH-05)
     scripts/command-palette.js      command channel, search index, keyboard bridge
     styles/command-palette.css      responsive command-channel surface
+    scripts/reader-dock.js          persisted top/bottom reading-bar dock
+    styles/reader-dock.css          dock placement and temporarily hidden Notes UI
     vendor/fuse.basic.min.js        pinned local Fuse.js 7.5.0 basic build
     scripts/audit-*.mjs             page fit, contrast, foundation, degradation QA
     journal/                        local SQLite collector, CLI, workbench, simulators
@@ -57,15 +59,15 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 - 49-term hover/tap documentation with primary links and keyboard-accessible
   pinned REF cards.
 - A 24-cue read-through transport with titled authored takeaways, a target
-  spotlight, persisted reading scale, desktop Escape exit, reduced-motion
-  stepping, and CDN-independent autoplay.
+  spotlight, persisted reading scale and top/bottom docking, desktop Escape
+  exit, reduced-motion stepping, and CDN-independent autoplay.
 - Global Left/Right focus traversal and Space autoplay/pause, plus a `⌘K` /
   `Ctrl+K` command channel with five-section jumps and fuzzy local search across
-  136 section, cue, entity, tool, chain, and glossary records.
+  135 section, cue, entity, tool, chain, and glossary records.
 - A static, motion-free top navigation reference; diagram motion stays in the
   teaching surfaces and remains optional.
-- In-place field notes with stable anchors, local persistence, Markdown/JSON
-  export, import, orphan recovery, and private-mode fallback.
+- Field-note controls are temporarily hidden while their interaction model is
+  repaired; existing local note data is left intact.
 - 53 unique hash-routed entity channels spanning techniques, tools, chains, and
   term targets, plus an exact JavaScript-off ENTITY INDEX mirror.
 - Local SQLite collection for three seeded addresses, public RPC/Solscan/Jito

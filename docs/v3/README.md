@@ -32,9 +32,9 @@ containment for termified grid/flex copy, and a 24-note guided-playthrough layer
 that spotlights the active target. The access console is a client-side gate for
 the static public artifact, not server-side authentication.
 
-The subsequent command-channel extension deliberately adds three local assets
-outside the single-file core: pinned Fuse.js 7.5.0, palette behavior, and palette
-styles. It indexes 136 local records, integrates all five sections, and exposes
+The subsequent interaction extensions add pinned Fuse.js 7.5.0, command-channel
+behavior/styles, and reader-dock behavior/styles outside the single-file core.
+The command channel indexes 135 local records, integrates all five sections, and exposes
 global Left/Right cue traversal plus Space autoplay/pause without capturing keys
 inside editors, interactive controls, or overlays.
 

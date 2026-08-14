@@ -1,0 +1,7 @@
+#playbarMount[data-dock=top]{top:var(--reader-top,70px);bottom:auto}
+#playbarMount[data-dock=top] .p-a{top:53px;bottom:auto}
+#playbarMount[data-dock=top] .p-u{top:56px;bottom:auto}
+#playbarMount[data-dock=top] .p-d{top:calc(var(--reader-top,70px) + 52px);bottom:auto}
+.p-pin{flex:none;color:var(--pc)!important;border-style:dashed!important;font-size:.82rem!important}
+#scopeNotes,.sn-ctl{display:none!important}
+@media(max-width:700px){#playbarMount[data-dock=top] .p-d{max-height:calc(100dvh - var(--reader-top,70px) - 58px);border-radius:0 0 12px 12px;padding-bottom:18px}}

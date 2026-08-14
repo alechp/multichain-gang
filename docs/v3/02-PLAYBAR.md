@@ -1,6 +1,6 @@
 # 02 — PLAYBAR: the read/play-through transport bar
 
-> **Status:** implemented 2026-08-14 — acceptance passed; 12,135 B CSS+JS
+> **Status:** implemented 2026-08-14 — acceptance passed; 12,135 B core CSS+JS plus dock extension
 > **Owner lane:** `B` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `04-STYLE-READABILITY.md` foundations (Store, cue zone, tokens)
 > **Pattern source:** `~/Code/frauthy/brand/packages/solid/src/ReadingToolbar.tsx`
@@ -27,8 +27,11 @@ carries reading progress and an A−/A/A+ reading-scale stepper.
           scale     prev play  next   segmented progress + cue     list
 ```
 
-- Fixed bottom-center, ≥700px: full pill. <700px: compact — play/pause,
-  prev/next, progress line only; scale stepper moves into the cue-list sheet.
+- Fixed center with a persisted `↑`/`↓` dock toggle. Bottom is the default;
+  top sits below the fixed navbar. At ≥700px the bar is a full pill; <700px is
+  compact — play/pause, prev/next, progress line, and dock toggle only; the
+  scale stepper moves into the cue-list sheet.
+- The Author Note opens above a bottom-docked bar and below a top-docked bar.
 - Styling: slot-bar family (panel ground, 1px line border, backdrop blur w/
   `@supports` fallback, mono microtype). The progress strip is **segmented by
   channel color** — cues within CH-01 render cyan ticks, CH-03 red, etc., so

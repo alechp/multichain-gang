@@ -2,7 +2,7 @@
 
 v3.0 is implemented and published from `main` / repository root at
 https://alechp.github.io/solana/. The instrument has a single-file static core
-plus local command-channel assets; `journal/` is a separate local-only Bun/SQLite
+plus local interaction assets; `journal/` is a separate local-only Bun/SQLite
 application and must never be deployed with the page.
 
 ## Files
@@ -10,6 +10,8 @@ application and must never be deployed with the page.
 - `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
 - `scripts/command-palette.js` + `styles/command-palette.css` — local command
   channel, section routing, global transport keys, and responsive presentation.
+- `scripts/reader-dock.js` + `styles/reader-dock.css` — persisted top/bottom
+  reader placement and the temporary field-note UI suppression layer.
 - `vendor/fuse.basic.min.js` — pinned Fuse.js 7.5.0 basic browser build;
   `vendor/fuse.LICENSE` preserves its Apache-2.0 license.
 - `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
@@ -20,8 +22,8 @@ application and must never be deployed with the page.
 ## Page conventions
 
 - Keep the instrument core in `index.html`: inline core CSS/JS/JSON, Google
-  Fonts, and anime.js via cdnjs; no framework. The command channel is the one
-  deliberate local-asset exception so Fuse search remains available offline.
+  Fonts, and anime.js via cdnjs; no framework. Local command/search and reader
+  docking assets are deliberate exceptions so they remain testable offline.
 - The access console stores only a SHA-256 digest and unlocks per browser tab.
   Never commit its plaintext code. Its audit bypass is restricted to `file:`,
   `localhost`, and `127.0.0.1`; do not expose a production query bypass.
@@ -34,6 +36,10 @@ application and must never be deployed with the page.
   the playbar's lexical state. Left/Right step globally and Space toggles
   autoplay only outside editors, interactive controls, and open overlays.
   Desktop Escape exits an engaged reader through `SCOPE.Playbar.exit()`.
+- Reader docking persists through `SCOPE.Store` as `top` or `bottom`. At the
+  top, the Author Note opens below the transport and below the fixed navbar.
+- Field-note controls, pins, cards, and the command entry are intentionally
+  hidden for now. Do not delete or migrate stored `notes` data.
 - All structured page content lives in `#chainData`. Update the matching
   `<noscript>` mirror whenever JSON changes; the ENTITY INDEX must exactly match
   each entity's name, kind, tagline, and first link.

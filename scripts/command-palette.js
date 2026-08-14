@@ -17,8 +17,7 @@
   const commands=[
     {id:'play',title:'Toggle autoplay',summary:'Start or pause the guided 24-cue read-through.',command:'toggle'},
     {id:'previous',title:'Previous focus',summary:'Move the playthrough back one authored focus.',command:'previous'},
-    {id:'next',title:'Next focus',summary:'Move the playthrough forward one authored focus.',command:'next'},
-    {id:'notes',title:'Open field notes',summary:'Review, export, import, or jump to local notes.',command:'notes'}
+    {id:'next',title:'Next focus',summary:'Move the playthrough forward one authored focus.',command:'next'}
   ];
   const records=[];
   sections.forEach(item=>records.push({...item,kind:'section',aliases:[item.label,'channel '+item.label.replace(/\D/g,'')]}));
@@ -106,9 +105,7 @@
         return;
       }
       if(item.kind==='focus'){scope.Playbar?.go(item.cue);return}
-      if(item.kind==='command'){
-        if(item.command==='notes')document.querySelector('.sn-count')?.click();else transport(item.command);
-      }
+      if(item.kind==='command')transport(item.command);
     });
   }
   function open(trigger=launcher){
