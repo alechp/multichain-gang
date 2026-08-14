@@ -21,7 +21,7 @@ for (const lane of lanes) {
   else if (requireEmpty && json[1].trim()) failures.push(`V3${lane}:JSON zone is not empty`);
 }
 
-for (const primitive of ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify']) {
+for (const primitive of ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify', 'Runtime']) {
   const comment = new RegExp(`/\\* ${primitive} usage:([\\s\\S]*?)\\*/`).exec(source);
   if (!comment || ![1, 2, 3, 4, 5].every(number => comment[1].includes(`* ${number}.`))) failures.push(`${primitive} lacks the required five-line usage comment`);
 }
@@ -30,7 +30,7 @@ const browser = await launchAuditBrowser();
 try {
   const { context, page, errors } = await openAuditPage(browser, 1200);
   const runtime = await page.evaluate(() => {
-    const required = ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify'];
+    const required = ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify', 'Runtime'];
     const missing = required.filter(key => !window.SCOPE || window.SCOPE[key] == null);
     const anchors = document.querySelectorAll('[data-note-anchor]').length;
     const revs = [document.body.dataset.rev, JSON.parse(document.getElementById('chainData').textContent)._rev];
@@ -64,6 +64,53 @@ try {
     if (ambient.animation !== 'none') failures.push(`${ambient.selector} ambient loops (${ambient.animation})`);
     if (ambient.opacity > .02) failures.push(`${ambient.selector} ambient opacity ${ambient.opacity} exceeds 2%`);
   });
+
+  const bridge = await page.evaluate(() => {
+    const Runtime=window.SCOPE.Runtime;
+    const methods=['restartFigure','openDock','closeDock','cascade','filterBench','isVisible'];
+    const fills=Array.from(document.querySelectorAll('.lfill'));
+    fills.forEach(fill=>{ fill.style.transform='scaleX(0)'; });
+    const restarted=Runtime.restartFigure('.ladder');
+    const ladderRestored=fills.every(fill=>fill.style.transform!=='scaleX(0)');
+
+    const opened=Runtime.openDock('topology','eth');
+    const dock=document.querySelector('.dock[data-section="topology"]');
+    const dockOpen=!!dock && !dock.querySelector('.dock-body').hidden && dock.dataset.active==='eth';
+    const closed=Runtime.closeDock('topology');
+    const dockClosed=!!dock && dock.querySelector('.dock-body').hidden;
+
+    const cells=Array.from(document.querySelectorAll('#gridPanel .tcell .cm'));
+    cells.forEach(cell=>{ cell.style.opacity='.2'; });
+    const cascaded=Runtime.cascade();
+    const cascadeVisible=cells.length>0 && cells.every(cell=>cell.style.opacity==='1');
+
+    const filtered=Runtime.filterBench('protect');
+    const protectPressed=document.querySelector('.chip-f[data-f="stance"][data-v="protect"]')?.getAttribute('aria-pressed')==='true';
+    const visibleCards=Array.from(document.querySelectorAll('.tool-card')).filter(card=>!card.hidden);
+    const protectOnly=visibleCards.length>0 && visibleCards.every(card=>card.dataset.stance==='protect');
+    Runtime.filterBench({chain:'all',stance:'all'});
+
+    const missing=[
+      Runtime.restartFigure('#missing-runtime-target'),
+      Runtime.openDock('missing-runtime-target','eth'),
+      Runtime.closeDock('missing-runtime-target'),
+      Runtime.filterBench({stance:'missing-runtime-filter'}),
+      Runtime.isVisible(null)
+    ];
+    return {
+      frozen:Object.isFrozen(Runtime),methods:methods.filter(method=>typeof Runtime[method]==='function'),
+      restarted,ladderRestored,opened,dockOpen,closed,dockClosed,cascaded,cascadeVisible,
+      filtered,protectPressed,protectOnly,visibleDesktop:Runtime.isVisible('#pipeSvg'),
+      hiddenMobile:Runtime.isVisible('#pipeSvgV'),missing
+    };
+  });
+  if (!bridge.frozen || bridge.methods.length !== 6) failures.push(`Runtime bridge shape invalid: ${JSON.stringify(bridge)}`);
+  if (!bridge.restarted || !bridge.ladderRestored) failures.push(`Runtime.restartFigure did not invoke ladder action: ${JSON.stringify(bridge)}`);
+  if (!bridge.opened || !bridge.dockOpen || !bridge.closed || !bridge.dockClosed) failures.push(`Runtime dock adapters failed: ${JSON.stringify(bridge)}`);
+  if (!bridge.cascaded || !bridge.cascadeVisible) failures.push(`Runtime.cascade did not invoke the grid action: ${JSON.stringify(bridge)}`);
+  if (!bridge.filtered || !bridge.protectPressed || !bridge.protectOnly) failures.push(`Runtime.filterBench did not apply protect filter: ${JSON.stringify(bridge)}`);
+  if (!bridge.visibleDesktop || bridge.hiddenMobile) failures.push(`Runtime.isVisible differs from v2 responsive state: ${JSON.stringify(bridge)}`);
+  if (bridge.missing.some(Boolean)) failures.push(`Runtime missing-target methods did not no-op: ${JSON.stringify(bridge.missing)}`);
 
   await page.locator('.tcell').first().click();
   const opened = await page.evaluate(() => {
@@ -112,4 +159,4 @@ if (failures.length) {
   failures.forEach(failure => console.error('- ' + failure));
   process.exit(1);
 }
-console.log(`FOUNDATION PASS — zones byte-unique${requireEmpty ? '/empty' : ''}; five primitives live; anchors, ambients, termify, Store, Overlay grid migration, title fit, and watermark guard pass.`);
+console.log(`FOUNDATION PASS — zones byte-unique${requireEmpty ? '/empty' : ''}; five primitives + frozen Runtime bridge live; anchors, ambients, termify, Store, Overlay grid migration, title fit, and watermark guard pass.`);

@@ -2240,7 +2240,31 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     root.querySelectorAll('.tool-card[id]').forEach(card=>set(card,'tool.'+card.id.replace(/^tool-/,'')));
   }
 
-  Object.assign(scope,{Overlay,Router,Store,positionOverlay,termify,stampAnchors});
+  /* Runtime usage:
+   * 1. restartFigure(anchorOrElement) re-runs the matching visible v2 figure.
+   * 2. openDock(sectionOrMount,chain) and closeDock(sectionOrMount) are stable.
+   * 3. cascade() replays the grid; filterBench(string|object) uses live controls.
+   * 4. isVisible(elementOrSelector) shares v2 responsive-variant semantics.
+   * 5. Every method returns false on unavailable input; an internal ready event binds once.
+   */
+  let runtimeAdapter = null;
+  document.addEventListener('scope:runtime-ready',event=>{
+    if(!runtimeAdapter && event.detail && typeof event.detail==='object') runtimeAdapter=event.detail;
+  },{once:true});
+  const runtimeCall = (method,args)=>{
+    try { return !!(runtimeAdapter && typeof runtimeAdapter[method]==='function' && runtimeAdapter[method](...args)); }
+    catch(error){ return false; }
+  };
+  const Runtime = Object.freeze({
+    restartFigure:(...args)=>runtimeCall('restartFigure',args),
+    openDock:(...args)=>runtimeCall('openDock',args),
+    closeDock:(...args)=>runtimeCall('closeDock',args),
+    cascade:(...args)=>runtimeCall('cascade',args),
+    filterBench:(...args)=>runtimeCall('filterBench',args),
+    isVisible:(...args)=>runtimeCall('isVisible',args)
+  });
+
+  Object.assign(scope,{Overlay,Router,Store,positionOverlay,termify,stampAnchors,Runtime});
   document.documentElement.style.setProperty('--interference-y',(26+Math.random()*48).toFixed(1)+'%');
   const stamp=()=>stampAnchors(document);
   if(document.readyState==='loading') addEventListener('DOMContentLoaded',stamp,{once:true}); else setTimeout(stamp,0);
@@ -3460,12 +3484,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   }
 
   function gridCascade(){
-    if(reduced) return;
     const cms = document.querySelectorAll('#gridPanel .tcell .cm');
+    if(!cms.length) return false;
+    if(reduced){ cms.forEach(el=>{ el.style.opacity='1'; el.style.transform='none'; }); return true; }
     cms.forEach(el=>el.style.opacity=0);
     anime({targets:cms, opacity:[0,1], scale:[.4,1],
       delay:anime.stagger(24, {grid:[CD.benchCols.length, CD.techniques.length], from:0}),
       duration:300, easing:'easeOutQuad'});
+    return true;
   }
 
   function wireGrid(mount){
@@ -3585,6 +3611,87 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
   renderGrid();
   renderBench();
+
+  /* V3D runtime bridge: thin adapters over the private v2 implementation.
+     The public frozen forwarder already exists before consumer zones execute;
+     this one-shot event supplies behavior only after the legacy runtime is ready. */
+  function resolveRuntimeElement(value){
+    if(value instanceof Element) return value;
+    if(typeof value!=='string' || !value.trim()) return null;
+    const input=value.trim();
+    const byId=document.getElementById(input.replace(/^#/,''));
+    if(byId) return byId;
+    try{
+      const selected=document.querySelector(input);
+      if(selected) return selected;
+    }catch(error){ /* fall through to stable note-anchor lookup */ }
+    return document.querySelector('[data-note-anchor="'+CSS.escape(input)+'"]');
+  }
+
+  function resolveRuntimeDock(value){
+    const element=resolveRuntimeElement(value);
+    if(element){
+      if(element.matches('.dock')) return element;
+      const inside=element.querySelector('.dock'); if(inside) return inside;
+      const parent=element.closest('.dock'); if(parent) return parent;
+    }
+    if(typeof value!=='string') return null;
+    const key=CSS.escape(value.replace(/^#/,''));
+    return document.querySelector('.dock[data-section="'+key+'"],.dock-mount[data-ch="'+key+'"] .dock');
+  }
+
+  function restartRuntimeFigure(value){
+    const requested=resolveRuntimeElement(value); if(!requested) return false;
+    const definitions=[
+      {key:'hero',selector:'#heroSvgD,#heroSvgM',holder:()=>document.querySelector('.hero-scope'),run:heroAnim},
+      {key:'turbine',selector:'#turbineSvg',holder:()=>document.getElementById('turbineSvg'),run:turbineAnim},
+      {key:'pipe',selector:'#pipeSvg,#pipeSvgV',holder:()=>[document.getElementById('pipeSvg'),document.getElementById('pipeSvgV')].find(isVis),run:pipeAnim},
+      {key:'sand',selector:'#sandwichSvg,#sandSvgM1,#sandSvgM2',holder:()=>isVis(document.getElementById('sandwichSvg'))?document.getElementById('sandwichSvg'):document.getElementById('sandSvgM1'),run:sandwichAnim},
+      {key:'jito',selector:'#jitoSvg',holder:()=>document.getElementById('jitoSvg'),run:jitoAnim},
+      {key:'ladder',selector:'.ladder',holder:()=>null,run:ladderAnim}
+    ];
+    const definition=definitions.find(item=>Array.from(document.querySelectorAll(item.selector)).some(node=>node===requested || node.contains(requested) || requested.contains(node)));
+    if(!definition) return false;
+    const visible=Array.from(document.querySelectorAll(definition.selector)).find(isVis);
+    if(!visible) return false;
+    const holder=definition.holder();
+    if(holder && loops.has(holder)){
+      loops.get(holder).forEach(instance=>{ instance.pause(); if(typeof instance.seek==='function') instance.seek(0); });
+      loops.delete(holder); pauseIO.unobserve(holder);
+    }
+    if(definition.key==='turbine') document.getElementById('shredDots').replaceChildren();
+    if(definition.key==='jito') document.getElementById('jitoDots').replaceChildren();
+    started.delete(definition.key); started.add(definition.key);
+    definition.run();
+    return true;
+  }
+
+  const runtimeAdapter=Object.freeze({
+    restartFigure:restartRuntimeFigure,
+    openDock:(value,chain)=>{
+      const dock=resolveRuntimeDock(value), cid=typeof chain==='string'?chain.toLowerCase():'';
+      if(!dock || !CD.chains[cid]) return false;
+      if(dock.dataset.active!==cid) setChain(dock,cid);
+      openDock(dock); return true;
+    },
+    closeDock:value=>{
+      const dock=resolveRuntimeDock(value); if(!dock) return false;
+      closeDock(dock); return true;
+    },
+    cascade:()=>gridCascade(),
+    filterBench:filter=>{
+      const requested=typeof filter==='string' ? {stance:filter} : filter;
+      if(!requested || typeof requested!=='object') return false;
+      const buttons=Object.entries(requested)
+        .filter(([kind,value])=>(kind==='chain'||kind==='stance') && typeof value==='string')
+        .map(([kind,value])=>document.querySelector('#benchMount .chip-f[data-f="'+kind+'"][data-v="'+CSS.escape(value.toLowerCase())+'"]'));
+      if(!buttons.length || buttons.some(button=>!button)) return false;
+      buttons.forEach(button=>{ if(button.getAttribute('aria-pressed')!=='true') button.click(); });
+      return true;
+    },
+    isVisible:value=>isVis(resolveRuntimeElement(value))
+  });
+  document.dispatchEvent(new CustomEvent('scope:runtime-ready',{detail:runtimeAdapter}));
 })();
 </script>
 </body>
