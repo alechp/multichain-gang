@@ -1693,7 +1693,29 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <thead><tr><th>Name</th><th>Kind</th><th>One-line readout</th><th>Primary source</th></tr></thead>
       <tbody>
         <tr><td>Sandwiching</td><td>technique</td><td>A three-transaction extraction pattern that brackets a price-sensitive swap.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect docs ↗</a></td></tr>
-        <tr><td>Jito Block Engine</td><td>tool</td><td>Solana's sealed-bid bundle auction for atomic, leader-bound transaction packages.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito low-latency transaction send docs ↗</a></td></tr>
+        <tr><td>Jito Block Engine</td><td>tool</td><td>An explicit market for atomic ordering inside a Solana leader's slot.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito transaction and bundle API ↗</a></td></tr>
+        <tr><td>Flashbots MEV-Boost / BuilderNet</td><td>tool</td><td>The sidecar and builder network that make proposer-builder separation usable today.</td><td><a href="https://boost.flashbots.net/">MEV-Boost network ↗</a></td></tr>
+        <tr><td>bloXroute / 48Club validator rails</td><td>tool</td><td>Private BNB Chain lanes that connect bundles and builder bids to validators.</td><td><a href="https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP322.md">BSC builder API proposal ↗</a></td></tr>
+        <tr><td>Out-of-band accelerators</td><td>tool</td><td>A miner-facing fee market layered over Bitcoin's ordinary mempool auction.</td><td><a href="https://mempool.space/docs/api/rest">mempool.space accelerator API ↗</a></td></tr>
+        <tr><td>Jito MEV-protect endpoints</td><td>tool</td><td>Leader-directed Solana submission with revert and sandwich-mitigation controls.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/#sendtransaction">Jito protected transaction send ↗</a></td></tr>
+        <tr><td>Flashbots Protect / MEV Blocker</td><td>tool</td><td>Private Ethereum RPC paths that keep eligible order flow out of the public mempool.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect overview ↗</a></td></tr>
+        <tr><td>48Club Privacy RPC / bloXroute protect</td><td>tool</td><td>Private BNB Chain submission that delays or avoids public mempool exposure.</td><td><a href="https://docs.48.club/privacy-rpc">48Club Privacy RPC ↗</a></td></tr>
+        <tr><td>Shielded pool (protocol-level)</td><td>tool</td><td>A privacy boundary enforced by Zcash proofs rather than a private relay operator.</td><td><a href="https://zcash.github.io/orchard/">Orchard book ↗</a></td></tr>
+        <tr><td>Jupiter</td><td>tool</td><td>Solana routing and order products that turn a desired outcome into executable paths.</td><td><a href="https://dev.jup.ag/docs/">Jupiter developer docs ↗</a></td></tr>
+        <tr><td>CoW Swap · UniswapX · 1inch Fusion</td><td>tool</td><td>Intent systems where solvers compete to deliver a user's signed outcome.</td><td><a href="https://docs.cow.fi/cow-protocol/concepts/introduction/intents">CoW Protocol intents ↗</a></td></tr>
+        <tr><td>1inch · KyberSwap</td><td>tool</td><td>BNB Chain aggregation that searches fragmented liquidity before the user signs.</td><td><a href="https://portal.1inch.dev/documentation/apis/swap/fusion/introduction">1inch Fusion API ↗</a></td></tr>
+        <tr><td>Jito ShredStream · Geyser plugins</td><td>tool</td><td>Two ways to observe Solana state before a conventional indexed RPC catches up.</td><td><a href="https://docs.jito.wtf/lowlatencytxnfeed/">Jito ShredStream docs ↗</a></td></tr>
+        <tr><td>bloXroute BDN · relay streams</td><td>tool</td><td>A purpose-built relay backbone for low-variance EVM block and transaction delivery.</td><td><a href="https://docs.bloxroute.com/core-solutions/blockchain-distribution-network-bdn/overview">BDN overview ↗</a></td></tr>
+        <tr><td>FIBRE / compact relays · mempool.space APIs</td><td>tool</td><td>Bitcoin propagation and telemetry tools serving different points on the confirmation path.</td><td><a href="https://bitcoinfibre.org/">Bitcoin FIBRE ↗</a></td></tr>
+        <tr><td>Standard p2p</td><td>tool</td><td>Zcash's ordinary peer network for transactions, compact blocks, and consensus messages.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Priority fees per CU + Jito tips</td><td>tool</td><td>Two Solana bids pricing execution urgency and bundle placement through separate rails.</td><td><a href="https://solana.com/docs/core/fees">Solana fee documentation ↗</a></td></tr>
+        <tr><td>EIP-1559 tips + builder bids</td><td>tool</td><td>Ethereum's inclusion fee and block-value auction operate at different layers.</td><td><a href="https://eips.ethereum.org/EIPS/eip-1559">EIP-1559 ↗</a></td></tr>
+        <tr><td>Gas tips + private bids</td><td>tool</td><td>BNB Chain urgency is priced through public gas and validator-adjacent builder markets.</td><td><a href="https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP226.md">BSC EIP-1559 configuration ↗</a></td></tr>
+        <tr><td>sat/vB fee market</td><td>tool</td><td>Bitcoin block space is auctioned by feerate across related transaction packages.</td><td><a href="https://developer.bitcoin.org/devguide/transactions.html#transaction-fees-and-change">Bitcoin Core transaction fees ↗</a></td></tr>
+        <tr><td>Firedancer · SWQoS · DoubleZero</td><td>tool</td><td>A Solana latency stack spanning validator software, ingress allocation, and network paths.</td><td><a href="https://docs.firedancer.io/">Firedancer documentation ↗</a></td></tr>
+        <tr><td>ePBS research · preconfs · Reth/Erigon perf</td><td>tool</td><td>Ethereum's edge moves across protocol markets, early promises, and client engineering.</td><td><a href="https://eips.ethereum.org/EIPS/eip-7732">EIP-7732 enshrined PBS ↗</a></td></tr>
+        <tr><td>Fast-finality client tuning</td><td>tool</td><td>BNB Chain client work compressing block cadence while preserving validator agreement.</td><td><a href="https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP-619.md">BEP-619 short block interval ↗</a></td></tr>
+        <tr><td>Stratum v2</td><td>tool</td><td>A modern encrypted job channel between Bitcoin miners and pools.</td><td><a href="https://stratumprotocol.org/">Stratum v2 protocol ↗</a></td></tr>
         <tr><td>Solana</td><td>chain</td><td>A parallel runtime organized around a roughly 400 ms leader schedule and explicit account locks.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction docs ↗</a></td></tr>
       </tbody>
     </table>
@@ -1797,36 +1819,188 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "term": "sandwich"
     },
     "jito-be": {
-      "kind": "tool",
-      "name": "Jito Block Engine",
-      "tagline": "The sealed-bid auction that sells atomic ordering inside a Solana leader's slot.",
-      "chains": ["sol"],
-      "body": [
-        "Jito's Block Engine accepts transaction bundles from searchers and forwards the winning package toward the scheduled leader. A bundle contains up to five transactions that execute sequentially and atomically: if one fails, the entire package fails. A tip signals what the searcher will pay for that placement.",
-        "The auction converts a timing race into an explicit market. Searchers compete on the value their bundle can return to the validator, while the leader receives a prepared ordering rather than an uncontrolled packet flood. This is infrastructure beside Solana consensus, not a consensus rule.",
-        "The economic edge is still latency-sensitive. A searcher must simulate current state, form a valid bundle, and reach the engine before the opportunity disappears. The engine can rank a valid bid; it cannot rescue stale state, a conflicting account lock, or a transaction that exhausts its compute budget."
-      ],
-      "how": {
-        "diagram": "sol-bundle",
-        "params": {},
-        "steps": [
-          "Searchers simulate and submit bundles of up to five transactions",
-          "The engine groups valid bids for the current leader window",
-          "A sealed-bid auction ranks bundles by value and constraints",
-          "The winning atomic package is forwarded for block inclusion"
-        ]
-      },
-      "signals": [
-        {"k": "bundle size", "v": "≤ 5 transactions · atomic"},
-        {"k": "auction cadence", "v": "per leader window · ~400 ms slots"},
-        {"k": "payment rail", "v": "bundle tip"}
-      ],
-      "links": [
-        {"label": "Jito low-latency transaction send", "url": "https://docs.jito.wtf/lowlatencytxnsend/", "kind": "official"},
-        {"label": "Jito bundle explorer", "url": "https://explorer.jito.wtf/", "kind": "explorer"}
-      ],
-      "related": ["sandwich", "atomic-arb", "backrun", "shredstream"],
-      "term": "jito"
+      "kind":"tool","name":"Jito Block Engine","tagline":"An explicit market for atomic ordering inside a Solana leader's slot.","chains":["sol"],
+      "body":["Jito's Block Engine receives signed bundles, simulates them against current Solana state, and forwards profitable combinations to participating leaders. A bundle holds no more than five transactions and executes sequentially, all-or-nothing, within one slot. Tips turn desired placement into a bid, but landing still depends on valid state, account-lock compatibility, compute limits, and reaching the relevant leader before the opportunity expires."],
+      "how":{"diagram":"sol-bundle","params":{},"steps":["Searchers simulate and sign an atomic bundle","The engine groups bids with conflicting account locks","Valid combinations compete on tip efficiency","A winning package reaches the scheduled leader"]},
+      "signals":[{"k":"bundle envelope","v":"≤ 5 transactions · one slot · atomic"},{"k":"auction tick","v":"~50 ms · documented 2026-08"}],
+      "links":[{"label":"Jito transaction and bundle API","url":"https://docs.jito.wtf/lowlatencytxnsend/","kind":"official"},{"label":"Jito MEV protocol definitions","url":"https://github.com/jito-labs/mev-protos","kind":"docs"},{"label":"Jito bundle explorer","url":"https://explorer.jito.wtf/","kind":"explorer"}],
+      "related":["atomic-arb","backrun","shredstream","sol"],"term":"jito-bundle"
+    },
+    "mev-boost": {
+      "kind":"tool","name":"Flashbots MEV-Boost / BuilderNet","tagline":"The sidecar and builder network that make proposer-builder separation usable today.","chains":["eth"],
+      "body":["MEV-Boost lets an Ethereum validator outsource block construction without handing over proposer authority. Relays collect bids from builders, the validator's sidecar asks for the best blinded header, and the winning builder reveals its payload after the proposer signs. BuilderNet changes who can collaborate on building, but the core bargain remains: specialized builders compete on block value while consensus validators retain the final proposal duty."],
+      "how":{"diagram":"intent-batch","params":{},"steps":["Builders assemble candidate execution payloads","Relays validate bids and expose blinded headers","The proposer signs its preferred header","The winning payload is revealed and proposed"]},
+      "signals":[{"k":"interface","v":"out-of-protocol proposer sidecar"},{"k":"bid object","v":"blinded header → revealed payload"}],
+      "links":[{"label":"MEV-Boost network","url":"https://boost.flashbots.net/","kind":"official"},{"label":"Flashbots MEV-Boost docs","url":"https://docs.flashbots.net/flashbots-mev-boost/introduction","kind":"docs"},{"label":"MEV-Boost source","url":"https://github.com/flashbots/mev-boost","kind":"research"}],
+      "related":["pbs","atomic-arb","liquidations","eth"],"term":"mev-boost"
+    },
+    "bnb-rails": {
+      "kind":"tool","name":"bloXroute / 48Club validator rails","tagline":"Private BNB Chain lanes that connect bundles and builder bids to validators.","chains":["bnb"],
+      "body":["BNB Chain builder rails sit beside the public transaction pool. Searchers send bundles or private transactions to services such as bloXroute and 48Club; builders simulate candidate ordering, price it, and deliver blocks or bids to compatible validators. These paths reduce public-gossip delay and expose explicit ordering controls, yet they are not consensus: validators still enforce BSC validity, and private delivery does not guarantee inclusion or protection."],
+      "how":{"diagram":"intent-batch","params":{},"steps":["A searcher targets a future BSC block","A private rail validates the signed bundle","Builders compare ordering and payment value","A compatible validator receives the candidate"]},
+      "signals":[{"k":"submission","v":"signed transactions or bundles"},{"k":"validator contract","v":"BEP-322 builder API"}],
+      "links":[{"label":"BSC builder API proposal","url":"https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP322.md","kind":"official"},{"label":"48Club bundle submission","url":"https://docs.48.club/puissant-builder/send-bundle","kind":"docs"},{"label":"bloXroute BDN overview","url":"https://docs.bloxroute.com/core-solutions/blockchain-distribution-network-bdn/overview","kind":"docs"}],
+      "related":["bnb","sandwich","backrun","liquidations"]
+    },
+    "btc-accel": {
+      "kind":"tool","name":"Out-of-band accelerators","tagline":"A miner-facing fee market layered over Bitcoin's ordinary mempool auction.","chains":["btc"],
+      "body":["A Bitcoin accelerator asks participating miners to prioritize a stuck transaction, usually in exchange for an additional payment outside the transaction's original fee. Some services coordinate pools directly; wallet-native alternatives use replace-by-fee or child-pays-for-parent to raise the effective on-chain feerate. An accelerator can improve access to hashpower, but cannot override transaction validity, a conflicting spend, or a miner's independent template policy."],
+      "how":{"diagram":"miners","params":{},"steps":["A sender identifies a delayed transaction","The service estimates an added payment","Participating pools add it to candidate templates","Confirmation occurs only if a participant mines"]},
+      "signals":[{"k":"unit on chain","v":"satoshis per virtual byte"},{"k":"alternative","v":"RBF or CPFP fee bump"}],
+      "links":[{"label":"mempool.space accelerator API","url":"https://mempool.space/docs/api/rest","kind":"official"},{"label":"ViaBTC transaction accelerator","url":"https://www.viabtc.com/tools/txaccelerator","kind":"official"},{"label":"Replace-by-fee specification","url":"https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki","kind":"research"}],
+      "related":["btc","rbf","btc-priority"]
+    },
+    "jito-protect": {
+      "kind":"tool","name":"Jito MEV-protect endpoints","tagline":"Leader-directed Solana submission with revert and sandwich-mitigation controls.","chains":["sol"],
+      "body":["Jito's transaction endpoint sends a signed Solana transaction directly toward a validator instead of relying only on general RPC forwarding. A caller can wrap one transaction as a bundle for revert protection, and a `jitodontfront` account marker constrains where marked transactions may appear inside Block Engine bundles. Those controls narrow specific leak and ordering risks; they do not hide every upstream copy or promise inclusion, price, or universal sandwich immunity."],
+      "how":{"diagram":"window","params":{},"steps":["The client signs a constrained transaction","Jito routes it toward participating leaders","Bundle-only or dont-front rules are checked","The transaction lands only if valid and selected"]},
+      "signals":[{"k":"route","v":"direct validator-facing submission"},{"k":"controls","v":"bundleOnly + jitodontfront"}],
+      "links":[{"label":"Jito protected transaction send","url":"https://docs.jito.wtf/lowlatencytxnsend/#sendtransaction","kind":"official"},{"label":"Jito sandwich mitigation","url":"https://docs.jito.wtf/lowlatencytxnsend/#sandwich-mitigation","kind":"docs"},{"label":"Jito searcher examples","url":"https://github.com/jito-labs/searcher-examples","kind":"docs"}],
+      "related":["sandwich","jito-be","sol"]
+    },
+    "flashbots-protect": {
+      "kind":"tool","name":"Flashbots Protect / MEV Blocker","tagline":"Private Ethereum RPC paths that keep eligible order flow out of the public mempool.","chains":["eth"],
+      "body":["Protection RPCs accept signed Ethereum transactions privately and forward them to participating builders rather than broadcasting them through the public mempool first. That removes the easiest preview for sandwich bots. Flashbots Protect and MEV Blocker also support policies around failed-transaction handling or backrun rebates. Users trade public propagation breadth for a controlled builder path, so inclusion, censorship resistance, refund eligibility, and timing still depend on each service's rules."],
+      "how":{"diagram":"window","params":{},"steps":["A wallet submits to a private RPC","The service checks transaction and policy","Selected builders receive the private order","Inclusion or a backrun refund is reported"]},
+      "signals":[{"k":"visibility","v":"builder-only before inclusion"},{"k":"user value","v":"sandwich resistance + possible rebate"}],
+      "links":[{"label":"Flashbots Protect overview","url":"https://docs.flashbots.net/flashbots-protect/overview","kind":"official"},{"label":"Flashbots Protect quick start","url":"https://docs.flashbots.net/flashbots-protect/quick-start","kind":"docs"},{"label":"MEV Blocker","url":"https://mevblocker.io/","kind":"official"}],
+      "related":["sandwich","backrun","mev-boost","eth"]
+    },
+    "club48": {
+      "kind":"tool","name":"48Club Privacy RPC / bloXroute protect","tagline":"Private BNB Chain submission that delays or avoids public mempool exposure.","chains":["bnb"],
+      "body":["48Club and bloXroute expose BNB Chain RPC routes designed to send a user's signed transaction through private builder or proposer connections. Keeping the payload out of ordinary public gossip during the useful ordering window can deny sandwichers an early copy. The protection boundary ends at participating infrastructure: eventual disclosure, unsupported validators, failed simulation, or separate upstream leakage can still expose or delay the trade."],
+      "how":{"diagram":"window","params":{},"steps":["A wallet selects a private BSC RPC","The service receives the signed transaction","A private mempool or proposer path carries it","The selected validator may include it"]},
+      "signals":[{"k":"chain","v":"BNB Smart Chain"},{"k":"threat model","v":"public-mempool frontrunning"}],
+      "links":[{"label":"48Club Privacy RPC","url":"https://docs.48.club/privacy-rpc","kind":"official"},{"label":"48Club Puissant builder","url":"https://docs.48.club/puissant-builder","kind":"docs"},{"label":"bloXroute BDN overview","url":"https://docs.bloxroute.com/core-solutions/blockchain-distribution-network-bdn/overview","kind":"docs"}],
+      "related":["sandwich","bnb-rails","bnb"]
+    },
+    "zec-shield": {
+      "kind":"tool","name":"Shielded pool (protocol-level)","tagline":"A privacy boundary enforced by Zcash proofs rather than a private relay operator.","chains":["zec"],
+      "body":["Zcash shielded pools hide the sender, receiver, and transferred amount while still proving authorization and value conservation. Orchard expresses a payment as actions checked with Halo 2 proofs; nodes verify those proofs without learning the private note contents. This is protocol-level transaction privacy, not an RPC promise. Network observers can still see timing and transaction size, and users can reveal information through address reuse or transparent-pool interactions."],
+      "how":{"diagram":"shieldbounce","params":{},"steps":["A wallet selects private notes to spend","It builds outputs and a zero-knowledge proof","Nodes verify balance and authorization","New private notes enter the Orchard pool"]},
+      "signals":[{"k":"hidden fields","v":"sender · receiver · amount"},{"k":"current pool","v":"Orchard · Halo 2"}],
+      "links":[{"label":"Orchard book","url":"https://zcash.github.io/orchard/","kind":"official"},{"label":"Orchard protocol ZIP 224","url":"https://zips.z.cash/zip-0224","kind":"docs"},{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"research"}],
+      "related":["zec","shielded-pool","sandwich","equihash"]
+    },
+    "jupiter": {
+      "kind":"tool","name":"Jupiter","tagline":"Solana routing and order products that turn a desired outcome into executable paths.","chains":["sol"],
+      "body":["Jupiter queries Solana liquidity sources, compares candidate routes, and returns instructions for a user-authorized swap. Its order products add trigger or recurring conditions so the user specifies an outcome and timing policy rather than manually choosing every venue. Aggregation can reduce price impact and expose better quotes, but the signed transaction still has slippage bounds, account dependencies, landing risk, and whatever visibility its chosen submission path allows."],
+      "how":{"diagram":"intent-batch","params":{},"steps":["The user states tokens, size, and constraints","Jupiter quotes routes across connected liquidity","The wallet reviews and signs instructions","The transaction is submitted and settled on Solana"]},
+      "signals":[{"k":"output","v":"unsigned Solana swap instructions"},{"k":"products","v":"swap · trigger · recurring"}],
+      "links":[{"label":"Jupiter developer docs","url":"https://dev.jup.ag/docs/","kind":"official"},{"label":"Jupiter Swap API","url":"https://dev.jup.ag/docs/swap","kind":"docs"},{"label":"Jupiter programs","url":"https://github.com/jup-ag","kind":"research"}],
+      "related":["sol","sandwich","jit"]
+    },
+    "cow": {
+      "kind":"tool","name":"CoW Swap · UniswapX · 1inch Fusion","tagline":"Intent systems where solvers compete to deliver a user's signed outcome.","chains":["eth"],
+      "body":["An intent describes the result a user will accept without prescribing one exact on-chain route. CoW Protocol batches orders and lets solvers combine peer-to-peer matches with external liquidity; UniswapX and 1inch Fusion run related competitions around signed swap orders. Solvers pay execution costs and search for surplus, while on-chain settlement checks the user's constraints. Competition can return ordering value, but every system differs in fillers, exclusivity, and cancellation semantics."],
+      "how":{"diagram":"intent-batch","params":{},"steps":["Users sign bounded swap intents","Solvers search matching and routing options","Competing solutions are ranked by user outcome","A settlement contract verifies the winning fill"]},
+      "signals":[{"k":"user object","v":"signed outcome constraints"},{"k":"market side","v":"solver or filler competition"}],
+      "links":[{"label":"CoW Protocol intents","url":"https://docs.cow.fi/cow-protocol/concepts/introduction/intents","kind":"official"},{"label":"UniswapX overview","url":"https://docs.uniswap.org/contracts/uniswapx/overview","kind":"docs"},{"label":"1inch Fusion API","url":"https://portal.1inch.dev/documentation/apis/swap/fusion/introduction","kind":"docs"}],
+      "related":["sandwich","jit","eth","jupiter"]
+    },
+    "kyber": {
+      "kind":"tool","name":"1inch · KyberSwap","tagline":"BNB Chain aggregation that searches fragmented liquidity before the user signs.","chains":["bnb"],
+      "body":["1inch and KyberSwap aggregate quotes across BNB Chain venues, sometimes splitting one swap across several pools or requesting off-chain market-maker liquidity. The route builder returns calldata and minimum-output constraints for the user to inspect and sign. Better route search can reduce price impact, but aggregation is not private by itself: the final transaction can still enter public gossip unless the wallet chooses a protected submission path."],
+      "how":{"diagram":"intent-batch","params":{},"steps":["The client requests a bounded BNB Chain quote","Aggregators compare pools and market makers","A route is encoded with slippage protection","The user signs and submits the atomic swap"]},
+      "signals":[{"k":"route shape","v":"single or split liquidity path"},{"k":"privacy","v":"depends on the submission RPC"}],
+      "links":[{"label":"1inch Fusion API","url":"https://portal.1inch.dev/documentation/apis/swap/fusion/introduction","kind":"official"},{"label":"KyberSwap Aggregator","url":"https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator","kind":"official"},{"label":"KyberSwap API specification","url":"https://docs.kyberswap.com/kyberswap-solutions/kyberswap-aggregator/aggregator-api-specification","kind":"docs"}],
+      "related":["sandwich","bnb","cow"]
+    },
+    "shredstream": {
+      "kind":"tool","name":"Jito ShredStream · Geyser plugins","tagline":"Two ways to observe Solana state before a conventional indexed RPC catches up.","chains":["sol"],
+      "body":["ShredStream relays raw Solana shreds near block production so a consumer can reconstruct partial state with minimal network delay. Geyser plugins emit account, transaction, slot, and block updates from inside a validator to an external datastore or stream. One starts close to the wire and the other at validator state boundaries; both demand careful ordering, rollback handling, and independent verification before a trading system acts."],
+      "how":{"diagram":"sol-direct","params":{},"steps":["A leader emits ledger shreds or validator updates","A relay or plugin exports the low-latency feed","Consumers order and decode partial observations","Applications reconcile them with rooted RPC state"]},
+      "signals":[{"k":"ShredStream unit","v":"raw Solana shreds"},{"k":"Geyser unit","v":"account · transaction · slot updates"}],
+      "links":[{"label":"Jito ShredStream docs","url":"https://docs.jito.wtf/lowlatencytxnfeed/","kind":"official"},{"label":"Solana Geyser interface","url":"https://docs.anza.xyz/validator/geyser","kind":"docs"},{"label":"Yellowstone gRPC","url":"https://github.com/rpcpool/yellowstone-grpc","kind":"research"}],
+      "related":["cexdex","snipe","sol","jito-be"],"term":"shredstream"
+    },
+    "bdn": {
+      "kind":"tool","name":"bloXroute BDN · relay streams","tagline":"A purpose-built relay backbone for low-variance EVM block and transaction delivery.","chains":["eth","bnb"],
+      "body":["bloXroute's Blockchain Distribution Network uses globally placed relays, compact block representations, cut-through routing, and persistent gateway links to move chain data outside ordinary peer-to-peer topology. Its streams expose pending transactions and blocks to connected applications, while gateways can validate against local nodes. The advantage is fresher, more predictable delivery—not privileged consensus state—so consumers must still handle duplicates, reorgs, filtering errors, and chain-specific finality."],
+      "how":{"diagram":"window","params":{},"steps":["Gateways ingest transactions and blocks","Relays compress and forward data across regions","Subscribers receive filtered stream events","Applications reconcile events with local chain state"]},
+      "signals":[{"k":"networks","v":"Ethereum + BNB Chain"},{"k":"transport edge","v":"compact relay + cut-through routing"}],
+      "links":[{"label":"BDN overview","url":"https://docs.bloxroute.com/core-solutions/blockchain-distribution-network-bdn/overview","kind":"official"},{"label":"BDN mechanism","url":"https://docs.bloxroute.com/core-solutions/blockchain-distribution-network-bdn/mechanism","kind":"docs"},{"label":"bloXroute products and streams","url":"https://docs.bloxroute.com/introduction/products","kind":"docs"}],
+      "related":["cexdex","backrun","eth","bnb"]
+    },
+    "fibre": {
+      "kind":"tool","name":"FIBRE / compact relays · mempool.space APIs","tagline":"Bitcoin propagation and telemetry tools serving different points on the confirmation path.","chains":["btc"],
+      "body":["FIBRE was built to move Bitcoin blocks rapidly between miners using compact blocks, forward error correction, and carefully engineered relay paths. Compact-block peers reconstruct a block from transactions already in their mempools, reducing wire payload. mempool.space serves a different layer: public fee, mempool, and block telemetry through documented APIs. Relays improve propagation after a template is found; telemetry helps users estimate the market before submitting."],
+      "how":{"diagram":"miners","params":{},"steps":["Nodes cache transactions before a block arrives","A miner announces compact block identifiers","Peers reconstruct locally and request missing data","Public telemetry reports backlog and fee conditions"]},
+      "signals":[{"k":"relay object","v":"compact block + missing transactions"},{"k":"telemetry unit","v":"mempool and fee-rate observations"}],
+      "links":[{"label":"Bitcoin FIBRE","url":"https://bitcoinfibre.org/","kind":"official"},{"label":"Bitcoin Core compact-block FAQ","url":"https://bitcoincore.org/en/2016/06/07/compact-blocks-faq/","kind":"docs"},{"label":"mempool.space REST API","url":"https://mempool.space/docs/api/rest","kind":"explorer"}],
+      "related":["btc","stratum","btc-priority"]
+    },
+    "zec-p2p": {
+      "kind":"tool","name":"Standard p2p","tagline":"Zcash's ordinary peer network for transactions, compact blocks, and consensus messages.","chains":["zec"],
+      "body":["Zcash nodes discover peers and relay valid transactions and blocks across a conventional encrypted-or-clear peer network, depending on deployment. Full nodes verify consensus rules locally; Zebra and zcashd do not trust a relay to declare a transaction valid. Shielded transfer contents remain cryptographically private while their enclosing transactions still propagate as network objects, so observers can measure timing and topology even when they cannot read addresses or amounts."],
+      "how":{"diagram":"mempool-shielded","params":{},"steps":["A wallet submits a valid Zcash transaction","Peers inventory and request the network object","Each full node verifies proof and consensus rules","Blocks later confirm the relayed transaction"]},
+      "signals":[{"k":"trust boundary","v":"local consensus verification"},{"k":"visible metadata","v":"network timing + transaction envelope"}],
+      "links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"},{"label":"Zebra node source","url":"https://github.com/ZcashFoundation/zebra","kind":"research"},{"label":"zcashd source","url":"https://github.com/zcash/zcash","kind":"research"}],
+      "related":["zec","equihash","shielded-pool"]
+    },
+    "sol-priority": {
+      "kind":"tool","name":"Priority fees per CU + Jito tips","tagline":"Two Solana bids pricing execution urgency and bundle placement through separate rails.","chains":["sol"],
+      "body":["A Solana priority fee multiplies the requested compute-unit limit by a micro-lamport price, signaling how much the transaction pays for scarce scheduler attention. A Jito tip instead bids through the Block Engine for bundle selection and ordering at participating leaders. They are complementary, not interchangeable: priority fees travel with the transaction across validators, while tips matter on the Jito path and cannot fix invalid state or exhausted compute."],
+      "how":{"diagram":"feeladder","params":{},"steps":["The client estimates compute and contention","It sets a per-CU priority price","It may add a conditional Jito tip","Leader infrastructure schedules valid bids"]},
+      "signals":[{"k":"protocol fee","v":"CU limit × CU price"},{"k":"side-market payment","v":"Jito bundle tip"}],
+      "links":[{"label":"Solana fee documentation","url":"https://solana.com/docs/core/fees","kind":"official"},{"label":"Recent prioritization fees RPC","url":"https://solana.com/docs/rpc/http/getrecentprioritizationfees","kind":"docs"},{"label":"Jito tip guidance","url":"https://docs.jito.wtf/lowlatencytxnsend/#tips","kind":"docs"}],
+      "related":["sol","jito-be","spam","liquidations"]
+    },
+    "eth-priority": {
+      "kind":"tool","name":"EIP-1559 tips + builder bids","tagline":"Ethereum's inclusion fee and block-value auction operate at different layers.","chains":["eth"],
+      "body":["EIP-1559 sets a protocol base fee from recent block utilization and burns it; a transaction's priority fee rewards the block producer for inclusion. In the proposer-builder market, builders separately bid for the right to supply an entire execution payload. The first bid is transaction-level and bounded by the sender's fee fields. The second reflects aggregate block value, including fees and ordering opportunities, and is paid through the builder-proposer flow."],
+      "how":{"diagram":"feeladder","params":{},"steps":["The protocol computes the next base fee","Users cap total fee and proposer tip","Builders assemble transactions into payloads","A proposer selects a builder's block bid"]},
+      "signals":[{"k":"transaction rail","v":"base fee burn + priority fee"},{"k":"block rail","v":"builder bid to proposer"}],
+      "links":[{"label":"EIP-1559","url":"https://eips.ethereum.org/EIPS/eip-1559","kind":"official"},{"label":"Ethereum gas documentation","url":"https://ethereum.org/en/developers/docs/gas/","kind":"docs"},{"label":"Flashbots MEV-Boost docs","url":"https://docs.flashbots.net/flashbots-mev-boost/introduction","kind":"docs"}],
+      "related":["eip-1559","mev-boost","liquidations","eth"]
+    },
+    "bnb-priority": {
+      "kind":"tool","name":"Gas tips + private bids","tagline":"BNB Chain urgency is priced through public gas and validator-adjacent builder markets.","chains":["bnb"],
+      "body":["A BNB Smart Chain transaction carries a gas price or dynamic-fee fields that determine what the sender offers for execution. Public validators can prioritize economically attractive valid transactions, while builder APIs and private rails create a second market for bundles or complete block candidates. The public fee and private bid may both affect landing, but neither bypasses gas limits, nonce order, balance checks, contract reverts, or the validator's consensus obligations."],
+      "how":{"diagram":"feeladder","params":{},"steps":["The wallet prices gas for current demand","Private users may submit a bundle bid","Builders simulate a profitable block candidate","The validator proposes a valid ordered block"]},
+      "signals":[{"k":"public unit","v":"gas price or priority fee"},{"k":"private unit","v":"bundle or builder payment"}],
+      "links":[{"label":"BSC EIP-1559 configuration","url":"https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP226.md","kind":"official"},{"label":"BSC builder API","url":"https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP322.md","kind":"official"},{"label":"48Club bundle submission","url":"https://docs.48.club/puissant-builder/send-bundle","kind":"docs"}],
+      "related":["bnb","bnb-rails","liquidations"]
+    },
+    "btc-priority": {
+      "kind":"tool","name":"sat/vB fee market","tagline":"Bitcoin block space is auctioned by feerate across related transaction packages.","chains":["btc"],
+      "body":["Bitcoin transactions pay an absolute fee, but miners compare candidates mainly by satoshis per virtual byte and package economics. A large transaction therefore needs more total sats than a small one at the same priority. Nodes enforce their own mempool policies, miners choose templates independently, and ancestors can affect descendant eligibility. Replace-by-fee and child-pays-for-parent let wallets rebid without creating a separate protocol-level priority lane."],
+      "how":{"diagram":"feeladder","params":{},"steps":["A wallet estimates the mempool fee curve","Transaction size turns feerate into total fee","Nodes admit valid transactions under local policy","Miners maximize template value across packages"]},
+      "signals":[{"k":"ranking unit","v":"satoshis per virtual byte"},{"k":"rebid tools","v":"RBF + CPFP"}],
+      "links":[{"label":"Bitcoin Core transaction fees","url":"https://developer.bitcoin.org/devguide/transactions.html#transaction-fees-and-change","kind":"official"},{"label":"Replace-by-fee specification","url":"https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki","kind":"official"},{"label":"mempool.space fee API","url":"https://mempool.space/docs/api/rest","kind":"explorer"}],
+      "related":["btc","rbf","btc-accel"]
+    },
+    "firedancer": {
+      "kind":"tool","name":"Firedancer · SWQoS · DoubleZero","tagline":"A Solana latency stack spanning validator software, ingress allocation, and network paths.","chains":["sol"],
+      "body":["Firedancer is an independent high-performance Solana validator client; SWQoS reserves leader ingress capacity according to stake behind trusted validator connections; DoubleZero offers purpose-built fiber paths for distributed-system traffic. Together they describe three different bottlenecks—software execution, packet admission, and wide-area transport. Buying or deploying one layer does not erase the others, and client diversity matters as much for fault isolation as raw benchmark speed."],
+      "how":{"diagram":"swqos-lanes","params":{},"steps":["Packets cross a dedicated or public network path","SWQoS allocates leader ingress by trusted stake","Validator software verifies and schedules work","Independent clients converge on protocol state"]},
+      "signals":[{"k":"layers","v":"transport · ingress · validator client"},{"k":"safety gain","v":"independent implementation diversity"}],
+      "links":[{"label":"Firedancer documentation","url":"https://docs.firedancer.io/","kind":"official"},{"label":"Anza validator documentation","url":"https://docs.anza.xyz/operations/guides/validator-start","kind":"docs"},{"label":"DoubleZero documentation","url":"https://docs.doublezero.xyz/","kind":"official"}],
+      "related":["swqos","doublezero","sol","shredstream"],"term":"firedancer"
+    },
+    "eth-edge": {
+      "kind":"tool","name":"ePBS research · preconfs · Reth/Erigon perf","tagline":"Ethereum's edge moves across protocol markets, early promises, and client engineering.","chains":["eth"],
+      "body":["Enshrined proposer-builder separation aims to move today's relay-mediated builder market into Ethereum's protocol. Preconfirmations explore credible promises about inclusion or execution before ordinary consensus finality. Reth and Erigon attack another boundary: efficient state access, execution, sync, and node operations. These are distinct edges. A faster client cannot manufacture a valid preconfirmation, and a protocol market does not remove the engineering needed to execute and verify the resulting block."],
+      "how":{"diagram":"window","params":{},"steps":["Clients observe and execute candidate state","Builders price complete execution payloads","A provider may issue a bounded early promise","Consensus verifies and finalizes the resulting block"]},
+      "signals":[{"k":"protocol track","v":"ePBS research"},{"k":"software track","v":"Reth + Erigon execution clients"}],
+      "links":[{"label":"EIP-7732 enshrined PBS","url":"https://eips.ethereum.org/EIPS/eip-7732","kind":"official"},{"label":"Based preconfirmations research","url":"https://ethresear.ch/t/based-preconfirmations/17353","kind":"research"},{"label":"Reth documentation","url":"https://reth.rs/","kind":"docs"}],
+      "related":["pbs","preconfirmations","mev-boost","eth"]
+    },
+    "bnb-edge": {
+      "kind":"tool","name":"Fast-finality client tuning","tagline":"BNB Chain client work compressing block cadence while preserving validator agreement.","chains":["bnb"],
+      "body":["BNB Smart Chain's Lorentz, Maxwell, and later client upgrades shortened block intervals, changed block-fetch behavior, and tightened fast-finality voting paths. The edge comes from coordinated protocol parameters plus validator software that can import, execute, attest, and propagate within the smaller window. Faster cadence raises sensitivity to network variance and slow state access, so operators need compatible releases and observability; local tuning cannot safely override activation rules shared by the validator set."],
+      "how":{"diagram":"window","params":{},"steps":["An upgraded client receives the next block candidate","Execution and access lists reduce critical-path work","Validators propagate blocks and finality votes","Shared fork rules keep the faster network coherent"]},
+      "signals":[{"k":"block interval","v":"~0.45 s · mainnet 2026-08"},{"k":"coordination","v":"hardfork rules + client release"}],
+      "links":[{"label":"BEP-619 short block interval","url":"https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP-619.md","kind":"official"},{"label":"BEP-648 fast finality","url":"https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP-648.md","kind":"official"},{"label":"BNB Chain client changelog","url":"https://github.com/bnb-chain/bsc/blob/master/CHANGELOG.md","kind":"docs"}],
+      "related":["bnb","bnb-rails","bnb-priority"]
+    },
+    "stratum": {
+      "kind":"tool","name":"Stratum v2","tagline":"A modern encrypted job channel between Bitcoin miners and pools.","chains":["btc"],
+      "body":["Stratum v2 is a suite of Bitcoin mining protocols separating pool coordination, encrypted transport, job distribution, and optional template negotiation. Pools assign work efficiently while miners return compact shares proving contributed hashpower. With Job Declaration, a miner can propose block templates instead of accepting every transaction choice from the pool, reducing one form of central control. The pool still accounts for shares and pays rewards under its own published policy."],
+      "how":{"diagram":"stratum-jobs","params":{},"steps":["Miner and pool establish an encrypted channel","The pool distributes work and target parameters","Job Declaration can negotiate a miner template","Shares return for accounting; valid blocks propagate"]},
+      "signals":[{"k":"transport","v":"encrypted binary protocol"},{"k":"agency","v":"optional miner job declaration"}],
+      "links":[{"label":"Stratum v2 protocol","url":"https://stratumprotocol.org/","kind":"official"},{"label":"Stratum v2 specification","url":"https://stratumprotocol.org/specification/","kind":"docs"},{"label":"Stratum v2 specification source","url":"https://github.com/stratum-mining/sv2-spec","kind":"research"}],
+      "related":["stratum-v2","btc","fibre"]
     },
     "sol": {
       "kind": "chain",
