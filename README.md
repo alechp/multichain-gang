@@ -56,12 +56,14 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 
 - 49-term hover/tap documentation with primary links and keyboard-accessible
   pinned REF cards.
-- A 24-cue read-through transport with authored takeaway notes, a target
-  spotlight, persisted reading scale, and complete manual, reduced-motion, and
-  CDN-failure modes.
+- A 24-cue read-through transport with titled authored takeaways, a target
+  spotlight, persisted reading scale, desktop Escape exit, reduced-motion
+  stepping, and CDN-independent autoplay.
 - Global Left/Right focus traversal and Space autoplay/pause, plus a `⌘K` /
   `Ctrl+K` command channel with five-section jumps and fuzzy local search across
   136 section, cue, entity, tool, chain, and glossary records.
+- A static, motion-free top navigation reference; diagram motion stays in the
+  teaching surfaces and remains optional.
 - In-place field notes with stable anchors, local persistence, Markdown/JSON
   export, import, orphan recovery, and private-mode fallback.
 - 53 unique hash-routed entity channels spanning techniques, tools, chains, and

@@ -36,6 +36,24 @@ try{
     if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='playing')failures.push(`${width}px: Space did not start autoplay`);
     await page.keyboard.press('Space');
     if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='paused')failures.push(`${width}px: Space did not pause autoplay`);
+    const guidance=await page.evaluate(()=>{
+      const cues=JSON.parse(document.getElementById('chainData').textContent).cues;
+      const state=SCOPE.Playbar.state,note=document.querySelector('.p-a');
+      return {title:note?.querySelector('h3')?.textContent,expected:cues[state.index]?.title,visible:!!note&&!note.hidden};
+    });
+    if(!guidance.visible||guidance.title!==guidance.expected)failures.push(`${width}px: Author Note title mismatch ${JSON.stringify(guidance)}`);
+    const navbar=await page.evaluate(()=>({
+      slot:document.getElementById('slotNum')?.textContent,
+      animated:Array.from(document.querySelectorAll('.slotbar,.slotbar *')).filter(element=>getComputedStyle(element).animationName!=='none').length
+    }));
+    await page.waitForTimeout(500);
+    const navbarAfter=await page.evaluate(()=>document.getElementById('slotNum')?.textContent);
+    if(navbar.animated||navbar.slot!==navbarAfter)failures.push(`${width}px: navbar is not static ${JSON.stringify({navbar,navbarAfter})}`);
+    if(width===1200){
+      await page.keyboard.press('Space');await page.keyboard.press('Escape');
+      const exited=await page.evaluate(()=>({state:SCOPE.Playbar.state,noteHidden:document.querySelector('.p-a')?.hidden,frameHidden:document.querySelector('.p-hl')?.hidden}));
+      if(exited.state.engaged||!exited.noteHidden||!exited.frameHidden)failures.push(`1200px: Escape did not exit reader mode ${JSON.stringify(exited)}`);
+    }
     const beforeGrid=await page.evaluate(()=>SCOPE.Playbar.state.index);
     await page.locator('.tcell').first().focus();await page.keyboard.press('ArrowRight');
     if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==beforeGrid)failures.push(`${width}px: grid-owned ArrowRight leaked to playbar`);
@@ -49,10 +67,30 @@ try{
     errors.forEach(error=>failures.push(`${width}px page error: ${error}`));
     await context.close();
   }
+
+  const context=await browser.newContext({viewport:{width:390,height:820},reducedMotion:'no-preference'});
+  await context.addInitScript(()=>{
+    const nativeSetTimeout=window.setTimeout.bind(window);
+    window.setTimeout=(callback,delay=0,...args)=>nativeSetTimeout(callback,delay>=4000?120:delay,...args);
+  });
+  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.route(/^https?:\/\//,route=>route.abort('blockedbyclient'));
+  await page.goto(targetUrl,{waitUntil:'load'});
+  await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit'});
+  await page.locator('.p-t').click();await page.locator('.p-q[data-i="0"]').click();await page.locator('.p-p').click();
+  if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='playing')failures.push('CDN-blocked: Play remained trapped in manual mode');
+  await page.waitForTimeout(520);
+  const advanced=await page.evaluate(()=>{
+    const state=SCOPE.Playbar.state,cues=JSON.parse(document.getElementById('chainData').textContent).cues,note=document.querySelector('.p-a');
+    return {state,title:note?.querySelector('h3')?.textContent,expected:cues[state.index]?.title};
+  });
+  if(advanced.state.index<2||advanced.state.state!=='playing')failures.push(`CDN-blocked: autoplay stalled ${JSON.stringify(advanced)}`);
+  if(advanced.title!==advanced.expected)failures.push(`CDN-blocked: Author Note title mismatch ${JSON.stringify(advanced)}`);
+  errors.forEach(error=>failures.push(`CDN-blocked page error: ${error}`));await context.close();
 }finally{await browser.close()}
 
 if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (136 records), typo search, palette routing, Left/Right cue traversal, Space autoplay/pause, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (136 records), typo search, cue traversal, CDN-blocked autoplay, titled Author Notes, desktop Escape exit, static navbar, focus isolation, and 390/1200px overflow pass.');

@@ -75,10 +75,9 @@ the DOM, but each cue names a DOM anchor:
 - **Stop conditions** (the full `ImplementationCycler` set, verbatim policy):
   pause on user `wheel` / `touchmove` / keyboard scroll (grab-the-wheel
   rule), on `document.hidden`, on focus entering any interactive control
-  outside the bar; **permanent stop** of auto-advance after the user manually
-  selects a cue from the list (they've taken the wheel); refuse to autoplay
-  at all under `prefers-reduced-motion` — play button instead steps cue-by-cue
-  with instant jumps.
+  outside the bar. Selecting a cue from the list pauses and jumps there; the
+  next explicit Play resumes timed progression. Refuse to autoplay under
+  `prefers-reduced-motion` — Play instead steps cue-by-cue with instant jumps.
 - **Scroll-spy** keeps the bar honest while idle/paused: IntersectionObserver
   with `rootMargin: '-45% 0px -50% 0px'` (frauthy's centered band) marks the
   nearest cue as current, so prev/next are always relative to where the reader
@@ -100,8 +99,9 @@ shape — dependency-free, escapes `<`).
 
 ## 5. Keyboard
 
-Bar-focused: `Space` play/pause, `←/→` prev/next cue, `Home/End` first/last,
-`Esc` collapses cue list. Global shortcuts **off by default** (frauthy note:
+Bar-focused: `Space` play/pause, `←/→` prev/next cue, `Home/End` first/last.
+`Esc` collapses an open cue list first; on desktop, a subsequent `Esc` exits
+the engaged reader, Author Note, and spotlight. Global shortcuts **off by default** (frauthy note:
 "global shortcuts must be explicit and discoverable") — a `⌨` toggle in the
 cue list arms `j/k` + `Space` globally, guarded against
 INPUT/TEXTAREA/SELECT/contentEditable and any modifier key; state persists.
@@ -110,8 +110,8 @@ INPUT/TEXTAREA/SELECT/contentEditable and any modifier key; state persists.
 
 - Reduced motion: no smooth scroll, no autoplay; prev/next/list all work with
   instant jumps. Dwell timers never run.
-- CDN-fail: identical to reduced motion (cue actions that restart figures
-  no-op silently — the figures are static).
+- CDN-fail: timed reader progression remains available; cue actions that
+  restart figures no-op silently and those figures stay static.
 - JS-off: the bar does not exist (it is injected by JS; zero static footprint
   beyond its CSS). No content depends on it.
 
@@ -122,7 +122,7 @@ INPUT/TEXTAREA/SELECT/contentEditable and any modifier key; state persists.
   run ends at the footer with the bar showing `done` and offering `⟲ replay`.
 - Wheeling mid-play pauses within one frame; play resumes from the *nearest*
   cue to the current scroll position, not the interrupted one.
-- Manual cue selection permanently disables auto-advance for the session.
+- Manual cue selection pauses and jumps; an explicit Play resumes auto-advance.
 - `prefers-reduced-motion`: pressing play never scrolls smoothly and never
   auto-advances; stepping works.
 - A+ twice: body copy scales to 1.25 with no figure overflow at any QA width;

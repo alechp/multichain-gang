@@ -33,6 +33,7 @@ application and must never be deployed with the page.
 - Command-channel transport calls `window.SCOPE.Playbar`; do not reach back into
   the playbar's lexical state. Left/Right step globally and Space toggles
   autoplay only outside editors, interactive controls, and open overlays.
+  Desktop Escape exits an engaged reader through `SCOPE.Playbar.exit()`.
 - All structured page content lives in `#chainData`. Update the matching
   `<noscript>` mirror whenever JSON changes; the ENTITY INDEX must exactly match
   each entity's name, kind, tagline, and first link.
@@ -40,8 +41,10 @@ application and must never be deployed with the page.
   `data-note-anchor` values, and hash routes shaped as `#/e/<id>`.
 - Keep termified prose inside a containing element when its parent is flex/grid;
   injected `.term` buttons must not split anonymous text into layout items.
-- Every animation degrades. Reduced motion and anime-CDN failure render complete
-  static content; JS-off exposes the fallback tables, glossary, and entity index.
+- Every animation degrades. Reduced motion renders a manual reader; anime-CDN
+  failure keeps timed reader progression over static figures. JS-off exposes
+  the fallback tables, glossary, and entity index. The top navbar is always
+  static: no live counter, sweep, entrance animation, or transition.
 - Register legacy loops through `registerLoop(el, inst)` so offscreen animation
   is paused. Figures remain illustrative, dated 2026-08, with `~` on volatile values.
 
