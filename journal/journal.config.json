@@ -1,0 +1,25 @@
+{
+  "databasePath": "data/journal.db",
+  "rpcUrl": "https://api.mainnet-beta.solana.com",
+  "solscanApiKey": null,
+  "jitoApiUrl": "https://bundles.jito.wtf",
+  "collectIntervalMs": 120000,
+  "scrapeEnabled": false,
+  "watchlist": [
+    {
+      "address": "11111111111111111111111111111111",
+      "label": "System program",
+      "tags": ["seed", "program"]
+    },
+    {
+      "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "label": "SPL Token program",
+      "tags": ["seed", "program"]
+    },
+    {
+      "address": "JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4",
+      "label": "Jupiter v6 program",
+      "tags": ["seed", "program"]
+    }
+  ]
+}

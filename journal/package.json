@@ -1,0 +1,14 @@
+{
+  "name": "@scope/journal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.11",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
+  "scripts": {
+    "migrate": "bun src/db.ts migrate",
+    "test": "bun test"
+  }
+}
