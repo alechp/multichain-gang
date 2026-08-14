@@ -24,6 +24,20 @@
   --ink:#D8E0EC;
   --dim:#7A87A0;
   --faint:#4A5570;
+  --lbl:#7C89A2;
+  --reading-scale:1;
+  /*
+    SMALL-TEXT CONTRAST (WCAG relative luminance, 2026-08-14)
+    token   on --panel #10141D   on --panel-2 #141A27
+    --lbl   5.23:1 PASS          4.94:1 PASS
+    --dim   5.09:1 PASS          4.81:1 PASS
+    --ink  13.86:1 PASS         13.09:1 PASS
+    --faint is decorative-stroke / >=14px texture only; never small text.
+    --lbl also clears translucent figure grounds: 4.79:1 on red/panel-2
+    (#231A24) and 4.54:1 on amber/panel-2 (#232121), the darkest pair.
+    #75829B from the draft measured 4.49:1 on --panel-2; #7C89A2 is the
+    smallest correction that clears every actual small-label ground.
+  */
   --amber:#FFB454;   /* CH-02 · transaction signal */
   --cyan:#5BD7E8;    /* CH-01 · network signal */
   --red:#FF5C7A;     /* CH-03 · adversarial signal */
@@ -316,7 +330,7 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
   /* pipeline: vertical rebuild replaces the 940px pan */
   .pipe-scroll{overflow-x:visible}
   svg.pipe-h{display:none}
-  svg.pipe-v{display:block;max-width:400px;margin:0 auto}
+  svg.pipe-v{display:block;max-width:360px;margin:0 auto}
   /* sandwich: block stack first, price curve below */
   #sandwichSvg{display:none}
   svg.sand-m{display:block}
@@ -582,9 +596,144 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   .sweep{animation:none}
   .crt{display:none}
 }
+
+/* ==V3D:CSS== */
+/* Foundation readability: every small label uses the AA token; moving marks
+   remain below a stroked text layer so signal never erases annotation. */
+.lbl-f{fill:var(--lbl)}
+svg text{
+  paint-order:stroke fill;
+  stroke:var(--panel-2);
+  stroke-width:3px;
+  stroke-linejoin:round;
+}
+.panel-label,.card .mono-tag,.lname>span:not(.l-long):not(.l-short),
+.dock-label,.dock-col-head,.dm-k,.tlabel .tdef,.tlegend,
+.tpop .tp-def,.panel-label-inline,.bf-label,.tool-card .stance,
+footer p,.ruler b{color:var(--lbl)}
+@media(min-width:1100px){
+  .ruler{
+    opacity:1;
+    background:
+      repeating-linear-gradient(to bottom,color-mix(in srgb,var(--faint) 35%,transparent) 0 1px,transparent 1px 8px) left top/7px 100% no-repeat,
+      repeating-linear-gradient(to bottom,color-mix(in srgb,var(--faint) 35%,transparent) 0 1px,transparent 1px 40px) left top/14px 100% no-repeat;
+  }
+}
+
+/* Reading zoom changes prose only; display type and diagram labels stay fixed. */
+.hero-sub{font-size:calc(1.05rem * var(--reading-scale, 1))}
+.ch-sub{font-size:calc(1rem * var(--reading-scale, 1))}
+.card p{font-size:calc(.86rem * var(--reading-scale, 1))}
+.notes li{font-size:calc(.87rem * var(--reading-scale, 1))}
+.dm-v{font-size:calc(.84rem * var(--reading-scale, 1))}
+.dock-delta,.bench-delta{font-size:calc(.85rem * var(--reading-scale, 1))}
+.tpop p{font-size:calc(.82rem * var(--reading-scale, 1))}
+.dock-fallback table{font-size:calc(.78rem * var(--reading-scale, 1))}
+.dock-fallback ul{font-size:calc(.8rem * var(--reading-scale, 1))}
+
+/* Two-tier readout lockups and the house separator. */
+.panel-label,.panel-label-inline{display:inline-flex;align-items:baseline;gap:.65em}
+.panel-label b,.panel-label-inline b{color:var(--ink);font-weight:600;letter-spacing:.12em}
+.panel-label span,.panel-label-inline span{font-weight:400;color:var(--lbl)}
+.mono-tag{display:inline-flex!important;align-items:center;gap:7px}
+.mono-tag::before{content:"//";color:var(--ch);letter-spacing:0}
+
+/* Notched comparator housings + static cadence readouts. */
+.dock{
+  border-radius:0;
+  clip-path:polygon(0 8px,8px 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);
+}
+.dock-chips,.seg-switch{
+  display:flex;gap:0;min-width:0;width:max-content;max-width:100%;
+  border:1px solid var(--line);border-radius:4px;overflow-x:auto;scrollbar-width:none;
+  background:var(--panel-2);
+}
+.dock-chips{padding:0;margin:0;mask-image:none;-webkit-mask-image:none}
+.dock-chips .chip,.seg-switch .chip{
+  border:0;border-left:1px solid var(--line);border-radius:0;background:transparent;
+}
+.dock-chips .chip:first-child,.seg-switch .chip:first-child{border-left:0}
+.dock-chips .chip[aria-selected="true"],.seg-switch .chip[aria-pressed="true"]{
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--cc) 38%,transparent);
+}
+.dock-chips .chip[aria-selected="true"] i,.seg-switch .chip[aria-pressed="true"] i{
+  box-shadow:0 0 6px color-mix(in srgb,var(--cc) 68%,transparent);
+}
+.dock-col-head{display:flex;align-items:center;gap:6px}
+.cadence{width:24px;height:10px;margin-left:auto;overflow:visible;flex:none}
+.cadence rect{fill:var(--cadence-c,currentColor)}
+
+/* Etched function-family marks and 120 ms corner-bracket hover draw. */
+.family-glyph{width:12px;height:12px;fill:none;stroke:var(--ch);stroke-width:1.1;flex:none}
+.card{position:relative}
+.card::before,.card::after{
+  content:"";position:absolute;width:13px;height:13px;pointer-events:none;opacity:0;
+  transition:opacity 120ms ease,transform 120ms ease;
+}
+.card::before{top:6px;left:6px;border-top:1px solid var(--ch);border-left:1px solid var(--ch);transform:translate(-3px,-3px)}
+.card::after{right:6px;bottom:6px;border-right:1px solid var(--ch);border-bottom:1px solid var(--ch);transform:translate(3px,3px)}
+.card:hover,.card:focus-within{border-color:var(--line);box-shadow:none}
+.card:hover::before,.card:hover::after,.card:focus-within::before,.card:focus-within::after{opacity:.9;transform:none}
+
+/* Five channel ambients: one restrained, one-shot/static flourish per room. */
+#ch1 .panel::before,#ch2 .pipe-scroll::before,#ch3 .panel::before,
+#ch4 .ladder::before,#ch5 .bench::before{content:"";position:absolute;pointer-events:none;z-index:0}
+#ch1 .panel::before{
+  inset:0;opacity:.018;
+  background-image:radial-gradient(circle,var(--cyan) 0 1px,transparent 1.4px);
+  background-size:37px 31px;background-position:7px 11px;
+}
+#ch2 .pipe-scroll::before{
+  inset:0;opacity:.018;
+  background:repeating-linear-gradient(118deg,transparent 0 27px,var(--amber) 28px 29px,transparent 30px 54px);
+}
+#ch3 .panel::before{
+  left:0;right:0;top:var(--interference-y,47%);height:3px;opacity:.02;
+  background:linear-gradient(90deg,transparent,var(--red) 16% 84%,transparent);
+}
+#ch4 .ladder::before{
+  left:5px;top:42px;bottom:22px;width:17px;opacity:.02;
+  background:
+    repeating-linear-gradient(to bottom,var(--green) 0 1px,transparent 1px 9px),
+    linear-gradient(var(--green),var(--green)) left top/1px 100% no-repeat;
+}
+#ch5 .bench{position:relative}
+#ch5 .bench::before{
+  left:10px;top:-28px;width:42%;height:28px;opacity:.02;
+  background:
+    linear-gradient(var(--violet),var(--violet)) left top/1px 18px no-repeat,
+    linear-gradient(90deg,var(--violet),var(--violet)) left 17px/70% 1px no-repeat,
+    linear-gradient(135deg,transparent 48%,var(--violet) 49% 51%,transparent 52%) 70% 9px/18px 18px no-repeat;
+}
+.panel>*{position:relative;z-index:1}
+.panel>.panel-label,.panel>.corner{position:absolute}
+
+/* Watermark can never enter the value column. */
+.ladder .watermark{right:140px;max-width:calc(100% - 160px);overflow:hidden;white-space:nowrap}
+@media(max-width:900px){.ladder .watermark{display:none}}
+
+.channel-legend{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:12px}
+.channel-legend span{color:var(--legend-c,var(--lbl))}
+
+/* Shared Overlay surface: consumers own their visual component styles. */
+.scope-overlay-scrim{position:fixed;inset:0;z-index:60;background:rgba(4,6,10,.58)}
+body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
+@media(max-width:700px){
+  .scope-overlay-sheet{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important}
+}
+/* ==/V3D:CSS== */
+
+/* ==V3A:CSS== */
+/* ==/V3A:CSS== */
+/* ==V3B:CSS== */
+/* ==/V3B:CSS== */
+/* ==V3C:CSS== */
+/* ==/V3C:CSS== */
+/* ==V3E:CSS== */
+/* ==/V3E:CSS== */
 </style>
 </head>
-<body>
+<body data-rev="v3-2026-08-14.1">
 
 <!-- shared SVG filters: phosphor bloom for traces -->
 <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
@@ -630,7 +779,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <p class="hero-sub reveal">Every 400 milliseconds, a new leader stamps transactions into a verifiable clock, shreds the block across a relay tree, and the fastest machines on earth race to be first in line. This page puts the whole system under the scope — four channels, one sweep at a time.</p>
 
   <div class="panel hero-scope reveal">
-    <span class="panel-label">TRACE · BLOCK PRODUCTION, CONTINUOUS</span>
+    <span class="panel-label"><b>TRACE</b><span>BLOCK PRODUCTION, CONTINUOUS</span></span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <svg id="heroSvgD" class="hero-svg-d" viewBox="0 0 1140 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production">
       <g id="heroGrid" stroke="var(--grid)" stroke-width="1">
@@ -658,7 +807,10 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
            M285,110 L345,110 355,58 367,158 379,110 430,110 440,90 452,130 464,110 535,110
            M570,110 L620,110 630,70 642,148 654,110 700,110 712,80 724,140 736,110 820,110
            M855,110 L915,110 925,62 937,154 949,110 1010,110 1020,88 1032,132 1044,110 1140,110"/>
-      <circle id="heroDot" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/>
+      <g class="motion-layer"><circle id="heroDot" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/></g>
+      <g class="text-layer" aria-hidden="true" text-anchor="middle">
+        <text x="142" y="212" class="lbl-f">slot n</text><text x="427" y="212" class="lbl-f">n+1</text><text x="712" y="212" class="lbl-f">n+2</text><text x="997" y="212" class="lbl-f">n+3</text>
+      </g>
     </svg>
     <!-- mobile crop: two slots, same stroke weights render ~2× -->
     <svg id="heroSvgM" class="hero-svg-m" viewBox="0 0 570 220" role="img" aria-label="Stylized oscilloscope trace of continuous Solana block production, two slots">
@@ -678,7 +830,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       <path id="heroTraceM" class="trace" fill="none" stroke="var(--amber)" stroke-width="2.5" stroke-linecap="round"
         d="M0,110 L60,110 70,64 82,152 94,110 150,110 160,84 172,136 184,110 250,110
            M285,110 L345,110 355,58 367,158 379,110 430,110 440,90 452,130 464,110 570,110"/>
-      <circle id="heroDotM" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/>
+      <g class="motion-layer"><circle id="heroDotM" r="5" fill="var(--amber)" class="glow-amber" cx="-10" cy="110"/></g>
+      <g class="text-layer" aria-hidden="true" text-anchor="middle"><text x="142" y="212" class="lbl-f">slot n</text><text x="427" y="212" class="lbl-f">n+1</text></g>
     </svg>
   </div>
 
@@ -709,7 +862,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
 
   <div class="split reveal">
     <div class="panel diagram">
-      <span class="panel-label">FIG 1.1 · TURBINE SHRED PROPAGATION</span>
+      <span class="panel-label"><b>FIG 1.1</b><span>TURBINE SHRED PROPAGATION</span></span>
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <svg id="turbineSvg" viewBox="0 0 720 430" role="img" aria-label="Diagram of the Turbine tree: leader at top relaying shreds to two layers of validators">
         <!-- edges leader -> layer1 -->
@@ -721,8 +874,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
           <line x1="570" y1="224" x2="520" y2="330"/><line x1="570" y1="224" x2="640" y2="330"/>
         </g>
         <!-- leader -->
-        <g>
-          <rect x="308" y="34" width="104" height="52" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.5"/>
+        <g data-fit="turbine-leader">
+          <rect x="260" y="34" width="200" height="52" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.5"/>
           <text x="360" y="56" text-anchor="middle" class="lbl-b" fill="var(--amber)">LEADER</text>
           <text x="360" y="74" text-anchor="middle" class="lbl-f">slot n · builds block</text>
         </g>
@@ -730,6 +883,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         <g class="l1" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2">
           <circle cx="150" cy="210" r="15"/><circle cx="360" cy="210" r="15"/><circle cx="570" cy="210" r="15"/>
         </g>
+        <g id="shredDots" class="motion-layer"></g>
+        <g class="text-layer">
         <text x="150" y="248" text-anchor="middle" class="lbl-f">RELAY LAYER · high stake</text>
         <!-- layer 2 -->
         <g class="l2" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.2" opacity=".8">
@@ -738,11 +893,11 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         </g>
         <text x="360" y="382" text-anchor="middle" class="lbl-f">DOWNSTREAM VALIDATORS · re-broadcast, replay, vote</text>
         <text x="360" y="412" text-anchor="middle" class="lbl">shreds ≈ 1,280-byte packets · erasure-coded · tree reshuffles per shred</text>
-        <g id="shredDots"></g>
+        </g>
       </svg>
     </div>
     <div class="panel notes">
-      <span class="panel-label">CLUSTER CONSTANTS</span>
+      <span class="panel-label"><b>READOUT</b><span>CLUSTER CONSTANTS</span></span>
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <ul>
         <li><b>PoH</b>A continuous SHA-256 hash chain acts as a clock — events are ordered by where they land in the hash stream, before consensus.</li>
@@ -790,54 +945,54 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <p class="ch-sub reveal">There is no waiting room. Gulf Stream forwards your signed transaction straight to the current and upcoming leaders, where it enters the Transaction Processing Unit — a hardware-style pipeline. Non-conflicting transactions execute in parallel (Sealevel), get stamped into Proof of History, and are on their way to every validator before your wallet finishes its spinner.</p>
 
   <div class="panel diagram pipe-scroll reveal">
-    <span class="panel-label">FIG 2.1 · SIGNAL PATH, WALLET → FINALITY (FOLLOW THE PACKET)</span>
+    <span class="panel-label"><b>FIG 2.1</b><span>SIGNAL PATH, WALLET → FINALITY (FOLLOW THE PACKET)</span></span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <svg id="pipeSvg" class="pipe-h" viewBox="0 0 1100 330" role="img" aria-label="Pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
       <!-- hidden motion path -->
       <path id="pipePath" fill="none" stroke="none"
-        d="M60,90 L235,90 L235,90 L400,90 L400,90 L545,90 L680,90 L815,90 L950,90 L950,90 L1040,90"/>
+        d="M65,90 L220,90 L380,90 L535,90 L680,90 L825,90 L970,90 L1040,90"/>
       <!-- connective spine -->
       <line x1="60" y1="90" x2="1040" y2="90" stroke="var(--line)" stroke-width="2"/>
       <!-- stage boxes -->
       <g id="pipeStages">
-        <g class="pstage" data-x="60">
-          <rect x="15" y="60" width="90" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="60" y="86" text-anchor="middle" class="lbl-b">WALLET</text>
-          <text x="60" y="104" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        <g class="pstage" data-fit="pipe-wallet" data-x="65">
+          <rect x="3" y="60" width="124" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="65" y="86" text-anchor="middle" class="lbl-b">WALLET</text>
+          <text x="65" y="104" text-anchor="middle" class="lbl-f">sign + blockhash</text>
         </g>
-        <g class="pstage">
-          <rect x="190" y="60" width="90" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="235" y="86" text-anchor="middle" class="lbl-b">RPC</text>
-          <text x="235" y="104" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        <g class="pstage" data-fit="pipe-rpc">
+          <rect x="158" y="60" width="124" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="220" y="86" text-anchor="middle" class="lbl-b">RPC</text>
+          <text x="220" y="104" text-anchor="middle" class="lbl-f">sendTransaction</text>
         </g>
-        <g class="pstage">
-          <rect x="345" y="60" width="110" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="400" y="86" text-anchor="middle" class="lbl-b">GULF STREAM</text>
-          <text x="400" y="104" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        <g class="pstage" data-fit="pipe-gulf-stream">
+          <rect x="315" y="60" width="130" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="380" y="86" text-anchor="middle" class="lbl-b">GULF STREAM</text>
+          <text x="380" y="104" text-anchor="middle" class="lbl-f">forward to leaders</text>
         </g>
-        <g class="pstage">
-          <rect x="495" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
-          <text x="545" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
-          <text x="545" y="104" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        <g class="pstage" data-fit="pipe-sigverify">
+          <rect x="476" y="60" width="118" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="535" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
+          <text x="535" y="104" text-anchor="middle" class="lbl-f">GPU-friendly</text>
         </g>
-        <g class="pstage">
-          <rect x="630" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+        <g class="pstage" data-fit="pipe-banking">
+          <rect x="615" y="60" width="130" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
           <text x="680" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text>
           <text x="680" y="104" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
         </g>
-        <g class="pstage">
-          <rect x="765" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
-          <text x="815" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
-          <text x="815" y="104" text-anchor="middle" class="lbl-f">ordered in time</text>
+        <g class="pstage" data-fit="pipe-poh">
+          <rect x="766" y="60" width="118" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="825" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
+          <text x="825" y="104" text-anchor="middle" class="lbl-f">ordered in time</text>
         </g>
-        <g class="pstage">
-          <rect x="900" y="60" width="100" height="60" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
-          <text x="950" y="86" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
-          <text x="950" y="104" text-anchor="middle" class="lbl-f">shred broadcast</text>
+        <g class="pstage" data-fit="pipe-turbine">
+          <rect x="910" y="60" width="120" height="60" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
+          <text x="970" y="86" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
+          <text x="970" y="104" text-anchor="middle" class="lbl-f">shred broadcast</text>
         </g>
       </g>
       <!-- TPU bracket -->
-      <path d="M495,140 L495,152 L865,152 L865,140" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
+      <path d="M476,140 L476,152 L884,152 L884,140" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
       <text x="680" y="172" text-anchor="middle" class="lbl" fill="var(--amber)">LEADER'S TPU — TRANSACTION PROCESSING UNIT</text>
       <!-- confirmation ladder -->
       <g>
@@ -850,65 +1005,82 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         <text x="830" y="256" text-anchor="middle" class="lbl-f">FINALIZED · 32 rooted slots</text>
         <text x="550" y="300" text-anchor="middle" class="lbl">validators replay the block, then send votes — which are themselves transactions on chain</text>
       </g>
-      <circle id="packet" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(-20,90)"/>
+      <g class="motion-layer"><circle id="packet" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(-20,90)"/></g>
+      <g class="text-layer" aria-hidden="true">
+        <text x="65" y="86" text-anchor="middle" class="lbl-b">WALLET</text><text x="65" y="104" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        <text x="220" y="86" text-anchor="middle" class="lbl-b">RPC</text><text x="220" y="104" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        <text x="380" y="86" text-anchor="middle" class="lbl-b">GULF STREAM</text><text x="380" y="104" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        <text x="535" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text><text x="535" y="104" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        <text x="680" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text><text x="680" y="104" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
+        <text x="825" y="86" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text><text x="825" y="104" text-anchor="middle" class="lbl-f">ordered in time</text>
+        <text x="970" y="86" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text><text x="970" y="104" text-anchor="middle" class="lbl-f">shred broadcast</text>
+      </g>
     </svg>
     <!-- vertical rebuild <700px: same stages stacked, packet runs downward -->
-    <svg id="pipeSvgV" class="pipe-v" viewBox="0 0 390 980" role="img" aria-label="Vertical pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
-      <path id="pipePathV" fill="none" stroke="none" d="M195,20 L195,700"/>
-      <line x1="195" y1="70" x2="195" y2="670" stroke="var(--line)" stroke-width="2"/>
+    <svg id="pipeSvgV" class="pipe-v" viewBox="0 0 390 730" role="img" aria-label="Vertical pipeline diagram of a transaction moving from wallet through RPC, Gulf Stream, the leader's TPU stages, Turbine and votes to confirmation">
+      <path id="pipePathV" fill="none" stroke="none" d="M195,12 L195,578"/>
+      <line x1="195" y1="55" x2="195" y2="535" stroke="var(--line)" stroke-width="2"/>
       <g id="pipeStagesV">
-        <g class="pstage">
-          <rect x="115" y="40" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="195" y="66" text-anchor="middle" class="lbl-b">WALLET</text>
-          <text x="195" y="84" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        <g class="pstage" data-fit="pipe-v-wallet">
+          <rect x="110" y="27" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="52" text-anchor="middle" class="lbl-b">WALLET</text>
+          <text x="195" y="70" text-anchor="middle" class="lbl-f">sign + blockhash</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="135" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="195" y="161" text-anchor="middle" class="lbl-b">RPC</text>
-          <text x="195" y="179" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        <g class="pstage" data-fit="pipe-v-rpc">
+          <rect x="110" y="107" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="132" text-anchor="middle" class="lbl-b">RPC</text>
+          <text x="195" y="150" text-anchor="middle" class="lbl-f">sendTransaction</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="230" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
-          <text x="195" y="256" text-anchor="middle" class="lbl-b">GULF STREAM</text>
-          <text x="195" y="274" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        <g class="pstage" data-fit="pipe-v-gulf-stream">
+          <rect x="110" y="187" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--line)" stroke-width="1.4"/>
+          <text x="195" y="212" text-anchor="middle" class="lbl-b">GULF STREAM</text>
+          <text x="195" y="230" text-anchor="middle" class="lbl-f">forward to leaders</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="325" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
-          <text x="195" y="351" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
-          <text x="195" y="369" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        <g class="pstage" data-fit="pipe-v-sigverify">
+          <rect x="110" y="267" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="292" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text>
+          <text x="195" y="310" text-anchor="middle" class="lbl-f">GPU-friendly</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="420" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
-          <text x="195" y="446" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text>
-          <text x="195" y="464" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
+        <g class="pstage" data-fit="pipe-v-banking">
+          <rect x="110" y="347" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="372" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text>
+          <text x="195" y="390" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="515" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
-          <text x="195" y="541" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
-          <text x="195" y="559" text-anchor="middle" class="lbl-f">ordered in time</text>
+        <g class="pstage" data-fit="pipe-v-poh">
+          <rect x="110" y="427" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--amber)" stroke-width="1.4"/>
+          <text x="195" y="452" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text>
+          <text x="195" y="470" text-anchor="middle" class="lbl-f">ordered in time</text>
         </g>
-        <g class="pstage">
-          <rect x="115" y="610" width="160" height="60" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
-          <text x="195" y="636" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
-          <text x="195" y="654" text-anchor="middle" class="lbl-f">shred broadcast</text>
+        <g class="pstage" data-fit="pipe-v-turbine">
+          <rect x="110" y="507" width="170" height="56" rx="6" fill="var(--panel-2)" stroke="var(--cyan)" stroke-width="1.4"/>
+          <text x="195" y="532" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text>
+          <text x="195" y="550" text-anchor="middle" class="lbl-f">shred broadcast</text>
         </g>
       </g>
       <!-- TPU bracket as a left-edge rule -->
-      <path d="M108,325 L98,325 L98,575 L108,575" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
-      <text transform="rotate(-90 78 450)" x="78" y="450" text-anchor="middle" class="lbl" fill="var(--amber)">LEADER'S TPU</text>
+      <path d="M103,260 L93,260 L93,483 L103,483" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".7"/>
+      <text transform="rotate(-90 73 372)" x="73" y="372" text-anchor="middle" class="lbl" fill="var(--amber)">LEADER'S TPU</text>
       <!-- confirmation ladder, continued downward -->
       <g>
-        <line x1="60" y1="730" x2="60" y2="890" stroke="var(--line)" stroke-width="1"/>
+        <line x1="60" y1="594" x2="60" y2="678" stroke="var(--line)" stroke-width="1"/>
         <g fill="var(--green)">
-          <circle cx="60" cy="740" r="4"/><circle cx="60" cy="810" r="4"/><circle cx="60" cy="880" r="4"/>
+          <circle cx="60" cy="600" r="4"/><circle cx="60" cy="636" r="4"/><circle cx="60" cy="672" r="4"/>
         </g>
-        <text x="82" y="744" class="lbl-f">PROCESSED · in a block</text>
-        <text x="82" y="814" class="lbl-f">CONFIRMED · supermajority voted</text>
-        <text x="82" y="884" class="lbl-f">FINALIZED · 32 rooted slots</text>
-        <text x="195" y="936" text-anchor="middle" class="lbl">validators replay the block, then vote —</text>
-        <text x="195" y="956" text-anchor="middle" class="lbl">votes are themselves on-chain transactions</text>
+        <text x="82" y="604" class="lbl-f">PROCESSED · in a block</text>
+        <text x="82" y="640" class="lbl-f">CONFIRMED · supermajority voted</text>
+        <text x="82" y="676" class="lbl-f">FINALIZED · 32 rooted slots</text>
+        <text x="195" y="706" text-anchor="middle" class="lbl">validators replay, vote, then root the block</text>
       </g>
-      <circle id="packetV" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(195,-10)"/>
+      <g class="motion-layer"><circle id="packetV" r="6" fill="var(--amber)" class="glow-amber" cx="0" cy="0" transform="translate(195,-10)"/></g>
+      <g class="text-layer" aria-hidden="true">
+        <text x="195" y="52" text-anchor="middle" class="lbl-b">WALLET</text><text x="195" y="70" text-anchor="middle" class="lbl-f">sign + blockhash</text>
+        <text x="195" y="132" text-anchor="middle" class="lbl-b">RPC</text><text x="195" y="150" text-anchor="middle" class="lbl-f">sendTransaction</text>
+        <text x="195" y="212" text-anchor="middle" class="lbl-b">GULF STREAM</text><text x="195" y="230" text-anchor="middle" class="lbl-f">forward to leaders</text>
+        <text x="195" y="292" text-anchor="middle" class="lbl-b" fill="var(--amber)">SIGVERIFY</text><text x="195" y="310" text-anchor="middle" class="lbl-f">GPU-friendly</text>
+        <text x="195" y="372" text-anchor="middle" class="lbl-b" fill="var(--amber)">BANKING</text><text x="195" y="390" text-anchor="middle" class="lbl-f">Sealevel · parallel</text>
+        <text x="195" y="452" text-anchor="middle" class="lbl-b" fill="var(--amber)">PoH STAMP</text><text x="195" y="470" text-anchor="middle" class="lbl-f">ordered in time</text>
+        <text x="195" y="532" text-anchor="middle" class="lbl-b" fill="var(--cyan)">TURBINE</text><text x="195" y="550" text-anchor="middle" class="lbl-f">shred broadcast</text>
+      </g>
     </svg>
   </div>
 
@@ -949,7 +1121,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
 
   <div class="split reveal">
     <div class="panel diagram">
-      <span class="panel-label">FIG 3.1 · ANATOMY OF A SANDWICH</span>
+      <span class="panel-label"><b>FIG 3.1</b><span>ANATOMY OF A SANDWICH</span></span>
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <svg id="sandwichSvg" viewBox="0 0 700 360" role="img" aria-label="Diagram of a sandwich attack: attacker buy before the victim's swap and attacker sell after, with the price impact curve">
         <!-- block frame -->
@@ -1031,7 +1203,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     </div>
 
     <div class="panel diagram">
-      <span class="panel-label">FIG 3.2 · JITO BUNDLE AUCTION</span>
+      <span class="panel-label"><b>FIG 3.2</b><span>JITO BUNDLE AUCTION</span></span>
       <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
       <svg id="jitoSvg" viewBox="0 0 440 360" role="img" aria-label="Flow of searcher bundles through the Jito block engine auction to the leader, with tips flowing to validators and stakers">
         <!-- searchers -->
@@ -1056,7 +1228,16 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         <text x="347" y="274" text-anchor="middle" class="lbl-f">→ validators + stakers</text>
         <text x="220" y="330" text-anchor="middle" class="lbl">bundles: ≤ 5 txs, atomic, all-or-nothing,</text>
         <text x="220" y="348" text-anchor="middle" class="lbl">sequential — losers pay nothing</text>
-        <g id="jitoDots"></g>
+        <g id="jitoDots" class="motion-layer"></g>
+        <g class="text-layer" aria-hidden="true">
+          <text x="60" y="216" text-anchor="middle" class="lbl-f">SEARCHERS</text>
+          <text x="242" y="114" text-anchor="middle" class="lbl-b" fill="var(--violet)">BLOCK ENGINE</text>
+          <text x="242" y="134" text-anchor="middle" class="lbl-f">sealed-bid auction</text>
+          <text x="387" y="118" text-anchor="middle" class="lbl-b" fill="var(--amber)">LEADER</text>
+          <text x="387" y="136" text-anchor="middle" class="lbl-f">top of block</text>
+          <text x="347" y="256" text-anchor="middle" class="lbl-b" fill="var(--green)">TIPS</text>
+          <text x="347" y="274" text-anchor="middle" class="lbl-f">→ validators + stakers</text>
+        </g>
       </svg>
     </div>
   </div>
@@ -1098,7 +1279,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <p class="ch-sub reveal">When the whole game resolves inside a 400 ms slot, geography is destiny. Serious trading firms treat Solana like an exchange matching engine: colocate next to the leader, read shreds before blocks are even assembled, and hold staked, first-class lanes into the TPU. The stack below is standard HFT practice, ported on-chain.</p>
 
   <div class="panel ladder reveal">
-    <span class="panel-label">FIG 4.1 · LATENCY LADDER (LOG SCALE)</span>
+    <span class="panel-label"><b>FIG 4.1</b><span>LATENCY LADDER (LOG SCALE)</span></span>
     <span class="watermark" aria-hidden="true">400 ms</span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <div class="lrow"><div class="lname">SLOT TIME<span>THE BUDGET</span></div><div class="ltrack"><div class="lfill" data-w="1"    style="background:var(--amber);transform:scaleX(1)"></div></div><div class="lval">400 ms</div></div>
@@ -1135,7 +1316,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   </div>
 
   <div class="panel notes reveal" style="margin-top:14px">
-    <span class="panel-label">FIELD NOTES · WHAT CUTTING-EDGE LOOKS LIKE IN 2026</span>
+    <span class="panel-label"><b>FIELD NOTES</b><span>WHAT CUTTING-EDGE LOOKS LIKE IN 2026</span></span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <ul>
       <li><b>CONVERGENCE</b>The Solana latency stack now mirrors traditional HFT: colocation, private fiber, kernel bypass, FPGA-friendly parsing — the exchange just happens to be a distributed ledger.</li>
@@ -1156,13 +1337,13 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   <p class="ch-sub reveal">Every chain with an ordering market grows the same organs: an auction where position is sold, a protection rail that shields users from it, and a fast-data feed for whoever pays for the early look. The bench below lays them side by side — eight techniques, five chains, and the tooling that runs the table.</p>
 
   <div class="panel grid-panel reveal" id="gridPanel">
-    <span class="panel-label">FIG 5.1 · TECHNIQUE × CHAIN HEAT GRID</span>
+    <span class="panel-label"><b>FIG 5.1</b><span>TECHNIQUE × CHAIN HEAT GRID</span></span>
     <span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span>
     <div class="tgrid-mount"></div>
   </div>
 
   <div class="bench reveal" id="benchMount">
-    <div class="panel-label-row"><span class="panel-label-inline">FIG 5.2 · TOOL BENCH — GROUPED BY FUNCTION, FILTERED BY CHAIN / STANCE</span></div>
+    <div class="panel-label-row"><span class="panel-label-inline"><b>FIG 5.2</b><span>TOOL BENCH — GROUPED BY FUNCTION, FILTERED BY CHAIN / STANCE</span></span></div>
     <div class="bench-filters"></div>
     <div class="bench-cards cards cards-3"></div>
     <p class="bench-delta"></p>
@@ -1197,13 +1378,36 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
 <footer>
   <div class="wrap">
     <p>SOLANA//SCOPE · AN ENGINEERING READOUT — FIGURES ARE ILLUSTRATIVE ORDERS OF MAGNITUDE, NOT LIVE TELEMETRY. SLOT COUNTER IS SIMULATED AT 400 MS. BUILT WITH ANIME.JS.</p>
+    <p class="channel-legend" aria-label="Channel color legend">
+      <span style="--legend-c:var(--cyan)">CYAN NETWORK</span><span style="--legend-c:var(--amber)">AMBER TX</span>
+      <span style="--legend-c:var(--red)">RED ADVERSARIAL</span><span style="--legend-c:var(--green)">GREEN PROTECTION</span>
+      <span style="--legend-c:var(--violet)">VIOLET CROSS-CHAIN</span><span style="--legend-c:var(--amber)">◉ AMBER YOUR NOTES</span>
+    </p>
   </div>
 </footer>
 </div>
 
+<!-- ==V3A:HTML== -->
+<!-- ==/V3A:HTML== -->
+<!-- ==V3B:HTML== -->
+<!-- ==/V3B:HTML== -->
+<!-- ==V3C:HTML== -->
+<!-- ==/V3C:HTML== -->
+<!-- ==V3E:HTML== -->
+<!-- ==/V3E:HTML== -->
+
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
+  "_rev": "v3-2026-08-14.1",
+  "==V3A:JSON==": null,
+  "==/V3A:JSON==": null,
+  "==V3B:JSON==": null,
+  "==/V3B:JSON==": null,
+  "==V3C:JSON==": null,
+  "==/V3C:JSON==": null,
+  "==V3E:JSON==": null,
+  "==/V3E:JSON==": null,
   "meta": { "dated": "2026-08", "note": "teaching figures, orders of magnitude; ~ marks volatile numbers" },
   "sectionOrder": ["topology", "txflow", "mev", "latency"],
   "sectionOf": { "ch1": "topology", "ch2": "txflow", "ch3": "mev", "ch4": "latency" },
@@ -1491,6 +1695,332 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
 </script>
 
 <script>
+// ==V3D:JS==
+(function(scope){
+  'use strict';
+
+  /* Overlay usage:
+   * 1. Call SCOPE.Overlay.open({element,trigger}) with an existing surface.
+   * 2. Set modal/scrim/lockScroll only when the layer blocks page interaction.
+   * 3. The manager owns Esc, Tab trapping, sheet mode, and focus return.
+   * 4. Call close(element,{restoreFocus:false}) before an intentional jump.
+   * 5. Use onClose for component state cleanup; never add global Esc handlers.
+   */
+  const Overlay = (()=>{
+    const stack = [];
+    let scrim = null;
+    const focusable = el=>Array.from(el.querySelectorAll(
+      'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])'
+    )).filter(node=>!node.hidden && node.getClientRects().length);
+    const top = ()=>stack[stack.length-1] || null;
+    const syncPageState = ()=>{
+      const needsScrim = stack.some(layer=>layer.scrim);
+      if(needsScrim && !scrim){
+        scrim = document.createElement('div');
+        scrim.className = 'scope-overlay-scrim';
+        scrim.setAttribute('aria-hidden','true');
+        document.body.appendChild(scrim);
+      } else if(!needsScrim && scrim){ scrim.remove(); scrim = null; }
+      const locked = stack.some(layer=>layer.lockScroll);
+      if(locked && !document.body.classList.contains('scope-scroll-lock')){
+        document.body.style.setProperty('--scope-scrollbar',(innerWidth-document.documentElement.clientWidth)+'px');
+        document.body.classList.add('scope-scroll-lock');
+      } else if(!locked){
+        document.body.classList.remove('scope-scroll-lock');
+        document.body.style.removeProperty('--scope-scrollbar');
+      }
+    };
+    const open = options=>{
+      const element = options && options.element;
+      if(!(element instanceof HTMLElement)) throw new TypeError('Overlay.open requires an HTMLElement');
+      const existing = stack.find(layer=>layer.element===element);
+      if(existing) return existing;
+      const layer = {
+        element,
+        trigger:options.trigger instanceof HTMLElement ? options.trigger : document.activeElement,
+        modal:options.modal !== false,
+        scrim:!!options.scrim,
+        lockScroll:!!options.lockScroll,
+        outsideClose:options.outsideClose !== false,
+        sheet:options.sheet !== false,
+        restoreFocus:options.restoreFocus !== false,
+        onClose:typeof options.onClose==='function' ? options.onClose : null
+      };
+      element.hidden = false;
+      element.dataset.scopeOverlay = 'open';
+      element.classList.toggle('scope-overlay-sheet',layer.sheet && matchMedia('(max-width:700px)').matches);
+      if(layer.modal){ element.setAttribute('aria-modal','true'); if(!element.hasAttribute('role')) element.setAttribute('role','dialog'); }
+      stack.push(layer); syncPageState();
+      requestAnimationFrame(()=>{
+        const target = options.focusTarget instanceof HTMLElement ? options.focusTarget : focusable(element)[0];
+        if(target && stack.includes(layer)) target.focus({preventScroll:true});
+      });
+      return layer;
+    };
+    const close = (target,options={})=>{
+      const layer = target ? stack.find(item=>item===target || item.element===target) : top();
+      if(!layer) return false;
+      stack.splice(stack.indexOf(layer),1);
+      layer.element.hidden = true;
+      layer.element.removeAttribute('data-scope-overlay');
+      layer.element.classList.remove('scope-overlay-sheet');
+      layer.element.removeAttribute('aria-modal');
+      syncPageState();
+      if(layer.onClose) layer.onClose(options.reason || 'api',layer);
+      const shouldRestore = options.restoreFocus !== false && layer.restoreFocus;
+      if(shouldRestore && layer.trigger && layer.trigger.isConnected) layer.trigger.focus({preventScroll:true});
+      return true;
+    };
+    document.addEventListener('keydown',event=>{
+      const layer = top(); if(!layer) return;
+      if(event.key==='Escape'){
+        event.preventDefault(); event.stopPropagation();
+        close(layer,{reason:'escape'}); return;
+      }
+      if(event.key!=='Tab' || !layer.modal) return;
+      const items = focusable(layer.element);
+      if(!items.length){ event.preventDefault(); layer.element.focus({preventScroll:true}); return; }
+      const first=items[0], last=items[items.length-1];
+      if(event.shiftKey && document.activeElement===first){ event.preventDefault(); last.focus(); }
+      else if(!event.shiftKey && document.activeElement===last){ event.preventDefault(); first.focus(); }
+    },true);
+    document.addEventListener('pointerdown',event=>{
+      const layer = top(); if(!layer || !layer.outsideClose) return;
+      if(layer.element.contains(event.target) || (layer.trigger && layer.trigger.contains(event.target))) return;
+      close(layer,{reason:'outside',restoreFocus:false});
+    },true);
+    addEventListener('resize',()=>{
+      stack.forEach(layer=>layer.element.classList.toggle('scope-overlay-sheet',layer.sheet && matchMedia('(max-width:700px)').matches));
+    },{passive:true});
+    return Object.freeze({open,close,top,isOpen:element=>stack.some(layer=>layer.element===element)});
+  })();
+
+  /* Router usage:
+   * 1. Subscribe with SCOPE.Router.on('entity'|'cue', callback).
+   * 2. Navigate with go('/e/poh') or go('/cue/3'); the hash is normalized.
+   * 3. Section anchors and unknown hashes are ignored without side effects.
+   * 4. Callback receives a parsed route plus the previous recognized route.
+   * 5. close() uses browser history when possible and otherwise clears route.
+   */
+  const Router = (()=>{
+    const handlers = new Map();
+    let active = null, activeHash = '';
+    const parse = hash=>{
+      const entity = /^#\/e\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
+      if(entity) return {type:'entity',id:decodeURIComponent(entity[1])};
+      const cue = /^#\/cue\/(\d+)$/.exec(hash);
+      if(cue) return {type:'cue',index:Number(cue[1])};
+      return null;
+    };
+    const dispatch = ()=>{
+      if(location.hash===activeHash) return;
+      const next = parse(location.hash);
+      const previous = active;
+      activeHash = location.hash;
+      if(!next){ active=null; return; }
+      active = next;
+      (handlers.get(next.type)||new Set()).forEach(fn=>fn(next,previous));
+    };
+    const on = (type,fn)=>{
+      if(!handlers.has(type)) handlers.set(type,new Set());
+      handlers.get(type).add(fn);
+      return ()=>handlers.get(type).delete(fn);
+    };
+    const go = (path,{replace=false}={})=>{
+      const hash = '#/'+String(path).replace(/^#?\/?/,'');
+      if(!parse(hash)) return false;
+      if(replace) history.replaceState({scopeRoute:true},'',hash);
+      else location.hash = hash;
+      if(replace) dispatch();
+      return true;
+    };
+    const close = ()=>{
+      if(!parse(location.hash)) return false;
+      if(history.state && history.length>1) history.back();
+      else { history.replaceState(null,'',location.pathname+location.search); dispatch(); }
+      return true;
+    };
+    addEventListener('hashchange',dispatch);
+    addEventListener('popstate',dispatch);
+    queueMicrotask(dispatch);
+    return Object.freeze({on,go,close,parse,current:()=>active});
+  })();
+
+  /* Store usage:
+   * 1. Create an adapter with SCOPE.Store.create('notes',{version:1,...}).
+   * 2. get() returns a cloned validated value or the configured default.
+   * 3. set(value) persists JSON at scope.v3.<namespace> and returns success.
+   * 4. update(fn) performs a read/transform/write without exposing internals.
+   * 5. sessionOnly reports localStorage failure; in-memory behavior continues.
+   */
+  const Store = (()=>{
+    const memory = new Map();
+    let storageReady = true;
+    try{
+      const probe='scope.v3.__probe__'; localStorage.setItem(probe,'1'); localStorage.removeItem(probe);
+    }catch(error){ storageReady=false; }
+    const clone = value=>value==null ? value : JSON.parse(JSON.stringify(value));
+    const create = (namespace,options={})=>{
+      if(!/^[a-z0-9.-]+$/i.test(namespace)) throw new TypeError('Invalid Store namespace');
+      const key='scope.v3.'+namespace;
+      const version=Number.isInteger(options.version) ? options.version : 1;
+      const fallback=()=>clone(options.defaultValue ?? {v:version});
+      const valid = value=>!!value && value.v===version && (typeof options.validate!=='function' || options.validate(value));
+      const readRaw = ()=>{
+        if(storageReady){ try { return localStorage.getItem(key); } catch(error){ storageReady=false; } }
+        return memory.get(key) || null;
+      };
+      const get = ()=>{
+        try { const value=JSON.parse(readRaw()); return valid(value) ? clone(value) : fallback(); }
+        catch(error){ return fallback(); }
+      };
+      const set = value=>{
+        const next=clone(value);
+        if(!next || typeof next!=='object') return false;
+        next.v=version;
+        const raw=JSON.stringify(next);
+        if(storageReady){ try { localStorage.setItem(key,raw); return true; } catch(error){ storageReady=false; } }
+        memory.set(key,raw); return false;
+      };
+      const update = fn=>{ const next=fn(get()); set(next); return get(); };
+      const remove = ()=>{ memory.delete(key); if(storageReady){ try{ localStorage.removeItem(key); }catch(error){ storageReady=false; } } };
+      return Object.freeze({key,version,get,set,update,remove,get sessionOnly(){return !storageReady;}});
+    };
+    return Object.freeze({create,get available(){return storageReady;}});
+  })();
+
+  /* positionOverlay usage:
+   * 1. Pass trigger and overlay rects plus placement/offset/padding options.
+   * 2. boundary may be the viewport or any DOMRect-shaped clipping surface.
+   * 3. The pure function flips on the main axis, then shifts and clamps.
+   * 4. Read left/top/placement and beamOffset; it never mutates the DOM.
+   * 5. Recompute after resize, scroll, or overlay content-size changes.
+   */
+  function positionOverlay(triggerRect,overlayRect,options={}){
+    const tr={left:triggerRect.left,top:triggerRect.top,width:triggerRect.width,right:triggerRect.right ?? triggerRect.left+triggerRect.width,bottom:triggerRect.bottom ?? triggerRect.top+triggerRect.height,height:triggerRect.height};
+    const width=overlayRect.width, height=overlayRect.height;
+    const boundary=options.boundary || {left:0,top:0,right:innerWidth,bottom:innerHeight,width:innerWidth,height:innerHeight};
+    const pad=options.padding ?? 12, offset=options.offset ?? 10;
+    const preferred=options.placement || 'top';
+    const opposite={top:'bottom',bottom:'top',left:'right',right:'left'};
+    const fits = placement=>{
+      if(placement==='top') return tr.top-height-offset>=boundary.top+pad;
+      if(placement==='bottom') return tr.bottom+height+offset<=boundary.bottom-pad;
+      if(placement==='left') return tr.left-width-offset>=boundary.left+pad;
+      return tr.right+width+offset<=boundary.right-pad;
+    };
+    const placement=fits(preferred) ? preferred : (fits(opposite[preferred]) ? opposite[preferred] : preferred);
+    let left=tr.left+(tr.width-width)/2, top=tr.top+(tr.height-height)/2;
+    if(placement==='top') top=tr.top-height-offset;
+    if(placement==='bottom') top=tr.bottom+offset;
+    if(placement==='left') left=tr.left-width-offset;
+    if(placement==='right') left=tr.right+offset;
+    left=Math.max(boundary.left+pad,Math.min(left,boundary.right-width-pad));
+    top=Math.max(boundary.top+pad,Math.min(top,boundary.bottom-height-pad));
+    const beamOffset=(placement==='top'||placement==='bottom')
+      ? Math.max(8,Math.min(width-8,tr.left+tr.width/2-left))
+      : Math.max(8,Math.min(height-8,tr.top+tr.height/2-top));
+    return {left,top,x:left,y:top,placement,beamOffset};
+  }
+
+  /* termify usage:
+   * 1. Call SCOPE.termify(root,{terms,onBind}) after rendering a fragment.
+   * 2. terms maps keys to {term,aliases}; longest aliases are considered first.
+   * 3. Scanner rejects links, controls, code, headings, SVG, and prior .term nodes.
+   * 4. First occurrence per term/section is tabbable; repeats are muted controls.
+   * 5. Re-running is idempotent because wrapped and explicitly-bound nodes win.
+   */
+  const termSeen = new WeakMap();
+  function termify(root,config={}){
+    if(!(root instanceof Element || root instanceof DocumentFragment || root===document)) return {wrapped:0,bound:0};
+    const terms=config.terms || {};
+    const aliases=[];
+    Object.entries(terms).forEach(([key,item])=>{
+      [...new Set([item.term,...(item.aliases||[])].filter(Boolean))].forEach(alias=>aliases.push({key,alias,sensitive:/[A-Z]/.test(alias)&&alias===alias.toUpperCase()}));
+    });
+    aliases.sort((a,b)=>b.alias.length-a.alias.length);
+    if(!aliases.length) return {wrapped:0,bound:0};
+    const escaped=aliases.map(item=>item.alias.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+    const regex=new RegExp('\\b('+escaped.join('|')+')\\b','gi');
+    const explicit=Array.from(root.querySelectorAll ? root.querySelectorAll('[data-term]') : []);
+    let bound=0,wrapped=0;
+    const mark = (node,key)=>{
+      const section=node.closest('section') || document.body;
+      if(!termSeen.has(section)) termSeen.set(section,new Set());
+      const seen=termSeen.get(section), first=!seen.has(key);
+      seen.add(key); node.classList.add('term');
+      if(!first){ node.classList.add('term-muted'); node.tabIndex=-1; }
+      if(first && typeof config.onBind==='function') config.onBind(node,key);
+      if(first) bound++;
+    };
+    explicit.forEach(node=>mark(node,node.dataset.term));
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+      if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      const parent=node.parentElement;
+      if(!parent || parent.closest('a,button,code,pre,script,style,svg,h1,h2,h3,h4,.term,[data-no-term],.slotbar,.dock-fallback')) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }});
+    const nodes=[]; while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node=>{
+      regex.lastIndex=0; const text=node.nodeValue; let match,last=0,changed=false;
+      const frag=document.createDocumentFragment();
+      while((match=regex.exec(text))){
+        const candidate=aliases.find(item=>item.alias.toLowerCase()===match[0].toLowerCase() && (!item.sensitive || item.alias===match[0]));
+        if(!candidate) continue;
+        changed=true; frag.append(text.slice(last,match.index));
+        const button=document.createElement('button'); button.type='button'; button.dataset.term=candidate.key; button.textContent=match[0];
+        mark(button,candidate.key); frag.append(button); wrapped++; last=match.index+match[0].length;
+      }
+      if(changed){ frag.append(text.slice(last)); node.replaceWith(frag); }
+    });
+    return {wrapped,bound};
+  }
+
+  const slug = value=>String(value||'item').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  function stampAnchors(root=document){
+    const set=(el,id)=>{ if(el && !el.dataset.noteAnchor) el.dataset.noteAnchor=id; };
+    root.querySelectorAll('section[id]').forEach(section=>{
+      const ch=section.id; set(section,ch); set(section.querySelector(':scope>.ch-sub'),ch+'.summary');
+      section.querySelectorAll('.panel').forEach((panel,index)=>{
+        const label=panel.querySelector(':scope>.panel-label');
+        const fig=/FIG\s+([0-9.]+)/i.exec(label ? label.textContent : '');
+        const id=fig ? ch+'.fig-'+fig[1].replace(/\./g,'-') : ch+'.panel-'+slug(label ? label.textContent : index+1);
+        set(panel,id); panel.querySelectorAll(':scope svg').forEach((svg,i)=>set(svg,id+'.svg'+(i?'-'+(i+1):'')));
+      });
+      section.querySelectorAll('.card').forEach(card=>{
+        const tag=card.querySelector('.mono-tag'), title=card.querySelector('h4');
+        set(card,ch+'.card-'+slug((tag?tag.textContent:'')+' '+(title?title.textContent:'')));
+      });
+      section.querySelectorAll('.notes li').forEach(li=>set(li,ch+'.field-'+slug(li.querySelector('b')?.textContent)));
+    });
+    root.querySelectorAll('.dock-mount').forEach(mount=>set(mount,'dock.'+slug(mount.closest('section')?.id)));
+    root.querySelectorAll('.dock').forEach(dock=>set(dock,'dock.'+slug(dock.dataset.section)));
+    root.querySelectorAll('.dm-row').forEach(row=>set(row,'dock.'+slug(row.closest('.dock')?.dataset.section)+'.row.'+slug(row.querySelector('.dm-k')?.textContent)));
+    root.querySelectorAll('.tgrid tbody tr').forEach(row=>set(row,'grid.'+(row.querySelector('[data-tech]')?.dataset.tech||slug(row.textContent))));
+    root.querySelectorAll('.tool-card[id]').forEach(card=>set(card,'tool.'+card.id.replace(/^tool-/,'')));
+  }
+
+  Object.assign(scope,{Overlay,Router,Store,positionOverlay,termify,stampAnchors});
+  document.documentElement.style.setProperty('--interference-y',(26+Math.random()*48).toFixed(1)+'%');
+  const stamp=()=>stampAnchors(document);
+  if(document.readyState==='loading') addEventListener('DOMContentLoaded',stamp,{once:true}); else setTimeout(stamp,0);
+  new MutationObserver(records=>{
+    if(records.some(record=>record.addedNodes.length)) queueMicrotask(stamp);
+  }).observe(document.body,{subtree:true,childList:true});
+})(window.SCOPE=window.SCOPE||{});
+// ==/V3D:JS==
+
+// ==V3A:JS==
+// ==/V3A:JS==
+// ==V3B:JS==
+// ==/V3B:JS==
+// ==V3C:JS==
+// ==/V3C:JS==
+// ==V3E:JS==
+// ==/V3E:JS==
+</script>
+
+<script>
 (function(){
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof anime === 'undefined';
   if (reduced) document.body.classList.add('no-motion');
@@ -1638,8 +2168,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     }, 0);
     // stage pulses synced to packet arrival (both paths are linear)
     const marks = useV
-      ? [70,165,260,355,450,545,640].map(y=>((y-20)/680)*5600)
-      : [60,235,400,545,680,815,950].map(x=>((x-60)/(1040-60))*5600);
+      ? [55,135,215,295,375,455,535].map(y=>((y-12)/(578-12))*5600)
+      : [65,220,380,535,680,825,970].map(x=>((x-65)/(1040-65))*5600);
     marks.forEach((t,i)=>{
       tl.add({
         targets:stages[i],
@@ -1792,6 +2322,25 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
   const em  = s => esc(s).replace(/\*([^*]+)\*/g,'<em>$1</em>');
   const SVGNS = 'http://www.w3.org/2000/svg';
   const SHIELD = '<svg class="shield" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 1 L11 3 V7 C11 10 8.8 12.2 6 13 C3.2 12.2 1 10 1 7 V3 Z"/></svg>';
+  const cadenceBars = ms=>{
+    const count=Math.max(1,Math.min(6,Math.round(1000/ms)));
+    return Array.from({length:count},(_,i)=>{
+      const gap=count===1?0:18/(count-1), h=3+((i*3+count)%6);
+      return `<rect x="${(1+i*gap).toFixed(1)}" y="${10-h}" width="3" height="${h}" rx=".6"/>`;
+    }).join('');
+  };
+  const cadenceSvg = (ms,color,extra='')=>`<svg class="cadence ${extra}" viewBox="0 0 24 10" aria-hidden="true" style="--cadence-c:${color}">${cadenceBars(ms)}</svg>`;
+  const familyGlyph = fn=>{
+    const paths={
+      'Ordering auction':'M2 3.5h5M4.5 1v5M7 5.5l3 3M8.5 8l-3 3M2 11h7',
+      'Protection RPC':'M6 1.2l4 1.7v3.4c0 2.4-1.6 4.1-4 4.9-2.4-.8-4-2.5-4-4.9V2.9z',
+      'Order-flow auction / intents':'M1.5 6h7M6 3l3 3-3 3M2 10.5h4',
+      'Fast data feed':'M1 8.5l2-5 2 6 2-7 2 6 2-3',
+      'Priority market':'M2 9.5h8M3 7h6M4 4.5h4M5 2h2',
+      'Node/client edge':'M1 7c2-5 3 5 0s3 3 5-2M2 10.5h8'
+    };
+    return `<svg class="family-glyph" viewBox="0 0 12 12" aria-hidden="true"><path d="${paths[fn]||paths['Node/client edge']}"/></svg>`;
+  };
 
   /* mini-diagram templates — ≤8 shapes, exactly one loop each.
      draw() returns inner SVG; loop() returns one anime timeline (or null). */
@@ -2123,7 +2672,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         <rect x="20" y="90" width="280" height="14" rx="7" fill="var(--panel-2)" stroke="var(--line)"/>
         <rect class="wfill" x="21" y="91" width="${w}" height="12" rx="6" fill="${c}" opacity=".35" data-w="${w}"/>
         <line class="wcur" x1="21" y1="84" x2="21" y2="110" stroke="${c}" stroke-width="1.5"/>
-        <text x="20" y="132" class="lbl-f" opacity=".7">LOG SCALE · ALL CHAINS SHARE THIS BAR</text>`;
+        <text x="20" y="132" class="lbl-f">LOG SCALE · ALL CHAINS SHARE THIS BAR</text>`;
       },
       loop: svg => {
         const cur = svg.querySelector('.wcur');
@@ -2139,6 +2688,12 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     svg.setAttribute('role','img');
     if(labelText) svg.setAttribute('aria-label', labelText);
     svg.innerHTML = MINI[tpl].draw(color, opts||{});
+    const textLayer = document.createElementNS(SVGNS,'g');
+    textLayer.setAttribute('class','text-layer');
+    Array.from(svg.querySelectorAll('text')).forEach(t=>textLayer.appendChild(t));
+    svg.appendChild(textLayer);
+    const motion = Array.from(svg.querySelectorAll('.md,.mnr,.mkr,.seg,.pd,.wcur,.sr1,.sr3,.s1,.s2,.hop,.b1,.b2,.bd,.fd'));
+    motion.forEach(el=>el.classList.add('motion-node'));
     if(!reduced){
       const inst = MINI[tpl].loop(svg, color, opts||{});
       if(inst) registerLoop(svg, inst);
@@ -2177,12 +2732,12 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         <div class="dock-body" id="dockpanel-${chId}" role="tabpanel" hidden>
           <div class="dock-cols">
             <div class="dock-col dock-col-sol">
-              <div class="dock-col-head"><span class="mark">◤</span> <b>SOL</b> — reference</div>
+              <div class="dock-col-head"><span class="mark">◤</span> <b>SOL</b> — reference ${cadenceSvg(CD.sol.windowMs,'var(--cyan)')}</div>
               <div class="mini-wrap sol-mini"></div>
               <div class="dock-metrics">${metricsHtml(keys, CD.sol[sec])}</div>
             </div>
             <div class="dock-col dock-col-chain">
-              <div class="dock-col-head"><span class="mark">◤</span> <b class="head-name"></b><span class="head-tail"> — selected</span></div>
+              <div class="dock-col-head"><span class="mark">◤</span> <b class="head-name"></b><span class="head-tail"> — selected</span>${cadenceSvg(1000,'var(--cc)','head-cadence')}</div>
               <div class="mini-wrap chain-minis"></div>
               <div class="dock-metrics">${metricsHtml(keys, keys.map(()=>' '))}</div>
             </div>
@@ -2228,6 +2783,8 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     dock.querySelectorAll('.chip').forEach(ch=>ch.setAttribute('aria-selected', String(ch.dataset.chain===cid)));
     dock.querySelector('.dock-body').setAttribute('aria-labelledby', dock.querySelector('.chip[data-chain="'+cid+'"]').id);
     dock.querySelector('.head-name').textContent = chain.name;
+    const cadence=dock.querySelector('.head-cadence');
+    cadence.innerHTML=cadenceBars(chain.windowMs); cadence.style.setProperty('--cadence-c',chain.color);
     const rows = dock.querySelectorAll('.dock-col-chain .dm-row');
     rows.forEach((r,i)=>{
       r.querySelector('.dm-v').textContent = cdata.metrics[i];
@@ -2360,13 +2917,12 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     let opener = null;
     function closePop(focusBack){
       if(pop.hidden) return;
-      pop.hidden = true;
-      if(opener){ opener.setAttribute('aria-expanded','false'); if(focusBack) opener.focus(); opener = null; }
+      window.SCOPE.Overlay.close(pop,{restoreFocus:focusBack,reason:'grid'});
     }
     function openPop(btn){
       const t = CD.techniques.find(x=>x.id===btn.dataset.tech);
       const cid = btn.dataset.chain;
-      if(opener) opener.setAttribute('aria-expanded','false');
+      if(opener && !pop.hidden) closePop(false);
       opener = btn; btn.setAttribute('aria-expanded','true');
       const state = cid ? t.cells[cid] : null;
       const toolId = cid ? (t.tools||{})[cid] : null;
@@ -2378,16 +2934,21 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
         `<p class="tp-def">${esc(t.def)}</p>`+
         (cid ? `<p>${esc(t.notes[cid])}</p>` : '')+
         (tool ? `<div class="tp-tools"><button class="tp-tool" data-tool="${tool.id}">↳ ${esc(tool.name)}</button></div>` : '');
-      pop.hidden = false;
+      window.SCOPE.Overlay.open({
+        element:pop,trigger:btn,modal:true,sheet:true,outsideClose:true,
+        focusTarget:pop.querySelector('.tp-close'),
+        onClose:()=>{
+          if(opener){ opener.setAttribute('aria-expanded','false'); opener=null; }
+          pop.style.left=''; pop.style.top='';
+        }
+      });
       if(!window.matchMedia('(max-width:700px)').matches){
         const pb = panel.getBoundingClientRect(), bb = btn.getBoundingClientRect();
-        let left = bb.left - pb.left + bb.width/2 - pop.offsetWidth/2;
-        left = Math.max(10, Math.min(left, pb.width - pop.offsetWidth - 10));
-        let top = bb.bottom - pb.top + 8;
-        if(top + pop.offsetHeight > panel.offsetHeight - 8) top = bb.top - pb.top - pop.offsetHeight - 8;
-        pop.style.left = left+'px'; pop.style.top = Math.max(6,top)+'px';
+        const pos = window.SCOPE.positionOverlay(bb,pop.getBoundingClientRect(),{
+          placement:'bottom',offset:8,padding:10,boundary:pb
+        });
+        pop.style.left = (pos.left-pb.left)+'px'; pop.style.top = (pos.top-pb.top)+'px';
       } else { pop.style.left=''; pop.style.top=''; }
-      pop.querySelector('.tp-close').focus();
     }
     mount.addEventListener('click', e=>{
       const btn = e.target.closest('.tcell, .tlabel'); if(!btn) return;
@@ -2399,20 +2960,6 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
       const tb = e.target.closest('.tp-tool');
       if(tb){ closePop(false); jumpToTool(tb.dataset.tool); }
     });
-    pop.addEventListener('keydown', e=>{
-      if(e.key==='Escape'){ e.stopPropagation(); closePop(true); return; }
-      if(e.key==='Tab'){
-        const f = pop.querySelectorAll('button');
-        if(!f.length) return;
-        const first = f[0], last = f[f.length-1];
-        if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
-        else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
-      }
-    });
-    document.addEventListener('click', e=>{
-      if(!pop.hidden && !e.target.closest('.tpop') && !e.target.closest('.tcell, .tlabel')) closePop(false);
-    });
-    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !pop.hidden) closePop(true); });
   }
 
   function renderBench(){
@@ -2421,7 +2968,7 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     const cardsEl = mount.querySelector('.bench-cards');
     cardsEl.innerHTML = CD.tools.map(t=>
       `<div class="card tool-card" id="tool-${t.id}" data-chains="${t.chains.join(' ')}" data-stance="${t.stance}">`+
-      `<span class="mono-tag">${esc(t.fn).toUpperCase()}</span>`+
+      `<span class="mono-tag">${familyGlyph(t.fn)}${esc(t.fn).toUpperCase()}</span>`+
       `<span class="stance stance-${t.stance}">${t.stance.toUpperCase()}</span>`+
       `<h4>${esc(t.name)}</h4>`+
       `<p>${esc(t.blurb)}</p>`+
@@ -2435,9 +2982,13 @@ footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.
     const stanceColor = s => s==='extract' ? 'var(--red)' : s==='protect' ? 'var(--green)' : 'var(--violet)';
     fEl.innerHTML =
       '<span class="bf-label">CHAIN</span>'+
+      '<div class="seg-switch">'+
       chains.map(c=>`<button class="chip chip-f" data-f="chain" data-v="${c}" aria-pressed="${c==='all'}" style="--cc:${c==='all'?'var(--violet)':colColor(c)}"><i></i>${c==='all'?'ALL':nameOf(c)}</button>`).join('')+
+      '</div>'+
       '<span class="bf-gap"></span><span class="bf-label">STANCE</span>'+
-      stances.map(s=>`<button class="chip chip-f" data-f="stance" data-v="${s}" aria-pressed="${s==='all'}" style="--cc:${stanceColor(s)}"><i></i>${s.toUpperCase()}</button>`).join('');
+      '<div class="seg-switch">'+
+      stances.map(s=>`<button class="chip chip-f" data-f="stance" data-v="${s}" aria-pressed="${s==='all'}" style="--cc:${stanceColor(s)}"><i></i>${s.toUpperCase()}</button>`).join('')+
+      '</div>';
     const sel = {chain:'all', stance:'all'};
     fEl.addEventListener('click', e=>{
       const b = e.target.closest('.chip-f'); if(!b) return;
