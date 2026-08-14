@@ -975,7 +975,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 </style>
 <script>
 (()=>{
-  const access=Object.freeze({key:'scope.access.v1',digest:'be747ea92909fd239d3f0f6d03783838c85c03f7d69539c1984f4b0d4867a8ef'});
+  const access=Object.freeze({key:'scope.access.v1',digest:'29e5686dacf7ef28c84317644bf7c395f9b11873f6732d0d0a20985f2c09f002'});
   const local=location.protocol==='file:'||location.hostname==='127.0.0.1'||location.hostname==='localhost';
   const audit=local&&new URLSearchParams(location.search).has('scope-audit');
   try{if(audit||sessionStorage.getItem(access.key)===access.digest)document.documentElement.dataset.scopeUnlocked=audit?'audit':'session'}catch(error){if(audit)document.documentElement.dataset.scopeUnlocked='audit'}
