@@ -724,6 +724,94 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 /* ==/V3D:CSS== */
 
 /* ==V3A:CSS== */
+.term{
+  appearance:none;-webkit-appearance:none;display:inline;margin:0;padding:0;
+  border:0;background:transparent;color:inherit;font:inherit;line-height:inherit;
+  text-align:inherit;cursor:help;text-decoration-line:underline;
+  text-decoration-style:dotted;text-decoration-thickness:1px;
+  text-decoration-color:color-mix(in srgb,var(--ch) 66%,transparent);
+  text-underline-offset:.22em;
+}
+.term:hover,.term:focus-visible,.term[aria-expanded="true"]{
+  color:var(--ink);text-decoration-style:solid;
+  text-decoration-color:var(--ch);
+}
+.term:focus-visible{outline:1px solid var(--ch);outline-offset:3px;border-radius:1px}
+.term-muted{
+  cursor:text;pointer-events:none;
+  text-decoration-color:color-mix(in srgb,var(--ch) 40%,transparent);
+}
+
+.ref-card{
+  --ref-ch:var(--cyan);
+  position:fixed;z-index:70;width:min(370px,calc(100vw - 24px));
+  max-height:min(560px,calc(100dvh - 24px));overflow:auto;
+  padding:18px 18px 16px;background:var(--panel-2);color:var(--ink);
+  border:1px solid color-mix(in srgb,var(--ref-ch) 45%,var(--line));
+  box-shadow:0 18px 55px rgba(0,0,0,.46),0 0 28px color-mix(in srgb,var(--ref-ch) 8%,transparent);
+  clip-path:polygon(0 8px,8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px));
+  scrollbar-color:color-mix(in srgb,var(--ref-ch) 40%,var(--line)) var(--panel-2);
+}
+.ref-card[hidden],.ref-beam[hidden]{display:none!important}
+.ref-card:focus{outline:1px solid var(--ref-ch);outline-offset:3px}
+.ref-card .corner{position:absolute;width:10px;height:10px;border-color:var(--ref-ch);border-style:solid;opacity:.82;pointer-events:none}
+.ref-card .c-tl{left:6px;top:6px;border-width:1px 0 0 1px}.ref-card .c-tr{right:6px;top:6px;border-width:1px 1px 0 0}
+.ref-card .c-bl{left:6px;bottom:6px;border-width:0 0 1px 1px}.ref-card .c-br{right:6px;bottom:6px;border-width:0 1px 1px 0}
+.ref-kicker,.ref-links a,.ref-entity,.ref-close,.ref-entity-wait{
+  font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.ref-kicker{margin:0 38px 10px 0;color:var(--lbl);font-size:9px;line-height:1.4;letter-spacing:.14em;text-transform:uppercase}
+.ref-name{margin:0 28px 9px 0;color:var(--ink);font-family:"Chakra Petch",sans-serif;font-size:1.12rem;line-height:1.1;letter-spacing:.01em}
+.ref-def,.ref-purpose{margin:0;font-size:.84rem;line-height:1.55}
+.ref-def{color:var(--ink)}
+.ref-purpose{margin-top:9px;color:var(--ref-ch)}
+.ref-actions{display:none;margin-top:15px;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--ref-ch) 26%,var(--line))}
+.ref-pinned .ref-actions{display:block}
+.ref-links{display:grid;gap:0}
+.ref-links a{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;
+  min-height:35px;padding:7px 0;color:var(--ink);font-size:.68rem;line-height:1.3;
+  letter-spacing:.035em;text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--line) 68%,transparent);
+}
+.ref-links a:hover,.ref-links a:focus-visible{color:var(--ref-ch)}
+.ref-kind{color:var(--lbl);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase}
+.ref-entity,.ref-entity-wait{
+  width:100%;margin-top:9px;padding:9px 0 2px;border:0;background:transparent;
+  color:var(--ref-ch);font-size:.68rem;line-height:1.35;letter-spacing:.11em;text-align:left;
+}
+.ref-entity{cursor:pointer}.ref-entity:hover,.ref-entity:focus-visible{color:var(--ink)}
+.ref-entity-wait{display:block;color:var(--lbl)}
+.ref-close{
+  display:none;position:absolute;right:11px;top:10px;width:30px;height:30px;
+  border:1px solid color-mix(in srgb,var(--ref-ch) 34%,var(--line));background:var(--panel);
+  color:var(--lbl);cursor:pointer;font-size:.8rem;
+}
+.ref-pinned .ref-close{display:grid;place-items:center}
+.ref-close:hover,.ref-close:focus-visible{color:var(--ref-ch);border-color:var(--ref-ch)}
+.ref-beam{
+  --beam-x:0px;--beam-y:0px;--beam-w:0px;--beam-a:0rad;
+  position:fixed;left:var(--beam-x);top:var(--beam-y);z-index:69;width:var(--beam-w);height:1px;
+  background:color-mix(in srgb,var(--ref-ch) 72%,var(--line));transform:rotate(var(--beam-a));
+  transform-origin:0 50%;pointer-events:none;box-shadow:0 0 5px color-mix(in srgb,var(--ref-ch) 28%,transparent);
+}
+
+.glossary-noscript{margin:0 auto 48px;padding:0 22px;max-width:1180px;--ch:var(--violet)}
+.glossary-noscript h2{font-size:clamp(1.7rem,4vw,3rem);margin:0 0 8px}
+.glossary-noscript>p{color:var(--lbl);max-width:72ch;margin:0 0 18px}
+.glossary-table-wrap{overflow:auto;border:1px solid var(--line);background:var(--panel)}
+.glossary-noscript table{width:100%;min-width:720px;border-collapse:collapse;font-size:.78rem}
+.glossary-noscript th,.glossary-noscript td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.glossary-noscript th{color:var(--violet);font-family:"IBM Plex Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase}
+.glossary-noscript td:first-child{width:20%;color:var(--ink);font-weight:600}.glossary-noscript td:nth-child(2){width:58%;color:var(--lbl)}
+.glossary-noscript a{color:var(--violet)}
+
+@media(max-width:700px){
+  .ref-card.scope-overlay-sheet{width:100%;max-height:min(78dvh,620px);padding:22px 20px calc(18px + env(safe-area-inset-bottom));clip-path:none;border-width:1px 0 0}
+  .ref-beam{display:none!important}
+  .ref-close{width:36px;height:36px;right:12px;top:12px}
+  .ref-links a{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){.ref-card,.ref-beam{transition:none!important}}
 /* ==/V3A:CSS== */
 /* ==V3B:CSS== */
 /* ==/V3B:CSS== */
@@ -1505,6 +1593,81 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 </div>
 
 <!-- ==V3A:HTML== -->
+<div class="ref-beam" id="refBeam" aria-hidden="true" hidden></div>
+<aside class="ref-card" id="refCard" tabindex="-1" hidden>
+  <span class="corner c-tl" aria-hidden="true"></span><span class="corner c-tr" aria-hidden="true"></span>
+  <span class="corner c-bl" aria-hidden="true"></span><span class="corner c-br" aria-hidden="true"></span>
+  <button class="ref-close" type="button" data-ref-close aria-label="Close reference card">✕</button>
+  <p class="ref-kicker" id="refKicker"></p>
+  <h3 class="ref-name" id="refName"></h3>
+  <p class="ref-def" id="refDef"></p>
+  <p class="ref-purpose" id="refPurpose"></p>
+  <div class="ref-actions">
+    <div class="ref-links" id="refLinks"></div>
+    <div id="refEntity"></div>
+  </div>
+</aside>
+<noscript>
+  <div class="glossary-noscript" id="glossary">
+    <p class="hero-kicker">CH-05 APPENDIX · STATIC REFERENCE PLANE</p>
+    <h2>Glossary</h2>
+    <p>Primary-source definitions for the terms annotated throughout SOLANA//SCOPE. JavaScript is off, so these entries replace the interactive REF cards.</p>
+    <div class="glossary-table-wrap"><table>
+      <thead><tr><th scope="col">term</th><th scope="col">definition</th><th scope="col">primary source</th></tr></thead>
+      <tbody>
+        <tr><td>Turbine</td><td>Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Shreds</td><td>Erasure-coded packet fragments that let validators reconstruct a Solana block even when part of its broadcast is lost.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Proof of History</td><td>A sequential SHA-256 hash chain that supplies a publicly verifiable ordering clock before validators vote on state.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Sealevel</td><td>Solana's parallel runtime, which schedules transactions together when their declared read and write accounts do not conflict.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Gulf Stream</td><td>Solana's forwarder that routes transactions toward current and upcoming leaders instead of parking them in a public mempool.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Transaction Processing Unit</td><td>The validator pipeline that fetches, verifies, schedules, executes, records, and broadcasts Solana transactions.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Tower BFT</td><td>Solana's vote-lockout consensus protocol, using the Proof of History clock to make abandoned forks increasingly expensive.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>SWQoS</td><td>Stake-weighted quality of service reserves leader ingress capacity in proportion to the stake behind a validator connection.</td><td><a href="https://docs.anza.xyz/operations/guides/validator-start">Anza validator docs ↗</a></td></tr>
+        <tr><td>ShredStream</td><td>Jito's low-latency feed of Solana shreds, delivered close to block production for faster state reconstruction.</td><td><a href="https://docs.jito.wtf/lowlatencytxnfeed/">Jito ShredStream docs ↗</a></td></tr>
+        <tr><td>Firedancer</td><td>An independent Solana validator client written for high throughput, fault diversity, and efficient commodity hardware use.</td><td><a href="https://docs.firedancer.io/">Firedancer docs ↗</a></td></tr>
+        <tr><td>DoubleZero</td><td>A contributor-operated fiber network designed to carry latency-sensitive distributed-system traffic on dedicated paths.</td><td><a href="https://docs.doublezero.xyz/">DoubleZero docs ↗</a></td></tr>
+        <tr><td>Alpenglow</td><td>Anza's next-generation Solana consensus design, combining fast off-chain voting paths with resilient block dissemination.</td><td><a href="https://github.com/anza-xyz/alpenglow">Alpenglow source ↗</a></td></tr>
+        <tr><td>Compute unit</td><td>Solana's execution-cost measure; transaction limits and priority-price bids are expressed per compute unit.</td><td><a href="https://solana.com/docs/core/fees">Solana fee docs ↗</a></td></tr>
+        <tr><td>Recent blockhash</td><td>A transaction freshness value from a recent Solana block that expires, bounding replay and queue lifetime.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction docs ↗</a></td></tr>
+        <tr><td>QUIC</td><td>A secure multiplexed transport over UDP that Solana uses for controlled transaction ingress to validators.</td><td><a href="https://www.rfc-editor.org/rfc/rfc9000.html">IETF RFC 9000 ↗</a></td></tr>
+        <tr><td>Priority fee</td><td>An optional Solana bid equal to requested compute-unit limit times compute-unit price, paid in addition to the base fee.</td><td><a href="https://solana.com/docs/core/fees">Solana fee docs ↗</a></td></tr>
+        <tr><td>Jito bundle</td><td>An ordered group of at most five Solana transactions submitted for sequential, atomic execution through Jito's Block Engine.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/#bundles">Jito bundle docs ↗</a></td></tr>
+        <tr><td>Proof of Stake</td><td>A consensus family in which economic stake weights proposal or voting power and can be penalized for protocol violations.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/">Ethereum PoS docs ↗</a></td></tr>
+        <tr><td>Proof of Work</td><td>A consensus mechanism in which miners spend computation to extend the valid chain with the most accumulated work.</td><td><a href="https://developer.bitcoin.org/devguide/block_chain.html">Bitcoin developer guide ↗</a></td></tr>
+        <tr><td>Nakamoto consensus</td><td>Bitcoin's rule set combining proof of work, probabilistic leader election, and selection of the chain with most cumulative work.</td><td><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin whitepaper ↗</a></td></tr>
+        <tr><td>Replace-by-fee</td><td>A Bitcoin policy allowing an unconfirmed transaction to be replaced by a conflicting transaction that pays a higher fee.</td><td><a href="https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki">BIP 125 ↗</a></td></tr>
+        <tr><td>UTXO</td><td>An unspent transaction output: a discrete Bitcoin coin record that can be consumed once by a later transaction.</td><td><a href="https://developer.bitcoin.org/devguide/transactions.html">Bitcoin developer guide ↗</a></td></tr>
+        <tr><td>Compact blocks</td><td>A Bitcoin relay scheme that sends short transaction identifiers so peers can reconstruct blocks from transactions they already hold.</td><td><a href="https://bitcoincore.org/en/2016/06/07/compact-blocks-faq/">Bitcoin Core FAQ ↗</a></td></tr>
+        <tr><td>FIBRE</td><td>The Fast Internet Bitcoin Relay Engine, a block-relay network using compact blocks and forward error correction.</td><td><a href="https://bitcoinfibre.org/">Bitcoin FIBRE ↗</a></td></tr>
+        <tr><td>Stratum v2</td><td>An open mining protocol suite that encrypts transport and can let miners negotiate block-template jobs with pools.</td><td><a href="https://stratumprotocol.org/specification/">Stratum v2 specification ↗</a></td></tr>
+        <tr><td>Lightning Network</td><td>A Bitcoin payment-channel network where signed off-chain state updates settle through the base chain only when needed.</td><td><a href="https://github.com/lightning/bolts">Lightning BOLTs ↗</a></td></tr>
+        <tr><td>RANDAO</td><td>Ethereum's validator-contributed randomness accumulator, mixed with protocol state to select proposers and committees.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/block-proposal/">Ethereum proposer docs ↗</a></td></tr>
+        <tr><td>Gasper</td><td>Ethereum's proof-of-stake consensus combining LMD-GHOST fork choice with Casper FFG finality checkpoints.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper docs ↗</a></td></tr>
+        <tr><td>LMD-GHOST</td><td>Ethereum's fork-choice rule, choosing the branch supported by the latest message from each validator.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper docs ↗</a></td></tr>
+        <tr><td>Casper FFG</td><td>Ethereum's checkpoint finality gadget, which justifies and finalizes epochs after supermajority validator votes.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper docs ↗</a></td></tr>
+        <tr><td>EIP-1559</td><td>Ethereum's fee market with a protocol-set base fee that is burned and an optional priority fee paid to the block producer.</td><td><a href="https://eips.ethereum.org/EIPS/eip-1559">EIP-1559 ↗</a></td></tr>
+        <tr><td>Blob sidecars</td><td>Temporary Ethereum consensus data carrying rollup blobs alongside blocks without exposing the payload to EVM execution.</td><td><a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844 ↗</a></td></tr>
+        <tr><td>Proposer-builder separation</td><td>A block-production design splitting transaction ordering by specialized builders from final block choice by consensus proposers.</td><td><a href="https://ethereum.org/en/roadmap/pbs/">Ethereum PBS roadmap ↗</a></td></tr>
+        <tr><td>MEV-Boost</td><td>An out-of-protocol Ethereum sidecar through which validators receive blinded block bids from builders via relays.</td><td><a href="https://boost.flashbots.net/">Flashbots MEV-Boost ↗</a></td></tr>
+        <tr><td>Private order flow</td><td>Transactions delivered to selected builders or solvers rather than broadcast to a public mempool.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect docs ↗</a></td></tr>
+        <tr><td>Proof of Staked Authority</td><td>BNB Smart Chain consensus in which an elected validator set takes turns producing blocks under stake and authority rules.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/introduction/">BNB Chain consensus docs ↗</a></td></tr>
+        <tr><td>Maxwell hardfork</td><td>A BNB Smart Chain network upgrade that shortened block intervals and adjusted consensus timing for faster finality.</td><td><a href="https://github.com/bnb-chain/BEPs">BNB Chain BEPs ↗</a></td></tr>
+        <tr><td>Maximum extractable value</td><td>Value captured by controlling transaction inclusion, exclusion, or ordering in addition to ordinary block rewards and fees.</td><td><a href="https://ethereum.org/en/developers/docs/mev/">Ethereum MEV docs ↗</a></td></tr>
+        <tr><td>Atomic arbitrage</td><td>A transaction that closes a cross-market price gap and reverts as a whole if every required leg cannot execute.</td><td><a href="https://docs.flashbots.net/flashbots-auction/overview">Flashbots Auction docs ↗</a></td></tr>
+        <tr><td>Sandwich attack</td><td>An ordering attack placing one trade before and another after a victim swap to profit from the victim's price impact.</td><td><a href="https://ethereum.org/en/developers/docs/mev/">Ethereum MEV docs ↗</a></td></tr>
+        <tr><td>Backrunning</td><td>Placing a transaction immediately after a target to capture an arbitrage or state transition the target creates.</td><td><a href="https://docs.flashbots.net/flashbots-mev-share/overview">Flashbots MEV-Share docs ↗</a></td></tr>
+        <tr><td>Intents</td><td>User-signed desired outcomes that competing solvers can satisfy without the user prescribing an exact transaction path.</td><td><a href="https://docs.cow.fi/cow-protocol/concepts/introduction/intents">CoW Protocol intents docs ↗</a></td></tr>
+        <tr><td>CoW Protocol</td><td>An intent-based exchange protocol whose solvers batch orders and can match coincident wants before using on-chain liquidity.</td><td><a href="https://docs.cow.fi/cow-protocol/concepts/introduction">CoW Protocol docs ↗</a></td></tr>
+        <tr><td>Slippage</td><td>The difference between an expected swap price and its executed price, bounded by a user's minimum-output constraint.</td><td><a href="https://docs.uniswap.org/concepts/protocol/swaps">Uniswap swap docs ↗</a></td></tr>
+        <tr><td>Preconfirmations</td><td>Credible promises about transaction inclusion or execution issued before the underlying chain reaches full consensus finality.</td><td><a href="https://ethresear.ch/t/based-preconfirmations/17353">Ethereum research ↗</a></td></tr>
+        <tr><td>Equihash</td><td>A memory-oriented proof-of-work algorithm based on the generalized birthday problem and used by Zcash mining.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Shielded pool</td><td>A Zcash value pool where zero-knowledge proofs hide sender, receiver, and amount while proving conservation and authorization.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Orchard</td><td>Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.</td><td><a href="https://zcash.github.io/orchard/">Orchard book ↗</a></td></tr>
+        <tr><td>zk-SNARKs</td><td>Succinct non-interactive zero-knowledge proofs that let a verifier check a statement without learning its private witness.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</noscript>
 <!-- ==/V3A:HTML== -->
 <!-- ==V3B:HTML== -->
 <!-- ==/V3B:HTML== -->
@@ -1543,6 +1706,57 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 {
   "_rev": "v3-2026-08-14.1",
   "==V3A:JSON==": null,
+  "terms": {
+    "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
+    "shreds": {"term":"Shreds","aliases":["shred packets","shreds","shred"],"def":"Erasure-coded packet fragments that let validators reconstruct a Solana block even when part of its broadcast is lost.","purpose":"The wire carries recoverable fragments, not one fragile monolithic block.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}]},
+    "poh": {"term":"Proof of History","aliases":["Proof of History","PoH clock","PoH stream","PoH"],"def":"A sequential SHA-256 hash chain that supplies a publicly verifiable ordering clock before validators vote on state.","purpose":"Time becomes part of the data structure, shrinking how much ordering work consensus must do.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"poh"},
+    "sealevel": {"term":"Sealevel","aliases":["Sealevel runtime","Sealevel"],"def":"Solana's parallel runtime, which schedules transactions together when their declared read and write accounts do not conflict.","purpose":"Declared state turns spare CPU cores into execution throughput.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"sealevel"},
+    "gulf-stream": {"term":"Gulf Stream","aliases":["Gulf Stream"],"def":"Solana's forwarder that routes transactions toward current and upcoming leaders instead of parking them in a public mempool.","purpose":"The queue moves toward the machine that can act, cutting an entire waiting stage from the path.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"gulf-stream"},
+    "tpu": {"term":"Transaction Processing Unit","aliases":["Transaction Processing Unit","TPU pipeline","TPU"],"def":"The validator pipeline that fetches, verifies, schedules, executes, records, and broadcasts Solana transactions.","purpose":"Thinking in pipeline stages explains why network, signature, and account-lock bottlenecks behave differently.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}]},
+    "tower-bft": {"term":"Tower BFT","aliases":["Tower BFT"],"def":"Solana's vote-lockout consensus protocol, using the Proof of History clock to make abandoned forks increasingly expensive.","purpose":"Repeated votes compound commitment until reversing course becomes economically and temporally prohibitive.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"tower-bft"},
+    "swqos": {"term":"SWQoS","aliases":["stake-weighted quality of service","stake-weighted QoS","SWQoS"],"def":"Stake-weighted quality of service reserves leader ingress capacity in proportion to the stake behind a validator connection.","purpose":"Bandwidth becomes an anti-spam market tied to stake instead of a first-come socket free-for-all.","links":[{"label":"Anza validator docs","url":"https://docs.anza.xyz/operations/guides/validator-start","kind":"official"}],"entity":"swqos"},
+    "shredstream": {"term":"ShredStream","aliases":["Jito ShredStream","ShredStream"],"def":"Jito's low-latency feed of Solana shreds, delivered close to block production for faster state reconstruction.","purpose":"For latency-sensitive readers, block data is useful before a conventional RPC view catches up.","links":[{"label":"Jito ShredStream docs","url":"https://docs.jito.wtf/lowlatencytxnfeed/","kind":"docs"}],"entity":"shredstream"},
+    "firedancer": {"term":"Firedancer","aliases":["Firedancer"],"def":"An independent Solana validator client written for high throughput, fault diversity, and efficient commodity hardware use.","purpose":"A second implementation reduces common-mode client risk while pushing the performance frontier.","links":[{"label":"Firedancer docs","url":"https://docs.firedancer.io/","kind":"official"}],"entity":"firedancer"},
+    "doublezero": {"term":"DoubleZero","aliases":["DoubleZero fiber","DoubleZero"],"def":"A contributor-operated fiber network designed to carry latency-sensitive distributed-system traffic on dedicated paths.","purpose":"Consensus traffic gets a purpose-built route instead of competing with the public internet's general workload.","links":[{"label":"DoubleZero docs","url":"https://docs.doublezero.xyz/","kind":"official"}],"entity":"doublezero"},
+    "alpenglow": {"term":"Alpenglow","aliases":["Alpenglow"],"def":"Anza's next-generation Solana consensus design, combining fast off-chain voting paths with resilient block dissemination.","purpose":"It targets finality on the same human-perceptual timescale as block production.","links":[{"label":"Alpenglow source","url":"https://github.com/anza-xyz/alpenglow","kind":"research"}],"entity":"alpenglow"},
+    "compute-unit": {"term":"Compute unit","aliases":["compute-unit limit","compute-unit price","compute units","compute unit","CU"],"def":"Solana's execution-cost measure; transaction limits and priority-price bids are expressed per compute unit.","purpose":"The fee bid names both how much work may run and what each unit of scarce execution is worth.","links":[{"label":"Solana fee docs","url":"https://solana.com/docs/core/fees","kind":"official"}]},
+    "recent-blockhash": {"term":"Recent blockhash","aliases":["recent blockhash","blockhash"],"def":"A transaction freshness value from a recent Solana block that expires, bounding replay and queue lifetime.","purpose":"Expiry keeps stale transactions from resurfacing long after the market state that motivated them has gone.","links":[{"label":"Solana transaction docs","url":"https://solana.com/docs/core/transactions","kind":"official"}]},
+    "quic": {"term":"QUIC","aliases":["QUIC"],"def":"A secure multiplexed transport over UDP that Solana uses for controlled transaction ingress to validators.","purpose":"Transport-level flow control and identity give leaders better tools against packet floods.","links":[{"label":"IETF RFC 9000","url":"https://www.rfc-editor.org/rfc/rfc9000.html","kind":"official"}]},
+    "priority-fee": {"term":"Priority fee","aliases":["priority fees","priority fee"],"def":"An optional Solana bid equal to requested compute-unit limit times compute-unit price, paid in addition to the base fee.","purpose":"Urgency is priced where contention happens without raising the base cost of every unrelated transaction.","links":[{"label":"Solana fee docs","url":"https://solana.com/docs/core/fees","kind":"official"}]},
+    "jito-bundle": {"term":"Jito bundle","aliases":["Jito bundles","Jito bundle","Jito"],"def":"An ordered group of at most five Solana transactions submitted for sequential, atomic execution through Jito's Block Engine.","purpose":"Ordering rights become an explicit auction product instead of an implicit race through public infrastructure.","links":[{"label":"Jito bundle docs","url":"https://docs.jito.wtf/lowlatencytxnsend/#bundles","kind":"docs"}]},
+    "proof-of-stake": {"term":"Proof of Stake","aliases":["Proof of Stake","proof-of-stake","PoS"],"def":"A consensus family in which economic stake weights proposal or voting power and can be penalized for protocol violations.","purpose":"Security comes from capital at risk rather than electricity already burned.","links":[{"label":"Ethereum PoS docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/","kind":"official"}]},
+    "proof-of-work": {"term":"Proof of Work","aliases":["Proof of Work","proof-of-work","PoW"],"def":"A consensus mechanism in which miners spend computation to extend the valid chain with the most accumulated work.","purpose":"Leader election is permissionless, but the winning signal is deliberately expensive to produce.","links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/block_chain.html","kind":"docs"}]},
+    "nakamoto-consensus": {"term":"Nakamoto consensus","aliases":["Nakamoto consensus","longest chain"],"def":"Bitcoin's rule set combining proof of work, probabilistic leader election, and selection of the chain with most cumulative work.","purpose":"Finality is confidence that grows with buried work, not a single protocol checkpoint.","links":[{"label":"Bitcoin whitepaper","url":"https://bitcoin.org/bitcoin.pdf","kind":"research"}]},
+    "rbf": {"term":"Replace-by-fee","aliases":["Replace-by-fee","replace-by-fee","RBF"],"def":"A Bitcoin policy allowing an unconfirmed transaction to be replaced by a conflicting transaction that pays a higher fee.","purpose":"A sender can rebid for block space, so zero-confirmation acceptance cannot assume the first version will survive.","links":[{"label":"BIP 125","url":"https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki","kind":"official"}],"entity":"rbf"},
+    "utxo": {"term":"UTXO","aliases":["unspent transaction output","UTXOs","UTXO"],"def":"An unspent transaction output: a discrete Bitcoin coin record that can be consumed once by a later transaction.","purpose":"Parallel ownership is represented as independent spendable objects rather than balances in shared accounts.","links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/transactions.html","kind":"docs"}]},
+    "compact-blocks": {"term":"Compact blocks","aliases":["compact blocks","compact block"],"def":"A Bitcoin relay scheme that sends short transaction identifiers so peers can reconstruct blocks from transactions they already hold.","purpose":"Propagation spends bandwidth only on the block data a peer is missing.","links":[{"label":"Bitcoin Core compact-block FAQ","url":"https://bitcoincore.org/en/2016/06/07/compact-blocks-faq/","kind":"official"}]},
+    "fibre": {"term":"FIBRE","aliases":["FIBRE"],"def":"The Fast Internet Bitcoin Relay Engine, a block-relay network using compact blocks and forward error correction.","purpose":"Mining pools buy propagation speed because stale-block risk turns milliseconds into revenue.","links":[{"label":"Bitcoin FIBRE","url":"https://bitcoinfibre.org/","kind":"official"}]},
+    "stratum-v2": {"term":"Stratum v2","aliases":["Stratum V2","Stratum v2"],"def":"An open mining protocol suite that encrypts transport and can let miners negotiate block-template jobs with pools.","purpose":"The protocol moves some block-construction agency from pool operators back toward individual miners.","links":[{"label":"Stratum v2 specification","url":"https://stratumprotocol.org/specification/","kind":"official"}],"entity":"stratum-v2"},
+    "lightning": {"term":"Lightning Network","aliases":["Lightning Network","Lightning"],"def":"A Bitcoin payment-channel network where signed off-chain state updates settle through the base chain only when needed.","purpose":"Instant payments come from precommitted channels, not from making Bitcoin blocks arrive faster.","links":[{"label":"Lightning BOLTs","url":"https://github.com/lightning/bolts","kind":"official"}],"entity":"lightning"},
+    "randao": {"term":"RANDAO","aliases":["RANDAO"],"def":"Ethereum's validator-contributed randomness accumulator, mixed with protocol state to select proposers and committees.","purpose":"Future proposers are unpredictable enough to constrain targeted manipulation while remaining publicly verifiable.","links":[{"label":"Ethereum proposer docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/block-proposal/","kind":"official"}],"entity":"randao"},
+    "gasper": {"term":"Gasper","aliases":["Gasper"],"def":"Ethereum's proof-of-stake consensus combining LMD-GHOST fork choice with Casper FFG finality checkpoints.","purpose":"One mechanism continuously chooses a head while another periodically makes history economically final.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
+    "lmd-ghost": {"term":"LMD-GHOST","aliases":["LMD-GHOST"],"def":"Ethereum's fork-choice rule, choosing the branch supported by the latest message from each validator.","purpose":"The chain head can react each slot without waiting for checkpoint finality.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
+    "casper-ffg": {"term":"Casper FFG","aliases":["Casper FFG","Casper"] ,"def":"Ethereum's checkpoint finality gadget, which justifies and finalizes epochs after supermajority validator votes.","purpose":"Fork choice stays agile while checkpoints establish a slower irreversible boundary.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
+    "eip-1559": {"term":"EIP-1559","aliases":["EIP-1559"],"def":"Ethereum's fee market with a protocol-set base fee that is burned and an optional priority fee paid to the block producer.","purpose":"Wallets bid against a moving posted price instead of guessing a single all-pay auction clearing point.","links":[{"label":"EIP-1559","url":"https://eips.ethereum.org/EIPS/eip-1559","kind":"official"}],"entity":"eip-1559"},
+    "blob-sidecars": {"term":"Blob sidecars","aliases":["blob sidecars","blob sidecar","blobs"],"def":"Temporary Ethereum consensus data carrying rollup blobs alongside blocks without exposing the payload to EVM execution.","purpose":"Rollups buy cheaper data availability without forcing permanent execution-layer storage.","links":[{"label":"EIP-4844","url":"https://eips.ethereum.org/EIPS/eip-4844","kind":"official"}]},
+    "pbs": {"term":"Proposer-builder separation","aliases":["proposer-builder separation","PBS"],"def":"A block-production design splitting transaction ordering by specialized builders from final block choice by consensus proposers.","purpose":"The validator sells ordering work without needing the search infrastructure to build the most valuable block itself.","links":[{"label":"Ethereum PBS roadmap","url":"https://ethereum.org/en/roadmap/pbs/","kind":"official"}],"entity":"pbs"},
+    "mev-boost": {"term":"MEV-Boost","aliases":["MEV-Boost"],"def":"An out-of-protocol Ethereum sidecar through which validators receive blinded block bids from builders via relays.","purpose":"PBS exists today as a market overlay even before the protocol enshrines it.","links":[{"label":"Flashbots MEV-Boost","url":"https://boost.flashbots.net/","kind":"official"}],"entity":"mev-boost"},
+    "private-order-flow": {"term":"Private order flow","aliases":["private order flow","private channels","private flow"],"def":"Transactions delivered to selected builders or solvers rather than broadcast to a public mempool.","purpose":"Privacy from public searchers trades away a transparent common queue for a trusted routing relationship.","links":[{"label":"Flashbots Protect docs","url":"https://docs.flashbots.net/flashbots-protect/overview","kind":"docs"}]},
+    "posa": {"term":"Proof of Staked Authority","aliases":["Proof of Staked Authority","proof-of-staked-authority","PoSA"],"def":"BNB Smart Chain consensus in which an elected validator set takes turns producing blocks under stake and authority rules.","purpose":"A compact producer set buys short block times at the cost of a narrower participation boundary.","links":[{"label":"BNB Chain consensus docs","url":"https://docs.bnbchain.org/bnb-smart-chain/introduction/","kind":"official"}]},
+    "maxwell": {"term":"Maxwell hardfork","aliases":["Maxwell hardfork","Maxwell upgrade","Maxwell"],"def":"A BNB Smart Chain network upgrade that shortened block intervals and adjusted consensus timing for faster finality.","purpose":"The latency window narrows, so network propagation and validator proximity matter more.","links":[{"label":"BNB Chain BEPs","url":"https://github.com/bnb-chain/BEPs","kind":"official"}]},
+    "mev": {"term":"Maximum extractable value","aliases":["maximum extractable value","MEV"],"def":"Value captured by controlling transaction inclusion, exclusion, or ordering in addition to ordinary block rewards and fees.","purpose":"Where ordering is scarce, a market forms around who sees, places, and protects transactions first.","links":[{"label":"Ethereum MEV docs","url":"https://ethereum.org/en/developers/docs/mev/","kind":"official"}]},
+    "atomic-arbitrage": {"term":"Atomic arbitrage","aliases":["atomic arbitrage","atomic arb"],"def":"A transaction that closes a cross-market price gap and reverts as a whole if every required leg cannot execute.","purpose":"Atomicity removes inventory risk, letting searchers bid much of the captured spread into ordering fees.","links":[{"label":"Flashbots Auction docs","url":"https://docs.flashbots.net/flashbots-auction/overview","kind":"docs"}]},
+    "sandwich": {"term":"Sandwich attack","aliases":["sandwich attacks","sandwich attack","sandwiching","sandwich"],"def":"An ordering attack placing one trade before and another after a victim swap to profit from the victim's price impact.","purpose":"Slippage tolerance becomes the attacker's budget unless routing or privacy removes the preview.","links":[{"label":"Ethereum MEV docs","url":"https://ethereum.org/en/developers/docs/mev/","kind":"official"}]},
+    "backrun": {"term":"Backrunning","aliases":["back-running","backrunning","backrun"],"def":"Placing a transaction immediately after a target to capture an arbitrage or state transition the target creates.","purpose":"The target creates information; the race is to own the first safe reaction slot.","links":[{"label":"Flashbots MEV-Share docs","url":"https://docs.flashbots.net/flashbots-mev-share/overview","kind":"docs"}]},
+    "intents": {"term":"Intents","aliases":["intents","intent"],"def":"User-signed desired outcomes that competing solvers can satisfy without the user prescribing an exact transaction path.","purpose":"Execution complexity moves from the wallet to a market of solvers competing on the result.","links":[{"label":"CoW Protocol intents docs","url":"https://docs.cow.fi/cow-protocol/concepts/introduction/intents","kind":"docs"}]},
+    "cow-protocol": {"term":"CoW Protocol","aliases":["CoW Protocol","CoW Swap","CoW"],"def":"An intent-based exchange protocol whose solvers batch orders and can match coincident wants before using on-chain liquidity.","purpose":"Batching turns some adversarial ordering into shared price improvement between compatible traders.","links":[{"label":"CoW Protocol docs","url":"https://docs.cow.fi/cow-protocol/concepts/introduction","kind":"official"}]},
+    "slippage": {"term":"Slippage","aliases":["slippage tolerance","slippage"],"def":"The difference between an expected swap price and its executed price, bounded by a user's minimum-output constraint.","purpose":"A wide bound improves execution odds but exposes more value to adverse ordering.","links":[{"label":"Uniswap swap docs","url":"https://docs.uniswap.org/concepts/protocol/swaps","kind":"docs"}]},
+    "preconfirmations": {"term":"Preconfirmations","aliases":["preconfirmations","preconfirmation","preconf"],"def":"Credible promises about transaction inclusion or execution issued before the underlying chain reaches full consensus finality.","purpose":"Users buy an earlier certainty signal while the base protocol continues doing slower settlement work.","links":[{"label":"Ethereum research","url":"https://ethresear.ch/t/based-preconfirmations/17353","kind":"research"}],"entity":"preconfirmations"},
+    "equihash": {"term":"Equihash","aliases":["Equihash"],"def":"A memory-oriented proof-of-work algorithm based on the generalized birthday problem and used by Zcash mining.","purpose":"Its resource profile aimed to make mining less dominated by raw compute throughput alone.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"equihash"},
+    "shielded-pool": {"term":"Shielded pool","aliases":["shielded transactions","shielded txs","shielded pool"],"def":"A Zcash value pool where zero-knowledge proofs hide sender, receiver, and amount while proving conservation and authorization.","purpose":"Hiding the transaction graph removes the visibility that most ordering extraction needs.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"shielded-pool"},
+    "orchard": {"term":"Orchard","aliases":["Orchard"],"def":"Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.","purpose":"Privacy is the default shape of the value pool, not an optional wrapper around transparent coins.","links":[{"label":"Orchard book","url":"https://zcash.github.io/orchard/","kind":"official"}]},
+    "zk-snarks": {"term":"zk-SNARKs","aliases":["zero-knowledge proofs","zk-SNARKs","SNARKs"],"def":"Succinct non-interactive zero-knowledge proofs that let a verifier check a statement without learning its private witness.","purpose":"The chain can verify correctness while never receiving the secret transaction details.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}]}
+  },
   "==/V3A:JSON==": null,
   "==V3B:JSON==": null,
   "==/V3B:JSON==": null,
@@ -2275,6 +2489,236 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 // ==/V3D:JS==
 
 // ==V3A:JS==
+(function(scope){
+  'use strict';
+
+  const required=['Overlay','Router','positionOverlay','termify'];
+  if(required.some(key=>!scope[key])) throw new Error('HOVERDOCS: required SCOPE primitive missing');
+  const data=(()=>{ try{return JSON.parse(document.getElementById('chainData').textContent);}catch(error){return null;} })();
+  const terms=data && data.terms;
+  if(!terms) throw new Error('HOVERDOCS: chainData.terms missing');
+
+  const card=document.getElementById('refCard');
+  const beam=document.getElementById('refBeam');
+  const kicker=document.getElementById('refKicker');
+  const name=document.getElementById('refName');
+  const definition=document.getElementById('refDef');
+  const purpose=document.getElementById('refPurpose');
+  const links=document.getElementById('refLinks');
+  const entity=document.getElementById('refEntity');
+  const closeButton=card.querySelector('[data-ref-close]');
+  const mobile=()=>matchMedia('(max-width:700px)').matches;
+  const safeUrl=value=>{ try{const url=new URL(value,location.href);return url.protocol==='https:'?url.href:'';}catch(error){return '';} };
+  const esc=value=>String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  let activeTrigger=null,activeKey='',pinned=false,showTimer=0,hideTimer=0,lastTouch=-Infinity,positionFrame=0;
+  const clearTimers=()=>{clearTimeout(showTimer);clearTimeout(hideTimer);showTimer=hideTimer=0;};
+  const setChannel=trigger=>{
+    const room=trigger.closest('section,.hero')||trigger;
+    const channel=getComputedStyle(room).getPropertyValue('--ch').trim()||'var(--cyan)';
+    card.style.setProperty('--ref-ch',channel);beam.style.setProperty('--ref-ch',channel);
+  };
+  const hasEntity=id=>!!(id && data.entities && data.entities[id]);
+
+  function render(key,isPinned){
+    const item=terms[key]; if(!item) return false;
+    kicker.textContent='REF · '+key.toUpperCase();
+    name.textContent=item.term;
+    definition.textContent=item.def;
+    purpose.textContent='▸ '+item.purpose;
+    links.replaceChildren();entity.replaceChildren();
+    if(isPinned){
+      (item.links||[]).forEach(link=>{
+        const href=safeUrl(link.url);if(!href)return;
+        const anchor=document.createElement('a');
+        anchor.href=href;anchor.target='_blank';anchor.rel='noopener noreferrer';
+        anchor.innerHTML='<span>'+esc(link.label)+' ↗</span><span class="ref-kind">'+esc(link.kind||'source')+'</span>';
+        links.appendChild(anchor);
+      });
+      if(hasEntity(item.entity)){
+        const door=document.createElement('button');door.type='button';door.className='ref-entity';
+        door.dataset.refEntity=item.entity;door.textContent='OPEN CHANNEL ▸';entity.appendChild(door);
+      }else if(item.entity){
+        const waiting=document.createElement('span');waiting.className='ref-entity-wait';waiting.textContent='CHANNEL · '+item.entity.toUpperCase();entity.appendChild(waiting);
+      }
+    }
+    return true;
+  }
+
+  function hideBeam(){beam.hidden=true;}
+  function drawBeam(pos,triggerRect,cardRect){
+    if(mobile() || !activeTrigger){hideBeam();return;}
+    const vertical=pos.placement==='top'||pos.placement==='bottom';
+    if(!vertical){hideBeam();return;}
+    const x=pos.left+pos.beamOffset;
+    const y=pos.placement==='top'?pos.top+cardRect.height:pos.top;
+    const tx=triggerRect.left+triggerRect.width/2;
+    const ty=pos.placement==='top'?triggerRect.top:triggerRect.bottom;
+    if(Math.abs(tx-x)>18){hideBeam();return;}
+    const dx=tx-x,dy=ty-y,length=Math.hypot(dx,dy);
+    if(length<2){hideBeam();return;}
+    beam.style.setProperty('--beam-x',x+'px');beam.style.setProperty('--beam-y',y+'px');
+    beam.style.setProperty('--beam-w',length+'px');beam.style.setProperty('--beam-a',Math.atan2(dy,dx)+'rad');
+    beam.hidden=false;
+  }
+
+  function reposition(){
+    positionFrame=0;
+    if(card.hidden||!activeTrigger){hideBeam();return;}
+    if(!activeTrigger.isConnected){if(pinned)scope.Overlay.close(card,{restoreFocus:false,reason:'detached'});else closePreview();return;}
+    if(pinned&&mobile()){hideBeam();card.style.left='';card.style.top='';return;}
+    const triggerRect=activeTrigger.getBoundingClientRect();
+    card.style.left='0px';card.style.top='0px';
+    const cardRect=card.getBoundingClientRect();
+    const preferred=triggerRect.top<250?'bottom':'top';
+    const pos=scope.positionOverlay(triggerRect,cardRect,{placement:preferred,offset:10,padding:12});
+    card.style.left=pos.left+'px';card.style.top=pos.top+'px';
+    drawBeam(pos,triggerRect,cardRect);
+  }
+  const queuePosition=()=>{if(!card.hidden&&activeTrigger&&!positionFrame)positionFrame=requestAnimationFrame(reposition);};
+
+  function resetCard(trigger=activeTrigger){
+    clearTimers();if(positionFrame)cancelAnimationFrame(positionFrame);positionFrame=0;
+    card.hidden=true;card.classList.remove('ref-pinned');card.removeAttribute('aria-modal');
+    card.removeAttribute('aria-label');card.removeAttribute('aria-labelledby');card.removeAttribute('role');
+    card.style.left='';card.style.top='';hideBeam();
+    if(trigger){trigger.removeAttribute('aria-describedby');trigger.setAttribute('aria-expanded','false');}
+    activeTrigger=null;activeKey='';pinned=false;
+  }
+
+  function closePreview(){if(pinned)return;resetCard();}
+  function scheduleHide(){
+    clearTimeout(hideTimer);hideTimer=setTimeout(()=>{
+      if(!pinned&&!card.matches(':hover')&&activeTrigger&&!activeTrigger.matches(':hover')&&document.activeElement!==activeTrigger)closePreview();
+    },100);
+  }
+  function showPreview(trigger,key){
+    if(pinned||!terms[key])return;
+    clearTimeout(hideTimer);
+    if(activeTrigger&&activeTrigger!==trigger)activeTrigger.removeAttribute('aria-describedby');
+    activeTrigger=trigger;activeKey=key;setChannel(trigger);render(key,false);
+    card.classList.remove('ref-pinned');card.setAttribute('role','tooltip');card.removeAttribute('aria-labelledby');
+    card.hidden=false;trigger.setAttribute('aria-describedby',card.id);queuePosition();
+  }
+  function schedulePreview(trigger,key){
+    if(pinned||performance.now()-lastTouch<800)return;
+    clearTimeout(showTimer);clearTimeout(hideTimer);
+    if(activeTrigger===trigger&&!card.hidden)return;
+    showTimer=setTimeout(()=>showPreview(trigger,key),120);
+  }
+
+  function pin(trigger,key){
+    if(!terms[key])return;
+    if(pinned&&activeTrigger===trigger){scope.Overlay.close(card,{reason:'toggle'});return;}
+    if(pinned&&scope.Overlay.isOpen(card))scope.Overlay.close(card,{restoreFocus:false,reason:'switch'});
+    clearTimers();activeTrigger=trigger;activeKey=key;pinned=true;setChannel(trigger);render(key,true);
+    trigger.removeAttribute('aria-describedby');trigger.setAttribute('aria-expanded','true');
+    card.classList.add('ref-pinned');card.setAttribute('role','dialog');card.setAttribute('aria-labelledby',name.id);card.hidden=false;
+    const isMobile=mobile();
+    scope.Overlay.open({
+      element:card,trigger,modal:true,sheet:true,scrim:isMobile,lockScroll:isMobile,outsideClose:true,
+      focusTarget:closeButton,
+      onClose:reason=>{
+        const opener=activeTrigger;resetCard(opener);
+        if(reason==='outside'&&opener&&opener.isConnected)setTimeout(()=>{
+          if(opener.isConnected)opener.focus({preventScroll:true});
+        },50);
+      }
+    });
+    queuePosition();
+  }
+
+  function bindTrigger(trigger,key){
+    if(!terms[key]||trigger.dataset.refBound)return;
+    trigger.dataset.refBound=key;trigger.setAttribute('aria-label',trigger.textContent.trim());
+    trigger.setAttribute('aria-haspopup','dialog');trigger.setAttribute('aria-expanded','false');
+  }
+  function reconcileSections(root){
+    const sections=new Set();
+    if(root===document)document.querySelectorAll('section').forEach(section=>sections.add(section));
+    else if(root instanceof Element){
+      const owner=root.closest('section');if(owner)sections.add(owner);
+      root.querySelectorAll('section').forEach(section=>sections.add(section));
+    }
+    sections.forEach(section=>{
+      const byKey=new Map();
+      section.querySelectorAll('.term[data-term]').forEach(trigger=>{
+        if(!byKey.has(trigger.dataset.term))byKey.set(trigger.dataset.term,[]);
+        byKey.get(trigger.dataset.term).push(trigger);
+      });
+      byKey.forEach((triggers,key)=>{
+        const keeper=triggers.find(trigger=>trigger.dataset.refBound)||triggers[0];
+        triggers.forEach(trigger=>{
+          if(trigger===keeper){trigger.classList.remove('term-muted');trigger.tabIndex=0;bindTrigger(trigger,key);return;}
+          trigger.classList.add('term-muted');trigger.tabIndex=-1;delete trigger.dataset.refBound;
+          trigger.removeAttribute('aria-label');trigger.removeAttribute('aria-haspopup');trigger.removeAttribute('aria-expanded');
+        });
+      });
+    });
+  }
+  function termifyRoot(root){
+    if(!(root instanceof Element||root instanceof DocumentFragment||root===document))return {wrapped:0,bound:0};
+    if(root instanceof Element&&(root===card||card.contains(root)||root.closest('.term')))return {wrapped:0,bound:0};
+    const result=scope.termify(root,{terms,onBind:bindTrigger});reconcileSections(root);return result;
+  }
+
+  /* Body-noscript contents are raw text nodes while scripting is enabled;
+     fence them explicitly so their static mirror cannot consume a section's
+     first interactive occurrence. */
+  document.querySelectorAll('noscript').forEach(node=>node.setAttribute('data-no-term',''));
+  termifyRoot(document.querySelector('.wrap'));
+  const pendingRoots=new Set();let mutationFrame=0;
+  new MutationObserver(records=>{
+    records.forEach(record=>record.addedNodes.forEach(node=>{
+      const root=node.nodeType===Node.ELEMENT_NODE?node:node.parentElement;
+      if(root&&root!==card&&!card.contains(root)&&!root.closest('.term'))pendingRoots.add(root);
+    }));
+    if(!mutationFrame&&pendingRoots.size)mutationFrame=requestAnimationFrame(()=>{
+      mutationFrame=0;const roots=Array.from(pendingRoots);pendingRoots.clear();
+      roots.filter(root=>root.isConnected&&!roots.some(other=>other!==root&&other.contains(root))).forEach(termifyRoot);
+    });
+  }).observe(document.body,{subtree:true,childList:true});
+
+  document.addEventListener('touchstart',()=>{lastTouch=performance.now();clearTimeout(showTimer);},{capture:true,passive:true});
+  document.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'){lastTouch=performance.now();clearTimeout(showTimer);}},{capture:true,passive:true});
+  document.addEventListener('pointerover',event=>{
+    if(event.pointerType==='touch'||performance.now()-lastTouch<800)return;
+    const trigger=event.target.closest&&event.target.closest('.term:not(.term-muted)');
+    if(trigger&&trigger.dataset.refBound)schedulePreview(trigger,trigger.dataset.refBound);
+  });
+  document.addEventListener('pointerout',event=>{
+    const trigger=event.target.closest&&event.target.closest('.term:not(.term-muted)');
+    if(trigger&&activeTrigger===trigger&&!trigger.contains(event.relatedTarget)&&!card.contains(event.relatedTarget))scheduleHide();
+  });
+  document.addEventListener('focusin',event=>{
+    const trigger=event.target.closest&&event.target.closest('.term:not(.term-muted)');
+    if(trigger&&trigger.dataset.refBound)schedulePreview(trigger,trigger.dataset.refBound);
+  });
+  document.addEventListener('focusout',event=>{
+    const trigger=event.target.closest&&event.target.closest('.term:not(.term-muted)');
+    if(trigger&&activeTrigger===trigger&&!card.contains(event.relatedTarget))scheduleHide();
+  });
+  document.addEventListener('click',event=>{
+    const trigger=event.target.closest&&event.target.closest('.term:not(.term-muted)');
+    if(!trigger||!trigger.dataset.refBound)return;
+    event.preventDefault();pin(trigger,trigger.dataset.refBound);
+  });
+  card.addEventListener('pointerenter',()=>clearTimeout(hideTimer));
+  card.addEventListener('pointerleave',event=>{if(!pinned&&(!activeTrigger||!activeTrigger.contains(event.relatedTarget)))scheduleHide();});
+  card.addEventListener('click',event=>{
+    if(event.target.closest('[data-ref-close]')){scope.Overlay.close(card,{reason:'button'});return;}
+    const door=event.target.closest('[data-ref-entity]');
+    if(door){const id=door.dataset.refEntity;scope.Overlay.close(card,{restoreFocus:false,reason:'entity'});scope.Router.go('/e/'+id);}
+  });
+  addEventListener('resize',queuePosition,{passive:true});
+  addEventListener('scroll',queuePosition,{capture:true,passive:true});
+
+  scope.Hoverdocs=Object.freeze({
+    terms,termify:termifyRoot,card,
+    close:()=>pinned?scope.Overlay.close(card,{reason:'api'}):closePreview(),
+    get state(){return {activeKey,pinned,bound:document.querySelectorAll('.term[data-ref-bound]').length};}
+  });
+})(window.SCOPE);
 // ==/V3A:JS==
 // ==V3B:JS==
 // ==/V3B:JS==
