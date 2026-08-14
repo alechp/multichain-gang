@@ -1748,6 +1748,23 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <tr><td>BNB Chain</td><td>chain</td><td>A sub-second EVM network run by a compact, stake-elected producer cohort.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/">BNB Smart Chain docs ↗</a></td></tr>
         <tr><td>Bitcoin</td><td>chain</td><td>A proof-of-work UTXO ledger with fee-rate ordering and probabilistic settlement.</td><td><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin whitepaper ↗</a></td></tr>
         <tr><td>Zcash</td><td>chain</td><td>A proof-of-work UTXO chain with zero-knowledge shielded value pools.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Turbine</td><td>term</td><td>A stake-shaped relay tree that turns one block into recoverable shreds.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
+        <tr><td>Proof of History</td><td>term</td><td>A sequential hash clock that makes event order independently checkable.</td><td><a href="https://solana.com/news/proof-of-history">Solana Proof of History ↗</a></td></tr>
+        <tr><td>Sealevel</td><td>term</td><td>A runtime scheduler that converts declared account access into parallel work.</td><td><a href="https://solana.com/news/sealevel---parallel-processing-thousands-of-smart-contracts">Solana Sealevel overview ↗</a></td></tr>
+        <tr><td>Gulf Stream</td><td>term</td><td>A forward path that moves transactions toward scheduled leaders before their slots.</td><td><a href="https://solana.com/news/gulf-stream--solana-s-mempool-less-transaction-forwarding-protocol">Solana Gulf Stream overview ↗</a></td></tr>
+        <tr><td>Tower BFT</td><td>term</td><td>A vote-lockout rule that makes repeated Solana commitments harder to unwind.</td><td><a href="https://solana.com/news/tower-bft--solana-s-high-performance-implementation-of-pbft">Tower BFT architecture ↗</a></td></tr>
+        <tr><td>SWQoS</td><td>term</td><td>Ingress capacity apportioned by the stake behind a validator connection.</td><td><a href="https://docs.anza.xyz/operations/guides/validator-start">Anza validator operations guide ↗</a></td></tr>
+        <tr><td>DoubleZero</td><td>term</td><td>A contributor-operated network built for latency-sensitive distributed systems.</td><td><a href="https://docs.doublezero.xyz/">DoubleZero documentation ↗</a></td></tr>
+        <tr><td>Alpenglow</td><td>term</td><td>A proposed Solana consensus design separating fast votes from resilient dissemination.</td><td><a href="https://github.com/anza-xyz/alpenglow">Alpenglow repository ↗</a></td></tr>
+        <tr><td>Replace-by-fee</td><td>term</td><td>Bitcoin relay policy that lets a sender rebid an unconfirmed spend.</td><td><a href="https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki">BIP 125 ↗</a></td></tr>
+        <tr><td>Stratum v2</td><td>term</td><td>An encrypted mining protocol suite with room for miner-selected block jobs.</td><td><a href="https://stratumprotocol.org/specification/">Stratum v2 specification ↗</a></td></tr>
+        <tr><td>Lightning Network</td><td>term</td><td>Bitcoin payment channels that update balances off-chain and settle only when needed.</td><td><a href="https://github.com/lightning/bolts">Lightning BOLTs ↗</a></td></tr>
+        <tr><td>RANDAO</td><td>term</td><td>Validator-contributed entropy mixed into Ethereum's public randomness state.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/block-proposal/">Ethereum block proposal docs ↗</a></td></tr>
+        <tr><td>EIP-1559</td><td>term</td><td>Ethereum's adaptive base-fee market with a separate proposer tip.</td><td><a href="https://eips.ethereum.org/EIPS/eip-1559">EIP-1559 specification ↗</a></td></tr>
+        <tr><td>Proposer-builder separation</td><td>term</td><td>A split between constructing a valuable block and choosing one for consensus.</td><td><a href="https://ethereum.org/en/roadmap/pbs/">Ethereum PBS roadmap ↗</a></td></tr>
+        <tr><td>Preconfirmations</td><td>term</td><td>Credible inclusion or execution promises issued before consensus finality.</td><td><a href="https://ethresear.ch/t/based-preconfirmations/17353">Based preconfirmations research ↗</a></td></tr>
+        <tr><td>Equihash</td><td>term</td><td>A generalized-birthday proof-of-work puzzle used by Zcash mining.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Shielded pool</td><td>term</td><td>A Zcash value pool whose proofs hide the public transaction graph.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -2436,6 +2453,142 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         {"label": "Blockchair Zcash explorer", "url": "https://blockchair.com/zcash", "kind": "explorer"}
       ],
       "related": ["btc", "sol", "spam", "sandwich"]
+    },
+    "turbine": {
+      "kind": "term", "name": "Turbine", "tagline": "A stake-shaped relay tree that turns one block into recoverable shreds.", "chains": ["sol"],
+      "body": ["Turbine is Solana's block-propagation protocol. A leader erasure-codes ledger entries into small shreds, then sends distinct pieces to validators arranged in a stake-weighted tree. Each recipient forwards its assigned packets to the next neighborhood, spreading load instead of making the leader serve every validator. Redundant coding lets downstream nodes reconstruct data despite missing packets, so broadcast capacity and loss tolerance arrive from the same structure."],
+      "how": {"diagram": "sol-suite", "params": {}, "steps": ["The leader erasure-codes entries into shreds", "Stake selects a layered relay tree", "Validators forward assigned shreds downstream", "Enough received shreds reconstruct the block"]},
+      "signals": [{"k": "wire unit", "v": "erasure-coded shred"}, {"k": "fan-out", "v": "stake-weighted relay tree"}],
+      "links": [{"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}, {"label": "Agave Turbine source", "url": "https://github.com/anza-xyz/agave/tree/master/turbine", "kind": "official"}, {"label": "solana-turbine API docs", "url": "https://docs.rs/solana-turbine/latest/solana_turbine/", "kind": "docs"}],
+      "related": ["sol", "poh", "gulf-stream"], "term": "turbine"
+    },
+    "poh": {
+      "kind": "term", "name": "Proof of History", "tagline": "A sequential hash clock that makes event order independently checkable.", "chains": ["sol"],
+      "body": ["Proof of History is a continuously evaluated SHA-256 chain whose output cannot be produced without completing the preceding steps. A validator can insert data into that sequence, while another can verify the resulting positions in parallel. The chain is not consensus by itself; it supplies a shared, auditable notion of elapsed order that lets leaders schedule work and Tower BFT reason about slots without first negotiating a timestamp for every event."],
+      "how": {"diagram": "poh-clock", "params": {}, "steps": ["A hash output becomes the next input", "Events are mixed into selected positions", "The leader publishes the resulting sequence", "Validators verify order and elapsed steps"]},
+      "signals": [{"k": "primitive", "v": "sequential SHA-256 chain"}, {"k": "role", "v": "verifiable ordering clock"}],
+      "links": [{"label": "Solana Proof of History", "url": "https://solana.com/news/proof-of-history", "kind": "official"}, {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}, {"label": "Agave PoH source", "url": "https://github.com/anza-xyz/agave/tree/master/poh", "kind": "official"}],
+      "related": ["sol", "tower-bft", "turbine"], "term": "poh"
+    },
+    "sealevel": {
+      "kind": "term", "name": "Sealevel", "tagline": "A runtime scheduler that converts declared account access into parallel work.", "chains": ["sol"],
+      "body": ["Sealevel is Solana's parallel transaction runtime. Every transaction names the accounts it will read and write before execution, giving the scheduler a conflict map. Transactions with disjoint writable state can run across cores together; transactions contending for the same account must serialize. Programs remain reusable, but state lives in explicit accounts. Throughput therefore depends on workload shape as well as hardware: one hot account can collapse an otherwise parallel batch into a queue."],
+      "how": {"diagram": "swqos-lanes", "params": {}, "steps": ["Transactions declare readable and writable accounts", "The scheduler identifies conflicting locks", "Disjoint transactions enter parallel execution lanes", "Conflicting work waits for its account locks"]},
+      "signals": [{"k": "scheduling input", "v": "declared account access"}, {"k": "parallel unit", "v": "non-conflicting transaction"}],
+      "links": [{"label": "Solana Sealevel overview", "url": "https://solana.com/news/sealevel---parallel-processing-thousands-of-smart-contracts", "kind": "official"}, {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}, {"label": "Agave SVM source", "url": "https://github.com/anza-xyz/agave/tree/master/svm", "kind": "official"}],
+      "related": ["sol", "gulf-stream", "swqos"], "term": "sealevel"
+    },
+    "gulf-stream": {
+      "kind": "term", "name": "Gulf Stream", "tagline": "A forward path that moves transactions toward scheduled leaders before their slots.", "chains": ["sol"],
+      "body": ["Gulf Stream describes Solana's mempool-less transaction forwarding model. Because the leader schedule is known, clients and validators can send transactions toward the current and upcoming leaders instead of leaving them in a shared public waiting room. A recent blockhash bounds how long that forwarded work remains valid. The design shortens the visible queue, but it also makes RPC placement, network paths, leader reachability, and retransmission policy part of the inclusion experience."],
+      "how": {"diagram": "window", "params": {}, "steps": ["The schedule identifies upcoming leaders", "Clients attach a recent blockhash", "Transactions move toward the active leader", "Unlanded work is retried or expires"]},
+      "signals": [{"k": "queue model", "v": "leader-directed forwarding"}, {"k": "freshness bound", "v": "recent blockhash expiry"}],
+      "links": [{"label": "Solana Gulf Stream overview", "url": "https://solana.com/news/gulf-stream--solana-s-mempool-less-transaction-forwarding-protocol", "kind": "official"}, {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}, {"label": "Agave streamer source", "url": "https://github.com/anza-xyz/agave/tree/master/streamer", "kind": "official"}],
+      "related": ["sol", "swqos", "sealevel"], "term": "gulf-stream"
+    },
+    "tower-bft": {
+      "kind": "term", "name": "Tower BFT", "tagline": "A vote-lockout rule that makes repeated Solana commitments harder to unwind.", "chains": ["sol"],
+      "body": ["Tower BFT is Solana's consensus voting protocol built around the Proof of History clock. When a validator votes on successive descendants, its lockout grows, preventing it from quickly switching to an incompatible fork. Votes also carry opportunity cost because a validator must wait out a lockout it abandons. The mechanism turns repeated observation into compounding commitment: optimistic confirmation arrives early, while a rooted history emerges after sufficient descendants and stake-weighted votes accumulate."],
+      "how": {"diagram": "tower-lockout", "params": {}, "steps": ["A validator votes on a recent slot", "A descendant vote doubles the prior lockout", "Conflicting forks remain unavailable during lockout", "Accumulated votes eventually root older history"]},
+      "signals": [{"k": "commitment", "v": "compounding vote lockouts"}, {"k": "clock", "v": "Proof of History slots"}],
+      "links": [{"label": "Tower BFT architecture", "url": "https://solana.com/news/tower-bft--solana-s-high-performance-implementation-of-pbft", "kind": "official"}, {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}, {"label": "Agave consensus source", "url": "https://github.com/anza-xyz/agave/blob/master/core/src/consensus.rs", "kind": "official"}],
+      "related": ["sol", "poh", "alpenglow"], "term": "tower-bft"
+    },
+    "swqos": {
+      "kind": "term", "name": "SWQoS", "tagline": "Ingress capacity apportioned by the stake behind a validator connection.", "chains": ["sol"],
+      "body": ["Stake-weighted quality of service is Solana's way of rationing validator ingress when packet demand exceeds capacity. A leader accepts identified QUIC connections from staked peers and allocates much of its forwarding bandwidth in proportion to their delegated stake, while retaining a smaller path for unstaked traffic. SWQoS does not guarantee that a transaction lands or executes; it makes scarce network access harder to monopolize with anonymous packet floods and turns trusted stake into forwarding priority."],
+      "how": {"diagram": "swqos-lanes", "params": {}, "steps": ["A peer opens an identified QUIC connection", "The leader maps that peer to delegated stake", "Ingress capacity is divided across weighted lanes", "Accepted packets still compete for execution"]},
+      "signals": [{"k": "weight", "v": "delegated stake"}, {"k": "control point", "v": "leader QUIC ingress"}],
+      "links": [{"label": "Anza validator operations guide", "url": "https://docs.anza.xyz/operations/guides/validator-start", "kind": "official"}, {"label": "Agave streamer source", "url": "https://github.com/anza-xyz/agave/tree/master/streamer", "kind": "official"}, {"label": "Solana whitepaper", "url": "https://solana.com/solana-whitepaper.pdf", "kind": "research"}],
+      "related": ["sol", "gulf-stream", "doublezero"], "term": "swqos"
+    },
+    "doublezero": {
+      "kind": "term", "name": "DoubleZero", "tagline": "A contributor-operated network built for latency-sensitive distributed systems.", "chains": ["sol"],
+      "body": ["DoubleZero is a network of contributed links and filtering devices intended to carry distributed-system traffic on purpose-built paths. Users reach an ingress edge, redundant routes carry their packets across the network, and an egress edge delivers traffic near its destination. The separation can reduce exposure to congestion and denial-of-service noise on the public internet. It is transport infrastructure rather than consensus: chains still decide validity, leaders, votes, and finality under their own rules."],
+      "how": {"diagram": "window", "params": {}, "steps": ["Traffic enters through a nearby DoubleZero edge", "Edge devices filter and classify packets", "Redundant contributor links carry the flow", "An egress edge hands traffic to its destination"]},
+      "signals": [{"k": "service layer", "v": "network transport"}, {"k": "path", "v": "ingress → contributor links → egress"}],
+      "links": [{"label": "DoubleZero documentation", "url": "https://docs.doublezero.xyz/", "kind": "official"}, {"label": "DoubleZero architecture", "url": "https://docs.doublezero.xyz/architecture/", "kind": "docs"}, {"label": "DoubleZero whitepaper", "url": "https://doublezero.xyz/whitepaper.pdf", "kind": "research"}],
+      "related": ["sol", "swqos", "alpenglow"], "term": "doublezero"
+    },
+    "alpenglow": {
+      "kind": "term", "name": "Alpenglow", "tagline": "A proposed Solana consensus design separating fast votes from resilient dissemination.", "chains": ["sol"],
+      "body": ["Alpenglow is a next-generation consensus design for Solana that replaces Tower BFT's growing lockouts with explicit voting paths and a dissemination layer designed for adversarial network conditions. Its fast path aims to finalize promptly when stake is responsive, while fallback behavior preserves progress when messages arrive unevenly. The design remains distinct from transaction execution and ordering markets: it determines which blocks become canonical, not which user transaction earns a particular position inside a proposed block."],
+      "how": {"diagram": "tower-lockout", "params": {}, "steps": ["A leader disseminates block data", "Stake-weighted validators exchange consensus votes", "A responsive quorum drives the fast path", "Fallback rules handle delayed or missing messages"]},
+      "signals": [{"k": "scope", "v": "consensus + dissemination"}, {"k": "design goal", "v": "fast responsive-path finality"}],
+      "links": [{"label": "Alpenglow repository", "url": "https://github.com/anza-xyz/alpenglow", "kind": "official"}, {"label": "Alpenglow protocol rules", "url": "https://github.com/anza-xyz/alpenglow/blob/master/RULES.md", "kind": "docs"}, {"label": "Alpenglow paper", "url": "https://arxiv.org/abs/2503.24098", "kind": "research"}],
+      "related": ["sol", "tower-bft", "turbine"], "term": "alpenglow"
+    },
+    "rbf": {
+      "kind": "term", "name": "Replace-by-fee", "tagline": "Bitcoin relay policy that lets a sender rebid an unconfirmed spend.", "chains": ["btc"],
+      "body": ["Replace-by-fee is Bitcoin node policy for accepting a new unconfirmed transaction that conflicts with one already in the mempool when the replacement satisfies fee and relay constraints. The confirmed ledger contains only the version a miner includes; earlier versions were never final. RBF gives wallets a way to raise a stuck payment's fee, but it also makes zero-confirmation acceptance explicitly risky because recipients cannot treat the first relayed version as an irreversible promise."],
+      "how": {"diagram": "mempool", "params": {}, "steps": ["A wallet broadcasts an unconfirmed transaction", "The sender builds a conflicting higher-fee version", "Nodes test replacement and relay policy", "A miner may confirm one version"]},
+      "signals": [{"k": "layer", "v": "node mempool policy"}, {"k": "safety boundary", "v": "unconfirmed transactions"}],
+      "links": [{"label": "BIP 125", "url": "https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki", "kind": "official"}, {"label": "Bitcoin Core 28.0 release notes", "url": "https://bitcoincore.org/en/releases/28.0/", "kind": "official"}, {"label": "Bitcoin payment processing guide", "url": "https://developer.bitcoin.org/devguide/payment_processing.html", "kind": "docs"}],
+      "related": ["btc", "btc-priority", "lightning"], "term": "rbf"
+    },
+    "stratum-v2": {
+      "kind": "term", "name": "Stratum v2", "tagline": "An encrypted mining protocol suite with room for miner-selected block jobs.", "chains": ["btc"],
+      "body": ["Stratum v2 is a suite of protocols connecting Bitcoin miners, pools, and optional job declarers. It uses a binary encrypted transport, separates share submission from block-template negotiation, and can let miners construct or select transaction sets instead of accepting every template from a pool. Pools still coordinate payouts and difficulty for shares. The design reduces protocol overhead and central points of block construction without changing Bitcoin's proof-of-work validity rules or the probability that a submitted share becomes a block."],
+      "how": {"diagram": "stratum-jobs", "params": {}, "steps": ["A pool opens an encrypted mining channel", "A job declarer constructs a candidate template", "Miners search nonces and submit shares", "A network-target solution becomes a Bitcoin block"]},
+      "signals": [{"k": "transport", "v": "binary + encrypted"}, {"k": "optional split", "v": "job negotiation"}],
+      "links": [{"label": "Stratum v2 specification", "url": "https://stratumprotocol.org/specification/", "kind": "official"}, {"label": "SV2 specification source", "url": "https://github.com/stratum-mining/sv2-spec", "kind": "official"}, {"label": "Stratum reference implementation", "url": "https://github.com/stratum-mining/stratum", "kind": "official"}],
+      "related": ["btc", "stratum", "fibre"], "term": "stratum-v2"
+    },
+    "lightning": {
+      "kind": "term", "name": "Lightning Network", "tagline": "Bitcoin payment channels that update balances off-chain and settle only when needed.", "chains": ["btc"],
+      "body": ["The Lightning Network is a graph of Bitcoin payment channels. Two peers lock funds in a shared on-chain output, then exchange newer signed commitment states without publishing each payment. Hashed timelock contracts allow a payment to traverse multiple channels atomically, while penalty or revocation rules protect the latest state. The speed comes from local message exchange, not faster blocks; Bitcoin remains the court for opening, cooperative closing, or resolving a disputed channel."],
+      "how": {"diagram": "lightning-channel", "params": {}, "steps": ["Peers fund a shared Bitcoin output", "Signed commitments update channel balances", "HTLCs route conditional value across peers", "The latest state settles on-chain when needed"]},
+      "signals": [{"k": "payment path", "v": "off-chain channel graph"}, {"k": "settlement court", "v": "Bitcoin base layer"}],
+      "links": [{"label": "Lightning BOLTs", "url": "https://github.com/lightning/bolts", "kind": "official"}, {"label": "Lightning Network paper", "url": "https://lightning.network/lightning-network-paper.pdf", "kind": "research"}, {"label": "Lightning developer documentation", "url": "https://docs.lightning.engineering/", "kind": "docs"}],
+      "related": ["btc", "rbf", "btc-accel"], "term": "lightning"
+    },
+    "randao": {
+      "kind": "term", "name": "RANDAO", "tagline": "Validator-contributed entropy mixed into Ethereum's public randomness state.", "chains": ["eth"],
+      "body": ["RANDAO is Ethereum's accumulator for validator-supplied randomness. Each block proposer reveals a value derived from its secret signing material, and the protocol mixes that reveal into the running state. The resulting value helps determine future proposer and committee assignments. A proposer can withhold its own reveal by skipping a block, so the mechanism limits rather than eliminates influence; protocol lookahead, economic cost, and the contributions of many validators constrain any single participant's control."],
+      "how": {"diagram": "window", "params": {}, "steps": ["A proposer derives a reveal from its validator secret", "The block carries that signed reveal", "Consensus mixes it into the accumulator", "Future duties are sampled from mixed state"]},
+      "signals": [{"k": "contributors", "v": "block proposers"}, {"k": "consumer", "v": "future duty selection"}],
+      "links": [{"label": "Ethereum block proposal docs", "url": "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/block-proposal/", "kind": "official"}, {"label": "Ethereum proof-of-stake docs", "url": "https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/", "kind": "docs"}, {"label": "Beacon Chain specification", "url": "https://github.com/ethereum/consensus-specs/blob/master/specs/phase0/beacon-chain.md", "kind": "official"}],
+      "related": ["eth", "pbs", "mev-boost"], "term": "randao"
+    },
+    "eip-1559": {
+      "kind": "term", "name": "EIP-1559", "tagline": "Ethereum's adaptive base-fee market with a separate proposer tip.", "chains": ["eth"],
+      "body": ["EIP-1559 splits Ethereum transaction pricing into a protocol-computed base fee and an optional priority fee. The base fee rises or falls with recent block usage and is burned when a transaction executes; the priority fee rewards the block proposer. A wallet also declares a maximum total fee, protecting it from paying above its limit. The mechanism improves fee estimation around a moving posted price, but transactions still compete during demand spikes and builders can still order included transactions strategically."],
+      "how": {"diagram": "feeladder", "params": {}, "steps": ["Recent block fullness updates the base fee", "A wallet sets max fee and priority fee", "A builder selects and orders eligible transactions", "Execution burns base fee and pays the tip"]},
+      "signals": [{"k": "burned component", "v": "base fee"}, {"k": "proposer component", "v": "priority fee"}],
+      "links": [{"label": "EIP-1559 specification", "url": "https://eips.ethereum.org/EIPS/eip-1559", "kind": "official"}, {"label": "EIP-1559 source", "url": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md", "kind": "official"}, {"label": "Ethereum gas documentation", "url": "https://ethereum.org/en/developers/docs/gas/", "kind": "docs"}],
+      "related": ["eth", "eth-priority", "pbs"], "term": "eip-1559"
+    },
+    "pbs": {
+      "kind": "term", "name": "Proposer-builder separation", "tagline": "A split between constructing a valuable block and choosing one for consensus.", "chains": ["eth"],
+      "body": ["Proposer-builder separation divides Ethereum block production into specialized roles. Builders assemble and price transaction orderings, then proposers choose among commitments or bids without needing the infrastructure to search every opportunity themselves. The separation can broaden proposer access to competitive block value, but it introduces new dependencies on builders, relays, timing, and censorship resistance. MEV-Boost implements an out-of-protocol version today, while protocol research explores rules that enforce the split within consensus itself."],
+      "how": {"diagram": "builder", "params": {}, "steps": ["Searchers send candidate bundles to builders", "Builders assemble blocks and publish bids", "A proposer selects a commitment", "The winning payload is revealed and validated"]},
+      "signals": [{"k": "construction role", "v": "builder"}, {"k": "consensus role", "v": "proposer"}],
+      "links": [{"label": "Ethereum PBS roadmap", "url": "https://ethereum.org/en/roadmap/pbs/", "kind": "official"}, {"label": "Two-slot PBS research", "url": "https://ethresear.ch/t/two-slot-proposer-builder-separation/10980", "kind": "research"}, {"label": "MEV-Boost relay source", "url": "https://github.com/flashbots/mev-boost-relay", "kind": "official"}],
+      "related": ["eth", "mev-boost", "preconfirmations"], "term": "pbs"
+    },
+    "preconfirmations": {
+      "kind": "term", "name": "Preconfirmations", "tagline": "Credible inclusion or execution promises issued before consensus finality.", "chains": ["eth"],
+      "body": ["A preconfirmation is a signed promise that a transaction will receive some future treatment, such as inclusion by a deadline or execution against a stated result, before the base chain finalizes it. The promise is only as credible as the issuer's future block rights, collateral, and penalty mechanism. Preconfirmations can give users a faster certainty signal, but they create a second timing layer: the promise may be economically enforceable while the underlying transaction remains subject to consensus and reorganization risk."],
+      "how": {"diagram": "window", "params": {}, "steps": ["A user requests an early execution promise", "An authorized provider signs stated constraints", "The user treats that promise as a fast signal", "Consensus later includes and finalizes the transaction"]},
+      "signals": [{"k": "fast artifact", "v": "signed provider promise"}, {"k": "final authority", "v": "base-chain consensus"}],
+      "links": [{"label": "Based preconfirmations research", "url": "https://ethresear.ch/t/based-preconfirmations/17353", "kind": "research"}, {"label": "Commit-Boost client", "url": "https://github.com/Commit-Boost/commit-boost-client", "kind": "official"}, {"label": "Ethereum PBS roadmap", "url": "https://ethereum.org/en/roadmap/pbs/", "kind": "docs"}],
+      "related": ["eth", "pbs", "mev-boost"], "term": "preconfirmations"
+    },
+    "equihash": {
+      "kind": "term", "name": "Equihash", "tagline": "A generalized-birthday proof-of-work puzzle used by Zcash mining.", "chains": ["zec"],
+      "body": ["Equihash is the proof-of-work family used to mine Zcash. A miner searches for sets of hashed indices whose prefixes collide through successive rounds and whose final values satisfy the network's target. Finding a solution is designed to require substantial memory bandwidth, while checking one is comparatively cheap. The algorithm chooses who may propose a block; it does not provide transaction privacy. Zcash's shielded protocols and proofs operate independently inside the blocks that mining orders."],
+      "how": {"diagram": "miners", "params": {}, "steps": ["Miners hash indexed inputs", "Collision rounds combine matching prefixes", "A candidate solution is checked against the target", "The accepted block extends accumulated work"]},
+      "signals": [{"k": "puzzle family", "v": "generalized birthday problem"}, {"k": "resource emphasis", "v": "memory bandwidth"}],
+      "links": [{"label": "Zcash protocol specification", "url": "https://zips.z.cash/protocol/protocol.pdf", "kind": "official"}, {"label": "Zcash Equihash source", "url": "https://github.com/zcash/zcash/blob/master/src/crypto/equihash.cpp", "kind": "official"}, {"label": "Equihash paper", "url": "https://eprint.iacr.org/2015/946", "kind": "research"}],
+      "related": ["zec", "stratum-v2", "shielded-pool"], "term": "equihash"
+    },
+    "shielded-pool": {
+      "kind": "term", "name": "Shielded pool", "tagline": "A Zcash value pool whose proofs hide the public transaction graph.", "chains": ["zec"],
+      "body": ["A shielded pool holds Zcash value in commitments rather than publicly traceable coins. A spend proves that authorized notes exist, that they have not been spent before, and that value balances, without revealing sender, receiver, or amount. Nullifiers prevent double-spends while avoiding disclosure of which commitment was consumed. Privacy depends on the pool's anonymity set and wallet behavior as well as cryptography: transparent deposits, withdrawals, timing, and amounts can still leak correlations around its boundary."],
+      "how": {"diagram": "mempool-shielded", "params": {}, "steps": ["A note commitment enters the shielded pool", "The wallet constructs a private spend witness", "A proof establishes authority and value balance", "A nullifier blocks reuse without naming the note"]},
+      "signals": [{"k": "public artifacts", "v": "commitments + nullifiers"}, {"k": "hidden fields", "v": "sender + receiver + amount"}],
+      "links": [{"label": "Zcash protocol specification", "url": "https://zips.z.cash/protocol/protocol.pdf", "kind": "official"}, {"label": "Orchard protocol book", "url": "https://zcash.github.io/orchard/", "kind": "docs"}, {"label": "Orchard source", "url": "https://github.com/zcash/orchard", "kind": "official"}],
+      "related": ["zec", "equihash", "zec-shield"], "term": "shielded-pool"
     }
   },
   "==/V3E:JSON==": null,
