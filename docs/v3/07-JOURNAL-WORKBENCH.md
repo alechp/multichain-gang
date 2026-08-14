@@ -1,6 +1,6 @@
 # 07 — JOURNAL WORKBENCH: UI, technique simulators, CLI
 
-> **Status:** specified, not started
+> **Status:** implemented 2026-08-14 — live two-simulator paper gate passed
 > **Owner lane:** `J3` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `06-JOURNAL-DATA.md` (store + collectors must exist first)
 > **Location:** `journal/` (UI under `journal/web/`, simulators under

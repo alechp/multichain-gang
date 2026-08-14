@@ -1,4 +1,4 @@
-# SOLANA//SCOPE v3 — spec set
+# SOLANA//SCOPE v3 — implemented spec set
 
 Interactive-instrument + journal program. Read in this order:
 
@@ -23,4 +23,11 @@ worker-card + digest templates, hard conflict-avoidance rules).
    overlays; the journal is a separate never-deployed local app.
 2. The journal is read-only and paper-only — no keys, no signing, no submission.
 
-Status: **specified, not started.** Execution begins per `08-ORCHESTRATION.md`.
+Status: **implemented and released as `v3.0` on 2026-08-14.** The append-only
+execution record and explicitly skipped external/profile gates are in
+`08-ORCHESTRATION.md` §16.
+
+Release snapshot: the page is 403,622 raw bytes, exposes 49 hoverdoc terms, 24
+cues, field notes, and 53 unique entity routes. The journal suite passes 36
+tests / 332 assertions and its live acceptance database contains three watched
+addresses, two public-data paper simulator runs, and two linked journal notes.

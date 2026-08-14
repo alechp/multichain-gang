@@ -1,6 +1,6 @@
 # 01 — HOVERDOCS: the hover-based documentation system
 
-> **Status:** specified, not started
+> **Status:** implemented 2026-08-14 — acceptance passed
 > **Owner lane:** `A` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `04-STYLE-READABILITY.md` foundations (Overlay, termify zones, tokens)
 > **Pattern source:** `~/Code/frauthy/brand` — the three-tier tooltip ladder

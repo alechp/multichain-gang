@@ -1,7 +1,7 @@
 # 08 — ORCHESTRATION: parallelizing v3 across agents and worktrees
 
-> **Status:** authoritative execution plan — owns scheduling, file ownership,
-> conflict prevention, integration order, and wave gates
+> **Status:** executed 2026-08-14 — release ledger complete; owns the historical
+> scheduling, file ownership, conflict prevention, integration order, and gates
 > **Date:** 2026-08-13
 > **Companion program:** `00-V3-PROGRAM.md`; feature specs `01`–`07`
 > **Convention source:** `~/Code/frauthy/root/specs/07-FRONTEND-SDK-ORCHESTRATION.md`
@@ -276,11 +276,116 @@ session (see the handoff in the chat response).
 
 ## 16. Execution ledger (append-only; one record per lane as it lands)
 
-```
-## <lane> · <wave> · <date>
-- base..head: <sha>..<sha>
-- digest: <path or inline>
-- gates passed: <G#>
-- follow-ups: <...>
-```
-_(empty until execution begins)_
+### D · W0/W1 bridge · 2026-08-14
+
+- base..head: `8237995..e6bf7b7`, runtime bridge `32571c2`
+- digest: readability/token fixes, SVG layering, five static ambients, stable
+  anchors, byte-unique zones, six frozen `window.SCOPE` primitives, and four
+  permanent audits
+- gates passed: G0; final foundation/SVG/contrast/degradation rerun at G3
+- follow-ups: physical 4× CPU paint profile skipped; direct browser rendering
+  and all automated visual gates passed
+
+### E-runtime · W1 · 2026-08-14
+
+- base..head: `e6bf7b7..1c0a04d` (integrated by `380b157`)
+- digest: hash-routed entity channel, history/Esc/focus behavior, six diagram
+  templates, data-driven doors, three seeds, and JS-off shell
+- gates passed: G1; six targeted browser scenarios and inherited page audits
+- follow-ups: content union completed by E-c1/c2/c3
+
+### A · W1 · 2026-08-14
+
+- base..head: `e6bf7b7..cfe9145` (integrated by `4d90b4a`)
+- digest: 49-term/109-alias hoverdocs corpus, intent preview, pinned desktop/mobile
+  REF cards, primary links, glossary mirror, and idempotent dynamic term binding
+- gates passed: G1; desktop/touch/keyboard/responsive and 10-cycle binding passes
+- follow-ups: the final integrator added the entity-door focus handoff in
+  `462c05f`; combined A+B+C sub-budget exception is recorded in program §5
+
+### B · W1 · 2026-08-14
+
+- base..head: `32571c2..ed1b440`; verifier fix `0c55c83` (integrated by
+  `b9399de` and `05149d9`)
+- digest: 24-cue transport, scroll spy, persisted reading scale, cue sheet,
+  autoplay takeover rules, reduced/CDN step mode, and frozen Runtime actions
+- gates passed: G1; shortened full run reached 24/24 and replay; final budget
+  `12,135 B`
+- follow-ups: none
+
+### C · W1 · 2026-08-14
+
+- base..head: `e6bf7b7..d47a782`; verifier fix `b522628` (integrated by
+  `cc887d1` and `9f28796`)
+- digest: anchored notes, drawer/jump behavior, Store fallback, deterministic
+  Markdown and JSON round-trip, orphan recovery, dock lifecycle, and placement
+  suppression
+- gates passed: G1; direct Playwright matrix 10/10; final budget `12,286 B`
+- follow-ups: none
+
+### J1 · W1J · 2026-08-14
+
+- base..head: `e6bf7b7..0d4ada4`
+- digest: two idempotent migrations, checked config, typed SQLite query/write
+  layer, atomic batch+cursor semantics, seed watchlist, and safety tests
+- gates passed: G1J schema/store slice
+- follow-ups: none
+
+### J2 · W1J · 2026-08-14
+
+- base..head: `f6de787..7df46f5`
+- digest: paged/batched RPC collection with retry/backoff, Solscan enrichment,
+  public Jito metrics, opt-in polite scraping, normalization, fixtures, and CLI
+- gates passed: G1J offline/idempotence/crash-resume/safety acceptance; live
+  backfills populated all three seeds
+- follow-ups: continuous 30-minute watch skipped; the public RPC smoke recorded
+  upstream 429s and visible backoff while Jito collection succeeded
+
+### J3 · W2J · 2026-08-14
+
+- base..head: `4d90b4a..24e43ea`; live-gate simulator `4d72f23`
+- digest: responsive localhost workbench, shared CLI/view/export model, notes,
+  priority-fee, CEX/DEX-gap, and Jito-tip-band paper simulators
+- gates passed: G2J; 36 tests / 332 assertions, build, token-sync, safety grep,
+  responsive browser QA, two live public-data simulator runs and linked notes
+- follow-ups: none
+
+### E-c1 · W2 · 2026-08-14
+
+- base..head: `4d90b4a..4dc0143` (integrated by `5c8f2fe`)
+- digest: eight techniques, five chains, 13 JS-off rows, 32 primary links
+- gates passed: G2; 13/13 cold routes, motion sync, links and inherited audits
+- follow-ups: none
+
+### E-c2 · W2 · 2026-08-14
+
+- base..head: `4d90b4a..ee044ba` (integrated by `e70d1d4`)
+- digest: 23 tools, 23 JS-off rows, 69 primary links; concrete tool ownership
+  for the three term/tool overlaps
+- gates passed: G2; 23/23 cold routes, link and inherited audits
+- follow-ups: none
+
+### E-c3 · W2 · 2026-08-14
+
+- base..head: `4d90b4a..8da9ca2` (integrated by `35661bb`)
+- digest: 17 term-only entities, 17 JS-off rows, 51 primary links; excluded the
+  three ids owned by E-c2 to keep the entity union unique
+- gates passed: G2; 17/17 routes and 51/51 links
+- follow-ups: category arithmetic resolves to 53 unique entity ids, documented
+  in program §5
+
+### Integration · W3 · 2026-08-14
+
+- base..head: `8237995..462c05f` plus this release-documentation commit
+- digest: serial lane merges, manual entity-key/no-script union, audit update,
+  playbar/notes verifier fixes, exact entity mirror, valid family glyph, and
+  hoverdoc→entity focus handoff
+- gates passed: G3 — 403,622-byte page; 53-route cold-load union; foundation,
+  48-label SVG-fit, contrast (worst 4.55:1), and 15-case degradation audits;
+  journal 36/332 plus two live paper runs and Markdown export
+- follow-ups: worktrees removed before tag; Pages byte-match recorded after push
+
+Because the managed workspace only permitted writes beneath the repository,
+worker worktrees lived under `.worktrees/` rather than as `~/Code/alechp/`
+siblings. They remained durable, had separate indexes, and were removed only
+after their commits integrated and the G3 matrix passed.

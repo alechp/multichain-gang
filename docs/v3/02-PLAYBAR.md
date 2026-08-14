@@ -1,6 +1,6 @@
 # 02 — PLAYBAR: the read/play-through transport bar
 
-> **Status:** specified, not started
+> **Status:** implemented 2026-08-14 — acceptance passed; 12,135 B CSS+JS
 > **Owner lane:** `B` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `04-STYLE-READABILITY.md` foundations (Store, cue zone, tokens)
 > **Pattern source:** `~/Code/frauthy/brand/packages/solid/src/ReadingToolbar.tsx`

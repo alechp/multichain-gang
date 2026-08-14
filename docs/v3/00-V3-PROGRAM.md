@@ -1,6 +1,6 @@
 # SOLANA//SCOPE v3 — Interactive Instrument Program
 
-> **Status:** authoritative implementation program — not yet started
+> **Status:** implemented — released as `v3.0` on 2026-08-14
 > **Date:** 2026-08-13
 > **Base:** `index.html` at v2 (commit `4514fbb`), live at https://alechp.github.io/solana/
 > **Companion orchestration:** `08-ORCHESTRATION.md` owns scheduling, file ownership, and merge order
@@ -95,3 +95,29 @@ Every interactive spec (01/02/03/05) consumes these; none may re-implement them:
   2 technique simulators produce journal entries from live-collected data.
 - Live Pages deploy byte-matches local HEAD; README and CLAUDE.md updated;
   execution ledger in `08-ORCHESTRATION.md` §16 records every lane.
+
+## 5. Release record
+
+The final integrated page is 403,622 raw bytes and passes the foundation,
+SVG-fit, contrast, and 15-case degradation audits. A cold-load sweep covered all
+53 unique entity ids at 390 and 1200 pixels with the CDN blocked; route anatomy,
+focus return, console cleanliness, no-script parity, and document overflow pass.
+
+The journal passes 36 tests / 332 assertions, token synchronization, CLI build,
+and prohibited-wallet-API scans. Live public collection populated three seeded
+addresses plus Jito tip-floor metrics. `priority-fee-sweep` and
+`jito-tip-band` produced two saved `PAPER · HYPOTHETICAL` runs with linked notes
+and a Markdown export.
+
+Three specification arithmetic/external-profile exceptions are recorded rather
+than disguised as passes:
+
+- the 53-entity unique union is the specified 56 category entries minus three
+  intentional term/tool id overlaps (`mev-boost`, `shredstream`, `firedancer`);
+- the 01+02+03 40 KB sub-budget is incompatible with the required 49-entry term
+  corpus plus the two individually capped 12 KB controls; the hard 420 KB page
+  budget passes with 16,378 bytes to spare;
+- the physical mid-range 4× CPU paint profile and a continuous 30-minute public
+  RPC watch were skipped. Public RPC throttling/backoff and recovery are covered
+  deterministically; the live run recorded successful backfills and Jito data,
+  plus upstream RPC 429s without any write-path or safety failure.

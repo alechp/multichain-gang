@@ -1,6 +1,6 @@
 # 06 — JOURNAL DATA PLANE: address tracking, collectors, local timeseries store
 
-> **Status:** specified, not started
+> **Status:** implemented 2026-08-14 — offline acceptance passed; 30-minute live watch skipped
 > **Owner lane:** `J1` (schema+store) and `J2` (collectors) — see `08-ORCHESTRATION.md`
 > **Location:** `journal/` in this repo — a separate local app; never deployed,
 > never referenced by `index.html`

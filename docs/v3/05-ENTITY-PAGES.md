@@ -1,6 +1,6 @@
 # 05 — ENTITY PAGES: dedicated sub-pages for every technique, vendor, chain, and term
 
-> **Status:** specified, not started
+> **Status:** implemented 2026-08-14 — 53 unique routes; three term/tool overlaps are intentional
 > **Owner lanes:** `E-runtime` + `E-content-1..3` (see `08-ORCHESTRATION.md`)
 > **Depends on:** `04-STYLE-READABILITY.md` (Overlay, Router, zones); `01-HOVERDOCS.md` links into it
 > **Pattern source:** `~/Code/frauthy/brand/portal` — the structured-record →

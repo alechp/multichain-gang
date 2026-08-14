@@ -1,6 +1,6 @@
 # 04 — STYLE & READABILITY: defect burn-down, distinctiveness pass, v3 foundations
 
-> **Status:** specified, not started — **this is the foundation lane; it merges first**
+> **Status:** implemented 2026-08-14 — foundation merged first; physical 4× CPU profile skipped
 > **Owner lane:** `D` (see `08-ORCHESTRATION.md`)
 > **Depends on:** nothing. Everything else depends on it.
 > **Defects below were measured on v2 HEAD (`4514fbb`) on 2026-08-13 —

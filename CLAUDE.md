@@ -1,36 +1,52 @@
 # SOLANA//SCOPE — project context
 
-Single-file static site: an oscilloscope-styled engineering readout of Solana
-(architecture, tx flow, MEV, low-latency trading infra, cross-chain bench),
-animated with anime.js 3.2.2. v2 is implemented and live at
-https://alechp.github.io/solana/ (GitHub Pages, main / root).
+v3.0 is implemented and published from `main` / repository root at
+https://alechp.github.io/solana/. The public instrument is a single-file static
+site; `journal/` is a separate local-only Bun/SQLite application and must never
+be deployed with the page.
 
 ## Files
-- `index.html` — v2, self-contained (CH-01…CH-05). No build step.
-- `docs/solana-scope-v2-spec.md` — the v2 spec (implemented; authoritative on intent).
 
-## Conventions
-- Stay single-file: inline CSS/JS, fonts via Google Fonts, anime.js via cdnjs. No bundler, no framework.
-- Design system: channel colors (cyan/amber/red/green/violet) + chain colors
-  (--btc/--eth/--bnb/--zec), Chakra Petch display + IBM Plex Sans/Mono,
-  graph-paper substrate. All new UI derives from the tokens in `:root`; each
-  section sets `--ch` (section tint) which panels, headings, and docks inherit.
-- Every animation must degrade: `prefers-reduced-motion` and anime-CDN-failure
-  render full static content (`reduced` flag → `.no-motion`); hidden-until-reveal
-  styles are gated on `body.js` so JS-off shows everything.
-- All v2 data (chain comparators, technique grid, tool bench) lives in ONE inline
-  `<script type="application/json" id="chainData">` block — content edits must
-  never require layout edits. The per-section `<noscript>` fallback tables mirror
-  this data for JS-off parity: when you edit the JSON, update the matching
-  `<noscript>` table text too (they are the only intentional duplication).
-- Looping anime timelines must be registered via `registerLoop(el, inst)` so the
-  viewport-pause observer can pause them offscreen (battery rule: ≤2 concurrent).
-- Figures are illustrative orders of magnitude dated 2026-08; volatile numbers
-  carry `~` in the UI.
-- Commit messages: `v2(specN): summary` for spec work, conventional prefixes otherwise.
+- `index.html` — self-contained public instrument, CH-01…CH-05, no build step.
+- `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
+- `scripts/audit-*.mjs` — executable page regression gates.
+- `journal/` — read-only collectors, SQLite store, CLI, paper simulators, and localhost workbench.
+- `docs/solana-scope-v2-spec.md` — implemented v2 baseline for untouched behavior.
+
+## Page conventions
+
+- Keep the public page in one `index.html`: inline CSS/JS/JSON, Google Fonts,
+  and anime.js via cdnjs; no bundler or framework.
+- Consumer code stays inside the byte-unique V3A/B/C/E CSS/JS/HTML/JSON zones.
+  V3D owns shared foundations. Do not redefine `window.SCOPE` primitives:
+  `Overlay`, `Router`, `Store`, `positionOverlay`, `termify`, and `Runtime`.
+- All structured page content lives in `#chainData`. Update the matching
+  `<noscript>` mirror whenever JSON changes; the ENTITY INDEX must exactly match
+  each entity's name, kind, tagline, and first link.
+- Preserve channel/chain tokens, reading-scale hooks, stable
+  `data-note-anchor` values, and hash routes shaped as `#/e/<id>`.
+- Every animation degrades. Reduced motion and anime-CDN failure render complete
+  static content; JS-off exposes the fallback tables, glossary, and entity index.
+- Register legacy loops through `registerLoop(el, inst)` so offscreen animation
+  is paused. Figures remain illustrative, dated 2026-08, with `~` on volatile values.
+
+## Journal conventions
+
+- Read-only and paper-only is non-negotiable: no keys, signing, transaction
+  construction, or submission. The HTTP server binds only to `127.0.0.1`.
+- Prefer RPC, then documented APIs. Scraping stays opt-in, robots-aware,
+  rate-limited, cached, and circuit-broken.
+- Migrations are append-only. Collector cursor updates stay atomic with their
+  observation batch. Every simulator output carries `PAPER · HYPOTHETICAL`, at
+  least three assumptions, and at least two caveats.
+- Keep `journal/web/tokens.css` synchronized with page tokens via
+  `bun run check:tokens`. Runtime databases under `journal/data/` are ignored.
 
 ## QA gate for any change
-360/390/430/768/1200 px widths × {motion on, reduced motion, CDN blocked, JS off}.
-No horizontal page scroll on mobile except intentional inner scrollers
-(the ≥700px pipeline pan is the only one). JS-off and CDN-blocked must still
-show all content statically.
+
+Run the four page audits, then exercise 360/390/430/768/1200 across motion,
+reduced motion, CDN blocked, and JS off. No document-level horizontal overflow;
+the intentional inner pipeline scroller is the only exception. For journal
+changes, run `bun test`, `bun build src/cli.ts --target=bun`, token sync, and the
+prohibited wallet-API grep. A skipped external/profile check is recorded as
+skipped, never passed.
