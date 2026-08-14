@@ -1712,14 +1712,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     <table>
       <thead><tr><th>Name</th><th>Kind</th><th>One-line readout</th><th>Primary source</th></tr></thead>
       <tbody>
-        <tr><td>Atomic arbitrage</td><td>technique</td><td>An all-or-nothing route that closes an executable price gap across venues.</td><td><a href="https://ethereum.org/developers/docs/mev/">Ethereum MEV documentation ↗</a></td></tr>
-        <tr><td>Sandwiching</td><td>technique</td><td>A three-transaction extraction pattern that brackets a price-sensitive swap.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect docs ↗</a></td></tr>
-        <tr><td>Liquidations</td><td>technique</td><td>A keeper race to repay unsafe debt in exchange for discounted collateral.</td><td><a href="https://aave.com/help/borrowing/liquidations">Aave liquidation guide ↗</a></td></tr>
-        <tr><td>Backrunning</td><td>technique</td><td>A transaction placed directly after the state change that creates its opportunity.</td><td><a href="https://docs.flashbots.net/flashbots-mev-share/introduction">Flashbots MEV-Share docs ↗</a></td></tr>
-        <tr><td>JIT liquidity</td><td>technique</td><td>A concentrated position added for one known swap and removed immediately after it.</td><td><a href="https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity">Uniswap liquidity docs ↗</a></td></tr>
-        <tr><td>CEX–DEX arbitrage</td><td>technique</td><td>A non-atomic hedge between an on-chain pool and a centralized order book.</td><td><a href="https://app.uniswap.org/whitepaper.pdf">Uniswap v2 whitepaper ↗</a></td></tr>
-        <tr><td>Spam / probabilistic racing</td><td>technique</td><td>Redundant submissions that buy extra chances to reach scarce state first.</td><td><a href="https://solana.com/docs/core/fees">Solana fee docs ↗</a></td></tr>
-        <tr><td>Mint / launch sniping</td><td>technique</td><td>The first-valid-state race when scarce inventory or a new market opens.</td><td><a href="https://www.metaplex.com/docs/smart-contracts/candy-machine/mint">Metaplex minting docs ↗</a></td></tr>
+        <tr><td>Atomic arbitrage</td><td>technique</td><td>One indivisible route that closes a price gap or leaves no trade behind.</td><td><a href="https://ethereum.org/developers/docs/mev/">Ethereum MEV documentation ↗</a></td></tr>
+        <tr><td>Sandwiching</td><td>technique</td><td>The three-transaction bracket that turns a user's price impact into someone else's spread.</td><td><a href="https://docs.flashbots.net/flashbots-protect/overview">Flashbots Protect overview ↗</a></td></tr>
+        <tr><td>Liquidations</td><td>technique</td><td>The keeper race that converts an unsafe loan into repaid debt and discounted collateral.</td><td><a href="https://aave.com/help/borrowing/liquidations">Aave health factor and liquidations ↗</a></td></tr>
+        <tr><td>Backrunning</td><td>technique</td><td>A transaction placed directly after the state change that creates its opportunity.</td><td><a href="https://docs.flashbots.net/flashbots-mev-share/introduction">Flashbots MEV-Share introduction ↗</a></td></tr>
+        <tr><td>JIT liquidity</td><td>technique</td><td>Liquidity that appears for one incoming swap, earns its fee, then disappears.</td><td><a href="https://developers.uniswap.org/docs/get-started/concepts/liquidity-providers/concentrated-liquidity">Uniswap concentrated liquidity ↗</a></td></tr>
+        <tr><td>CEX–DEX arbitrage</td><td>technique</td><td>The cross-market hedge that pulls an on-chain pool toward an off-chain order book.</td><td><a href="https://ethereum.org/developers/docs/mev/">Ethereum MEV documentation ↗</a></td></tr>
+        <tr><td>Spam / probabilistic racing</td><td>technique</td><td>Many redundant packets buying one extra chance to arrive before a scarce state changes.</td><td><a href="https://solana.com/docs/core/fees">Solana fee documentation ↗</a></td></tr>
+        <tr><td>Mint / launch sniping</td><td>technique</td><td>The first-valid-state race at the instant a scarce asset or market becomes available.</td><td><a href="https://www.metaplex.com/docs/smart-contracts/candy-machine/mint">Metaplex Candy Machine minting ↗</a></td></tr>
         <tr><td>Jito Block Engine</td><td>tool</td><td>An explicit market for atomic ordering inside a Solana leader's slot.</td><td><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito transaction and bundle API ↗</a></td></tr>
         <tr><td>Flashbots MEV-Boost / BuilderNet</td><td>tool</td><td>The sidecar and builder network that make proposer-builder separation usable today.</td><td><a href="https://boost.flashbots.net/">MEV-Boost network ↗</a></td></tr>
         <tr><td>bloXroute / 48Club validator rails</td><td>tool</td><td>Private BNB Chain lanes that connect bundles and builder bids to validators.</td><td><a href="https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP322.md">BSC builder API proposal ↗</a></td></tr>
@@ -1743,11 +1743,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <tr><td>ePBS research · preconfs · Reth/Erigon perf</td><td>tool</td><td>Ethereum's edge moves across protocol markets, early promises, and client engineering.</td><td><a href="https://eips.ethereum.org/EIPS/eip-7732">EIP-7732 enshrined PBS ↗</a></td></tr>
         <tr><td>Fast-finality client tuning</td><td>tool</td><td>BNB Chain client work compressing block cadence while preserving validator agreement.</td><td><a href="https://github.com/bnb-chain/BEPs/blob/master/BEPs/BEP-619.md">BEP-619 short block interval ↗</a></td></tr>
         <tr><td>Stratum v2</td><td>tool</td><td>A modern encrypted job channel between Bitcoin miners and pools.</td><td><a href="https://stratumprotocol.org/">Stratum v2 protocol ↗</a></td></tr>
-        <tr><td>Solana</td><td>chain</td><td>A parallel runtime organized around a roughly 400 ms leader schedule and explicit account locks.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction docs ↗</a></td></tr>
-        <tr><td>Ethereum</td><td>chain</td><td>A proof-of-stake EVM with a public fee market and specialized block builders.</td><td><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/">Ethereum PoS docs ↗</a></td></tr>
-        <tr><td>BNB Chain</td><td>chain</td><td>A sub-second EVM network run by a compact, stake-elected producer cohort.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/">BNB Smart Chain docs ↗</a></td></tr>
-        <tr><td>Bitcoin</td><td>chain</td><td>A proof-of-work UTXO ledger with fee-rate ordering and probabilistic settlement.</td><td><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin whitepaper ↗</a></td></tr>
-        <tr><td>Zcash</td><td>chain</td><td>A proof-of-work UTXO chain with zero-knowledge shielded value pools.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Solana</td><td>chain</td><td>A parallel execution network whose market structure is shaped by a roughly 400 ms leader clock.</td><td><a href="https://solana.com/docs/core/transactions">Solana transaction documentation ↗</a></td></tr>
+        <tr><td>Ethereum</td><td>chain</td><td>A proof-of-stake settlement network with a public execution market and a specialized block-building supply chain.</td><td><a href="https://ethereum.org/developers/docs/consensus-mechanisms/pos/">Ethereum proof-of-stake documentation ↗</a></td></tr>
+        <tr><td>BNB Chain</td><td>chain</td><td>An EVM network that trades a compact elected validator set for sub-second block cadence.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/">BNB Smart Chain documentation ↗</a></td></tr>
+        <tr><td>Bitcoin</td><td>chain</td><td>A permissionless proof-of-work ledger where block space is won by fee rate and history settles probabilistically.</td><td><a href="https://bitcoin.org/bitcoin.pdf">Bitcoin whitepaper ↗</a></td></tr>
+        <tr><td>Zcash</td><td>chain</td><td>A Bitcoin-shaped proof-of-work chain whose shielded pool removes transaction-graph visibility.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
         <tr><td>Turbine</td><td>term</td><td>A stake-shaped relay tree that turns one block into recoverable shreds.</td><td><a href="https://solana.com/solana-whitepaper.pdf">Solana whitepaper ↗</a></td></tr>
         <tr><td>Proof of History</td><td>term</td><td>A sequential hash clock that makes event order independently checkable.</td><td><a href="https://solana.com/news/proof-of-history">Solana Proof of History ↗</a></td></tr>
         <tr><td>Sealevel</td><td>term</td><td>A runtime scheduler that converts declared account access into parallel work.</td><td><a href="https://solana.com/news/sealevel---parallel-processing-thousands-of-smart-contracts">Solana Sealevel overview ↗</a></td></tr>
@@ -3267,7 +3267,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       });
       if(hasEntity(item.entity)){
         const door=document.createElement('button');door.type='button';door.className='ref-entity';
-        door.dataset.refEntity=item.entity;door.textContent='OPEN CHANNEL ▸';entity.appendChild(door);
+        door.dataset.refEntity=item.entity;door.dataset.entityId=item.entity;door.textContent='OPEN CHANNEL ▸';entity.appendChild(door);
       }else if(item.entity){
         const waiting=document.createElement('span');waiting.className='ref-entity-wait';waiting.textContent='CHANNEL · '+item.entity.toUpperCase();entity.appendChild(waiting);
       }
@@ -4103,7 +4103,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       'Order-flow auction / intents':'M1.5 6h7M6 3l3 3-3 3M2 10.5h4',
       'Fast data feed':'M1 8.5l2-5 2 6 2-7 2 6 2-3',
       'Priority market':'M2 9.5h8M3 7h6M4 4.5h4M5 2h2',
-      'Node/client edge':'M1 7c2-5 3 5 0s3 3 5-2M2 10.5h8'
+      'Node/client edge':'M1 7C3 2 4 2 6 7S9 10 11 5M2 10.5H10'
     };
     return `<svg class="family-glyph" viewBox="0 0 12 12" aria-hidden="true"><path d="${paths[fn]||paths['Node/client edge']}"/></svg>`;
   };
