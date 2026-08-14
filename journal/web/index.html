@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Scope Journal · Local Workbench</title>
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-nav" href="#main">Skip to workbench</a>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="bench-header">
+    <div class="brand-lockup">
+      <span class="eyebrow">LOCAL OBSERVATION PLANE · 127.0.0.1</span>
+      <h1>SCOPE <span>JOURNAL</span></h1>
+    </div>
+    <div class="scope-status" aria-label="Workbench safety status">
+      <span class="status-lamp" aria-hidden="true"></span>
+      <strong>PAPER · HYPOTHETICAL</strong>
+      <span>PUBLIC DATA / NO EXECUTION</span>
+    </div>
+    <div class="sweep" aria-hidden="true"><i></i></div>
+  </header>
+
+  <main id="main" class="bench-shell" tabindex="-1">
+    <aside class="watch-rail panel" aria-labelledby="watch-heading">
+      <div class="panel-heading">
+        <div><span class="channel">CH-A</span><h2 id="watch-heading">WATCHLIST</h2></div>
+        <span id="watch-count" class="count">00</span>
+      </div>
+      <form id="watch-form" class="compact-form">
+        <label for="watch-address">Public address</label>
+        <input id="watch-address" name="address" required autocomplete="off" spellcheck="false" placeholder="base58 address">
+        <label for="watch-label">Label</label>
+        <input id="watch-label" name="label" autocomplete="off" placeholder="optional callsign">
+        <label for="watch-tags">Tags</label>
+        <input id="watch-tags" name="tags" autocomplete="off" placeholder="comma, separated">
+        <button type="submit">+ ARM WATCH</button>
+      </form>
+      <div id="watch-list" class="watch-list"></div>
+    </aside>
+
+    <section class="detail-stack" aria-label="Address detail">
+      <article id="empty-state" class="empty-state panel" hidden>
+        <span class="channel">NO SIGNAL</span>
+        <h2>COLLECT FIRST</h2>
+        <p>No observations are stored yet. Run this exact command in the journal workspace:</p>
+        <code>bun run collect -- --once</code>
+      </article>
+
+      <article id="detail-panel" class="panel detail-panel" aria-labelledby="detail-heading">
+        <div class="panel-heading detail-heading-row">
+          <div><span class="channel amber">CH-B</span><h2 id="detail-heading">ADDRESS READOUT</h2></div>
+          <button id="remove-watch" class="quiet danger" type="button">PAUSE WATCH</button>
+        </div>
+        <div id="address-identity" class="address-identity"></div>
+        <div id="metric-strip" class="metric-strip"></div>
+        <div id="trace-chart" class="trace-chart"></div>
+        <div class="table-controls">
+          <h3>PUBLIC TRANSACTIONS</h3>
+          <label for="kind-filter">Kind</label>
+          <select id="kind-filter">
+            <option value="all">all</option>
+            <option value="swap">swap</option>
+            <option value="transfer">transfer</option>
+            <option value="vote">vote</option>
+            <option value="unknown">unknown</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>TIME</th><th>KIND</th><th>SLOT</th><th>FEE</th><th>TRACE</th></tr></thead>
+            <tbody id="tx-table"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <div class="bench-grid">
+        <article class="panel sim-panel" aria-labelledby="sim-heading">
+          <div class="panel-heading">
+            <div><span class="channel violet">CH-C</span><h2 id="sim-heading">SIMULATOR BENCH</h2></div>
+          </div>
+          <p class="panel-intro">Retrospective detectors only. Inputs never leave this machine.</p>
+          <form id="sim-form" class="sim-form">
+            <label for="sim-select">Technique</label>
+            <select id="sim-select" name="id"></select>
+            <label for="sim-window">Historical window</label>
+            <select id="sim-window" name="window">
+              <option value="24h">24 hours</option>
+              <option value="7d">7 days</option>
+              <option value="30d" selected>30 days</option>
+              <option value="12w">12 weeks</option>
+            </select>
+            <div id="sim-params" class="sim-params"></div>
+            <button type="submit">RUN PAPER MODEL</button>
+          </form>
+          <div id="sim-output" class="sim-output"></div>
+        </article>
+
+        <article class="panel journal-panel" aria-labelledby="journal-heading">
+          <div class="panel-heading">
+            <div><span class="channel green">CH-D</span><h2 id="journal-heading">FIELD JOURNAL</h2></div>
+          </div>
+          <form id="note-form" class="note-form">
+            <label for="note-body">Markdown observation</label>
+            <textarea id="note-body" name="body" required rows="5" placeholder="What did the trace show?"></textarea>
+            <label for="note-tags">Tags</label>
+            <input id="note-tags" name="tags" placeholder="review, anomaly">
+            <label for="note-sim">Link simulator run</label>
+            <select id="note-sim" name="simRun"><option value="">none</option></select>
+            <button type="submit">LOG OBSERVATION</button>
+          </form>
+          <div class="journal-tools">
+            <label for="note-filter">Filter tag</label>
+            <input id="note-filter" placeholder="all tags">
+            <a href="/api/export?format=md" download>EXPORT MD</a>
+            <a href="/api/export?format=json" download>EXPORT JSON</a>
+          </div>
+          <div id="journal-list" class="journal-list"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>SCOPE JOURNAL / LOCAL WORKBENCH</span>
+    <span>DETECT · ESTIMATE · DOCUMENT</span>
+  </footer>
+  <div id="live-status" class="live-status" aria-live="polite"></div>
+  <noscript><p class="noscript">JavaScript is required for the local workbench. The CLI remains available.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "series": [
+    { "ts": 1700000080, "series": "venue.dex.price", "key": "SOL/USD", "value": 100.8 },
+    { "ts": 1700000140, "series": "venue.dex.price", "key": "SOL/USD", "value": 99.7 },
+    { "ts": 1700000200, "series": "venue.dex.price", "key": "SOL/USD", "value": 101.2 },
+    { "ts": 1700000085, "series": "venue.cex.price", "key": "SOL/USD", "value": 100.0 },
+    { "ts": 1700000145, "series": "venue.cex.price", "key": "SOL/USD", "value": 100.0 },
+    { "ts": 1700000205, "series": "venue.cex.price", "key": "SOL/USD", "value": 100.0 }
+  ]
+}

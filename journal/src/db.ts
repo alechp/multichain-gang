@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { randomUUID } from "node:crypto";
 import { mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { loadConfig, type WatchAddressConfig } from "./config";
@@ -115,6 +116,47 @@ export interface MetricRecord {
   value: number;
 }
 
+export interface SimRunInput {
+  id?: string;
+  ts?: number;
+  sim: string;
+  address: string;
+  params: Record<string, unknown>;
+  result: unknown;
+}
+
+export interface SimRunRecord {
+  id: string;
+  ts: number;
+  sim: string;
+  address: string;
+  params: Record<string, unknown>;
+  result: unknown;
+}
+
+export interface JournalEntryInput {
+  id?: string;
+  ts?: number;
+  body: string;
+  address?: string | null;
+  simRun?: string | null;
+  tags?: string[];
+}
+
+export interface JournalEntryRecord {
+  id: string;
+  ts: number;
+  body: string;
+  address: string | null;
+  simRun: string | null;
+  tags: string[];
+}
+
+export interface JournalEntryFilter {
+  address?: string;
+  tag?: string;
+}
+
 export interface JournalBatch {
   snapshots?: SnapshotInput[];
   transactions?: TransactionInput[];
@@ -188,6 +230,24 @@ interface RawCollectLogRow {
   note: string | null;
 }
 
+interface RawSimRunRow {
+  id: string;
+  ts: number;
+  sim: string;
+  address: string;
+  params: string;
+  result: string;
+}
+
+interface RawJournalEntryRow {
+  id: string;
+  ts: number;
+  body: string;
+  address: string | null;
+  sim_run: string | null;
+  tags: string;
+}
+
 const DEFAULT_MIGRATIONS_DIR = resolve(import.meta.dir, "..", "migrations");
 
 function unixNow(): number {
@@ -252,6 +312,28 @@ function parseTransaction(row: RawTransactionRow): TransactionRecord {
     kind: row.kind,
     error: row.err === 1,
     rawPath: row.raw_path,
+  };
+}
+
+function parseSimRun(row: RawSimRunRow): SimRunRecord {
+  return {
+    id: row.id,
+    ts: row.ts,
+    sim: row.sim,
+    address: row.address,
+    params: JSON.parse(row.params) as Record<string, unknown>,
+    result: JSON.parse(row.result) as unknown,
+  };
+}
+
+function parseJournalEntry(row: RawJournalEntryRow): JournalEntryRecord {
+  return {
+    id: row.id,
+    ts: row.ts,
+    body: row.body,
+    address: row.address,
+    simRun: row.sim_run,
+    tags: JSON.parse(row.tags) as string[],
   };
 }
 
@@ -337,14 +419,25 @@ export class JournalDatabase {
   seedWatchlist(watchlist: WatchAddressConfig[]): void {
     this.transaction((journal) => {
       for (const entry of watchlist) {
-        journal.upsertAddress({
-          address: entry.address,
-          label: entry.label,
-          tags: entry.tags,
-          active: entry.active,
-        });
+        journal.sqlite.query(`
+          INSERT OR IGNORE INTO addresses (address, label, tags, added_at, active)
+          VALUES (?, ?, ?, ?, ?)
+        `).run(
+          entry.address,
+          entry.label,
+          json(entry.tags),
+          unixNow(),
+          entry.active ? 1 : 0,
+        );
       }
     });
+  }
+
+  setAddressActive(address: string, active: boolean): boolean {
+    const result = this.sqlite.query(
+      "UPDATE addresses SET active = ? WHERE address = ?",
+    ).run(active ? 1 : 0, address);
+    return result.changes === 1;
   }
 
   getAddress(address: string): AddressRecord | null {
@@ -510,6 +603,106 @@ export class JournalDatabase {
     }));
   }
 
+  latestObservationTs(address: string): number | null {
+    const row = this.sqlite.query(`
+      SELECT MAX(ts) AS ts FROM (
+        SELECT ts FROM snapshots WHERE address = ?
+        UNION ALL SELECT ts FROM txs WHERE address = ?
+        UNION ALL SELECT ts FROM metrics WHERE key = ?
+      )
+    `).get(address, address, address) as { ts: number | null };
+    return row.ts;
+  }
+
+  saveSimRun(input: SimRunInput): SimRunRecord {
+    const record: SimRunRecord = {
+      id: input.id ?? randomUUID(),
+      ts: input.ts ?? unixNow(),
+      sim: input.sim,
+      address: input.address,
+      params: input.params,
+      result: input.result,
+    };
+    this.sqlite.query(`
+      INSERT INTO sim_runs (id, ts, sim, address, params, result)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        ts = excluded.ts,
+        sim = excluded.sim,
+        address = excluded.address,
+        params = excluded.params,
+        result = excluded.result
+    `).run(
+      record.id,
+      record.ts,
+      record.sim,
+      record.address,
+      json(record.params),
+      json(record.result),
+    );
+    return record;
+  }
+
+  getSimRun(id: string): SimRunRecord | null {
+    const row = this.sqlite.query(`
+      SELECT id, ts, sim, address, params, result
+      FROM sim_runs WHERE id = ?
+    `).get(id) as RawSimRunRow | null;
+    return row === null ? null : parseSimRun(row);
+  }
+
+  listSimRuns(address?: string): SimRunRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT id, ts, sim, address, params, result
+      FROM sim_runs
+      WHERE (? IS NULL OR address = ?)
+      ORDER BY ts DESC, id
+    `).all(address ?? null, address ?? null) as RawSimRunRow[];
+    return rows.map(parseSimRun);
+  }
+
+  addJournalEntry(input: JournalEntryInput): JournalEntryRecord {
+    const record: JournalEntryRecord = {
+      id: input.id ?? randomUUID(),
+      ts: input.ts ?? unixNow(),
+      body: input.body.trim(),
+      address: input.address ?? null,
+      simRun: input.simRun ?? null,
+      tags: [...new Set(input.tags ?? [])],
+    };
+    this.sqlite.query(`
+      INSERT INTO journal_entries (id, ts, body, address, sim_run, tags)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        ts = excluded.ts,
+        body = excluded.body,
+        address = excluded.address,
+        sim_run = excluded.sim_run,
+        tags = excluded.tags
+    `).run(
+      record.id,
+      record.ts,
+      record.body,
+      record.address,
+      record.simRun,
+      json(record.tags),
+    );
+    return record;
+  }
+
+  listJournalEntries(filter: JournalEntryFilter = {}): JournalEntryRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT id, ts, body, address, sim_run, tags
+      FROM journal_entries
+      WHERE (? IS NULL OR address = ?)
+      ORDER BY ts DESC, id
+    `).all(filter.address ?? null, filter.address ?? null) as RawJournalEntryRow[];
+    const entries = rows.map(parseJournalEntry);
+    return filter.tag === undefined
+      ? entries
+      : entries.filter((entry) => entry.tags.includes(filter.tag as string));
+  }
+
   writeBatch(batch: JournalBatch): void {
     this.transaction((journal) => {
       for (const snapshot of batch.snapshots ?? []) journal.upsertSnapshot(snapshot);
@@ -520,7 +713,16 @@ export class JournalDatabase {
     });
   }
 
-  count(table: "addresses" | "snapshots" | "txs" | "metrics" | "cursor" | "collect_log"): number {
+  count(table:
+    | "addresses"
+    | "snapshots"
+    | "txs"
+    | "metrics"
+    | "cursor"
+    | "collect_log"
+    | "journal_entries"
+    | "sim_runs"
+  ): number {
     const row = this.sqlite.query(`SELECT COUNT(*) AS count FROM ${table}`).get() as { count: number };
     return row.count;
   }

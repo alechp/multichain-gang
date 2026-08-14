@@ -38,17 +38,19 @@ describe("SQLite migrations", () => {
     openDatabases.push(journal);
 
     expect(journal.migrate()).toEqual({
-      applied: ["0001-init.sql"],
-      currentVersion: 1,
+      applied: ["0001-init.sql", "0002-workbench.sql"],
+      currentVersion: 2,
     });
-    expect(journal.migrate()).toEqual({ applied: [], currentVersion: 1 });
+    expect(journal.migrate()).toEqual({ applied: [], currentVersion: 2 });
 
     expect(journal.schemaObjects("table")).toEqual([
       "addresses",
       "collect_log",
       "cursor",
+      "journal_entries",
       "metrics",
       "schema_migrations",
+      "sim_runs",
       "snapshots",
       "txs",
     ]);
@@ -59,8 +61,13 @@ describe("SQLite migrations", () => {
     ]);
     expect(journal.schemaObjects("index")).toEqual([
       "collect_log_source_key_ts",
+      "journal_entries_address_ts",
+      "journal_entries_sim_run",
+      "journal_entries_ts",
       "metrics_key_ts",
       "metrics_series_ts",
+      "sim_runs_address_ts",
+      "sim_runs_sim_ts",
       "snapshots_ts",
       "txs_address_ts",
       "txs_ts",

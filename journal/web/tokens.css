@@ -1,0 +1,34 @@
+:root{
+  --bg:#0A0D13;
+  --panel:#10141D;
+  --panel-2:#141A27;
+  --grid:#1A2233;
+  --line:#232C41;
+  --ink:#D8E0EC;
+  --dim:#7A87A0;
+  --faint:#4A5570;
+  --lbl:#7C89A2;
+  --reading-scale:1;
+  /*
+    SMALL-TEXT CONTRAST (WCAG relative luminance, 2026-08-14)
+    token   on --panel #10141D   on --panel-2 #141A27
+    --lbl   5.23:1 PASS          4.94:1 PASS
+    --dim   5.09:1 PASS          4.81:1 PASS
+    --ink  13.86:1 PASS         13.09:1 PASS
+    --faint is decorative-stroke / >=14px texture only; never small text.
+    --lbl also clears translucent figure grounds: 4.79:1 on red/panel-2
+    (#231A24) and 4.54:1 on amber/panel-2 (#232121), the darkest pair.
+    #75829B from the draft measured 4.49:1 on --panel-2; #7C89A2 is the
+    smallest correction that clears every actual small-label ground.
+  */
+  --amber:#FFB454;   /* CH-02 · transaction signal */
+  --cyan:#5BD7E8;    /* CH-01 · network signal */
+  --red:#FF5C7A;     /* CH-03 · adversarial signal */
+  --green:#7EE787;   /* protection / confirmed */
+  --violet:#A78BFA;  /* CH-05 · cross-chain */
+  --btc:#F7931A;
+  --eth:#8A9EF5;
+  --bnb:#F0B90B;
+  --zec:#E8D28A;     /* desaturated gold — keeps distance from BNB */
+  --ch:var(--cyan);  /* active channel tint; overridden per section */
+}

@@ -12,6 +12,8 @@
     "migrate": "bun src/db.ts migrate",
     "collect": "bun src/cli.ts collect",
     "backfill": "bun src/cli.ts backfill",
+    "serve": "bun src/cli.ts serve",
+    "check:tokens": "node ../scripts/check-tokens.mjs",
     "test": "bun test"
   }
 }

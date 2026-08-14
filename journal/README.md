@@ -1,9 +1,9 @@
 # Scope Journal
 
-Scope Journal is a local, read-only store for public Solana observations. It
-includes the SQLite data plane, fixture-driven tests, public-data source
-adapters, normalization, collection/backfill commands, and watch scheduler.
-The workbench lands in a later lane.
+Scope Journal is a local, read-only store and workbench for public Solana
+observations. It includes the SQLite data plane, fixture-driven tests,
+public-data source adapters, normalization, collection/backfill commands,
+paper-only historical simulators, journal/export tools, and a local web bench.
 
 It deliberately has no wallet-key, instruction-building, signing, or network
 submission capability. Runtime state lives under `data/` and is ignored by
@@ -65,3 +65,32 @@ all requests to one per two seconds per host, caches responses for 24 hours,
 and opens a 30-minute circuit after refusal, throttling, or server failure.
 Site terms still apply; opt in only after confirming the intended use is
 permitted.
+
+## Work at the bench
+
+```sh
+bun run journal -- watch ls
+bun run journal -- show <address>
+bun run journal -- sim priority-fee-sweep --address <address> --window 30d
+bun run journal -- sim cexdex-gap-watch --address <address> --window 30d
+bun run journal -- note add "reviewed the historical trace" --address <address>
+bun run journal -- export --md --out journal.md
+bun run journal -- export --json --out journal.json
+bun run journal -- import journal.json
+bun run serve
+```
+
+Every simulator result is stamped `PAPER · HYPOTHETICAL`, lists at least three
+assumptions and two caveats, and is saved for note linkage. These are
+retrospective detectors and estimators—not live planning or advice. The
+`cexdex-gap-watch` model requires two already-collected price series
+(`venue.dex.price` and `venue.cex.price`, keyed to the same market).
+
+The web server binds `127.0.0.1` only and refuses non-local hostnames. It has
+no authentication because it is never exposed to the network, and its browser
+layer makes no external data requests. Transaction rows may offer ordinary
+links to the public Solscan site; opening one is an explicit browser action.
+
+The workbench reuses the main page's design tokens. Run
+`bun run check:tokens` after page token changes. Empty databases remain usable
+and show the exact collection command instead of failing.
