@@ -4,6 +4,7 @@ import { launchAuditBrowser, openAuditPage } from './audit-helpers.mjs';
 
 const source = readFileSync('index.html', 'utf8');
 const failures = [];
+const requireEmpty = process.argv.includes('--require-empty');
 const lanes = ['A', 'B', 'C', 'E'];
 const kinds = ['CSS', 'JS', 'HTML'];
 
@@ -13,11 +14,11 @@ for (const lane of lanes) {
     const end = `${kind === 'CSS' ? '/*' : kind === 'JS' ? '//' : '<!--'} ==/V3${lane}:${kind}== ${kind === 'CSS' ? '*/' : kind === 'HTML' ? '-->' : ''}`.trimEnd();
     const starts = source.split(start).length - 1, ends = source.split(end).length - 1;
     if (starts !== 1 || ends !== 1) failures.push(`V3${lane}:${kind} banners are not byte-unique (${starts}/${ends})`);
-    else if (source.slice(source.indexOf(start) + start.length, source.indexOf(end)).trim()) failures.push(`V3${lane}:${kind} zone is not empty`);
+    else if (requireEmpty && source.slice(source.indexOf(start) + start.length, source.indexOf(end)).trim()) failures.push(`V3${lane}:${kind} zone is not empty`);
   }
   const json = new RegExp(`"==V3${lane}:JSON==": null,([\\s\\S]*?)"==/V3${lane}:JSON==": null`).exec(source);
   if (!json) failures.push(`V3${lane}:JSON sentinels missing`);
-  else if (json[1].trim()) failures.push(`V3${lane}:JSON zone is not empty`);
+  else if (requireEmpty && json[1].trim()) failures.push(`V3${lane}:JSON zone is not empty`);
 }
 
 for (const primitive of ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify']) {
@@ -111,4 +112,4 @@ if (failures.length) {
   failures.forEach(failure => console.error('- ' + failure));
   process.exit(1);
 }
-console.log('FOUNDATION PASS — zones unique/empty; five primitives live; anchors, ambients, termify, Store, Overlay grid migration, title fit, and watermark guard pass.');
+console.log(`FOUNDATION PASS — zones byte-unique${requireEmpty ? '/empty' : ''}; five primitives live; anchors, ambients, termify, Store, Overlay grid migration, title fit, and watermark guard pass.`);
