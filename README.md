@@ -53,6 +53,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     journal/                        local SQLite collector, CLI, workbench, simulators
     docs/v3/                        implemented v3 specification and execution ledger
     docs/solana-scope-v2-spec.md    implemented v2 baseline
+    docs/robinhood-chain-integration-spec.md
+                                    proposed comparison, integration, and launch playbook
 
 ## v3 highlights
 
