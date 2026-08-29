@@ -11,8 +11,9 @@ application and must never be deployed with the page.
 - `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
 - `scripts/command-palette.js` + `styles/command-palette.css` — local command
   channel, section routing, global transport keys, and responsive presentation.
-- `scripts/chain-index.js` + `styles/chain-index.css` — six `#/c/<slug>`
-  article hubs, filters, history restoration, source rails, and Link Veil.
+- `scripts/chain-index.js` + `styles/chain-index.css` — the `#/chains` atlas,
+  six `#/c/<slug>` article hubs, filters, history restoration, source rails,
+  and opt-in hover + hold `CTRL` Link Veil.
 - `scripts/reader-dock.js` + `styles/reader-dock.css` — persisted top/bottom
   reader placement and the temporary field-note UI suppression layer.
 - `vendor/fuse.basic.min.js` — pinned Fuse.js 7.5.0 basic browser build;
@@ -52,8 +53,8 @@ application and must never be deployed with the page.
   full name, preserve the soft/L1-posted/L1-final clocks, and never invent a
   compact glyph or treat `windowMs` as a block-time measurement.
 - Preserve channel/chain tokens, reading-scale hooks, stable
-  `data-note-anchor` values, and hash routes shaped as `#/e/<id>` and
-  `#/c/<chain-slug>`.
+  `data-note-anchor` values, and hash routes shaped as `#/chains`,
+  `#/e/<id>`, and `#/c/<chain-slug>`.
 - Keep termified prose inside a containing element when its parent is flex/grid;
   injected `.term` buttons must not split anonymous text into layout items.
 - Every animation degrades. Reduced motion renders a manual reader; anime-CDN

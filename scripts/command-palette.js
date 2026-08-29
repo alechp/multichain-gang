@@ -19,17 +19,20 @@
     {id:'previous',title:'Previous focus',summary:'Move the playthrough back one authored focus.',command:'previous'},
     {id:'next',title:'Next focus',summary:'Move the playthrough forward one authored focus.',command:'next'}
   ];
+  const chainDirectory={id:'chain-directory',title:'All chain indexes',summary:'Open the six-chain atlas and choose a chain-specific reading path.',kind:'chain-directory',aliases:['chains','chain directory','chain atlas','all chains','chain pages'],keywords:['Solana Ethereum BNB Bitcoin Zcash Robinhood Chain']};
   const records=[];
   sections.forEach(item=>records.push({...item,kind:'section',aliases:[item.label,'channel '+item.label.replace(/\D/g,'')]}));
   commands.forEach(item=>records.push({...item,kind:'command',aliases:[item.command,'transport']}));
+  records.push(chainDirectory);
   Object.entries(data.chainPages||{}).forEach(([id,item])=>records.push({
     id:'chain-'+id,title:item.name,summary:item.summary||'',kind:'chain-index',slug:item.slug,
     aliases:[id,item.short,item.slug,'chain index',item.name+' articles'],keywords:['chain hub','reading path',(item.groups||[]).map(group=>group.id).join(' ')]
   }));
-  Object.entries(data.entities||{}).forEach(([id,item])=>records.push({
-    id,title:item.name,summary:item.tagline||'',kind:'entity',entity:id,
-    aliases:[id,...(item.chains||[])],keywords:[item.kind,...(item.chains||[]),(item.signals||[]).map(signal=>signal.k).join(' ')]
-  }));
+  Object.entries(data.entities||{}).forEach(([id,item])=>{
+    const kind=item.article?.status==='published'?'article':'entity';
+    records.push({id,title:item.name,summary:item.tagline||'',kind,entity:id,
+      aliases:[id,...(item.chains||[]),kind==='article'?'article page':'entity page'],keywords:[item.kind,...(item.chains||[]),(item.signals||[]).map(signal=>signal.k).join(' ')]});
+  });
   Object.entries(data.terms||{}).forEach(([key,item])=>records.push({
     id:key,title:item.term,summary:item.def||item.purpose||'',kind:'glossary',term:key,entity:item.entity||'',
     aliases:item.aliases||[],keywords:[item.purpose||'']
@@ -51,18 +54,18 @@
 
   const panel=document.createElement('section');
   panel.className='cmd-panel';panel.id='scopeCommand';panel.hidden=true;panel.setAttribute('aria-labelledby','cmdTitle');
-  panel.innerHTML='<div class="cmd-shell"><header class="cmd-head"><div><p class="cmd-kicker">COMMAND CHANNEL · LOCAL INDEX</p><h2 id="cmdTitle">FIND A SIGNAL</h2></div><button class="cmd-close" type="button" aria-label="Close command channel">ESC ×</button><p>Sections, focus cues, entities, tools, chains, and glossary references.</p></header><label class="cmd-query"><span aria-hidden="true">⌕</span><input id="cmdInput" type="search" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="cmdResults" autocomplete="off" spellcheck="false" placeholder="Search turbine, Jito, priority fees…"><kbd>ESC</kbd></label><nav class="cmd-sections" aria-label="Quick section jump"></nav><div class="cmd-meta"><span id="cmdStatus" role="status" aria-live="polite"></span><span>FUSE '+escape(window.Fuse?.version||'FALLBACK')+' · ON-DEVICE</span></div><div class="cmd-results" id="cmdResults" role="listbox" aria-label="Search results"></div><footer class="cmd-foot"><span><kbd>↑</kbd><kbd>↓</kbd> SELECT · <kbd>↵</kbd> OPEN</span><span><kbd>←</kbd><kbd>→</kbd> FOCUS · <kbd>SPACE</kbd> AUTO</span></footer></div>';
+  panel.innerHTML='<div class="cmd-shell"><header class="cmd-head"><div><p class="cmd-kicker">COMMAND CHANNEL · LOCAL INDEX</p><h2 id="cmdTitle">FIND A SIGNAL</h2></div><button class="cmd-close" type="button" aria-label="Close command channel">ESC ×</button><p>Sections, chain indexes, article pages, focus cues, tools, and glossary references.</p></header><label class="cmd-query"><span aria-hidden="true">⌕</span><input id="cmdInput" type="search" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-controls="cmdResults" autocomplete="off" spellcheck="false" placeholder="Search chains, Turbine, Jito, priority fees…"><kbd>ESC</kbd></label><nav class="cmd-sections" aria-label="Quick section jump"></nav><div class="cmd-meta"><span id="cmdStatus" role="status" aria-live="polite"></span><span>FUSE '+escape(window.Fuse?.version||'FALLBACK')+' · ON-DEVICE</span></div><div class="cmd-results" id="cmdResults" role="listbox" aria-label="Search results"></div><footer class="cmd-foot"><span><kbd>↑</kbd><kbd>↓</kbd> SELECT · <kbd>↵</kbd> OPEN</span><span><kbd>←</kbd><kbd>→</kbd> FOCUS · <kbd>SPACE</kbd> AUTO</span></footer></div>';
   document.body.appendChild(panel);
   const input=panel.querySelector('#cmdInput'),resultsNode=panel.querySelector('#cmdResults'),status=panel.querySelector('#cmdStatus'),sectionNav=panel.querySelector('.cmd-sections');
   sections.slice(1).forEach((item,index)=>{
     const button=document.createElement('button');button.type='button';button.className='cmd-section';button.dataset.section=item.id;button.style.setProperty('--section-c',channelColors['ch'+(index+1)]);button.textContent=item.label;sectionNav.appendChild(button);
   });
   let visible=[],active=0;
-  const glyph={section:'§',command:'⌘','chain-index':'⌂',entity:'↗',glossary:'REF',focus:'◎'};
-  const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind;
+  const glyph={section:'§',command:'⌘','chain-directory':'⌂','chain-index':'◇',article:'DOC',entity:'↗',glossary:'REF',focus:'◎'};
+  const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind==='chain-directory'?'chain directory':item.kind==='chain-index'?'chain index':item.kind;
   const search=query=>{
     const term=query.trim();
-    if(!term)return [...sections,...commands].map(item=>records.find(record=>record.kind===item.kind&&record.id===item.id)).filter(Boolean);
+    if(!term)return [...sections,...commands,chainDirectory].map(item=>records.find(record=>record.kind===item.kind&&record.id===item.id)).filter(Boolean);
     if(fuse)return fuse.search(term,{limit:14}).map(result=>result.item);
     const needle=term.toLowerCase();return records.filter(item=>[item.title,item.summary,...(item.aliases||[]),...(item.keywords||[])].join(' ').toLowerCase().includes(needle)).slice(0,14);
   };
@@ -101,7 +104,8 @@
         if(item.id==='top')history.replaceState(null,'',location.pathname+location.search);else location.hash=item.id;
         focusTarget(document.querySelector(item.target));return;
       }
-      if(item.kind==='entity'){clearOtherOverlay();scope.Router.go('/e/'+item.entity);return}
+      if(item.kind==='entity'||item.kind==='article'){clearOtherOverlay();scope.Router.go('/e/'+item.entity);return}
+      if(item.kind==='chain-directory'){clearOtherOverlay();scope.Router.go('/chains');return}
       if(item.kind==='chain-index'){clearOtherOverlay();scope.Router.go('/c/'+item.slug);return}
       if(item.kind==='glossary'){
         clearOtherOverlay();

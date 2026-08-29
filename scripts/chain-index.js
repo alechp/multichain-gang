@@ -34,9 +34,32 @@
       <a class="chain-article-link" href="#/e/${esc(item.id)}" data-chain-article="${esc(item.id)}">
         <span class="chain-card-meta">${cardMeta(entity,item.group)}</span>
         <h4>${esc(entity.name)}</h4><p>${esc(entity.tagline)}</p>
-        <span class="chain-article-route">READ ARTICLE →</span><span class="chain-veil-hint">HOVER + HOLD L</span>
+        <span class="chain-article-route">READ ARTICLE →</span><span class="chain-veil-hint">HOVER + HOLD CTRL</span>
       </a>
     </article>`;
+  }
+  function renderDirectory(){
+    activeId='';activeSlug='';filter='all';shell.dataset.view='directory';shell.dataset.chain='directory';shell.style.setProperty('--cc','var(--violet)');ref.textContent=`ALL CHAINS · ${String(ordered.length).padStart(2,'0')} PATHS`;document.title='Chain directory — SOLANA//SCOPE';
+    pageNode.innerHTML=`
+      <header class="chain-directory-mast">
+        <p class="chain-kicker">CHAIN DIRECTORY · SIX EXECUTION ENVIRONMENTS</p>
+        <div class="chain-directory-title"><h1 id="chainIndexTitle" tabindex="-1">CHAIN<br>ATLAS</h1><p>Choose an execution environment, then move from its system overview into consensus, transaction flow, ordering, infrastructure, safety, and liquidity articles. Every card below is a canonical route.</p></div>
+      </header>
+      <section class="chain-directory-region" aria-labelledby="chainDirectoryGrid">
+        <header class="chain-directory-head"><div><p class="chain-section-kicker">00 · SELECT A READING PATH</p><h2 id="chainDirectoryGrid">ALL CHAIN INDEXES</h2></div><p>${ordered.length} hubs · ${ordered.reduce((sum,[id])=>sum+articlesFor(id).length,0)} article placements · one shared reference system</p></header>
+        <div class="chain-directory-grid">${ordered.map(([id,chainPage],index)=>{
+          const count=articlesFor(id).length;
+          return `<article class="chain-directory-card" style="--card-c:${esc(colorFor(id))}">
+            <a href="#/c/${esc(chainPage.slug)}" aria-label="Open ${esc(chainPage.name)} chain index">
+              <span class="chain-directory-meta"><b>${String(index+1).padStart(2,'0')}</b><span>${esc(chainPage.short)}</span><span>${count} ARTICLES</span></span>
+              <h2>${esc(chainPage.name)}</h2><p>${esc(chainPage.summary)}</p>
+              <dl>${chainPage.signals.slice(0,3).map(signal=>`<div><dt>${esc(signal.k)}</dt><dd>${esc(signal.v)}</dd></div>`).join('')}</dl>
+              <span class="chain-directory-route">OPEN INDEX →</span>
+            </a>
+          </article>`;
+        }).join('')}</div>
+      </section>`;
+    shell.scrollTop=0;clearHeld();return true;
   }
   function crossLens(id,page){
     const baseline=pages.sol,chainRecord=id==='sol'?data.sol:data.chains?.[id];
@@ -58,7 +81,7 @@
     const chainPage=pages[id];if(!chainPage)return false;
     const items=articlesFor(id),featured=chainPage.featured.map(entityId=>items.find(item=>item.id===entityId)).filter(Boolean);
     if(featured.length!==3)return false;
-    activeId=id;activeSlug=chainPage.slug;filter='all';
+    activeId=id;activeSlug=chainPage.slug;filter='all';shell.dataset.view='chain';
     shell.style.setProperty('--cc',colorFor(id));shell.dataset.chain=id;ref.textContent=`${chainPage.short} · ${chainPage.slug}`;
     const index=ordered.findIndex(([key])=>key===id),previous=ordered[(index-1+ordered.length)%ordered.length],following=ordered[(index+1)%ordered.length];
     prev.dataset.chainSlug=previous[1].slug;prev.title=`Previous: ${previous[1].name}`;prev.setAttribute('aria-label',`Previous chain index: ${previous[1].name}`);
@@ -94,16 +117,19 @@
   function applyVeil(){
     const enabled=veilEnabled();shell.classList.toggle('chain-link-veil',enabled);veil.setAttribute('aria-pressed',enabled?'true':'false');veil.querySelector('span').textContent=enabled?'LINK VEIL ON':'LINKS VISIBLE';clearHeld();
   }
-  function toggleVeil(){const enabled=!veilEnabled();veilStore.set({v:1,enabled});applyVeil();const status=pageNode.querySelector('#chainVeilStatus');if(status)status.textContent=enabled?'Link Veil on. Hover an article and hold L to reveal its link.':'Links visible.'}
+  function toggleVeil(){const enabled=!veilEnabled();veilStore.set({v:1,enabled});applyVeil();const status=pageNode.querySelector('#chainVeilStatus');if(status)status.textContent=enabled?'Link Veil on. Hover an article and hold Control to reveal its link.':'Links visible.'}
   function updateHeld(){pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'));if(held&&hoveredCard&&veilEnabled())hoveredCard.classList.add('chain-link-revealed')}
   function clearHeld(){held=false;pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'))}
   function editable(target){return target?.closest?.('input,textarea,select,[contenteditable="true"]')}
-  function openRoute(route){
-    const match=bySlug.get(route.slug);if(!match)return;
-    if(!render(match.id))return;
+  function present(){
     if(!scope.Overlay.isOpen(shell))scope.Overlay.open({element:shell,trigger:pendingTrigger,focusTarget:pageNode.querySelector('h1'),modal:true,scrim:false,lockScroll:true,outsideClose:false,sheet:false,onClose:()=>{clearHeld();activeId='';activeSlug='';if(closingForRoute)closingForRoute=false;else{document.title=baseTitle;scope.Router.close()}}});
     else pageNode.querySelector('h1')?.focus({preventScroll:true});
     pendingTrigger=null;
+  }
+  function openDirectory(){if(renderDirectory())present()}
+  function openRoute(route){
+    const match=bySlug.get(route.slug);if(!match||!render(match.id))return;
+    present();
   }
   function closeForOtherRoute(){if(!scope.Overlay.isOpen(shell))return;closingForRoute=true;scope.Overlay.close(shell,{restoreFocus:false,reason:'route'})}
   function rememberArticle(id,trigger){
@@ -124,16 +150,17 @@
     const own=ordered.find(([chainId,chainPage])=>chainPage.overview===id||((entities[id]?.chains||[]).includes(chainId)&&articleIds(chainPage).includes(id)));
     return own?{id:own[0],page:own[1],slug:own[1].slug}:null;
   }
-  function launch(trigger){pendingTrigger=trigger instanceof HTMLElement?trigger:null;scope.Router.go('/c/'+(lastContext?.slug&&bySlug.has(lastContext.slug)?lastContext.slug:pages.sol.slug))}
+  function launch(trigger){pendingTrigger=trigger instanceof HTMLElement?trigger:null;scope.Router.go('/chains')}
 
-  const launcher=document.createElement('button');launcher.type='button';launcher.className='chain-launch';launcher.textContent='CHAINS';launcher.setAttribute('aria-label','Open chain article indexes');
+  const launcher=document.createElement('button');launcher.type='button';launcher.className='chain-launch';launcher.textContent='CHAINS';launcher.setAttribute('aria-label','Open the chain directory');launcher.title='Browse all chain indexes';
   document.querySelector('.slotbar-inner')?.appendChild(launcher);launcher.addEventListener('click',()=>{if(!document.documentElement.hasAttribute('data-scope-unlocked')){document.getElementById('scopeAccessCode')?.focus();return}launch(launcher)});
+  scope.Router.on('chain-directory',openDirectory);
   scope.Router.on('chain',openRoute);
-  addEventListener('hashchange',()=>{const route=scope.Router.parse(location.hash);if(!route||route.type!=='chain')closeForOtherRoute()});
-  addEventListener('popstate',()=>{const route=scope.Router.parse(location.hash);if(!route||route.type!=='chain')closeForOtherRoute()});
+  addEventListener('hashchange',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
+  addEventListener('popstate',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
   close.addEventListener('click',()=>scope.Overlay.close(shell,{reason:'button'}));
   prev.addEventListener('click',()=>scope.Router.go('/c/'+prev.dataset.chainSlug));next.addEventListener('click',()=>scope.Router.go('/c/'+next.dataset.chainSlug));veil.addEventListener('click',toggleVeil);
-  addEventListener('keydown',event=>{if(event.key.toLowerCase()!=='l'||event.repeat||editable(event.target)||event.metaKey||event.ctrlKey||event.altKey||event.shiftKey||!scope.Overlay.isOpen(shell)||!veilEnabled())return;held=true;updateHeld()},{capture:true});
-  addEventListener('keyup',event=>{if(event.key.toLowerCase()==='l')clearHeld()},{capture:true});addEventListener('blur',clearHeld);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHeld()});
+  addEventListener('keydown',event=>{if(event.key!=='Control'||event.repeat||editable(event.target)||!scope.Overlay.isOpen(shell)||!veilEnabled())return;held=true;updateHeld()},{capture:true});
+  addEventListener('keyup',event=>{if(event.key==='Control')clearHeld()},{capture:true});addEventListener('blur',clearHeld);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHeld()});
   scope.ChainIndex=Object.freeze({launch,openArticle:rememberArticle,contextFor,get activeSlug(){return activeSlug},get records(){return ordered.map(([id,page])=>({id,slug:page.slug,title:page.name,short:page.short,summary:page.summary}))},get veil(){return veilEnabled()}});
 })(window.SCOPE);

@@ -44,7 +44,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 ## Layout
 
     index.html                      v3 instrument core (CH-01 … CH-05)
-    scripts/chain-index.js          six routed chain hubs, filters, Link Veil
+    scripts/chain-index.js          chain atlas, six routed hubs, CTRL Link Veil
     styles/chain-index.css          responsive chain/article index surfaces
     scripts/command-palette.js      command channel, search index, keyboard bridge
     styles/command-palette.css      responsive command-channel surface
@@ -72,9 +72,13 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
   teaching surfaces and remains optional.
 - Field-note controls are temporarily hidden while their interaction model is
   repaired; existing local note data is left intact.
-- Six full-screen chain indexes at `#/c/<slug>` with three featured reads,
+- A full-screen chain atlas at `#/chains`, plus six chain indexes at
+  `#/c/<slug>` with three featured reads,
   topic filters, comparative lenses, official source rails, direct article
-  routes, Back/Forward scroll restoration, and an opt-in hover + `L` Link Veil.
+  routes, Back/Forward scroll restoration, footer deep links, and an opt-in
+  hover + hold `CTRL` Link Veil.
+- A 177-record command index that exposes the chain directory, all six chain
+  hubs, and every published reader as an explicitly labeled article page.
 - 79 unique hash-routed entity channels spanning techniques, tools, chains, and
   term targets, plus an exact JavaScript-off ENTITY INDEX mirror.
 - 69 chain-page placements across 68 distinct published articles, including

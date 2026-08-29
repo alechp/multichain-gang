@@ -18,7 +18,13 @@ try{
     await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit';document.body.tabIndex=-1;document.body.focus()});
 
     const engine=await page.evaluate(()=>({engine:SCOPE.CommandPalette?.engine,size:SCOPE.CommandPalette?.size,version:window.Fuse?.version}));
-    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==176)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==177)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    const pageRecords=await page.evaluate(()=>({
+      directory:SCOPE.CommandPalette.search('all chains').find(item=>item.kind==='chain-directory'),
+      article:SCOPE.CommandPalette.search('Robinhood Chain coin launch playbook').find(item=>item.id==='robinhood-coin-launch-playbook')
+    }));
+    if(pageRecords.directory?.id!=='chain-directory')failures.push(`${width}px: chain directory is not indexed`);
+    if(pageRecords.article?.kind!=='article'||pageRecords.article?.entity!=='robinhood-coin-launch-playbook')failures.push(`${width}px: individual article page is not identified ${JSON.stringify(pageRecords.article)}`);
     if((await page.evaluate(()=>SCOPE.CommandPalette.search('open field notes').some(item=>item.id==='notes'))))failures.push(`${width}px: hidden Notes command remains searchable`);
     await page.keyboard.press('Meta+K');
     if(!await page.locator('#scopeCommand').isVisible())failures.push(`${width}px: palette did not open`);
@@ -121,4 +127,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (176 records), persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (177 records), chain-directory and article-page routing, persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');

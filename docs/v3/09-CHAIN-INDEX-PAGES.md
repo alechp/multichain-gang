@@ -12,8 +12,9 @@
 ## 0. Executive decision
 
 Every supported chain gets a dedicated, deep-linkable **chain index page**.
-The chain page is a curated landing surface; it does not duplicate the article
-body already owned by an entity record.
+`#/chains` is the canonical directory above those six hubs. The chain page is
+a curated landing surface; it does not duplicate the article body already
+owned by an entity record.
 
 Canonical routes:
 
@@ -41,8 +42,8 @@ The current entity page remains the **article reader**. For example:
 
 The implementation also adds an opt-in **Link Veil**. In that mode, article
 route chrome is visually quiet until a pointer user hovers a card and holds
-`L`. Keyboard focus, touch, JavaScript-off, and the default mode always expose
-ordinary visible links.
+`CTRL`. Keyboard focus, touch, JavaScript-off, and the default mode always
+expose ordinary visible links.
 
 ## 1. Goals and non-goals
 
@@ -81,6 +82,8 @@ ordinary visible links.
 ```text
 SOLANA//SCOPE instrument
 ├── CH-01 … CH-05 teaching channels
+├── Chain atlas                           #/chains
+│   └── six canonical chain choices
 ├── Chain index                           #/c/<chain-slug>
 │   ├── overview signals
 │   ├── featured articles
@@ -128,15 +131,17 @@ duplicate the card in another group.
 
 ### 3.1 Router extension
 
-Extend the shared Router with a `chain` type:
+Extend the shared Router with a directory type and a `chain` type:
 
 ```js
+if (/^#\/chains\/?$/i.test(hash)) return { type: 'chain-directory' };
 const chain = /^#\/c\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
 if (chain) return { type: 'chain', slug: decodeURIComponent(chain[1]) };
 ```
 
 Required public behavior:
 
+- `SCOPE.Router.go('/chains')` opens the six-chain atlas.
 - `SCOPE.Router.go('/c/solana')` pushes a recognized route.
 - Unknown chain slugs are ignored without hiding or breaking the base page.
 - Direct load opens the chain shell after the access gate is satisfied.
@@ -528,24 +533,28 @@ It must not add signing, submission, or trading controls.
 
 ### 8.1 Existing surfaces
 
+- The global `CHAINS` launcher opens `#/chains`, never a remembered chain.
+- The atlas renders six real anchors to the canonical `#/c/<slug>` routes.
 - Compare-dock chain headings open `#/c/<slug>`, not the overview entity.
 - The CH-05 chain selector gains an `OPEN INDEX ▸` action.
 - Chain entity articles include `EXPLORE <CHAIN> ARTICLES ▸` back to the hub.
 - Entity pages whose `chains` has one entry show `MORE ON <CHAIN> ▸`.
 - Multi-chain entity pages show one chain-hub chip per chain.
-- Footer channel legend gains a compact `CHAIN INDEXES` control, not six new
-  persistent nav links.
+- The footer exposes `ALL CHAINS` plus one persistent deep link for each of the
+  six chain indexes.
 
 ### 8.2 Command channel
 
-Add six `kind: "chain-index"` records before ordinary entity records. Search
-results use glyph `⌂` and kind label `chain index`. Searching `Solana`, `ETH`,
-`Bitcoin`, `Zcash`, `BNB`, or `Robinhood` should rank the chain index before
-the chain overview article, while exact article-title searches still rank the
-article first.
+Add one `kind: "chain-directory"` record and six `kind: "chain-index"`
+records before ordinary entity records. Every published entity is indexed as
+`kind: "article"`, so individual reader routes are visibly distinguished from
+non-article entities. Searching `chains` ranks the atlas; searching `Solana`,
+`ETH`, `Bitcoin`, `Zcash`, `BNB`, or `Robinhood` exposes the matching chain
+hub; exact article-title searches still rank the article first.
 
-The empty command view gains a `CHAIN INDEXES` rail containing the six routes.
-The command index remains local and deterministic.
+The empty command view includes the directory record. The command index is 177
+local, deterministic records and sends directory, hub, and article results to
+their canonical hash routes.
 
 ### 8.3 Internal article links
 
@@ -561,8 +570,8 @@ Link Veil is an opt-in visual focus mode for the chain index article register.
 
 - Default: `LINKS VISIBLE`; all article actions look and behave like links.
 - Optional: `LINK VEIL`; route labels quiet down.
-- Pointer reveal: hover an article row and hold `L` to reveal its route action.
-- Keyboard reveal: focusing the anchor always reveals it; `L` is not required.
+- Pointer reveal: hover an article row and hold `CTRL` to reveal its route action.
+- Keyboard reveal: focusing the anchor always reveals it; `CTRL` is not required.
 - Touch: veil is bypassed and links remain visible.
 - No JavaScript: links remain visible.
 - External official-source links, glossary reference terms, global navigation,
@@ -572,19 +581,22 @@ The shell control label toggles between:
 
 ```text
 LINKS VISIBLE
-LINK VEIL · HOLD L
+LINK VEIL · HOLD CTRL
 ```
 
 The preference is stored with `SCOPE.Store.create('chain.linkVeil', …)` under
 the existing versioned storage namespace. Default value is `false`.
 
-### 9.2 Why `L`
+### 9.2 Why held `CTRL`
 
-`L` is a hold-to-peek key and does not modify the eventual click. Do not use:
+The bare Control modifier is a hold-to-peek state; it does not navigate, does
+not compete with the command palette, and is released before the eventual
+click. The implementation does not bind `Ctrl+L`, which remains browser-owned.
+Do not use:
 
 - `Alt`, which can activate menus or alter link behavior;
 - `Shift`, which changes browser link opening behavior;
-- `Ctrl`/`Meta`, which opens new tabs;
+- `Meta`, which commonly opens links in a new tab on macOS;
 - `Space`, already owned by the play-through transport.
 
 The handler ignores editors, command dialogs, key chords, and repeated keydown
@@ -597,9 +609,9 @@ remove the reveal class.
 VISIBLE (default)
   toggle preference
 VEILED
-  pointer enters article + keydown L
+  pointer enters article + keydown Control
 PEEKING
-  keyup L / pointer leaves / blur / page hidden
+  keyup Control / pointer leaves / blur / page hidden
 VEILED
   focus enters article link
 FOCUS-REVEALED
@@ -610,8 +622,8 @@ VEILED
 Implementation classes:
 
 ```text
-body.chain-link-veil       preference enabled
-body.chain-link-peek       L currently held in an eligible context
+.chain-channel.chain-link-veil preference enabled
+.chain-link-revealed          hovered card while Control is held
 .chain-article:hover       pointer is over a card
 .chain-article:focus-within keyboard reveal override
 ```
@@ -628,26 +640,24 @@ Conceptual CSS:
 
 ```css
 @media (hover:hover) and (pointer:fine) {
-  .chain-link-veil:not(.chain-link-peek)
-  .chain-article:not(:focus-within) .chain-article-link {
+  .chain-link-veil .chain-article:not(:focus-within)
+  .chain-article-link {
     color:inherit;
     text-decoration:none;
     pointer-events:none;
     cursor:default;
   }
-  .chain-link-veil:not(.chain-link-peek)
-  .chain-article:not(:focus-within) .chain-article-route {
+  .chain-link-veil .chain-article:not(:focus-within)
+  .chain-article-route {
     opacity:0;
   }
-  .chain-link-veil.chain-link-peek
-  .chain-article:hover .chain-article-link,
+  .chain-link-veil .chain-article.chain-link-revealed .chain-article-link,
   .chain-link-veil .chain-article:focus-within .chain-article-link {
     color:var(--cc);
     pointer-events:auto;
     cursor:pointer;
   }
-  .chain-link-veil.chain-link-peek
-  .chain-article:hover .chain-article-route,
+  .chain-link-veil .chain-article.chain-link-revealed .chain-article-route,
   .chain-link-veil .chain-article:focus-within .chain-article-route {
     opacity:1;
   }
@@ -661,11 +671,11 @@ instant.
 ### 9.4 Discoverability and accessibility
 
 - Enabling the preference produces one status message:
-  `LINK VEIL ON · HOVER AN ARTICLE AND HOLD L · TAB ALWAYS REVEALS`.
-- The chain shell displays a persistent, low-contrast `HOLD L · REVEAL ROUTE`
+  `LINK VEIL ON · HOVER AN ARTICLE AND HOLD CONTROL · TAB ALWAYS REVEALS`.
+- The chain shell displays a persistent, low-contrast `HOLD CTRL · REVEAL ROUTE`
   legend while the preference is enabled.
 - The toggle has `aria-pressed` and an explicit accessible description.
-- Pressing `L` alone never navigates.
+- Pressing or releasing `CTRL` alone never navigates.
 - Screen-reader names remain `<Article title>, <level>, <minutes> minutes`.
 - High-contrast mode replaces opacity-only reveal with an outline and visible
   `OPEN ARTICLE` text.
@@ -837,19 +847,25 @@ only after the default visible-link state and keyboard/touch fallbacks pass.
 ### 18.1 Static data assertions
 
 - Exactly six chain pages and six canonical slugs from §0.
+- Exactly one `#/chains` atlas with six unique canonical hub anchors.
 - Every overview, featured id, and article id resolves.
 - Zero draft/archived records in rendered manifests.
 - Every article's chain list contains its index chain.
 - Exactly three featured articles per page.
 - No duplicate article within a chain register.
 - Every internal `#/c/` and `#/e/` href resolves.
+- The footer contains `#/chains` and all six `#/c/` links.
+- The 177-record command index includes the atlas, six hubs, and every
+  published article as `kind: "article"`.
 - Every external URL is HTTPS; every new-tab link has noopener/noreferrer.
 - No article/source names are hard-coded in the renderer.
 
 ### 18.2 Runtime route matrix
 
-At 390 and 1200 px, direct-open all six `#/c/` routes and assert:
+At 390 and 1200 px, click `CHAINS`, then direct-open all six `#/c/` routes and
+assert:
 
+- the launcher lands on `#/chains` with all six choices and no hub arrows;
 - correct title, `h1`, signals, article count, groups, and primary docs;
 - no page overflow;
 - no console/page errors;
@@ -864,12 +880,12 @@ At 390 and 1200 px, direct-open all six `#/c/` routes and assert:
 1. Default preference: every route action is visible and clickable.
 2. Enable veil on pointer-fine desktop: nonfocused route action is visually
    veiled and cannot receive pointer activation.
-3. Hover card + hold `L`: only the hovered card route appears; key release
+3. Hover card + hold `CTRL`: only the hovered card route appears; key release
    hides it.
-4. Move pointer while holding `L`: reveal follows the hovered card.
-5. Tab to a veiled route: it becomes visible without `L` and activates with
+4. Move pointer while holding `CTRL`: reveal follows the hovered card.
+5. Tab to a veiled route: it becomes visible without `CTRL` and activates with
    Enter.
-6. Focus an editor and type `l`: no page reveal state changes.
+6. Focus an editor and press `CTRL`: no page reveal state changes.
 7. Blur or hide document during peek: reveal class clears.
 8. Touch/coarse pointer: preference is ignored and routes remain visible.
 9. Reduced motion: reveal is instant.
@@ -893,7 +909,8 @@ cd journal && bun test && bun run check:tokens
 
 The feature is complete only when:
 
-- all six chain indexes are deep-linkable and populated from the manifest;
+- the `CHAINS` launcher, footer, and command channel all expose `#/chains` and
+  the six deep-linkable manifest-backed indexes;
 - every rendered chain-specific article opens a complete entity reader;
 - the supplied sequencer detail pattern is reachable from the Robinhood hub;
 - default links are obvious, sourced, and keyboard operable;
@@ -912,11 +929,12 @@ Implemented on 2026-08-29 in the repository-root static application:
 - `index.html` owns the six `chainPages` manifests, 79-entity corpus, published
   article metadata, eleven new deep readers, routed shells, and exact
   JavaScript-off chain/entity mirrors;
-- `scripts/chain-index.js` owns `#/c/<slug>` rendering, filters, history
-  restoration, chain-to-article context, the chain launcher, and Link Veil;
+- `scripts/chain-index.js` owns `#/chains` and `#/c/<slug>` rendering, filters,
+  history restoration, chain-to-article context, the chain launcher, and CTRL
+  Link Veil;
 - `styles/chain-index.css` owns the responsive industrial index surface and
   fine-pointer-only veil behavior;
-- `scripts/command-palette.js` indexes the six chain hubs ahead of overview
-  articles; and
+- `scripts/command-palette.js` indexes the directory, six chain hubs, and every
+  published article page; and
 - `scripts/audit-chain-index.mjs` enforces schema, inventory, responsive,
   route, Link Veil, history, safety, and no-JavaScript contracts.

@@ -57,6 +57,16 @@ try{
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
     await page.route(/^https?:\/\//,route=>route.abort('blockedbyclient'));
     await page.goto(targetUrl,{waitUntil:'load'});await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit'});
+    const footer=await page.evaluate(()=>({all:document.querySelectorAll('.footer-chain-nav a[href="#/chains"]').length,chains:Array.from(document.querySelectorAll('.footer-chain-nav a[href^="#/c/"]')).map(link=>link.getAttribute('href'))}));
+    if(footer.all!==1||footer.chains.length!==6||new Set(footer.chains).size!==6)failures.push(`${width}px: footer chain routes are incomplete ${JSON.stringify(footer)}`);
+    await page.locator('.chain-launch').click();await page.waitForTimeout(40);
+    const directory=await page.evaluate(()=>({
+      hash:location.hash,visible:!!document.querySelector('#chainChannel:not([hidden])'),view:document.getElementById('chainChannel').dataset.view,
+      h1:document.querySelector('#chainPage h1')?.innerText.replace(/\s+/g,' ').trim(),cards:document.querySelectorAll('.chain-directory-card').length,
+      routes:Array.from(document.querySelectorAll('.chain-directory-card>a')).map(link=>link.getAttribute('href')),
+      navVisible:!!document.querySelector('.chain-nav')?.getClientRects().length,overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
+    }));
+    if(directory.hash!=='#/chains'||!directory.visible||directory.view!=='directory'||directory.h1!=='CHAIN ATLAS'||directory.cards!==6||directory.routes.length!==6||new Set(directory.routes).size!==6||directory.navVisible||directory.overflow>1)failures.push(`${width}px: launcher directory contract failed ${JSON.stringify(directory)}`);
     for(const [chainId,count] of Object.entries(expected)){
       const slug=data.chainPages[chainId].slug;
       await page.evaluate(value=>SCOPE.Router.go('/c/'+value),slug);await page.waitForTimeout(40);
@@ -80,9 +90,11 @@ try{
       await page.locator('#chainVeil').click();const card=page.locator('.chain-article').first();await card.hover();
       const hidden=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));
       if(hidden.pointer!=='none'||hidden.route!=='0')failures.push(`Link Veil did not conceal pointer route: ${JSON.stringify(hidden)}`);
-      await page.keyboard.down('l');const revealed=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));
+      await page.keyboard.down('l');const wrongKey=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));await page.keyboard.up('l');
+      if(wrongKey.pointer!=='none'||wrongKey.route!=='0')failures.push(`Link Veil still responds to L: ${JSON.stringify(wrongKey)}`);
+      await page.keyboard.down('Control');const revealed=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));
       if(revealed.pointer==='none'||revealed.route!=='1')failures.push(`Link Veil chord did not reveal route: ${JSON.stringify(revealed)}`);
-      await page.keyboard.up('l');
+      await page.keyboard.up('Control');
       await card.locator('.chain-article-link').focus();if((await card.locator('.chain-article-link').evaluate(node=>getComputedStyle(node).pointerEvents))==='none')failures.push('Link Veil blocked keyboard-focused link');
       await page.locator('#chainVeil').click();
     }else if(width===390){
@@ -106,4 +118,4 @@ try{
 }finally{await browser.close()}
 
 if(failures.length){console.error(`CHAIN INDEX FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));process.exitCode=1;throw new Error('CHAIN INDEX AUDIT FAILED')}
-console.log('CHAIN INDEX PASS — six canonical routes, 69 placements / 68 unique articles, published metadata, deep readers, filters, source rails, Link Veil, history restoration, responsive layouts, and exact JavaScript-off inventories pass.');
+console.log('CHAIN INDEX PASS — launcher directory, footer routes, six canonical chain hubs, 69 placements / 68 unique articles, deep readers, filters, sources, CTRL Link Veil, history restoration, responsive layouts, and exact JavaScript-off inventories pass.');

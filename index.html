@@ -624,6 +624,11 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 /* footer */
 footer{border-top:1px solid var(--line);margin-top:80px;padding:30px 0 calc(44px + env(safe-area-inset-bottom))}
 footer p{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;color:var(--faint);max-width:80ch}
+.footer-chain-nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin:0 0 18px;font:600 .62rem/1.2 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase}
+.footer-chain-nav>span{margin-right:4px;color:var(--lbl)}
+.footer-chain-nav a{display:inline-flex;align-items:center;min-height:36px;padding:7px 10px;border:1px solid var(--line);border-radius:2px;background:var(--panel);color:var(--ink);text-decoration:none}
+.footer-chain-nav a:first-of-type{border-color:color-mix(in srgb,var(--violet) 55%,var(--line));color:var(--violet)}
+.footer-chain-nav a:is(:hover,:focus-visible){border-color:var(--violet);outline:2px solid color-mix(in srgb,var(--violet) 34%,transparent);outline-offset:2px;color:var(--violet)}
 
 .glow-amber{filter:drop-shadow(0 0 6px rgba(255,180,84,.9))}
 .glow-cyan{filter:drop-shadow(0 0 6px rgba(91,215,232,.9))}
@@ -1026,7 +1031,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v3-2026-08-29.2">
+<body data-rev="v3-2026-08-29.3">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -1717,6 +1722,16 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
 <footer>
   <div class="wrap">
+    <nav class="footer-chain-nav" aria-label="Chain indexes">
+      <span>CHAIN INDEXES</span>
+      <a href="#/chains">ALL CHAINS</a>
+      <a href="#/c/solana">SOLANA</a>
+      <a href="#/c/ethereum">ETHEREUM</a>
+      <a href="#/c/bnb-chain">BNB CHAIN</a>
+      <a href="#/c/bitcoin">BITCOIN</a>
+      <a href="#/c/zcash">ZCASH</a>
+      <a href="#/c/robinhood-chain">ROBINHOOD CHAIN</a>
+    </nav>
     <p>SOLANA//SCOPE · AN ENGINEERING READOUT — FIGURES ARE ILLUSTRATIVE ORDERS OF MAGNITUDE, NOT LIVE TELEMETRY. SLOT COUNTER IS SIMULATED AT 400 MS. BUILT WITH ANIME.JS.</p>
     <p class="channel-legend" aria-label="Channel color legend">
       <span style="--legend-c:var(--cyan)">CYAN NETWORK</span><span style="--legend-c:var(--amber)">AMBER TX</span>
@@ -1830,7 +1845,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <button type="button" id="chainPrev" aria-label="Previous chain index">←</button>
       <button type="button" id="chainNext" aria-label="Next chain index">→</button>
     </nav>
-    <button type="button" class="chain-veil-toggle" id="chainVeil" aria-pressed="false"><span>LINKS VISIBLE</span><kbd>L</kbd></button>
+    <button type="button" class="chain-veil-toggle" id="chainVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hover an article and hold Control to reveal its link"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
     <button type="button" class="chain-close" id="chainClose" aria-label="Close chain index">✕</button>
   </header>
   <main class="chain-page" id="chainPage"></main>
@@ -1954,7 +1969,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v3-2026-08-29.2",
+  "_rev": "v3-2026-08-29.3",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -3593,8 +3608,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   })();
 
   /* Router usage:
-   * 1. Subscribe with SCOPE.Router.on('entity'|'cue', callback).
-   * 2. Navigate with go('/e/poh') or go('/cue/3'); the hash is normalized.
+   * 1. Subscribe with SCOPE.Router.on('chain-directory'|'chain'|'entity'|'cue', callback).
+   * 2. Navigate with go('/chains'), go('/c/solana'), go('/e/poh'), or go('/cue/3').
    * 3. Section anchors and unknown hashes are ignored without side effects.
    * 4. Callback receives a parsed route plus the previous recognized route.
    * 5. close() uses browser history when possible and otherwise clears route.
@@ -3603,6 +3618,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const handlers = new Map();
     let active = null, activeHash = '';
     const parse = hash=>{
+      if(/^#\/chains\/?$/i.test(hash)) return {type:'chain-directory'};
       const chain = /^#\/c\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
       if(chain) return {type:'chain',slug:decodeURIComponent(chain[1])};
       const entity = /^#\/e\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
