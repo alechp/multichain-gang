@@ -78,6 +78,37 @@
         </div>
       </article>
 
+      <article id="evm-panel" class="panel detail-panel" aria-labelledby="evm-heading">
+        <div class="panel-heading detail-heading-row">
+          <div><span class="channel green">CH-E</span><h2 id="evm-heading">ROBINHOOD CHAIN OBSERVATION</h2></div>
+          <span id="evm-watch-count" class="count">00</span>
+        </div>
+        <p class="panel-intro">HTTP-reconciled public state. Soft, L1-posted, and L1-final remain separate clocks.</p>
+        <form id="evm-watch-form" class="compact-form evm-watch-form">
+          <label for="evm-watch-address">Public EVM address</label>
+          <input id="evm-watch-address" name="address" required autocomplete="off" spellcheck="false" placeholder="0x…">
+          <label for="evm-watch-label">Label</label>
+          <input id="evm-watch-label" name="label" autocomplete="off" placeholder="optional callsign">
+          <button type="submit">+ ARM ROBINHOOD CHAIN WATCH</button>
+        </form>
+        <div id="evm-head" class="metric-strip"></div>
+        <div class="table-controls"><h3>FINALITY / LATENCY / ORACLE / POOL SURFACES</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>TIME</th><th>SERIES</th><th>VALUE</th><th>BLOCK</th></tr></thead>
+            <tbody id="evm-observation-table"></tbody>
+          </table>
+        </div>
+        <div class="table-controls"><h3>RECENT ROBINHOOD CHAIN ACTIVITY</h3></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>TIME</th><th>KIND</th><th>POSITION</th><th>STATUS</th><th>TRACE</th></tr></thead>
+            <tbody id="evm-activity-table"></tbody>
+          </table>
+        </div>
+        <div id="evm-watch-list" class="evm-watch-list"></div>
+      </article>
+
       <div class="bench-grid">
         <article class="panel sim-panel" aria-labelledby="sim-heading">
           <div class="panel-heading">

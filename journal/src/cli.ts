@@ -3,11 +3,14 @@ import { dirname, resolve } from "node:path";
 import { acquireCollectorLock, Collector, SourceChain, watchCollector } from "./collect";
 import { loadConfig, type JournalConfig } from "./config";
 import { openJournalDatabase, type JournalDatabase } from "./db";
+import { EvmCollector } from "./evm-collect";
+import { normalizeEvmAddress } from "./evm-types";
 import { addressDetail, EMPTY_COMMAND, parseWindow } from "./sim/data";
 import { exportJson, exportMarkdown, importJson } from "./sim/export";
 import { executeSimulator, type SimResult } from "./sim";
 import { JitoSource } from "./sources/jito";
 import { FixtureRpcSource, RpcSource } from "./sources/rpc";
+import { EvmRpcSource, FixtureEvmSource } from "./sources/evm-rpc";
 import { SolscanSource } from "./sources/solscan";
 import type { Source, VenueMetricSource } from "./sources/types";
 
@@ -97,6 +100,12 @@ function usage(): string {
     "  journal export --md | --json [--out file]",
     "  journal import <file>",
     "  journal serve [--port 7817]",
+    "  journal evm-watch add <address> [--label text] [--tag tag]",
+    "  journal evm-watch ls | rm <address>",
+    "  journal evm-collect --once | --watch [--fixtures path]",
+    "  journal evm-backfill --from block --to block [--fixtures path]",
+    "  journal evm-show",
+    "  journal cross-show",
     "  journal migrate",
   ].join("\n");
 }
@@ -195,6 +204,55 @@ function showAddress(database: JournalDatabase, address: string, windowSeconds: 
   return panel("address readout", lines);
 }
 
+function showEvm(database: JournalDatabase): string {
+  const overview = database.evmNetworkOverview("robinhood_chain");
+  if (overview.head === null) {
+    return panel("Robinhood Chain · empty", [
+      "No Robinhood Chain observations stored.",
+      "Run: bun run journal -- evm-collect --once",
+      "Soft state only; L1 stages require explicit evidence.",
+    ]);
+  }
+  const headFinality = overview.finality.filter((row) => row.blockNumber === overview.head?.blockNumber);
+  return panel("Robinhood Chain readout", [
+    `HEAD        block ${overview.head.blockNumber} · ${new Date(overview.head.ts * 1_000).toISOString()}`,
+    `HASH        ${overview.head.blockHash.slice(0, 18)}…`,
+    `TX / GAS    ${overview.head.txCount} / ${overview.head.gasUsed}`,
+    `FINALITY    ${headFinality.map((row) => row.stage).join(" → ") || "soft evidence pending"}`,
+    `WATCHES     ${overview.addresses.length}`,
+    "",
+    "RECENT ROBINHOOD CHAIN ACTIVITY",
+    ...(overview.activity.length === 0
+      ? ["— no transactions in collected blocks —"]
+      : overview.activity.slice(0, 8).map((row) => (
+          `${row.txId.slice(0, 14)}…  ${row.chainPosition.padEnd(16)} ${row.status.padEnd(8)} ${row.kind}`
+        ))),
+    "",
+    "LATEST OBSERVATION SURFACES",
+    ...(overview.observations.length === 0
+      ? ["— none —"]
+      : overview.observations.slice(0, 8).map((row) => (
+          `${row.series.padEnd(25)} ${String(row.value ?? row.textValue ?? "—")}`
+        ))),
+  ]);
+}
+
+function showCrossChain(database: JournalDatabase): string {
+  const rows = database.queryCrossChainActivity(0, Number.MAX_SAFE_INTEGER, 50);
+  return panel("cross-chain activity", rows.length === 0
+    ? ["No Solana or Robinhood Chain activity stored."]
+    : rows.flatMap((row) => [
+        `${new Date(row.ts * 1_000).toISOString()} · ${row.network === "robinhood_chain" ? "Robinhood Chain" : "Solana"}`,
+        `  ${row.chainPosition.padEnd(18)} ${row.status.padEnd(10)} ${row.kind.padEnd(14)} ${row.txId.slice(0, 18)}…`,
+      ]));
+}
+
+function evmJson(value: unknown): string {
+  return JSON.stringify(value, (key, item) => (
+    key === "network" && item === "robinhood_chain" ? "Robinhood Chain" : item
+  ));
+}
+
 function parseParams(value: string | null): Record<string, unknown> {
   if (value === null || value.trim() === "") return {};
   return Object.fromEntries(value.split(",").map((pair) => {
@@ -271,6 +329,84 @@ async function collectionCommand(
   }
 }
 
+function bigintFlag(arguments_: ParsedArguments, name: string): bigint {
+  const value = stringFlag(arguments_, name);
+  if (value === null || !/^(0|[1-9][0-9]*)$/.test(value)) {
+    throw new Error(`--${name} requires an unsigned decimal block number`);
+  }
+  return BigInt(value);
+}
+
+async function evmCollectionCommand(
+  arguments_: ParsedArguments,
+  config: JournalConfig,
+  database: JournalDatabase,
+): Promise<number> {
+  const fixturePath = stringFlag(arguments_, "fixtures") ?? process.env.JOURNAL_EVM_FIXTURES ?? null;
+  const fixture = fixturePath === null ? null : FixtureEvmSource.fromFile(resolve(fixturePath));
+  const source = fixture ?? new EvmRpcSource(config.networks.robinhood_chain.rpcUrl);
+  const fixtureBlocks = fixture === null ? null : Object.keys(fixture.fixture.blocks).length;
+  const collector = new EvmCollector({
+    database,
+    source,
+    comparisonSources: fixture === null
+      ? config.networks.robinhood_chain.comparisonRpcUrls.map((endpoint) => (
+          new EvmRpcSource(endpoint, { id: "robinhood-node" })
+        ))
+      : [],
+    maxBlocksPerCycle: fixtureBlocks
+      ?? (config.networks.robinhood_chain.rpcUrlIsPublic
+        ? 1
+        : config.networks.robinhood_chain.maxBlocksPerCycle),
+    maxRewindBlocks: config.networks.robinhood_chain.maxRewindBlocks,
+    now: fixture?.collectedAt === undefined ? undefined : () => fixture.collectedAt as number,
+  });
+  const lock = acquireCollectorLock(resolve(dirname(config.databasePath), "evm-collect.lock"));
+  try {
+    if (arguments_.command === "evm-backfill") {
+      const result = await collector.backfill(
+        bigintFlag(arguments_, "from"),
+        bigintFlag(arguments_, "to"),
+      );
+      console.log(evmJson(result));
+      return 0;
+    }
+
+    const watch = arguments_.flags.has("watch");
+    if (!watch && !arguments_.flags.has("once")) throw new Error("evm-collect requires --once or --watch");
+    if (watch && arguments_.flags.has("once")) throw new Error("choose only one of --once or --watch");
+    if (!watch) {
+      console.log(evmJson(await collector.collectThrough()));
+      return 0;
+    }
+    if (
+      fixture === null
+      && config.networks.robinhood_chain.rpcUrlIsPublic
+      && config.collectIntervalMs < 60_000
+      && !arguments_.flags.has("allow-public-rpc-watch")
+    ) {
+      throw new Error(
+        "high-frequency watch refuses the public Robinhood Chain RPC; configure a provider or pass --allow-public-rpc-watch",
+      );
+    }
+    const controller = new AbortController();
+    const stop = (): void => controller.abort();
+    process.once("SIGINT", stop);
+    process.once("SIGTERM", stop);
+    let failed = false;
+    while (!controller.signal.aborted) {
+      const result = await collector.collectSafe();
+      console.log(evmJson(result));
+      failed ||= "error" in result;
+      if (controller.signal.aborted) break;
+      await Bun.sleep(config.collectIntervalMs);
+    }
+    return failed ? 1 : 0;
+  } finally {
+    lock.release();
+  }
+}
+
 async function serveCommand(arguments_: ParsedArguments, database: JournalDatabase): Promise<number> {
   const port = positiveInteger(stringFlag(arguments_, "port"), 7_817);
   if (port > 65_535) throw new Error("port must be at most 65535");
@@ -298,12 +434,65 @@ async function main(argv = process.argv.slice(2)): Promise<number> {
   try {
     const migration = database.migrate();
     database.seedWatchlist(config.watchlist);
+    database.seedEvmWatchlist(config.evmWatchlist);
     if (arguments_.command === "migrate") {
-      console.log(JSON.stringify({ migration, seeded: config.watchlist.length }));
+      console.log(JSON.stringify({
+        migration,
+        seeded: config.watchlist.length,
+        evmSeeded: config.evmWatchlist.length,
+      }));
       return 0;
     }
     if (arguments_.command === "collect" || arguments_.command === "backfill") {
       return await collectionCommand(arguments_, config, database);
+    }
+    if (arguments_.command === "evm-collect" || arguments_.command === "evm-backfill") {
+      return await evmCollectionCommand(arguments_, config, database);
+    }
+
+    if (arguments_.command === "evm-watch") {
+      const action = arguments_.positionals[0];
+      if (action === "add") {
+        const selected = normalizeEvmAddress(arguments_.positionals[1] ?? "");
+        database.upsertEvmAddress({
+          network: "robinhood_chain",
+          address: selected.address,
+          label: stringFlag(arguments_, "label"),
+          tags: stringFlag(arguments_, "tag") === null ? [] : [stringFlag(arguments_, "tag") as string],
+          active: true,
+        });
+        console.log(panel("Robinhood Chain watch added", [selected.checksumAddress]));
+        return 0;
+      }
+      if (action === "rm") {
+        const selected = normalizeEvmAddress(arguments_.positionals[1] ?? "");
+        if (!database.setEvmAddressActive("robinhood_chain", selected.address, false)) {
+          throw new Error(`Robinhood Chain watch not found: ${selected.checksumAddress}`);
+        }
+        console.log(panel("Robinhood Chain watch paused", [
+          selected.checksumAddress,
+          "Historical observations were retained.",
+        ]));
+        return 0;
+      }
+      if (action === "ls") {
+        const rows = database.listEvmAddresses("robinhood_chain", true);
+        console.log(panel("Robinhood Chain watchlist", rows.length === 0
+          ? ["No watched EVM addresses."]
+          : rows.map((row) => `${(row.label ?? "unlabeled").padEnd(20)} ${row.checksumAddress}`)));
+        return 0;
+      }
+      throw new Error("evm-watch requires add, ls, or rm");
+    }
+
+    if (arguments_.command === "evm-show") {
+      console.log(showEvm(database));
+      return 0;
+    }
+
+    if (arguments_.command === "cross-show") {
+      console.log(showCrossChain(database));
+      return 0;
     }
 
     if (arguments_.command === "watch") {

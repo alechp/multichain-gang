@@ -14,7 +14,21 @@ describe("read-only collector posture", () => {
       }
     };
     walk(sourceRoot);
-    const prohibited = ["send" + "Transaction", "sign" + "Transaction", "Key" + "pair"];
+    const prohibited = [
+      "eth_" + "sendRawTransaction",
+      "wallet" + "Client",
+      "create" + "WalletClient",
+      "private" + "KeyToAccount",
+      "sign" + "Transaction",
+      "send" + "Transaction",
+      "send" + "RawTransaction",
+      "write" + "Contract",
+      "deploy" + "Contract",
+      "private" + "Key",
+      "mne" + "monic",
+      "sign" + "er",
+      "Key" + "pair",
+    ];
     for (const file of files) {
       const source = readFileSync(file, "utf8");
       for (const term of prohibited) expect(source).not.toContain(term);
@@ -35,7 +49,21 @@ describe("read-only collector posture", () => {
       }
     };
     roots.forEach(walk);
-    const prohibited = ["send" + "Transaction", "sign" + "Transaction", "Key" + "pair"];
+    const prohibited = [
+      "eth_" + "sendRawTransaction",
+      "wallet" + "Client",
+      "create" + "WalletClient",
+      "private" + "KeyToAccount",
+      "sign" + "Transaction",
+      "send" + "Transaction",
+      "send" + "RawTransaction",
+      "write" + "Contract",
+      "deploy" + "Contract",
+      "private" + "Key",
+      "mne" + "monic",
+      "sign" + "er",
+      "Key" + "pair",
+    ];
     for (const file of files) {
       const source = readFileSync(file, "utf8");
       for (const term of prohibited) expect(source).not.toContain(term);

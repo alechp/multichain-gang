@@ -1,5 +1,6 @@
 const app = {
   state: null,
+  evm: null,
   selected: null,
   kind: "all",
   noteTag: "",
@@ -129,6 +130,48 @@ function renderDetail() {
   renderTransactions(detail);
 }
 
+function renderEvm() {
+  const state = app.evm;
+  if (!state) return;
+  $("#evm-watch-count").textContent = String(state.addresses.length).padStart(2, "0");
+  const head = state.head;
+  const headStages = head == null ? [] : state.finality
+    .filter((row) => row.blockNumber === head.blockNumber)
+    .map((row) => row.stage);
+  const metrics = head == null
+    ? [["HEAD", "—", "collect first"], ["FINALITY", "—", "no evidence"], ["WATCHES", state.addresses.length, "addresses"]]
+    : [
+        ["HEAD", head.blockNumber, "L2 block"],
+        ["FINALITY", headStages.join(" → ") || "soft", "evidence stages"],
+        ["BLOCK GAS", head.gasUsed, "wei-scale integer"],
+        ["WATCHES", state.addresses.length, "addresses"],
+      ];
+  $("#evm-head").innerHTML = metrics.map(([label, value, unit]) => `<div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)} <small>${escapeHtml(unit)}</small></strong></div>`).join("");
+  $("#evm-observation-table").innerHTML = state.observations.length === 0
+    ? `<tr><td colspan="4">— NO ROBINHOOD CHAIN OBSERVATIONS —</td></tr>`
+    : state.observations.slice(0, 16).map((row) => `<tr>
+        <td>${escapeHtml(date(row.ts))}</td>
+        <td><span class="kind">${escapeHtml(row.series)}</span></td>
+        <td>${escapeHtml(row.value ?? row.textValue ?? "—")}</td>
+        <td>${escapeHtml(row.blockNumber ?? "—")}</td>
+      </tr>`).join("");
+  $("#evm-activity-table").innerHTML = state.activity.length === 0
+    ? `<tr><td colspan="5">— NO TRANSACTIONS IN COLLECTED BLOCKS —</td></tr>`
+    : state.activity.slice(0, 16).map((row) => `<tr>
+        <td>${escapeHtml(date(row.ts))}</td>
+        <td><span class="kind">${escapeHtml(row.kind)}</span></td>
+        <td>${escapeHtml(row.chainPosition)}</td>
+        <td>${escapeHtml(row.status)}</td>
+        <td><a href="https://robinhoodchain.blockscout.com/tx/${encodeURIComponent(row.txId)}" target="_blank" rel="noopener noreferrer">OPEN ON BLOCKSCOUT ↗</a></td>
+      </tr>`).join("");
+  $("#evm-watch-list").innerHTML = state.addresses.length === 0
+    ? `<p class="panel-intro">No Robinhood Chain addresses armed.</p>`
+    : state.addresses.map((row) => `<div class="evm-watch-row">
+        <span><strong>${escapeHtml(row.label ?? "unlabeled")}</strong><code>${escapeHtml(row.checksumAddress)}</code></span>
+        <button type="button" class="quiet danger" data-evm-remove="${escapeHtml(row.address)}">PAUSE</button>
+      </div>`).join("");
+}
+
 function renderSimParams() {
   const id = $("#sim-select").value;
   const sim = app.state.simulators.find((item) => item.id === id);
@@ -183,23 +226,50 @@ function renderJournal() {
 function render() {
   renderWatchlist();
   renderDetail();
+  renderEvm();
   renderSim();
   renderJournal();
 }
 
 async function load(address = app.selected) {
   const query = address ? `?address=${encodeURIComponent(address)}&window=30d` : "?window=30d";
-  app.state = await api(`/api/state${query}`);
+  [app.state, app.evm] = await Promise.all([
+    api(`/api/state${query}`),
+    api("/api/evm/state"),
+  ]);
   app.selected = app.state.selected?.address ?? app.state.addresses[0]?.address ?? null;
   render();
 }
 
 document.addEventListener("click", async (event) => {
+  const evmRemove = event.target.closest("[data-evm-remove]");
+  if (evmRemove) {
+    try {
+      await api(`/api/evm/watch/${encodeURIComponent(evmRemove.dataset.evmRemove)}`, { method: "DELETE" });
+      await load(app.selected);
+      notice("Robinhood Chain watch paused; historical rows retained.");
+    } catch (error) { notice(error.message, true); }
+    return;
+  }
   const watch = event.target.closest("[data-address]");
   if (watch) {
     app.selected = watch.dataset.address;
     await load(app.selected);
   }
+});
+
+$("#evm-watch-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const data = new FormData(event.currentTarget);
+  try {
+    await api("/api/evm/watch", {
+      method: "POST",
+      body: JSON.stringify({ address: data.get("address"), label: data.get("label"), tags: [] }),
+    });
+    event.currentTarget.reset();
+    await load(app.selected);
+    notice("Robinhood Chain watch armed. Public reads only.");
+  } catch (error) { notice(error.message, true); }
 });
 
 $("#watch-form").addEventListener("submit", async (event) => {

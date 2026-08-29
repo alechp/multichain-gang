@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { JournalDatabase } from "../src/db";
+import { normalizeEvmAddress } from "../src/evm-types";
 import { EMPTY_COMMAND, parseWindow, workbenchState } from "../src/sim/data";
 import { exportJson, exportMarkdown } from "../src/sim/export";
 import { executeSimulator } from "../src/sim";
@@ -28,7 +29,9 @@ export interface WorkbenchServer {
 }
 
 function json(value: unknown, status = 200): Response {
-  return new Response(JSON.stringify(value), {
+  return new Response(JSON.stringify(value, (_key, item) => (
+    typeof item === "bigint" ? item.toString() : item
+  )), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
@@ -93,6 +96,28 @@ export async function handleWorkbenchRequest(
     const selected = url.searchParams.get("address") ?? undefined;
     const window = parseWindow(url.searchParams.get("window") ?? "30d");
     return json(workbenchState(database, selected, window));
+  }
+  if (request.method === "GET" && url.pathname === "/api/evm/state") {
+    return json(database.evmNetworkOverview("robinhood_chain"));
+  }
+  if (request.method === "POST" && url.pathname === "/api/evm/watch") {
+    const input = await body(request);
+    const selected = normalizeEvmAddress(typeof input.address === "string" ? input.address : "");
+    database.upsertEvmAddress({
+      network: "robinhood_chain",
+      address: selected.address,
+      label: typeof input.label === "string" && input.label.trim() !== "" ? input.label.trim() : null,
+      tags: tags(input.tags),
+      active: true,
+    });
+    return json(database.getEvmAddress("robinhood_chain", selected.address), 201);
+  }
+  if (request.method === "DELETE" && url.pathname.startsWith("/api/evm/watch/")) {
+    const selected = normalizeEvmAddress(decodeURIComponent(url.pathname.slice("/api/evm/watch/".length)));
+    if (!database.setEvmAddressActive("robinhood_chain", selected.address, false)) {
+      return errorResponse("Robinhood Chain address not found", 404);
+    }
+    return json({ ok: true, retainedHistory: true });
   }
   if (request.method === "POST" && url.pathname === "/api/watch") {
     const input = await body(request);

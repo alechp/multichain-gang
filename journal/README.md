@@ -1,9 +1,10 @@
 # Scope Journal
 
-Scope Journal is a local, read-only store and workbench for public Solana
-observations. It includes the SQLite data plane, fixture-driven tests,
-public-data source adapters, normalization, collection/backfill commands,
-paper-only historical simulators, journal/export tools, and a local web bench.
+Scope Journal is a local, read-only store and workbench for public Solana and
+Robinhood Chain observations. It includes parallel Solana and EVM SQLite data
+planes, fixture-driven tests, public-data source adapters, deterministic
+collection/backfill commands, paper-only historical simulators,
+journal/export tools, normalized cross-chain views, and a local web bench.
 
 It deliberately has no wallet-key, instruction-building, signing, or network
 submission capability. Runtime state lives under `data/` and is ignored by
@@ -36,6 +37,22 @@ For analysis beyond local SQLite workloads, the intended future escape hatch
 is an explicit export to Parquet for DuckDB rather than an ORM or database
 extension.
 
+Migration `0003-evm-observation.sql` is append-only. It leaves all Solana
+tables and APIs intact and adds `networks`, `evm_addresses`, `evm_blocks`,
+`evm_txs`, `evm_logs`, `evm_finality`, `evm_balances`, and typed
+`evm_observations`. EVM uint256 quantities are validated and stored as decimal
+text, then returned as TypeScript `bigint`; they are never routed through a
+JavaScript `number`. The normalized views are:
+
+- `v_activity` — UTC activity with textual `slot:N` or `block:N` positions;
+- `v_fees` — raw native-unit fees without unsafe cross-unit arithmetic;
+- `v_balances` — raw amount plus explicit decimals; and
+- `v_latency` — independently nullable RPC, soft, index, L1-post, and L1-final
+  measurements.
+
+`chain_position` is a display cursor, not a sortable cross-chain clock. Sort
+cross-chain series by UTC time and retain the source network/finality fields.
+
 ## Collect and backfill
 
 The primary source is Solana JSON-RPC. Its adapter batches balance reads,
@@ -66,6 +83,78 @@ and opens a 30-minute circuit after refusal, throttling, or server failure.
 Site terms still apply; opt in only after confirming the intended use is
 permitted.
 
+## Observe Robinhood Chain
+
+Robinhood Chain is configured as chain ID `4663` and uses ETH as its native
+asset. The checked-in default is the rate-limited public HTTP RPC, suitable for
+manual smoke reads and deterministic fixture tests—not production watch load.
+Set `ROBINHOOD_CHAIN_RPC_URL` to a managed provider or local Nitro node before
+continuous collection. `ROBINHOOD_CHAIN_WS_URL` is optional configuration for
+a standard provider `newHeads` wake-up feed; feed events only trigger HTTP
+reconciliation and never establish canonical state or L1 finality.
+Set comma-separated `ROBINHOOD_CHAIN_COMPARISON_RPC_URLS` to independently
+measure provider head/latency span; URL credentials and paths are never copied
+into observation rows.
+The CLI also caps each public-RPC cycle to one block to avoid a receipt burst;
+configured provider/node cycles use `maxBlocksPerCycle`.
+
+```sh
+# Add a public address. Lowercase is the storage key; EIP-55 is display-only.
+bun run journal -- evm-watch add 0x1111111111111111111111111111111111111111 \
+  --label "fixture observer"
+bun run journal -- evm-watch ls
+
+# Deterministic, socket-free three-block fixture.
+JOURNAL_DB_PATH=/tmp/scope-robinhood.db \
+  bun run evm:collect -- --once --fixtures test/fixtures/robinhood-chain.json
+
+# Public/provider read-only collection and bounded historical replay.
+bun run evm:collect -- --once
+bun run evm:collect -- --watch
+bun run evm:backfill -- --from 48750000 --to 48751000
+bun run journal -- evm-show
+bun run journal -- cross-show
+```
+
+Each block, its receipts/logs/balances/observations, and its cursor commit in
+one transaction. Restarting is gap-free and idempotent. A parent-hash mismatch
+searches backward to a bounded common ancestor (64 blocks by default), marks
+orphaned logs removed, rewinds dependent rows, and replays through HTTP. Log
+queries use bounded ranges and split adaptively when a provider rejects a
+range. Same-second block timestamps remain separate samples and may produce a
+real `block.interval_ms = 0` observation.
+
+Health collection records `rpc.latency_ms`, provider `head.lag_blocks` and
+`head.lag_ms`, `block.interval_ms`, transaction count, gas used, and watched
+ETH balances. Receipt timing is never inferred from block timestamps: the
+read-only journal has no local submission telemetry, so `receipt.soft_ms`
+remains absent unless an external observation source explicitly supplies it.
+
+### Three finality stages
+
+HTTP block collection records only `soft`, backed by the observed block hash.
+`l1-posted` and `l1-final` require explicit L1 evidence through the typed
+finality observation surface. The journal never promotes a WebSocket event,
+sequencer-feed item, explorer row, or elapsed timer into a hard-finality stage.
+Canonical bridge withdrawal state is a separate bridge observation and must
+not be labeled transaction finality.
+
+The typed read-only observers also support:
+
+- Chainlink-style oracle age, advisory `oraclePaused()` state, sequencer
+  uptime/grace evidence, and ERC-8056 `uiMultiplier()` reads at an explicit
+  block;
+- pool depth at 1%/2%, spread, and realized-slippage samples with method
+  evidence; and
+- bridge deposit age and withdrawal-stage samples.
+
+Pool and bridge measurements must come from an independently documented quote
+or L1 evidence adapter. Their recorders do not construct state-changing calls,
+orders, transactions, or launch actions. Robinhood Stock Tokens require
+canonical registry addresses, multiplier-aware units, feed-session controls,
+and jurisdiction checks; an arbitrary ERC-20 must never be labeled a Stock
+Token.
+
 ## Work at the bench
 
 ```sh
@@ -93,8 +182,20 @@ global. It does not recommend a tip or predict inclusion. The
 The web server binds `127.0.0.1` only and refuses non-local hostnames. It has
 no authentication because it is never exposed to the network, and its browser
 layer makes no external data requests. Transaction rows may offer ordinary
-links to the public Solscan site; opening one is an explicit browser action.
+links to the public Solscan or Robinhood Chain Blockscout sites; opening one is
+an explicit browser action. The Robinhood Chain panel exposes the current
+HTTP-reconciled head, the three finality clocks, watch balances, recent
+activity, and latency/oracle/pool/bridge observation surfaces.
 
 The workbench reuses the main page's design tokens. Run
 `bun run check:tokens` after page token changes. Empty databases remain usable
 and show the exact collection command instead of failing.
+
+Run the complete journal gate before release:
+
+```sh
+bun test
+bun build src/cli.ts --target=bun
+bun run check:tokens
+bun run check:safety
+```
