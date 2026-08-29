@@ -18,7 +18,7 @@ try{
     await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit';document.body.tabIndex=-1;document.body.focus()});
 
     const engine=await page.evaluate(()=>({engine:SCOPE.CommandPalette?.engine,size:SCOPE.CommandPalette?.size,version:window.Fuse?.version}));
-    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==135)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==159)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
     if((await page.evaluate(()=>SCOPE.CommandPalette.search('open field notes').some(item=>item.id==='notes'))))failures.push(`${width}px: hidden Notes command remains searchable`);
     await page.keyboard.press('Meta+K');
     if(!await page.locator('#scopeCommand').isVisible())failures.push(`${width}px: palette did not open`);
@@ -121,4 +121,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (135 records), persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (159 records), persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');

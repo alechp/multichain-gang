@@ -256,6 +256,8 @@ svg text{font-family:"IBM Plex Mono",monospace}
 .lbl{fill:var(--dim);font-size:11px;letter-spacing:.06em}
 .lbl-b{fill:var(--ink);font-size:12px;letter-spacing:.04em;font-weight:600}
 .lbl-f{fill:var(--faint);font-size:10px;letter-spacing:.08em}
+.clock-timing{fill:var(--lbl);letter-spacing:.02em}
+.final-clock{letter-spacing:0}
 .edge{stroke:var(--line);stroke-width:1.5;fill:none}
 .diagram{padding:44px 18px 20px}
 .diagram svg{display:block;width:100%;height:auto}
@@ -4910,13 +4912,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       draw: (c,o) => {
         const stages=o.stages||[];
         const timing=i=>esc(stages[i]?.timing||['<1000 ms typ.','minutes typ.','~13 min after post · 2026-08'][i]);
+        const finalTiming=String(stages[2]?.timing||'~13 min after post · 2026-08').split(' · ');
         return `
         <text x="18" y="24" class="lbl-f">THREE CONFIRMATION CLOCKS</text>
         <line x1="60" y1="48" x2="260" y2="48" class="edge"/>
-        <g class="fst"><circle cx="60" cy="48" r="9" fill="${c}" opacity=".45"/><text x="60" y="80" text-anchor="middle" class="lbl-f" fill="${c}">SOFT</text><text x="60" y="96" text-anchor="middle" class="lbl-f">${timing(0)}</text></g>
-        <g class="fst"><circle cx="160" cy="48" r="9" fill="var(--violet)" opacity=".45"/><text x="160" y="80" text-anchor="middle" class="lbl-f" fill="var(--violet)">POSTED</text><text x="160" y="96" text-anchor="middle" class="lbl-f">${timing(1)}</text></g>
-        <g class="fst"><circle cx="260" cy="48" r="9" fill="var(--eth)" opacity=".45"/><text x="260" y="80" text-anchor="middle" class="lbl-f" fill="var(--eth)">FINAL</text><text x="260" y="96" text-anchor="middle" class="lbl-f">${timing(2)}</text></g>
-        <rect x="38" y="126" width="244" height="48" rx="5" fill="var(--panel-2)" stroke="var(--line)"/><text x="160" y="147" text-anchor="middle" class="lbl-f">BRIDGE / WITHDRAWAL · SEPARATE CLOCK</text><text x="160" y="164" text-anchor="middle" class="lbl-f" fill="${c}">${esc(o.bridge||'~7 days · 2026-08')}</text>`;
+        <g class="fst"><circle cx="60" cy="48" r="9" fill="${c}" opacity=".45"/><text x="60" y="80" text-anchor="middle" class="lbl-f" fill="${c}">SOFT</text><text x="60" y="96" text-anchor="middle" class="lbl-f clock-timing">${timing(0)}</text></g>
+        <g class="fst"><circle cx="160" cy="48" r="9" fill="var(--violet)" opacity=".45"/><text x="160" y="80" text-anchor="middle" class="lbl-f" fill="var(--violet)">POSTED</text><text x="160" y="96" text-anchor="middle" class="lbl-f clock-timing">${timing(1)}</text></g>
+        <g class="fst"><circle cx="260" cy="48" r="9" fill="var(--eth)" opacity=".45"/><text x="260" y="80" text-anchor="middle" class="lbl-f" fill="var(--eth)">FINAL</text><text x="260" y="96" text-anchor="middle" class="lbl-f clock-timing final-clock">${esc(finalTiming[0])}</text>${finalTiming[1]?`<text x="260" y="110" text-anchor="middle" class="lbl-f clock-timing final-clock">· ${esc(finalTiming.slice(1).join(' · '))}</text>`:''}</g>
+        <rect x="38" y="130" width="244" height="48" rx="5" fill="var(--panel-2)" stroke="var(--line)"/><text x="160" y="151" text-anchor="middle" class="lbl-f">BRIDGE / WITHDRAWAL · SEPARATE CLOCK</text><text x="160" y="168" text-anchor="middle" class="lbl-f" fill="${c}">${esc(o.bridge||'~7 days · 2026-08')}</text>`;
       },
       loop: svg => anime({targets:svg.querySelectorAll('.fst'),opacity:[.35,1,.35],delay:anime.stagger(520),duration:1560,easing:'easeInOutSine',loop:true})
     }

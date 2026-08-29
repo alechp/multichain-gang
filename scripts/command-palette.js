@@ -15,7 +15,7 @@
     {id:'ch5',title:'Cross-chain bench',label:'CH-05',target:'#ch5',summary:'Technique heat map, tool bench, and chain comparisons.'}
   ];
   const commands=[
-    {id:'play',title:'Toggle autoplay',summary:'Start or pause the guided 24-cue read-through.',command:'toggle'},
+    {id:'play',title:'Toggle autoplay',summary:'Start or pause the guided 26-cue read-through.',command:'toggle'},
     {id:'previous',title:'Previous focus',summary:'Move the playthrough back one authored focus.',command:'previous'},
     {id:'next',title:'Next focus',summary:'Move the playthrough forward one authored focus.',command:'next'}
   ];
