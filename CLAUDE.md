@@ -1,6 +1,7 @@
 # SOLANA//SCOPE — project context
 
-v3.0 is implemented and published from `main` / repository root at
+v3.0 and the Robinhood Chain extension are implemented and published from
+`main` / repository root at
 https://alechp.github.io/solana/. The instrument has a single-file static core
 plus local interaction assets; `journal/` is a separate local-only Bun/SQLite
 application and must never be deployed with the page.
@@ -15,6 +16,8 @@ application and must never be deployed with the page.
 - `vendor/fuse.basic.min.js` — pinned Fuse.js 7.5.0 basic browser build;
   `vendor/fuse.LICENSE` preserves its Apache-2.0 license.
 - `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
+- `docs/robinhood-chain-integration-spec.md` — implemented Robinhood Chain
+  comparator, read-only journal, coin-launch, latency, and liquidity contract.
 - `scripts/audit-*.mjs` — executable page regression gates.
 - `journal/` — read-only collectors, SQLite store, CLI, paper simulators, and localhost workbench.
 - `docs/solana-scope-v2-spec.md` — implemented v2 baseline for untouched behavior.
@@ -43,6 +46,9 @@ application and must never be deployed with the page.
 - All structured page content lives in `#chainData`. Update the matching
   `<noscript>` mirror whenever JSON changes; the ENTITY INDEX must exactly match
   each entity's name, kind, tagline, and first link.
+- Robinhood Chain uses `robinhood_chain` only as an internal key. Render its
+  full name, preserve the soft/L1-posted/L1-final clocks, and never invent a
+  compact glyph or treat `windowMs` as a block-time measurement.
 - Preserve channel/chain tokens, reading-scale hooks, stable
   `data-note-anchor` values, and hash routes shaped as `#/e/<id>`.
 - Keep termified prose inside a containing element when its parent is flex/grid;
@@ -63,15 +69,19 @@ application and must never be deployed with the page.
 - Migrations are append-only. Collector cursor updates stay atomic with their
   observation batch. Every simulator output carries `PAPER · HYPOTHETICAL`, at
   least three assumptions, and at least two caveats.
+- Keep EVM block/hash/wei/log/finality records parallel to Solana slot/signature/
+  lamport records; never erase chain-specific meaning to force a shared table.
 - Keep `journal/web/tokens.css` synchronized with page tokens via
   `bun run check:tokens`. Runtime databases under `journal/data/` are ignored.
 
 ## QA gate for any change
 
-Run the four foundation/page audits plus `audit-command-channel.mjs`, then
+Run the five existing page audits plus
+`node scripts/audit-robinhood-chain.mjs`, then
 exercise 360/390/430/768/1200 across motion,
 reduced motion, CDN blocked, and JS off. No document-level horizontal overflow;
 the intentional inner pipeline scroller is the only exception. For journal
 changes, run `bun test`, `bun build src/cli.ts --target=bun`, token sync, and the
-prohibited wallet-API grep. A skipped external/profile check is recorded as
+Robinhood Chain audit from the repository root; it includes the prohibited
+wallet/submission-API scan. A skipped external/profile check is recorded as
 skipped, never passed.
