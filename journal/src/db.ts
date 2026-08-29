@@ -2,7 +2,16 @@ import { Database } from "bun:sqlite";
 import { randomUUID } from "node:crypto";
 import { mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import { loadConfig, type WatchAddressConfig } from "./config";
+import { loadConfig, type EvmWatchAddressConfig, type WatchAddressConfig } from "./config";
+import {
+  decimalString,
+  normalizeEvmAddress,
+  normalizeEvmHash,
+  normalizeHexData,
+  safeEvmInteger,
+  type EvmFinalityStage,
+  type EvmTransactionKind,
+} from "./evm-types";
 
 export type TransactionKind =
   | "swap"
@@ -165,6 +174,161 @@ export interface JournalBatch {
   logs?: CollectLogInput[];
 }
 
+export interface EvmAddressInput {
+  network: "robinhood_chain";
+  address: string;
+  label?: string | null;
+  tags?: string[];
+  addedAt?: number;
+  active?: boolean;
+}
+
+export interface EvmAddressRecord {
+  network: "robinhood_chain";
+  address: string;
+  checksumAddress: string;
+  label: string | null;
+  tags: string[];
+  addedAt: number;
+  active: boolean;
+}
+
+export interface EvmBlockInput {
+  network: "robinhood_chain";
+  blockNumber: bigint;
+  blockHash: string;
+  parentHash: string;
+  ts: number;
+  l1BlockNumber?: bigint | null;
+  txCount: number;
+  gasUsed: bigint;
+  baseFeeWei?: bigint | null;
+  observedAt: number;
+}
+
+export interface EvmBlockRecord extends Omit<EvmBlockInput, "l1BlockNumber" | "baseFeeWei"> {
+  l1BlockNumber: bigint | null;
+  baseFeeWei: bigint | null;
+}
+
+export interface EvmTransactionInput {
+  network: "robinhood_chain";
+  txHash: string;
+  blockNumber: bigint;
+  txIndex: number;
+  ts: number;
+  fromAddress: string;
+  toAddress: string | null;
+  nonce: bigint;
+  valueWei: bigint;
+  gasUsed?: bigint | null;
+  effectiveGasPriceWei?: bigint | null;
+  status?: number | null;
+  inputSelector?: string | null;
+  kind: EvmTransactionKind;
+  observedAt: number;
+}
+
+export interface EvmTransactionRecord extends EvmTransactionInput {
+  gasUsed: bigint | null;
+  effectiveGasPriceWei: bigint | null;
+  feeWei: bigint | null;
+  status: number | null;
+  inputSelector: string | null;
+}
+
+export interface EvmLogInput {
+  network: "robinhood_chain";
+  txHash: string;
+  logIndex: number;
+  blockNumber: bigint;
+  blockHash: string;
+  txIndex: number;
+  contractAddress: string;
+  topics: string[];
+  data: string;
+  removed?: boolean;
+  observedAt: number;
+}
+
+export interface EvmLogRecord extends EvmLogInput {
+  removed: boolean;
+}
+
+export interface EvmFinalityInput {
+  network: "robinhood_chain";
+  blockNumber: bigint;
+  stage: EvmFinalityStage;
+  stageTs: number;
+  l1TxHash?: string | null;
+  evidence: Record<string, unknown>;
+}
+
+export interface EvmFinalityRecord extends EvmFinalityInput {
+  l1TxHash: string | null;
+}
+
+export interface EvmBalanceInput {
+  network: "robinhood_chain";
+  address: string;
+  assetId: string;
+  rawAmount: bigint;
+  decimals: number;
+  blockNumber: bigint;
+  ts: number;
+  observedAt: number;
+}
+
+export interface EvmBalanceRecord extends EvmBalanceInput {}
+
+export interface EvmObservationInput {
+  network: "robinhood_chain";
+  ts: number;
+  series: string;
+  key: string;
+  value?: number | null;
+  textValue?: string | null;
+  blockNumber?: bigint | null;
+  provider?: string | null;
+  evidence?: Record<string, unknown>;
+}
+
+export interface EvmObservationRecord extends Required<Omit<EvmObservationInput, "blockNumber" | "provider" | "evidence">> {
+  blockNumber: bigint | null;
+  provider: string | null;
+  evidence: Record<string, unknown>;
+}
+
+export interface EvmJournalBatch {
+  blocks?: EvmBlockInput[];
+  transactions?: EvmTransactionInput[];
+  logs?: EvmLogInput[];
+  finality?: EvmFinalityInput[];
+  balances?: EvmBalanceInput[];
+  observations?: EvmObservationInput[];
+  cursors?: CursorInput[];
+  collectLogs?: CollectLogInput[];
+}
+
+export interface CrossChainActivityRecord {
+  network: string;
+  txId: string;
+  chainPosition: string;
+  ts: number;
+  status: string;
+  kind: string;
+}
+
+export interface EvmNetworkOverview {
+  network: "robinhood_chain";
+  head: EvmBlockRecord | null;
+  addresses: EvmAddressRecord[];
+  activity: CrossChainActivityRecord[];
+  finality: EvmFinalityRecord[];
+  balances: EvmBalanceRecord[];
+  observations: EvmObservationRecord[];
+}
+
 export interface MigrationResult {
   applied: string[];
   currentVersion: number;
@@ -246,6 +410,94 @@ interface RawJournalEntryRow {
   address: string | null;
   sim_run: string | null;
   tags: string;
+}
+
+interface RawEvmAddressRow {
+  network: "robinhood_chain";
+  address: string;
+  checksum_address: string;
+  label: string | null;
+  tags: string;
+  added_at: number;
+  active: number;
+}
+
+interface RawEvmBlockRow {
+  network: "robinhood_chain";
+  block_number: number;
+  block_hash: string;
+  parent_hash: string;
+  ts: number;
+  l1_block_number: number | null;
+  tx_count: number;
+  gas_used: string;
+  base_fee_wei: string | null;
+  observed_at: number;
+}
+
+interface RawEvmTransactionRow {
+  network: "robinhood_chain";
+  tx_hash: string;
+  block_number: number;
+  tx_index: number;
+  ts: number;
+  from_address: string;
+  to_address: string | null;
+  nonce: string;
+  value_wei: string;
+  gas_used: string | null;
+  effective_gas_price_wei: string | null;
+  fee_wei: string | null;
+  status: number | null;
+  input_selector: string | null;
+  kind: EvmTransactionKind;
+  observed_at: number;
+}
+
+interface RawEvmLogRow {
+  network: "robinhood_chain";
+  tx_hash: string;
+  log_index: number;
+  block_number: number;
+  block_hash: string;
+  tx_index: number;
+  contract_address: string;
+  topics: string;
+  data: string;
+  removed: number;
+  observed_at: number;
+}
+
+interface RawEvmFinalityRow {
+  network: "robinhood_chain";
+  block_number: number;
+  stage: EvmFinalityStage;
+  stage_ts: number;
+  l1_tx_hash: string | null;
+  evidence: string;
+}
+
+interface RawEvmBalanceRow {
+  network: "robinhood_chain";
+  address: string;
+  asset_id: string;
+  raw_amount: string;
+  decimals: number;
+  block_number: number;
+  ts: number;
+  observed_at: number;
+}
+
+interface RawEvmObservationRow {
+  network: "robinhood_chain";
+  ts: number;
+  series: string;
+  key: string;
+  value: number | null;
+  text_value: string | null;
+  block_number: number | null;
+  provider: string | null;
+  evidence: string;
 }
 
 const DEFAULT_MIGRATIONS_DIR = resolve(import.meta.dir, "..", "migrations");
@@ -334,6 +586,110 @@ function parseJournalEntry(row: RawJournalEntryRow): JournalEntryRecord {
     address: row.address,
     simRun: row.sim_run,
     tags: JSON.parse(row.tags) as string[],
+  };
+}
+
+function parseEvmAddress(row: RawEvmAddressRow): EvmAddressRecord {
+  return {
+    network: row.network,
+    address: row.address,
+    checksumAddress: row.checksum_address,
+    label: row.label,
+    tags: JSON.parse(row.tags) as string[],
+    addedAt: row.added_at,
+    active: row.active === 1,
+  };
+}
+
+function parseEvmBlock(row: RawEvmBlockRow): EvmBlockRecord {
+  return {
+    network: row.network,
+    blockNumber: BigInt(row.block_number),
+    blockHash: row.block_hash,
+    parentHash: row.parent_hash,
+    ts: row.ts,
+    l1BlockNumber: row.l1_block_number === null ? null : BigInt(row.l1_block_number),
+    txCount: row.tx_count,
+    gasUsed: BigInt(row.gas_used),
+    baseFeeWei: row.base_fee_wei === null ? null : BigInt(row.base_fee_wei),
+    observedAt: row.observed_at,
+  };
+}
+
+function parseEvmTransaction(row: RawEvmTransactionRow): EvmTransactionRecord {
+  return {
+    network: row.network,
+    txHash: row.tx_hash,
+    blockNumber: BigInt(row.block_number),
+    txIndex: row.tx_index,
+    ts: row.ts,
+    fromAddress: row.from_address,
+    toAddress: row.to_address,
+    nonce: BigInt(row.nonce),
+    valueWei: BigInt(row.value_wei),
+    gasUsed: row.gas_used === null ? null : BigInt(row.gas_used),
+    effectiveGasPriceWei: row.effective_gas_price_wei === null
+      ? null
+      : BigInt(row.effective_gas_price_wei),
+    feeWei: row.fee_wei === null ? null : BigInt(row.fee_wei),
+    status: row.status,
+    inputSelector: row.input_selector,
+    kind: row.kind,
+    observedAt: row.observed_at,
+  };
+}
+
+function parseEvmLog(row: RawEvmLogRow): EvmLogRecord {
+  return {
+    network: row.network,
+    txHash: row.tx_hash,
+    logIndex: row.log_index,
+    blockNumber: BigInt(row.block_number),
+    blockHash: row.block_hash,
+    txIndex: row.tx_index,
+    contractAddress: row.contract_address,
+    topics: JSON.parse(row.topics) as string[],
+    data: row.data,
+    removed: row.removed === 1,
+    observedAt: row.observed_at,
+  };
+}
+
+function parseEvmFinality(row: RawEvmFinalityRow): EvmFinalityRecord {
+  return {
+    network: row.network,
+    blockNumber: BigInt(row.block_number),
+    stage: row.stage,
+    stageTs: row.stage_ts,
+    l1TxHash: row.l1_tx_hash,
+    evidence: JSON.parse(row.evidence) as Record<string, unknown>,
+  };
+}
+
+function parseEvmBalance(row: RawEvmBalanceRow): EvmBalanceRecord {
+  return {
+    network: row.network,
+    address: row.address,
+    assetId: row.asset_id,
+    rawAmount: BigInt(row.raw_amount),
+    decimals: row.decimals,
+    blockNumber: BigInt(row.block_number),
+    ts: row.ts,
+    observedAt: row.observed_at,
+  };
+}
+
+function parseEvmObservation(row: RawEvmObservationRow): EvmObservationRecord {
+  return {
+    network: row.network,
+    ts: row.ts,
+    series: row.series,
+    key: row.key,
+    value: row.value,
+    textValue: row.text_value,
+    blockNumber: row.block_number === null ? null : BigInt(row.block_number),
+    provider: row.provider,
+    evidence: JSON.parse(row.evidence) as Record<string, unknown>,
   };
 }
 
@@ -431,6 +787,396 @@ export class JournalDatabase {
         );
       }
     });
+  }
+
+  upsertEvmAddress(input: EvmAddressInput): void {
+    const selected = normalizeEvmAddress(input.address);
+    this.sqlite.query(`
+      INSERT INTO evm_addresses
+        (network, address, checksum_address, label, tags, added_at, active)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(network, address) DO UPDATE SET
+        checksum_address = excluded.checksum_address,
+        label = excluded.label,
+        tags = excluded.tags,
+        active = excluded.active
+    `).run(
+      input.network,
+      selected.address,
+      selected.checksumAddress,
+      input.label ?? null,
+      json(input.tags ?? []),
+      input.addedAt ?? unixNow(),
+      input.active === false ? 0 : 1,
+    );
+  }
+
+  seedEvmWatchlist(watchlist: EvmWatchAddressConfig[]): void {
+    this.transaction((journal) => {
+      for (const entry of watchlist) {
+        journal.sqlite.query(`
+          INSERT OR IGNORE INTO evm_addresses
+            (network, address, checksum_address, label, tags, added_at, active)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).run(
+          entry.network,
+          entry.address,
+          entry.checksumAddress,
+          entry.label,
+          json(entry.tags),
+          unixNow(),
+          entry.active ? 1 : 0,
+        );
+      }
+    });
+  }
+
+  setEvmAddressActive(network: "robinhood_chain", address: string, active: boolean): boolean {
+    const selected = normalizeEvmAddress(address).address;
+    const result = this.sqlite.query(`
+      UPDATE evm_addresses SET active = ? WHERE network = ? AND address = ?
+    `).run(active ? 1 : 0, network, selected);
+    return result.changes === 1;
+  }
+
+  getEvmAddress(network: "robinhood_chain", address: string): EvmAddressRecord | null {
+    const selected = normalizeEvmAddress(address).address;
+    const row = this.sqlite.query(`
+      SELECT network, address, checksum_address, label, tags, added_at, active
+      FROM evm_addresses WHERE network = ? AND address = ?
+    `).get(network, selected) as RawEvmAddressRow | null;
+    return row === null ? null : parseEvmAddress(row);
+  }
+
+  listEvmAddresses(network: "robinhood_chain", activeOnly = false): EvmAddressRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT network, address, checksum_address, label, tags, added_at, active
+      FROM evm_addresses
+      WHERE network = ? AND (? = 0 OR active = 1)
+      ORDER BY added_at, address
+    `).all(network, activeOnly ? 1 : 0) as RawEvmAddressRow[];
+    return rows.map(parseEvmAddress);
+  }
+
+  insertEvmBlock(input: EvmBlockInput): boolean {
+    const result = this.sqlite.query(`
+      INSERT OR IGNORE INTO evm_blocks (
+        network, block_number, block_hash, parent_hash, ts, l1_block_number,
+        tx_count, gas_used, base_fee_wei, observed_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      input.network,
+      safeEvmInteger(input.blockNumber, "block number"),
+      normalizeEvmHash(input.blockHash, "block hash"),
+      normalizeEvmHash(input.parentHash, "parent hash"),
+      input.ts,
+      input.l1BlockNumber === undefined || input.l1BlockNumber === null
+        ? null
+        : safeEvmInteger(input.l1BlockNumber, "L1 block number"),
+      input.txCount,
+      decimalString(input.gasUsed, "block gas used"),
+      input.baseFeeWei === undefined || input.baseFeeWei === null
+        ? null
+        : decimalString(input.baseFeeWei, "base fee"),
+      input.observedAt,
+    );
+    return result.changes === 1;
+  }
+
+  getEvmBlock(network: "robinhood_chain", blockNumber: bigint): EvmBlockRecord | null {
+    const row = this.sqlite.query(`
+      SELECT network, block_number, block_hash, parent_hash, ts, l1_block_number,
+        tx_count, gas_used, base_fee_wei, observed_at
+      FROM evm_blocks WHERE network = ? AND block_number = ?
+    `).get(network, safeEvmInteger(blockNumber, "block number")) as RawEvmBlockRow | null;
+    return row === null ? null : parseEvmBlock(row);
+  }
+
+  latestEvmBlock(network: "robinhood_chain"): EvmBlockRecord | null {
+    const row = this.sqlite.query(`
+      SELECT network, block_number, block_hash, parent_hash, ts, l1_block_number,
+        tx_count, gas_used, base_fee_wei, observed_at
+      FROM evm_blocks WHERE network = ? ORDER BY block_number DESC LIMIT 1
+    `).get(network) as RawEvmBlockRow | null;
+    return row === null ? null : parseEvmBlock(row);
+  }
+
+  insertEvmTransaction(input: EvmTransactionInput): boolean {
+    if (input.status !== undefined && input.status !== null && input.status !== 0 && input.status !== 1) {
+      throw new Error("EVM transaction status must be 0, 1, or null");
+    }
+    const selector = input.inputSelector === undefined || input.inputSelector === null
+      ? null
+      : normalizeHexData(input.inputSelector, "input selector");
+    if (selector !== null && selector.length !== 10) throw new Error("input selector must be four bytes");
+    const gasUsed = input.gasUsed === undefined || input.gasUsed === null
+      ? null
+      : decimalString(input.gasUsed, "gas used");
+    const gasPrice = input.effectiveGasPriceWei === undefined || input.effectiveGasPriceWei === null
+      ? null
+      : decimalString(input.effectiveGasPriceWei, "effective gas price");
+    const fee = input.gasUsed === undefined || input.gasUsed === null
+      || input.effectiveGasPriceWei === undefined || input.effectiveGasPriceWei === null
+      ? null
+      : decimalString(input.gasUsed * input.effectiveGasPriceWei, "transaction fee");
+    const result = this.sqlite.query(`
+      INSERT OR IGNORE INTO evm_txs (
+        network, tx_hash, block_number, tx_index, ts, from_address, to_address,
+        nonce, value_wei, gas_used, effective_gas_price_wei, fee_wei, status,
+        input_selector, kind, observed_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      input.network,
+      normalizeEvmHash(input.txHash, "transaction hash"),
+      safeEvmInteger(input.blockNumber, "block number"),
+      input.txIndex,
+      input.ts,
+      normalizeEvmAddress(input.fromAddress).address,
+      input.toAddress === null ? null : normalizeEvmAddress(input.toAddress).address,
+      decimalString(input.nonce, "nonce"),
+      decimalString(input.valueWei, "value"),
+      gasUsed,
+      gasPrice,
+      fee,
+      input.status ?? null,
+      selector,
+      input.kind,
+      input.observedAt,
+    );
+    return result.changes === 1;
+  }
+
+  getEvmTransaction(network: "robinhood_chain", hash: string): EvmTransactionRecord | null {
+    const row = this.sqlite.query(`
+      SELECT network, tx_hash, block_number, tx_index, ts, from_address, to_address,
+        nonce, value_wei, gas_used, effective_gas_price_wei, fee_wei, status,
+        input_selector, kind, observed_at
+      FROM evm_txs WHERE network = ? AND tx_hash = ?
+    `).get(network, normalizeEvmHash(hash, "transaction hash")) as RawEvmTransactionRow | null;
+    return row === null ? null : parseEvmTransaction(row);
+  }
+
+  queryEvmTransactions(
+    network: "robinhood_chain",
+    fromTs: number,
+    toTs: number,
+    limit = 100,
+  ): EvmTransactionRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT network, tx_hash, block_number, tx_index, ts, from_address, to_address,
+        nonce, value_wei, gas_used, effective_gas_price_wei, fee_wei, status,
+        input_selector, kind, observed_at
+      FROM evm_txs
+      WHERE network = ? AND ts BETWEEN ? AND ?
+      ORDER BY block_number DESC, tx_index DESC LIMIT ?
+    `).all(network, fromTs, toTs, limit) as RawEvmTransactionRow[];
+    return rows.map(parseEvmTransaction);
+  }
+
+  upsertEvmLog(input: EvmLogInput): void {
+    const topics = input.topics.map((topic) => normalizeEvmHash(topic, "log topic"));
+    this.sqlite.query(`
+      INSERT INTO evm_logs (
+        network, tx_hash, log_index, block_number, block_hash, tx_index,
+        contract_address, topic0, topics, data, removed, observed_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(network, tx_hash, log_index) DO UPDATE SET
+        block_number = excluded.block_number,
+        block_hash = excluded.block_hash,
+        tx_index = excluded.tx_index,
+        contract_address = excluded.contract_address,
+        topic0 = excluded.topic0,
+        topics = excluded.topics,
+        data = excluded.data,
+        removed = excluded.removed,
+        observed_at = excluded.observed_at
+    `).run(
+      input.network,
+      normalizeEvmHash(input.txHash, "transaction hash"),
+      input.logIndex,
+      safeEvmInteger(input.blockNumber, "block number"),
+      normalizeEvmHash(input.blockHash, "block hash"),
+      input.txIndex,
+      normalizeEvmAddress(input.contractAddress).address,
+      topics[0] ?? null,
+      json(topics),
+      normalizeHexData(input.data, "log data"),
+      input.removed === true ? 1 : 0,
+      input.observedAt,
+    );
+  }
+
+  queryEvmLogs(
+    network: "robinhood_chain",
+    fromBlock: bigint,
+    toBlock: bigint,
+    includeRemoved = true,
+  ): EvmLogRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT network, tx_hash, log_index, block_number, block_hash, tx_index,
+        contract_address, topics, data, removed, observed_at
+      FROM evm_logs
+      WHERE network = ? AND block_number BETWEEN ? AND ? AND (? = 1 OR removed = 0)
+      ORDER BY block_number, tx_index, log_index
+    `).all(
+      network,
+      safeEvmInteger(fromBlock, "from block"),
+      safeEvmInteger(toBlock, "to block"),
+      includeRemoved ? 1 : 0,
+    ) as RawEvmLogRow[];
+    return rows.map(parseEvmLog);
+  }
+
+  upsertEvmFinality(input: EvmFinalityInput): void {
+    const blockNumber = safeEvmInteger(input.blockNumber, "block number");
+    if (input.stage !== "soft") {
+      const prerequisite = input.stage === "l1-posted" ? "soft" : "l1-posted";
+      const prior = this.sqlite.query(`
+        SELECT stage_ts FROM evm_finality
+        WHERE network = ? AND block_number = ? AND stage = ?
+      `).get(input.network, blockNumber, prerequisite) as { stage_ts: number } | null;
+      if (prior === null) throw new Error(`${input.stage} requires ${prerequisite} evidence first`);
+      if (input.stageTs < prior.stage_ts) throw new Error(`${input.stage} timestamp precedes ${prerequisite}`);
+      if (Object.keys(input.evidence).length === 0) throw new Error(`${input.stage} requires evidence`);
+    }
+    this.sqlite.query(`
+      INSERT INTO evm_finality
+        (network, block_number, stage, stage_ts, l1_tx_hash, evidence)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(network, block_number, stage) DO UPDATE SET
+        stage_ts = excluded.stage_ts,
+        l1_tx_hash = excluded.l1_tx_hash,
+        evidence = excluded.evidence
+    `).run(
+      input.network,
+      blockNumber,
+      input.stage,
+      input.stageTs,
+      input.l1TxHash === undefined || input.l1TxHash === null
+        ? null
+        : normalizeEvmHash(input.l1TxHash, "L1 transaction hash"),
+      json(input.evidence),
+    );
+  }
+
+  queryEvmFinality(
+    network: "robinhood_chain",
+    blockNumber?: bigint,
+    limit = 100,
+  ): EvmFinalityRecord[] {
+    const selected = blockNumber === undefined ? null : safeEvmInteger(blockNumber, "block number");
+    const rows = this.sqlite.query(`
+      SELECT network, block_number, stage, stage_ts, l1_tx_hash, evidence
+      FROM evm_finality
+      WHERE network = ? AND (? IS NULL OR block_number = ?)
+      ORDER BY block_number DESC,
+        CASE stage WHEN 'soft' THEN 1 WHEN 'l1-posted' THEN 2 ELSE 3 END DESC
+      LIMIT ?
+    `).all(network, selected, selected, limit) as RawEvmFinalityRow[];
+    return rows.map(parseEvmFinality);
+  }
+
+  upsertEvmBalance(input: EvmBalanceInput): void {
+    if (!Number.isSafeInteger(input.decimals) || input.decimals < 0 || input.decimals > 255) {
+      throw new Error("asset decimals must be an integer from 0 through 255");
+    }
+    if (input.assetId.trim() === "") throw new Error("asset ID must not be empty");
+    this.sqlite.query(`
+      INSERT INTO evm_balances (
+        network, address, asset_id, raw_amount, decimals, block_number, ts, observed_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(network, address, asset_id, block_number) DO UPDATE SET
+        raw_amount = excluded.raw_amount,
+        decimals = excluded.decimals,
+        ts = excluded.ts,
+        observed_at = excluded.observed_at
+    `).run(
+      input.network,
+      normalizeEvmAddress(input.address).address,
+      input.assetId,
+      decimalString(input.rawAmount, "balance"),
+      input.decimals,
+      safeEvmInteger(input.blockNumber, "block number"),
+      input.ts,
+      input.observedAt,
+    );
+  }
+
+  queryEvmBalances(
+    network: "robinhood_chain",
+    address?: string,
+    limit = 100,
+  ): EvmBalanceRecord[] {
+    const selected = address === undefined ? null : normalizeEvmAddress(address).address;
+    const rows = this.sqlite.query(`
+      SELECT network, address, asset_id, raw_amount, decimals, block_number, ts, observed_at
+      FROM evm_balances
+      WHERE network = ? AND (? IS NULL OR address = ?)
+      ORDER BY block_number DESC, address, asset_id LIMIT ?
+    `).all(network, selected, selected, limit) as RawEvmBalanceRow[];
+    return rows.map(parseEvmBalance);
+  }
+
+  upsertEvmObservation(input: EvmObservationInput): void {
+    if (input.series.trim() === "" || input.key.trim() === "") {
+      throw new Error("observation series and key must not be empty");
+    }
+    const value = input.value ?? null;
+    const textValue = input.textValue ?? null;
+    if (value === null && textValue === null) throw new Error("observation requires a value");
+    if (value !== null && !Number.isFinite(value)) throw new Error("observation value must be finite");
+    this.sqlite.query(`
+      INSERT INTO evm_observations (
+        network, ts, series, key, value, text_value, block_number, provider, evidence
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(network, series, key, ts) DO UPDATE SET
+        value = excluded.value,
+        text_value = excluded.text_value,
+        block_number = excluded.block_number,
+        provider = excluded.provider,
+        evidence = excluded.evidence
+    `).run(
+      input.network,
+      input.ts,
+      input.series,
+      input.key,
+      value,
+      textValue,
+      input.blockNumber === undefined || input.blockNumber === null
+        ? null
+        : safeEvmInteger(input.blockNumber, "block number"),
+      input.provider ?? null,
+      json(input.evidence ?? {}),
+    );
+  }
+
+  queryEvmObservations(
+    network: "robinhood_chain",
+    series?: string,
+    key?: string,
+    fromTs = 0,
+    toTs = Number.MAX_SAFE_INTEGER,
+    limit = 250,
+  ): EvmObservationRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT network, ts, series, key, value, text_value, block_number, provider, evidence
+      FROM evm_observations
+      WHERE network = ?
+        AND (? IS NULL OR series = ?)
+        AND (? IS NULL OR key = ?)
+        AND ts BETWEEN ? AND ?
+      ORDER BY ts DESC, series, key LIMIT ?
+    `).all(
+      network,
+      series ?? null,
+      series ?? null,
+      key ?? null,
+      key ?? null,
+      fromTs,
+      toTs,
+      limit,
+    ) as RawEvmObservationRow[];
+    return rows.map(parseEvmObservation);
   }
 
   setAddressActive(address: string, active: boolean): boolean {
@@ -713,6 +1459,111 @@ export class JournalDatabase {
     });
   }
 
+  writeEvmBatch(batch: EvmJournalBatch): void {
+    this.transaction((journal) => {
+      for (const block of batch.blocks ?? []) journal.insertEvmBlock(block);
+      for (const transaction of batch.transactions ?? []) journal.insertEvmTransaction(transaction);
+      for (const log of batch.logs ?? []) journal.upsertEvmLog(log);
+      for (const finality of batch.finality ?? []) journal.upsertEvmFinality(finality);
+      for (const balance of batch.balances ?? []) journal.upsertEvmBalance(balance);
+      for (const observation of batch.observations ?? []) journal.upsertEvmObservation(observation);
+      for (const cursor of batch.cursors ?? []) journal.setCursor(cursor);
+      for (const log of batch.collectLogs ?? []) journal.appendCollectLog(log);
+    });
+  }
+
+  rewindEvm(
+    network: "robinhood_chain",
+    fromBlock: bigint,
+    cursorSource: string,
+    cursorKey: string,
+    cursorPosition: string | null,
+    updatedAt = unixNow(),
+  ): void {
+    const selected = safeEvmInteger(fromBlock, "rewind block");
+    this.transaction((journal) => {
+      journal.sqlite.query(`
+        UPDATE evm_logs SET removed = 1, observed_at = ?
+        WHERE network = ? AND block_number >= ?
+      `).run(updatedAt, network, selected);
+      journal.sqlite.query(`DELETE FROM evm_finality WHERE network = ? AND block_number >= ?`)
+        .run(network, selected);
+      journal.sqlite.query(`DELETE FROM evm_balances WHERE network = ? AND block_number >= ?`)
+        .run(network, selected);
+      journal.sqlite.query(`DELETE FROM evm_observations WHERE network = ? AND block_number >= ?`)
+        .run(network, selected);
+      journal.sqlite.query(`DELETE FROM evm_txs WHERE network = ? AND block_number >= ?`)
+        .run(network, selected);
+      journal.sqlite.query(`DELETE FROM evm_blocks WHERE network = ? AND block_number >= ?`)
+        .run(network, selected);
+      journal.sqlite.query(`
+        UPDATE cursor SET position = ?, updated_at = ?
+        WHERE key = ? AND source LIKE '%:evm-blocks%'
+          AND position IS NOT NULL AND CAST(position AS INTEGER) >= ?
+      `).run(cursorPosition, updatedAt, network, selected);
+      journal.setCursor({
+        source: cursorSource,
+        key: cursorKey,
+        position: cursorPosition,
+        updatedAt,
+      });
+    });
+  }
+
+  queryCrossChainActivity(fromTs: number, toTs: number, limit = 250): CrossChainActivityRecord[] {
+    const rows = this.sqlite.query(`
+      SELECT network, tx_id, chain_position, ts, status, kind
+      FROM v_activity WHERE ts BETWEEN ? AND ?
+      ORDER BY ts DESC, network, chain_position LIMIT ?
+    `).all(fromTs, toTs, limit) as Array<{
+      network: string;
+      tx_id: string;
+      chain_position: string;
+      ts: number;
+      status: string;
+      kind: string;
+    }>;
+    return rows.map((row) => ({
+      network: row.network,
+      txId: row.tx_id,
+      chainPosition: row.chain_position,
+      ts: row.ts,
+      status: row.status,
+      kind: row.kind,
+    }));
+  }
+
+  evmNetworkOverview(network: "robinhood_chain"): EvmNetworkOverview {
+    const activity = this.sqlite.query(`
+      SELECT network, tx_id, chain_position, ts, status, kind
+      FROM v_activity WHERE network = ?
+      ORDER BY ts DESC, chain_position DESC LIMIT 25
+    `).all(network) as Array<{
+      network: string;
+      tx_id: string;
+      chain_position: string;
+      ts: number;
+      status: string;
+      kind: string;
+    }>;
+    return {
+      network,
+      head: this.latestEvmBlock(network),
+      addresses: this.listEvmAddresses(network, true),
+      activity: activity.map((row) => ({
+        network: row.network,
+        txId: row.tx_id,
+        chainPosition: row.chain_position,
+        ts: row.ts,
+        status: row.status,
+        kind: row.kind,
+      })),
+      finality: this.queryEvmFinality(network, undefined, 25),
+      balances: this.queryEvmBalances(network, undefined, 25),
+      observations: this.queryEvmObservations(network, undefined, undefined, 0, Number.MAX_SAFE_INTEGER, 50),
+    };
+  }
+
   count(table:
     | "addresses"
     | "snapshots"
@@ -722,6 +1573,14 @@ export class JournalDatabase {
     | "collect_log"
     | "journal_entries"
     | "sim_runs"
+    | "networks"
+    | "evm_addresses"
+    | "evm_blocks"
+    | "evm_txs"
+    | "evm_logs"
+    | "evm_finality"
+    | "evm_balances"
+    | "evm_observations"
   ): number {
     const row = this.sqlite.query(`SELECT COUNT(*) AS count FROM ${table}`).get() as { count: number };
     return row.count;
@@ -751,8 +1610,9 @@ async function runMain(): Promise<void> {
   try {
     const result = journal.migrate();
     journal.seedWatchlist(config.watchlist);
+    journal.seedEvmWatchlist(config.evmWatchlist);
     console.log(
-      `journal schema v${result.currentVersion}; applied ${result.applied.length}; seeded ${config.watchlist.length}`,
+      `journal schema v${result.currentVersion}; applied ${result.applied.length}; seeded ${config.watchlist.length + config.evmWatchlist.length}`,
     );
   } finally {
     journal.close();

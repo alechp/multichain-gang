@@ -5,6 +5,23 @@
   "jitoApiUrl": "https://bundles.jito.wtf",
   "collectIntervalMs": 120000,
   "scrapeEnabled": false,
+  "networks": {
+    "robinhood_chain": {
+      "chainId": 4663,
+      "rpcUrlEnv": "ROBINHOOD_CHAIN_RPC_URL",
+      "comparisonRpcUrlsEnv": "ROBINHOOD_CHAIN_COMPARISON_RPC_URLS",
+      "wsUrlEnv": "ROBINHOOD_CHAIN_WS_URL",
+      "publicRpcUrl": "https://rpc.mainnet.chain.robinhood.com",
+      "confirmations": {
+        "display": "soft",
+        "accounting": "l1-posted",
+        "irreversible": "l1-final"
+      },
+      "maxBlocksPerCycle": 25,
+      "maxRewindBlocks": 64
+    }
+  },
+  "evmWatchlist": [],
   "watchlist": [
     {
       "address": "11111111111111111111111111111111",

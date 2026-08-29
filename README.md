@@ -53,25 +53,29 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     journal/                        local SQLite collector, CLI, workbench, simulators
     docs/v3/                        implemented v3 specification and execution ledger
     docs/solana-scope-v2-spec.md    implemented v2 baseline
+    docs/robinhood-chain-integration-spec.md
+                                    implemented comparison, journal, and launch playbook
 
 ## v3 highlights
 
-- 49-term hover/tap documentation with primary links and keyboard-accessible
+- 56-term hover/tap documentation with primary links and keyboard-accessible
   pinned REF cards.
-- A 24-cue read-through transport with titled authored takeaways, a target
+- A 26-cue read-through transport with titled authored takeaways, a target
   spotlight, persisted reading scale and top/bottom docking, desktop Escape
   exit, reduced-motion stepping, and CDN-independent autoplay.
 - Global Left/Right focus traversal and Space autoplay/pause, plus a `⌘K` /
   `Ctrl+K` command channel with five-section jumps and fuzzy local search across
-  135 section, cue, entity, tool, chain, and glossary records.
+  section, cue, entity, tool, chain, and glossary records.
 - A static, motion-free top navigation reference; diagram motion stays in the
   teaching surfaces and remains optional.
 - Field-note controls are temporarily hidden while their interaction model is
   repaired; existing local note data is left intact.
-- 53 unique hash-routed entity channels spanning techniques, tools, chains, and
+- 68 unique hash-routed entity channels spanning techniques, tools, chains, and
   term targets, plus an exact JavaScript-off ENTITY INDEX mirror.
-- Local SQLite collection for three seeded addresses, public RPC/Solscan/Jito
-  adapters, paper simulators, a localhost-only workbench, and an 80-column CLI.
+- A five-comparator/six-bench-chain Robinhood Chain extension with FCFS,
+  three-stage finality, launch/liquidity guidance, and exact static mirrors.
+- Parallel read-only Solana and Robinhood Chain observation records, paper
+  simulators, a localhost-only workbench, and an 80-column CLI.
 
 ## Verification
 
@@ -80,10 +84,11 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-contrast.mjs
     node scripts/audit-degradation.mjs
     node scripts/audit-command-channel.mjs
+    node scripts/audit-robinhood-chain.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
 
-v3.0 shipped on 2026-08-14. The figures are illustrative orders of
-magnitude dated 2026-08, not live telemetry; live observations remain local to
-the journal.
+v3.0 shipped on 2026-08-14; the Robinhood Chain extension was implemented on
+2026-08-28. The figures are illustrative orders of magnitude dated 2026-08,
+not live telemetry; live observations remain local to the journal.

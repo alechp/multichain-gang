@@ -30,5 +30,6 @@
   --eth:#8A9EF5;
   --bnb:#F0B90B;
   --zec:#E8D28A;     /* desaturated gold — keeps distance from BNB */
+  --robinhood-chain:#CCFF00; /* Robin Neon signal only — not a logo treatment */
   --ch:var(--cyan);  /* active channel tint; overridden per section */
 }

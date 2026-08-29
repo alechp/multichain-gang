@@ -12,8 +12,11 @@
     "migrate": "bun src/db.ts migrate",
     "collect": "bun src/cli.ts collect",
     "backfill": "bun src/cli.ts backfill",
+    "evm:collect": "bun src/cli.ts evm-collect",
+    "evm:backfill": "bun src/cli.ts evm-backfill",
     "serve": "bun src/cli.ts serve",
     "check:tokens": "node ../scripts/check-tokens.mjs",
+    "check:safety": "bun test test/safety.test.ts",
     "test": "bun test"
   }
 }
