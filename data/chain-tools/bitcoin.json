@@ -1,0 +1,2988 @@
+{
+  "schemaVersion": 1,
+  "chainId": "btc",
+  "slug": "bitcoin",
+  "name": "Bitcoin",
+  "shorthand": "BTC",
+  "route": "#/tools/bitcoin",
+  "hubRoute": "#/c/bitcoin",
+  "verified": "2026-08-29",
+  "scopeStatement": "Bitcoin base settlement, Lightning, Ordinals and Runes, plus explicitly adjacent financial rails.",
+  "thesis": "Bitcoin’s useful tooling landscape is not a smaller Ethereum. Its native center is node/wallet software, UTXO construction, fee estimation, mining, payment processing, and verifiable exploration. Lightning adds a separate channel-liquidity and instant-payment plane; Ordinals and Runes add asset/market tooling; bridges, staking, credit, and cross-chain swaps are adjacent systems with additional trust assumptions.",
+  "visual": {
+    "src": "assets/chain-tools/bitcoin-landscape.png",
+    "alt": "Abstract Bitcoin tooling topology with settlement blocks and a Lightning mesh",
+    "objectPosition": "48% 51%",
+    "caption": "Conceptual topology; the inventory is authoritative.",
+    "label": "CONCEPTUAL TOPOLOGY"
+  },
+  "coverage": [
+    {
+      "categoryId": "CT-01",
+      "level": "adjacent",
+      "label": "app-layer",
+      "note": "Ordinals/Runes launch tooling exists; no generic native smart-contract launchpad"
+    },
+    {
+      "categoryId": "CT-02",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "peer-to-peer and atomic/cross-chain markets exist; no base-layer AMM"
+    },
+    {
+      "categoryId": "CT-03",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "Lightning routing and cross-chain intent systems solve different jobs"
+    },
+    {
+      "categoryId": "CT-04",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "DLC primitives exist, but no qualifying broad native production venue in this snapshot"
+    },
+    {
+      "categoryId": "CT-05",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "BTC-collateral products execute through additional protocols or services"
+    },
+    {
+      "categoryId": "CT-06",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "routing fees and external BTC products; no protocol-native yield primitive"
+    },
+    {
+      "categoryId": "CT-07",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "Bitcoin uses proof of work; “BTC staking” is an adjacent script/protocol construction"
+    },
+    {
+      "categoryId": "CT-08",
+      "level": "established",
+      "label": "established service",
+      "note": "strong fee, market, and network data; no base-layer oracle contract system"
+    },
+    {
+      "categoryId": "CT-09",
+      "level": "dense",
+      "label": "dense",
+      "note": "strong open-source node, mempool, explorer, and UTXO analytics"
+    },
+    {
+      "categoryId": "CT-10",
+      "level": "established",
+      "label": "established",
+      "note": "mature market/network analytics and inscription discovery"
+    },
+    {
+      "categoryId": "CT-11",
+      "level": "dense",
+      "label": "dense",
+      "note": "full-node, SPV, hardware, multisig, Lightning, and inscription-specialized wallets"
+    },
+    {
+      "categoryId": "CT-12",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "federated, threshold, smart-contract, and sidechain models must be distinguished"
+    },
+    {
+      "categoryId": "CT-13",
+      "level": "established",
+      "label": "established",
+      "note": "mempool/fee policy and Lightning liquidity are the relevant execution planes"
+    },
+    {
+      "categoryId": "CT-14",
+      "level": "established",
+      "label": "established",
+      "note": "strong self-verification, descriptor, payment-server, and analytics tooling"
+    },
+    {
+      "categoryId": "CT-15",
+      "level": "established",
+      "label": "established app-layer",
+      "note": "Nostr zaps and Lightning commerce are app protocols, not Bitcoin L1 state"
+    },
+    {
+      "categoryId": "CT-16",
+      "level": "dense",
+      "label": "dense",
+      "note": "mature node, RPC, signing, wallet, and Lightning libraries"
+    },
+    {
+      "categoryId": "CT-17",
+      "level": "established",
+      "label": "established app-layer",
+      "note": "Ordinals/Runes ecosystem with dedicated wallets and markets"
+    }
+  ],
+  "placements": [
+    {
+      "id": "btc:ordinalsbot",
+      "toolId": "ordinalsbot",
+      "chainId": "btc",
+      "categories": [
+        "CT-01",
+        "CT-17",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.ordinalsbot.com/",
+          "checked": "2026-08-29",
+          "note": "inscription, Runes, marketplace, and launchpad APIs that return PSBTs"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-17",
+          "CT-16"
+        ],
+        "relationship": "App-layer",
+        "reason": "inscription, Runes, marketplace, and launchpad APIs that return PSBTs"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-17",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "inscription, Runes, marketplace, and launchpad APIs that return PSBTs",
+      "displayName": "OrdinalsBot"
+    },
+    {
+      "id": "btc:magic-eden",
+      "toolId": "magic-eden",
+      "chainId": "btc",
+      "categories": [
+        "CT-01",
+        "CT-10",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.magiceden.io/",
+          "checked": "2026-08-29",
+          "note": "Ordinals and Runes APIs plus market execution endpoints"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-10",
+          "CT-17"
+        ],
+        "relationship": "App / service",
+        "reason": "Ordinals and Runes APIs plus market execution endpoints"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-10",
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "Ordinals and Runes APIs plus market execution endpoints",
+      "displayName": "Magic Eden Bitcoin"
+    },
+    {
+      "id": "btc:gamma",
+      "toolId": "gamma",
+      "chainId": "btc",
+      "categories": [
+        "CT-01",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://support.gamma.io/hc/en-us/sections/13774457783571-Launching-and-managing-your-Ordinals-collection",
+          "checked": "2026-08-29",
+          "note": "Ordinals creation/launch and marketplace surface; exact live modules checked in current support docs"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-17"
+        ],
+        "relationship": "App / service",
+        "reason": "Ordinals creation/launch and marketplace surface; exact live modules checked in current support docs"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "Ordinals creation/launch and marketplace surface; exact live modules checked in current support docs",
+      "displayName": "Gamma"
+    },
+    {
+      "id": "btc:unisat",
+      "toolId": "unisat",
+      "chainId": "btc",
+      "categories": [
+        "CT-01",
+        "CT-11",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "wallet"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.unisat.io/",
+          "checked": "2026-08-29",
+          "note": "Bitcoin wallet, inscription/Runes, and marketplace tooling"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-11",
+          "CT-17"
+        ],
+        "relationship": "App / service",
+        "reason": "Bitcoin wallet, inscription/Runes, and marketplace tooling"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-11",
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "Bitcoin wallet, inscription/Runes, and marketplace tooling",
+      "displayName": "UniSat"
+    },
+    {
+      "id": "btc:ord",
+      "toolId": "ord",
+      "chainId": "btc",
+      "categories": [
+        "CT-01",
+        "CT-09",
+        "CT-16",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer / native transactions",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "cli",
+        "node",
+        "api",
+        "ui"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "node",
+        "API",
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.ordinals.com/",
+          "checked": "2026-08-29",
+          "note": "reference Ordinal Theory implementation, wallet, explorer, and Runes specification"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-09",
+          "CT-16",
+          "CT-17"
+        ],
+        "relationship": "App-layer / native transactions",
+        "reason": "reference Ordinal Theory implementation, wallet, explorer, and Runes specification"
+      },
+      "overlap": {
+        "categoryCount": 4,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-16",
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer / native transactions",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "reference Ordinal Theory implementation, wallet, explorer, and Runes specification",
+      "displayName": "ord"
+    },
+    {
+      "id": "btc:bisq",
+      "toolId": "bisq",
+      "chainId": "btc",
+      "categories": [
+        "CT-02"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Offchain P2P with Bitcoin settlement",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "node"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "node"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://bisq.wiki/Main_Page",
+          "checked": "2026-08-29",
+          "note": "decentralized peer-to-peer exchange; not an on-chain AMM"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02"
+        ],
+        "relationship": "Offchain P2P with Bitcoin settlement",
+        "reason": "decentralized peer-to-peer exchange; not an on-chain AMM"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Offchain P2P with Bitcoin settlement",
+        "trustModel": "onchain-or-protocol-native",
+        "bitcoinLayer": "Bitcoin base layer"
+      },
+      "chainNote": "decentralized peer-to-peer exchange; not an on-chain AMM",
+      "displayName": "Bisq"
+    },
+    {
+      "id": "btc:boltz",
+      "toolId": "boltz",
+      "chainId": "btc",
+      "categories": [
+        "CT-02",
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Cross-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.boltz.exchange/",
+          "checked": "2026-08-29",
+          "note": "submarine/atomic swaps among Bitcoin, Lightning, and supported layers"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-layer",
+        "reason": "submarine/atomic swaps among Bitcoin, Lightning, and supported layers"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-12",
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-layer",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "submarine/atomic swaps among Bitcoin, Lightning, and supported layers",
+      "displayName": "Boltz"
+    },
+    {
+      "id": "btc:thorchain",
+      "toolId": "thorchain",
+      "chainId": "btc",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "cross-chain",
+      "scopeLabel": "Adjacent cross-chain network",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI-dependent",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://dev.thorchain.org/",
+          "checked": "2026-08-29",
+          "note": "native-BTC swap input but execution/security spans THORChain; excluded from Bitcoin-native count"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-03",
+          "CT-12"
+        ],
+        "relationship": "Adjacent cross-chain network",
+        "reason": "native-BTC swap input but execution/security spans THORChain; excluded from Bitcoin-native count"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-03",
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent cross-chain network",
+        "trustModel": "route-specific",
+        "bitcoinLayer": "cross-chain"
+      },
+      "chainNote": "native-BTC swap input but execution/security spans THORChain; excluded from Bitcoin-native count",
+      "displayName": "THORChain"
+    },
+    {
+      "id": "btc:near-intents",
+      "toolId": "near-intents",
+      "chainId": "btc",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Adjacent cross-chain network",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.near-intents.org/",
+          "checked": "2026-08-29",
+          "note": "solver-based cross-chain intents with supported BTC routes; settlement model shown per route"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-12"
+        ],
+        "relationship": "Adjacent cross-chain network",
+        "reason": "solver-based cross-chain intents with supported BTC routes; settlement model shown per route"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent cross-chain network",
+        "trustModel": "route-specific",
+        "bitcoinLayer": "cross-chain"
+      },
+      "chainNote": "solver-based cross-chain intents with supported BTC routes; settlement model shown per route",
+      "displayName": "NEAR Intents"
+    },
+    {
+      "id": "btc:discreet-log-contracts",
+      "toolId": "discreet-log-contracts",
+      "chainId": "btc",
+      "categories": [
+        "CT-04",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "native-l1",
+      "scopeLabel": "Native primitive",
+      "status": "production",
+      "statusLabel": "production specification",
+      "access": "permissionless",
+      "surfaces": [
+        "contracts",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "spec",
+        "SDK-dependent"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/discreetlogcontracts/dlcspecs",
+          "checked": "2026-08-29",
+          "note": "open DLC specifications; not itself a consumer derivatives venue"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04",
+          "CT-16"
+        ],
+        "relationship": "Native primitive",
+        "reason": "open DLC specifications; not itself a consumer derivatives venue"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native primitive",
+        "trustModel": "onchain-or-protocol-native",
+        "bitcoinLayer": "Bitcoin base layer"
+      },
+      "chainNote": "open DLC specifications; not itself a consumer derivatives venue",
+      "displayName": "Discreet Log Contracts"
+    },
+    {
+      "id": "btc:babylon-trustless-bitcoin-vaults",
+      "toolId": "babylon-trustless-bitcoin-vaults",
+      "chainId": "btc",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Native collateral / adjacent Ethereum credit",
+      "status": "testnet",
+      "statusLabel": "testnet",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.babylonlabs.io/",
+          "checked": "2026-08-29",
+          "note": "signet BTC vault and Aave integration are explicitly testnet; never show as mainnet lending"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "availability-not-production",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native collateral / adjacent Ethereum credit",
+        "reason": "signet BTC vault and Aave integration are explicitly testnet; never show as mainnet lending"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native collateral / adjacent Ethereum credit",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "signet BTC vault and Aave integration are explicitly testnet; never show as mainnet lending",
+      "displayName": "Babylon Trustless Bitcoin Vaults"
+    },
+    {
+      "id": "btc:firefish",
+      "toolId": "firefish",
+      "chainId": "btc",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Offchain service with Bitcoin collateral",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.firefish.io/",
+          "checked": "2026-08-29",
+          "note": "peer-to-peer BTC-backed lending; custody/liquidation model must be expanded"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Offchain service with Bitcoin collateral",
+        "reason": "peer-to-peer BTC-backed lending; custody/liquidation model must be expanded"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Offchain service with Bitcoin collateral",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "peer-to-peer BTC-backed lending; custody/liquidation model must be expanded",
+      "displayName": "Firefish"
+    },
+    {
+      "id": "btc:lightning-pool",
+      "toolId": "lightning-pool",
+      "chainId": "btc",
+      "categories": [
+        "CT-06",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "cli",
+        "api",
+        "node"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "API",
+        "node"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lightning.engineering/lightning-network-tools/pool",
+          "checked": "2026-08-29",
+          "note": "non-custodial marketplace for channel liquidity, not base-layer yield"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06",
+          "CT-13"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "non-custodial marketplace for channel liquidity, not base-layer yield"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "non-custodial marketplace for channel liquidity, not base-layer yield",
+      "displayName": "Lightning Pool"
+    },
+    {
+      "id": "btc:babylon-bitcoin-staking",
+      "toolId": "babylon-bitcoin-staking",
+      "chainId": "btc",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Native script / adjacent security network",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.babylonlabs.io/guides/btc-staking/",
+          "checked": "2026-08-29",
+          "note": "BTC locking supports external PoS security; must not be called Bitcoin consensus staking"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native script / adjacent security network",
+        "reason": "BTC locking supports external PoS security; must not be called Bitcoin consensus staking"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native script / adjacent security network",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "BTC locking supports external PoS security; must not be called Bitcoin consensus staking",
+      "displayName": "Babylon Bitcoin Staking"
+    },
+    {
+      "id": "btc:mempool-space",
+      "toolId": "mempool-space",
+      "chainId": "btc",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://mempool.space/docs/api/rest",
+          "checked": "2026-08-29",
+          "note": "mempool, fee, block, mining, and Lightning views/API"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-09",
+          "CT-10",
+          "CT-13"
+        ],
+        "relationship": "Service / self-hostable",
+        "reason": "mempool, fee, block, mining, and Lightning views/API"
+      },
+      "overlap": {
+        "categoryCount": 4,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-10",
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service / self-hostable",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "mempool, fee, block, mining, and Lightning views/API",
+      "displayName": "mempool.space"
+    },
+    {
+      "id": "btc:coin-metrics",
+      "toolId": "coin-metrics",
+      "chainId": "btc",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.coinmetrics.io/",
+          "checked": "2026-08-29",
+          "note": "market and network data; metric definitions must be linked"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "market and network data; metric definitions must be linked"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "market and network data; metric definitions must be linked",
+      "displayName": "Coin Metrics"
+    },
+    {
+      "id": "btc:glassnode",
+      "toolId": "glassnode",
+      "chainId": "btc",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.glassnode.com/",
+          "checked": "2026-08-29",
+          "note": "Bitcoin on-chain and market analytics"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "Bitcoin on-chain and market analytics"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "Bitcoin on-chain and market analytics",
+      "displayName": "Glassnode"
+    },
+    {
+      "id": "btc:cryptoquant",
+      "toolId": "cryptoquant",
+      "chainId": "btc",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://userguide.cryptoquant.com/",
+          "checked": "2026-08-29",
+          "note": "network, miner, and exchange-flow analytics"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "network, miner, and exchange-flow analytics"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "network, miner, and exchange-flow analytics",
+      "displayName": "CryptoQuant"
+    },
+    {
+      "id": "btc:bitcoin-core",
+      "toolId": "bitcoin-core",
+      "chainId": "btc",
+      "categories": [
+        "CT-09",
+        "CT-11",
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "cli",
+        "rpc",
+        "ui"
+      ],
+      "surfaceLabels": [
+        "node",
+        "CLI",
+        "RPC",
+        "UI"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://bitcoincore.org/en/doc/",
+          "checked": "2026-08-29",
+          "note": "reference full node, wallet, mempool, fee, signing, and broadcast surface"
+        }
+      ],
+      "riskFlags": [
+        "custody-model",
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-11",
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "reference full node, wallet, mempool, fee, signing, and broadcast surface"
+      },
+      "overlap": {
+        "categoryCount": 4,
+        "additionalCategoryIds": [
+          "CT-11",
+          "CT-13",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "bitcoinLayer": "Bitcoin base layer"
+      },
+      "chainNote": "reference full node, wallet, mempool, fee, signing, and broadcast surface",
+      "displayName": "Bitcoin Core"
+    },
+    {
+      "id": "btc:blockstream-explorer-esplora",
+      "toolId": "blockstream-explorer-esplora",
+      "chainId": "btc",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/Blockstream/esplora",
+          "checked": "2026-08-29",
+          "note": "open-source explorer and HTTP API for blocks, transactions, addresses, and scripts"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-16"
+        ],
+        "relationship": "Service / self-hostable",
+        "reason": "open-source explorer and HTTP API for blocks, transactions, addresses, and scripts"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service / self-hostable",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "open-source explorer and HTTP API for blocks, transactions, addresses, and scripts",
+      "displayName": "Blockstream Explorer / Esplora"
+    },
+    {
+      "id": "btc:oxt",
+      "toolId": "oxt",
+      "chainId": "btc",
+      "categories": [
+        "CT-09",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/samourai-wallet/oxt",
+          "checked": "2026-08-29",
+          "note": "UTXO and transaction-graph analysis; privacy caveat required"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-14"
+        ],
+        "relationship": "Service / self-hostable",
+        "reason": "UTXO and transaction-graph analysis; privacy caveat required"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service / self-hostable",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "UTXO and transaction-graph analysis; privacy caveat required",
+      "displayName": "OXT"
+    },
+    {
+      "id": "btc:dune",
+      "toolId": "dune",
+      "chainId": "btc",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dune.com/data-catalog/bitcoin/overview",
+          "checked": "2026-08-29",
+          "note": "indexed Bitcoin tables; coverage/schema shown in Dune catalog"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "indexed Bitcoin tables; coverage/schema shown in Dune catalog"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "indexed Bitcoin tables; coverage/schema shown in Dune catalog",
+      "displayName": "Dune Bitcoin"
+    },
+    {
+      "id": "btc:ordinals-com-explorer",
+      "toolId": "ordinals-com-explorer",
+      "chainId": "btc",
+      "categories": [
+        "CT-09",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "node"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "node"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.ordinals.com/guides/explorer.html",
+          "checked": "2026-08-29",
+          "note": "reference ord explorer and JSON API"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-17"
+        ],
+        "relationship": "App-layer / self-hostable",
+        "reason": "reference ord explorer and JSON API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer / self-hostable",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Ordinals or Runes app layer"
+      },
+      "chainNote": "reference ord explorer and JSON API",
+      "displayName": "ordinals.com Explorer"
+    },
+    {
+      "id": "btc:sparrow-wallet",
+      "toolId": "sparrow-wallet",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://sparrowwallet.com/docs/",
+          "checked": "2026-08-29",
+          "note": "descriptor/PSBT-focused desktop wallet with coin control"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-14"
+        ],
+        "relationship": "App",
+        "reason": "descriptor/PSBT-focused desktop wallet with coin control"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "app-layer"
+      },
+      "chainNote": "descriptor/PSBT-focused desktop wallet with coin control",
+      "displayName": "Sparrow Wallet"
+    },
+    {
+      "id": "btc:electrum",
+      "toolId": "electrum",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "cli",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "CLI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://electrum.readthedocs.io/",
+          "checked": "2026-08-29",
+          "note": "SPV wallet and plugin/client tooling"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "App / service",
+        "reason": "SPV wallet and plugin/client tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "app-layer"
+      },
+      "chainNote": "SPV wallet and plugin/client tooling",
+      "displayName": "Electrum"
+    },
+    {
+      "id": "btc:wasabi-wallet",
+      "toolId": "wasabi-wallet",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.wasabiwallet.io/",
+          "checked": "2026-08-29",
+          "note": "privacy-focused desktop wallet; current coinjoin availability must be region/version labeled"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-14"
+        ],
+        "relationship": "App",
+        "reason": "privacy-focused desktop wallet; current coinjoin availability must be region/version labeled"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "app-layer"
+      },
+      "chainNote": "privacy-focused desktop wallet; current coinjoin availability must be region/version labeled",
+      "displayName": "Wasabi Wallet"
+    },
+    {
+      "id": "btc:bluewallet",
+      "toolId": "bluewallet",
+      "chainId": "btc",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://bluewallet.io/docs/",
+          "checked": "2026-08-29",
+          "note": "Bitcoin wallet with on-chain and Lightning support"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App",
+        "reason": "Bitcoin wallet with on-chain and Lightning support"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Bitcoin wallet with on-chain and Lightning support",
+      "displayName": "BlueWallet"
+    },
+    {
+      "id": "btc:phoenix-lightning-wallet",
+      "toolId": "phoenix-lightning-wallet",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://phoenix.acinq.co/faq",
+          "checked": "2026-08-29",
+          "note": "self-custodial Lightning wallet with channel/liquidity abstraction"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-13"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "self-custodial Lightning wallet with channel/liquidity abstraction"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "self-custodial Lightning wallet with channel/liquidity abstraction",
+      "displayName": "Phoenix"
+    },
+    {
+      "id": "btc:zeus",
+      "toolId": "zeus",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.zeusln.app/",
+          "checked": "2026-08-29",
+          "note": "Lightning node/wallet control and embedded-node surfaces"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-13"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "Lightning node/wallet control and embedded-node surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Lightning node/wallet control and embedded-node surfaces",
+      "displayName": "Zeus"
+    },
+    {
+      "id": "btc:specter-desktop",
+      "toolId": "specter-desktop",
+      "chainId": "btc",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.specter.solutions/desktop/",
+          "checked": "2026-08-29",
+          "note": "multisig and hardware-wallet coordination around Bitcoin Core"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-14"
+        ],
+        "relationship": "App / self-hostable",
+        "reason": "multisig and hardware-wallet coordination around Bitcoin Core"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / self-hostable",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "app-layer"
+      },
+      "chainNote": "multisig and hardware-wallet coordination around Bitcoin Core",
+      "displayName": "Specter Desktop"
+    },
+    {
+      "id": "btc:tbtc",
+      "toolId": "tbtc",
+      "chainId": "btc",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent Ethereum bridge",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.threshold.network/applications/tbtc-v2/",
+          "checked": "2026-08-29",
+          "note": "threshold-custodied BTC representation on EVM; not native Bitcoin execution"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Adjacent Ethereum bridge",
+        "reason": "threshold-custodied BTC representation on EVM; not native Bitcoin execution"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent Ethereum bridge",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "threshold-custodied BTC representation on EVM; not native Bitcoin execution",
+      "displayName": "tBTC"
+    },
+    {
+      "id": "btc:wrapped-bitcoin",
+      "toolId": "wrapped-bitcoin",
+      "chainId": "btc",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent custodial asset",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "custodial",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://wbtc.network/",
+          "checked": "2026-08-29",
+          "note": "custodial tokenized BTC on EVM; custody is mandatory in row display"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust",
+        "custody-model"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Adjacent custodial asset",
+        "reason": "custodial tokenized BTC on EVM; custody is mandatory in row display"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent custodial asset",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "custodial tokenized BTC on EVM; custody is mandatory in row display",
+      "displayName": "Wrapped Bitcoin"
+    },
+    {
+      "id": "btc:liquid-network",
+      "toolId": "liquid-network",
+      "chainId": "btc",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent sidechain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "cli",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "node",
+        "CLI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.liquid.net/docs/",
+          "checked": "2026-08-29",
+          "note": "federated sidechain and peg; separate consensus/trust model"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Adjacent sidechain",
+        "reason": "federated sidechain and peg; separate consensus/trust model"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent sidechain",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "federated sidechain and peg; separate consensus/trust model",
+      "displayName": "Liquid Network"
+    },
+    {
+      "id": "btc:rootstock",
+      "toolId": "rootstock",
+      "chainId": "btc",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent merge-mined sidechain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "node",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://dev.rootstock.io/kb/rootstock-tokenomics/powpeg/",
+          "checked": "2026-08-29",
+          "note": "PowPeg bridge and EVM sidechain; not Bitcoin L1 smart contracts"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Adjacent merge-mined sidechain",
+        "reason": "PowPeg bridge and EVM sidechain; not Bitcoin L1 smart contracts"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent merge-mined sidechain",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "adjacent-layer"
+      },
+      "chainNote": "PowPeg bridge and EVM sidechain; not Bitcoin L1 smart contracts",
+      "displayName": "Rootstock"
+    },
+    {
+      "id": "btc:lnd",
+      "toolId": "lnd",
+      "chainId": "btc",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "cli",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "node",
+        "CLI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lightning.engineering/lightning-network-tools/lnd",
+          "checked": "2026-08-29",
+          "note": "Lightning node implementation and APIs"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "Lightning node implementation and APIs"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Lightning node implementation and APIs",
+      "displayName": "LND"
+    },
+    {
+      "id": "btc:core-lightning",
+      "toolId": "core-lightning",
+      "chainId": "btc",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "cli",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "node",
+        "CLI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.corelightning.org/",
+          "checked": "2026-08-29",
+          "note": "modular Lightning node implementation"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "modular Lightning node implementation"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "modular Lightning node implementation",
+      "displayName": "Core Lightning"
+    },
+    {
+      "id": "btc:lightning-dev-kit",
+      "toolId": "lightning-dev-kit",
+      "chainId": "btc",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "app-layer",
+      "scopeLabel": "Lightning app-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://lightningdevkit.org/",
+          "checked": "2026-08-29",
+          "note": "embeddable Lightning protocol libraries"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Lightning app-layer",
+        "reason": "embeddable Lightning protocol libraries"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning app-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "embeddable Lightning protocol libraries",
+      "displayName": "Lightning Dev Kit"
+    },
+    {
+      "id": "btc:lightning-loop",
+      "toolId": "lightning-loop",
+      "chainId": "btc",
+      "categories": [
+        "CT-13",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Lightning / base cross-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "cli",
+        "api"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lightning.engineering/lightning-network-tools/loop",
+          "checked": "2026-08-29",
+          "note": "submarine swaps for channel liquidity management"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "bridge-or-route-trust",
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-12"
+        ],
+        "relationship": "Lightning / base cross-layer",
+        "reason": "submarine swaps for channel liquidity management"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Lightning / base cross-layer",
+        "trustModel": "additional-layer",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "submarine swaps for channel liquidity management",
+      "displayName": "Lightning Loop"
+    },
+    {
+      "id": "btc:btcpay-server",
+      "toolId": "btcpay-server",
+      "chainId": "btc",
+      "categories": [
+        "CT-14",
+        "CT-15",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "app-layer",
+      "scopeLabel": "App / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.btcpayserver.org/",
+          "checked": "2026-08-29",
+          "note": "self-hosted Bitcoin/Lightning payment processing"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-15",
+          "CT-16"
+        ],
+        "relationship": "App / self-hostable",
+        "reason": "self-hosted Bitcoin/Lightning payment processing"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-15",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / self-hostable",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "self-hosted Bitcoin/Lightning payment processing",
+      "displayName": "BTCPay Server"
+    },
+    {
+      "id": "btc:bitcoin-wallet-selector",
+      "toolId": "bitcoin-wallet-selector",
+      "chainId": "btc",
+      "categories": [
+        "CT-14",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://bitcoin.org/en/choose-your-wallet",
+          "checked": "2026-08-29",
+          "note": "feature-based wallet comparison; directory inclusion is not endorsement"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-11"
+        ],
+        "relationship": "Service",
+        "reason": "feature-based wallet comparison; directory inclusion is not endorsement"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "feature-based wallet comparison; directory inclusion is not endorsement",
+      "displayName": "Bitcoin wallet selector"
+    },
+    {
+      "id": "btc:nostr-protocol",
+      "toolId": "nostr-protocol",
+      "chainId": "btc",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "app-layer",
+      "scopeLabel": "App protocol",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "contracts",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "spec",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/nostr-protocol/nips",
+          "checked": "2026-08-29",
+          "note": "NIP-57 zaps connect Nostr events to Lightning payments; not L1 social state"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-16"
+        ],
+        "relationship": "App protocol",
+        "reason": "NIP-57 zaps connect Nostr events to Lightning payments; not L1 social state"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App protocol",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "NIP-57 zaps connect Nostr events to Lightning payments; not L1 social state",
+      "displayName": "Nostr protocol"
+    },
+    {
+      "id": "btc:damus",
+      "toolId": "damus",
+      "chainId": "btc",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://damus.io/",
+          "checked": "2026-08-29",
+          "note": "Nostr client with Lightning zaps"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "App-layer",
+        "reason": "Nostr client with Lightning zaps"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Nostr client with Lightning zaps",
+      "displayName": "Damus"
+    },
+    {
+      "id": "btc:primal",
+      "toolId": "primal",
+      "chainId": "btc",
+      "categories": [
+        "CT-15",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "wallet"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://primal.net/",
+          "checked": "2026-08-29",
+          "note": "Nostr client and Bitcoin/Lightning wallet surfaces"
+        }
+      ],
+      "riskFlags": [
+        "custody-model"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-11"
+        ],
+        "relationship": "App-layer",
+        "reason": "Nostr client and Bitcoin/Lightning wallet surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Nostr client and Bitcoin/Lightning wallet surfaces",
+      "displayName": "Primal"
+    },
+    {
+      "id": "btc:fountain",
+      "toolId": "fountain",
+      "chainId": "btc",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "app-layer",
+      "scopeLabel": "App-layer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.fountain.fm/",
+          "checked": "2026-08-29",
+          "note": "podcast value transfer through Lightning"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "App-layer",
+        "reason": "podcast value transfer through Lightning"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App-layer",
+        "trustModel": "application-specific",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "podcast value transfer through Lightning",
+      "displayName": "Fountain"
+    },
+    {
+      "id": "btc:zaprite",
+      "toolId": "zaprite",
+      "chainId": "btc",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Offchain service / Bitcoin settlement",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://help.zaprite.com/",
+          "checked": "2026-08-29",
+          "note": "Bitcoin and Lightning invoicing/commerce tools"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "Offchain service / Bitcoin settlement",
+        "reason": "Bitcoin and Lightning invoicing/commerce tools"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Offchain service / Bitcoin settlement",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "Bitcoin and Lightning invoicing/commerce tools",
+      "displayName": "Zaprite"
+    },
+    {
+      "id": "btc:bitcoin-dev-kit",
+      "toolId": "bitcoin-dev-kit",
+      "chainId": "btc",
+      "categories": [
+        "CT-16",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "sdk",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "CLI"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://bitcoindevkit.org/",
+          "checked": "2026-08-29",
+          "note": "descriptor-based wallet development libraries"
+        }
+      ],
+      "riskFlags": [
+        "custody-model",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-11"
+        ],
+        "relationship": "Developer",
+        "reason": "descriptor-based wallet development libraries"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "descriptor-based wallet development libraries",
+      "displayName": "Bitcoin Dev Kit"
+    },
+    {
+      "id": "btc:rust-bitcoin",
+      "toolId": "rust-bitcoin",
+      "chainId": "btc",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.rs/bitcoin/",
+          "checked": "2026-08-29",
+          "note": "Bitcoin data structures and serialization library"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Developer",
+        "reason": "Bitcoin data structures and serialization library"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "Bitcoin data structures and serialization library",
+      "displayName": "rust-bitcoin"
+    },
+    {
+      "id": "btc:electrumx",
+      "toolId": "electrumx",
+      "chainId": "btc",
+      "categories": [
+        "CT-16",
+        "CT-09"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "node",
+        "api"
+      ],
+      "surfaceLabels": [
+        "node",
+        "API"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://electrumx-spesmilo.readthedocs.io/",
+          "checked": "2026-08-29",
+          "note": "Electrum protocol server and indexing surface"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09"
+        ],
+        "relationship": "Service / self-hostable",
+        "reason": "Electrum protocol server and indexing surface"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-09"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service / self-hostable",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "offchain-service"
+      },
+      "chainNote": "Electrum protocol server and indexing surface",
+      "displayName": "ElectrumX"
+    },
+    {
+      "id": "btc:polar",
+      "toolId": "polar",
+      "chainId": "btc",
+      "categories": [
+        "CT-16",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "CLI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://lightningpolar.com/",
+          "checked": "2026-08-29",
+          "note": "local Lightning network development environment"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-13"
+        ],
+        "relationship": "Developer",
+        "reason": "local Lightning network development environment"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "bitcoinLayer": "Lightning"
+      },
+      "chainNote": "local Lightning network development environment",
+      "displayName": "Polar"
+    }
+  ],
+  "gaps": [
+    "Bitcoin uses proof of work. The page must render CT-07 as a native gap and separately explain Babylon-style BTC locking for external security.",
+    "“DEX” can mean a P2P coordinator, atomic swap, sidechain AMM, or external cross-chain network. Scope and custody/trust labels are mandatory.",
+    "Lightning liquidity is directional channel capacity, not AMM liquidity and not base-layer yield.",
+    "An Ordinals or Runes marketplace trades artifacts represented through Bitcoin transactions, but its orderbook/indexer is an application layer.",
+    "Wrapped BTC is a claim under a custody/bridge model. It must never be counted as a native Bitcoin stablecoin, lending market, or bridge without that model visible.",
+    "Base-layer confirmation, Lightning settlement, sidechain finality, and EVM token finality are different clocks."
+  ],
+  "sources": [
+    {
+      "label": "Bitcoin developer guides and RPC reference",
+      "url": "https://developer.bitcoin.org/"
+    },
+    {
+      "label": "Bitcoin Core current documentation",
+      "url": "https://bitcoincore.org/en/doc/"
+    },
+    {
+      "label": "Bitcoin.org wallet feature selector",
+      "url": "https://bitcoin.org/en/choose-your-wallet"
+    },
+    {
+      "label": "Lightning Builder’s Guide: liquidity",
+      "url": "https://docs.lightning.engineering/the-lightning-network/liquidity"
+    },
+    {
+      "label": "Ordinal Theory handbook",
+      "url": "https://docs.ordinals.com/"
+    },
+    {
+      "label": "Babylon Trustless Bitcoin Vaults / Bitcoin staking docs",
+      "url": "https://docs.babylonlabs.io/"
+    }
+  ]
+}

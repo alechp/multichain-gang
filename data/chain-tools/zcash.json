@@ -1,0 +1,1910 @@
+{
+  "schemaVersion": 1,
+  "chainId": "zec",
+  "slug": "zcash",
+  "name": "Zcash",
+  "shorthand": "ZEC",
+  "route": "#/tools/zcash",
+  "hubRoute": "#/c/zcash",
+  "verified": "2026-08-29",
+  "scopeStatement": "Zcash shielded and transparent surfaces, infrastructure, applications, and verified adjacent rails.",
+  "thesis": "Zcash’s production landscape is smaller and more specialized than the other five. Its center is shielded wallet UX, node and light-client infrastructure, viewing/signing tools, explorers, payments, and privacy-preserving consumer applications. Cross-chain swaps now materially improve access, but many routes accept only transparent Zcash addresses. Native DEX, lending, yield, staking, and fungible-asset launch categories remain gaps in the verified snapshot.",
+  "visual": {
+    "src": "assets/chain-tools/zcash-landscape.png",
+    "alt": "Abstract Zcash tooling topology with observable edges and a shielded interior",
+    "objectPosition": "50% 52%",
+    "caption": "Conceptual topology; the inventory is authoritative.",
+    "label": "CONCEPTUAL TOPOLOGY"
+  },
+  "coverage": [
+    {
+      "categoryId": "CT-01",
+      "level": "emerging",
+      "label": "announced / project funding",
+      "note": "ZSAs remain draft with deployment TBD; grants fund projects but do not issue assets"
+    },
+    {
+      "categoryId": "CT-02",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "MAYAChain supports transparent ZEC swaps/liquidity; no native shielded DEX"
+    },
+    {
+      "categoryId": "CT-03",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "Zashi/NEAR Intents adds routes; transparent-address boundaries matter"
+    },
+    {
+      "categoryId": "CT-04",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "no qualifying production native tool"
+    },
+    {
+      "categoryId": "CT-05",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "no qualifying production native market"
+    },
+    {
+      "categoryId": "CT-06",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "external liquidity pools exist; no native Zcash vault system"
+    },
+    {
+      "categoryId": "CT-07",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "Zcash is proof of work; mining is not staking"
+    },
+    {
+      "categoryId": "CT-08",
+      "level": "adjacent",
+      "label": "service",
+      "note": "market-price and network-data APIs exist; no native oracle contracts"
+    },
+    {
+      "categoryId": "CT-09",
+      "level": "established",
+      "label": "established",
+      "note": "several community and commercial explorers, with inherent shielded-data limits"
+    },
+    {
+      "categoryId": "CT-10",
+      "level": "emerging",
+      "label": "emerging service",
+      "note": "market charts exist; shielded positions cannot be inferred without viewing capability"
+    },
+    {
+      "categoryId": "CT-11",
+      "level": "dense",
+      "label": "dense",
+      "note": "the ecosystem’s strongest application category; shielded-pool support varies"
+    },
+    {
+      "categoryId": "CT-12",
+      "level": "emerging",
+      "label": "emerging / adjacent",
+      "note": "NEAR Intents and MAYAChain routes exist with explicit transparent-only constraints"
+    },
+    {
+      "categoryId": "CT-13",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "fee/transaction construction exists; no comparable public builder market"
+    },
+    {
+      "categoryId": "CT-14",
+      "level": "established",
+      "label": "established specialized",
+      "note": "FROST, privacy guidance, conformance tests, and viewing-key workflows"
+    },
+    {
+      "categoryId": "CT-15",
+      "level": "established",
+      "label": "established niche",
+      "note": "private publishing, tipping, education, and payments"
+    },
+    {
+      "categoryId": "CT-16",
+      "level": "established",
+      "label": "established",
+      "note": "two node implementations, Rust libraries, mobile SDKs, lightwalletd, and RPC"
+    },
+    {
+      "categoryId": "CT-17",
+      "level": "native-gap",
+      "label": "native gap",
+      "note": "ZSAs are not deployed; no qualifying native marketplace"
+    }
+  ],
+  "placements": [
+    {
+      "id": "zec:zcash-shielded-assets-zip-227",
+      "toolId": "zcash-shielded-assets-zip-227",
+      "chainId": "zec",
+      "categories": [
+        "CT-01",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native proposal",
+      "status": "announced",
+      "statusLabel": "announced",
+      "access": "permissionless",
+      "surfaces": [
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "specification"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zips.z.cash/zip-0227",
+          "checked": "2026-08-29",
+          "note": "status is `Draft`, reference implementation and deployment are `TBD`; never show as usable issuance"
+        }
+      ],
+      "riskFlags": [
+        "availability-not-production",
+        "liquidity-and-exit",
+        "privacy-boundary",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-16"
+        ],
+        "relationship": "Native proposal",
+        "reason": "status is `Draft`, reference implementation and deployment are `TBD`; never show as usable issuance"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native proposal",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "status is `Draft`, reference implementation and deployment are `TBD`; never show as usable issuance",
+      "displayName": "Zcash Shielded Assets / ZIP 227"
+    },
+    {
+      "id": "zec:zcash-community-grants",
+      "toolId": "zcash-community-grants",
+      "chainId": "zec",
+      "categories": [
+        "CT-01",
+        "CT-15"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "offchain-service",
+      "scopeLabel": "Ecosystem funding service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://zcashcommunitygrants.org/",
+          "checked": "2026-08-29",
+          "note": "funds project launches and public goods; explicitly not a token launchpad"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-15"
+        ],
+        "relationship": "Ecosystem funding service",
+        "reason": "funds project launches and public goods; explicitly not a token launchpad"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-15"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Ecosystem funding service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "funds project launches and public goods; explicitly not a token launchpad",
+      "displayName": "Zcash Community Grants"
+    },
+    {
+      "id": "zec:maya-protocol",
+      "toolId": "maya-protocol",
+      "chainId": "zec",
+      "categories": [
+        "CT-02",
+        "CT-06",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "cross-chain",
+      "scopeLabel": "Adjacent cross-chain network",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI-dependent",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.mayaprotocol.com/introduction/readme/getting-started",
+          "checked": "2026-08-29",
+          "note": "native ZEC pool is supported, but transparent addresses only and MAYAChain supplies execution/security"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06",
+          "CT-12"
+        ],
+        "relationship": "Adjacent cross-chain network",
+        "reason": "native ZEC pool is supported, but transparent addresses only and MAYAChain supplies execution/security"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-06",
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent cross-chain network",
+        "trustModel": "route-specific",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "native ZEC pool is supported, but transparent addresses only and MAYAChain supplies execution/security",
+      "displayName": "MAYA Protocol"
+    },
+    {
+      "id": "zec:zashi-zodl",
+      "toolId": "zashi-zodl",
+      "chainId": "zec",
+      "categories": [
+        "CT-03",
+        "CT-11",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "native-l1",
+      "scopeLabel": "Native wallet / cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK-derived"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://electriccoin.co/",
+          "checked": "2026-08-29",
+          "note": "shielded ZEC wallet with NEAR Intents swaps and CrossPay; preserve both names as aliases during rebrand"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "privacy-boundary",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-11",
+          "CT-12"
+        ],
+        "relationship": "Native wallet / cross-chain service",
+        "reason": "shielded ZEC wallet with NEAR Intents swaps and CrossPay; preserve both names as aliases during rebrand"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-11",
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native wallet / cross-chain service",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "shielded ZEC wallet with NEAR Intents swaps and CrossPay; preserve both names as aliases during rebrand",
+      "displayName": "Zashi / Zodl"
+    },
+    {
+      "id": "zec:near-intents",
+      "toolId": "near-intents",
+      "chainId": "zec",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Adjacent cross-chain network",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.near-intents.org/resources/chain-support",
+          "checked": "2026-08-29",
+          "note": "ZEC asset/routes are supported, but Zcash integration is transparent-address-only"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-12"
+        ],
+        "relationship": "Adjacent cross-chain network",
+        "reason": "ZEC asset/routes are supported, but Zcash integration is transparent-address-only"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent cross-chain network",
+        "trustModel": "route-specific",
+        "shieldedSupport": "transparent-boundary-documented"
+      },
+      "chainNote": "ZEC asset/routes are supported, but Zcash integration is transparent-address-only",
+      "displayName": "NEAR Intents"
+    },
+    {
+      "id": "zec:coingecko",
+      "toolId": "coingecko",
+      "chainId": "zec",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.coingecko.com/",
+          "checked": "2026-08-29",
+          "note": "ZEC market-price and chart data; not shielded chain analytics"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "ZEC market-price and chart data; not shielded chain analytics"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "ZEC market-price and chart data; not shielded chain analytics",
+      "displayName": "CoinGecko"
+    },
+    {
+      "id": "zec:coin-metrics",
+      "toolId": "coin-metrics",
+      "chainId": "zec",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.coinmetrics.io/",
+          "checked": "2026-08-29",
+          "note": "Zcash network/market metrics where listed; definitions shown per metric"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "Zcash network/market metrics where listed; definitions shown per metric"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "Zcash network/market metrics where listed; definitions shown per metric",
+      "displayName": "Coin Metrics"
+    },
+    {
+      "id": "zec:nighthawk-zcash-explorer",
+      "toolId": "nighthawk-zcash-explorer",
+      "chainId": "zec",
+      "categories": [
+        "CT-09"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E3",
+          "url": "https://mainnet.zcashexplorer.app/",
+          "checked": "2026-08-29",
+          "note": "current official app check; privacy policy and node backend shown in details"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09"
+        ],
+        "relationship": "Community service",
+        "reason": "current official app check; privacy policy and node backend shown in details"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "current official app check; privacy policy and node backend shown in details",
+      "displayName": "Nighthawk Zcash Explorer"
+    },
+    {
+      "id": "zec:zec-rocks-explorer",
+      "toolId": "zec-rocks-explorer",
+      "chainId": "zec",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://explorer.zec.rocks/",
+          "checked": "2026-08-29",
+          "note": "community explorer and lightwallet infrastructure; exact backend shown"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-16"
+        ],
+        "relationship": "Community service",
+        "reason": "community explorer and lightwallet infrastructure; exact backend shown"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "community explorer and lightwallet infrastructure; exact backend shown",
+      "displayName": "zec.rocks Explorer"
+    },
+    {
+      "id": "zec:cipherscan",
+      "toolId": "cipherscan",
+      "chainId": "zec",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E3",
+          "url": "https://cipherscan.app/",
+          "checked": "2026-08-29",
+          "note": "Zcash explorer app; public data cannot reveal shielded sender, receiver, or value"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Community service",
+        "reason": "Zcash explorer app; public data cannot reveal shielded sender, receiver, or value"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "Zcash explorer app; public data cannot reveal shielded sender, receiver, or value",
+      "displayName": "CipherScan"
+    },
+    {
+      "id": "zec:3xpl-zcash",
+      "toolId": "3xpl-zcash",
+      "chainId": "zec",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://3xpl.com/zcash",
+          "checked": "2026-08-29",
+          "note": "explorer/API and exports; tracking/privacy behavior labeled"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "explorer/API and exports; tracking/privacy behavior labeled"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "explorer/API and exports; tracking/privacy behavior labeled",
+      "displayName": "3xpl Zcash"
+    },
+    {
+      "id": "zec:zashi-sdks",
+      "toolId": "zashi-sdks",
+      "chainId": "zec",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zcash.readthedocs.io/en/latest/rtd_pages/mobile_sdk.html",
+          "checked": "2026-08-29",
+          "note": "official mobile SDK resources for shielded wallet integration"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "Native developer",
+        "reason": "official mobile SDK resources for shielded wallet integration"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "official mobile SDK resources for shielded wallet integration",
+      "displayName": "Zashi SDKs"
+    },
+    {
+      "id": "zec:zingo",
+      "toolId": "zingo",
+      "chainId": "zec",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "native-l1",
+      "scopeLabel": "Native app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://zingolabs.org/",
+          "checked": "2026-08-29",
+          "note": "open-source shielded wallet and ecosystem tooling"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "Native app",
+        "reason": "open-source shielded wallet and ecosystem tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native app",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "open-source shielded wallet and ecosystem tooling",
+      "displayName": "Zingo!"
+    },
+    {
+      "id": "zec:zkool-ywallet",
+      "toolId": "zkool-ywallet",
+      "chainId": "zec",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "native-l1",
+      "scopeLabel": "Native app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/hhanh00/zwallet",
+          "checked": "2026-08-29",
+          "note": "current wallet repository/releases; preserve YWallet alias and show compatibility caveats"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "Native app",
+        "reason": "current wallet repository/releases; preserve YWallet alias and show compatibility caveats"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native app",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "current wallet repository/releases; preserve YWallet alias and show compatibility caveats",
+      "displayName": "Zkool / YWallet"
+    },
+    {
+      "id": "zec:edge-wallet",
+      "toolId": "edge-wallet",
+      "chainId": "zec",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://support.edge.app/support/solutions/articles/8000096295-zcash-zec-",
+          "checked": "2026-08-29",
+          "note": "ZEC wallet support; shielded-pool features shown explicitly"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App / service",
+        "reason": "ZEC wallet support; shielded-pool features shown explicitly"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "ZEC wallet support; shielded-pool features shown explicitly",
+      "displayName": "Edge Wallet"
+    },
+    {
+      "id": "zec:unstoppable-wallet",
+      "toolId": "unstoppable-wallet",
+      "chainId": "zec",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://unstoppable.money/",
+          "checked": "2026-08-29",
+          "note": "multi-coin wallet with Zcash support; shielded support verified from official feature surface"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App / service",
+        "reason": "multi-coin wallet with Zcash support; shielded support verified from official feature surface"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "multi-coin wallet with Zcash support; shielded support verified from official feature surface",
+      "displayName": "Unstoppable Wallet"
+    },
+    {
+      "id": "zec:zcash-wallet-ecosystem-guide",
+      "toolId": "zcash-wallet-ecosystem-guide",
+      "chainId": "zec",
+      "categories": [
+        "CT-11",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.zcashcommunity.com/wallets/",
+          "checked": "2026-08-29",
+          "note": "community-maintained wallet discovery with a warning that not every wallet supports private transactions"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-10"
+        ],
+        "relationship": "Community service",
+        "reason": "community-maintained wallet discovery with a warning that not every wallet supports private transactions"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "community-maintained wallet discovery with a warning that not every wallet supports private transactions",
+      "displayName": "Zcash wallet ecosystem guide"
+    },
+    {
+      "id": "zec:zebra",
+      "toolId": "zebra",
+      "chainId": "zec",
+      "categories": [
+        "CT-16",
+        "CT-09"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "node",
+        "rpc",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "node",
+        "RPC",
+        "CLI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zfnd.org/zebra/download/",
+          "checked": "2026-08-29",
+          "note": "independent consensus-compatible Rust node implementation"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09"
+        ],
+        "relationship": "Native",
+        "reason": "independent consensus-compatible Rust node implementation"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-09"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "independent consensus-compatible Rust node implementation",
+      "displayName": "Zebra"
+    },
+    {
+      "id": "zec:zcashd-zcash-cli",
+      "toolId": "zcashd-zcash-cli",
+      "chainId": "zec",
+      "categories": [
+        "CT-16",
+        "CT-09",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "rpc",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "node",
+        "RPC",
+        "CLI"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zcash.readthedocs.io/en/latest/",
+          "checked": "2026-08-29",
+          "note": "reference node/RPC and legacy wallet tooling; deprecation/migration status tracked per release"
+        }
+      ],
+      "riskFlags": [
+        "custody-model",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09",
+          "CT-11"
+        ],
+        "relationship": "Native",
+        "reason": "reference node/RPC and legacy wallet tooling; deprecation/migration status tracked per release"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "reference node/RPC and legacy wallet tooling; deprecation/migration status tracked per release",
+      "displayName": "zcashd / zcash-cli"
+    },
+    {
+      "id": "zec:librustzcash",
+      "toolId": "librustzcash",
+      "chainId": "zec",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/zcash/librustzcash",
+          "checked": "2026-08-29",
+          "note": "core Rust libraries for Zcash transaction and wallet functionality"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Native developer",
+        "reason": "core Rust libraries for Zcash transaction and wallet functionality"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "core Rust libraries for Zcash transaction and wallet functionality",
+      "displayName": "librustzcash"
+    },
+    {
+      "id": "zec:lightwalletd",
+      "toolId": "lightwalletd",
+      "chainId": "zec",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Native service / self-hostable",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "node",
+        "api"
+      ],
+      "surfaceLabels": [
+        "node",
+        "API"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/zcash/lightwalletd",
+          "checked": "2026-08-29",
+          "note": "compact-block service for light clients; server trust/availability caveats required"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Native service / self-hostable",
+        "reason": "compact-block service for light clients; server trust/availability caveats required"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native service / self-hostable",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "compact-block service for light clients; server trust/availability caveats required",
+      "displayName": "lightwalletd"
+    },
+    {
+      "id": "zec:zcash-rpc-documentation",
+      "toolId": "zcash-rpc-documentation",
+      "chainId": "zec",
+      "categories": [
+        "CT-16",
+        "CT-09"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "rpc"
+      ],
+      "surfaceLabels": [
+        "RPC"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zcash.github.io/rpc/",
+          "checked": "2026-08-29",
+          "note": "generated command reference for node integration"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09"
+        ],
+        "relationship": "Native developer",
+        "reason": "generated command reference for node integration"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-09"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "generated command reference for node integration",
+      "displayName": "Zcash RPC documentation"
+    },
+    {
+      "id": "zec:frost-for-zcash",
+      "toolId": "frost-for-zcash",
+      "chainId": "zec",
+      "categories": [
+        "CT-14",
+        "CT-16",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "native-l1",
+      "scopeLabel": "Native cryptographic tooling",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "CLI"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://frost.zfnd.org/zcash/",
+          "checked": "2026-08-29",
+          "note": "threshold signatures with privacy-preserving re-randomization; workflow is not a consumer wallet by itself"
+        }
+      ],
+      "riskFlags": [
+        "custody-model",
+        "methodology-not-endorsement",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16",
+          "CT-11"
+        ],
+        "relationship": "Native cryptographic tooling",
+        "reason": "threshold signatures with privacy-preserving re-randomization; workflow is not a consumer wallet by itself"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-16",
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native cryptographic tooling",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "threshold signatures with privacy-preserving re-randomization; workflow is not a consumer wallet by itself",
+      "displayName": "FROST for Zcash"
+    },
+    {
+      "id": "zec:zcash-devtool",
+      "toolId": "zcash-devtool",
+      "chainId": "zec",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "cli"
+      ],
+      "surfaceLabels": [
+        "CLI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://frost.zfnd.org/zcash/devtool-demo.html",
+          "checked": "2026-08-29",
+          "note": "transaction construction/signing tutorial and PCZT tooling"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Native developer",
+        "reason": "transaction construction/signing tutorial and PCZT tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "transaction construction/signing tutorial and PCZT tooling",
+      "displayName": "zcash-devtool"
+    },
+    {
+      "id": "zec:ziggurat",
+      "toolId": "ziggurat",
+      "chainId": "zec",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "cli"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "test suite"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zcash.readthedocs.io/en/master/rtd_pages/dev_tools.html",
+          "checked": "2026-08-29",
+          "note": "network conformance, performance, and resilience testing for node implementations"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Native developer",
+        "reason": "network conformance, performance, and resilience testing for node implementations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "network conformance, performance, and resilience testing for node implementations",
+      "displayName": "Ziggurat"
+    },
+    {
+      "id": "zec:zcash-privacy-best-practices",
+      "toolId": "zcash-privacy-best-practices",
+      "chainId": "zec",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Documentation",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "guide"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://zcash.readthedocs.io/en/master/rtd_pages/privacy_recommendations_best_practices.html",
+          "checked": "2026-08-29",
+          "note": "operational privacy guidance; shown as a resource, not a security product"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "Documentation",
+        "reason": "operational privacy guidance; shown as a resource, not a security product"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Documentation",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "operational privacy guidance; shown as a resource, not a security product",
+      "displayName": "Zcash privacy best practices"
+    },
+    {
+      "id": "zec:zecpages",
+      "toolId": "zecpages",
+      "chainId": "zec",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "Native / app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://zecpages.com/",
+          "checked": "2026-08-29",
+          "note": "anonymous message board using Zcash payments/identity conventions"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "Native / app",
+        "reason": "anonymous message board using Zcash payments/identity conventions"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / app",
+        "trustModel": "onchain-or-protocol-native",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "anonymous message board using Zcash payments/identity conventions",
+      "displayName": "ZecPages"
+    },
+    {
+      "id": "zec:free2z",
+      "toolId": "free2z",
+      "chainId": "zec",
+      "categories": [
+        "CT-15",
+        "CT-01"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://free2z.com/",
+          "checked": "2026-08-29",
+          "note": "private publishing, tipping, and project-funding surface"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-01"
+        ],
+        "relationship": "Native / service",
+        "reason": "private publishing, tipping, and project-funding surface"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-01"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "private publishing, tipping, and project-funding surface",
+      "displayName": "Free2Z"
+    },
+    {
+      "id": "zec:zechub",
+      "toolId": "zechub",
+      "chainId": "zec",
+      "categories": [
+        "CT-15",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://zechub.wiki/",
+          "checked": "2026-08-29",
+          "note": "community education and ecosystem discovery"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-10"
+        ],
+        "relationship": "Community service",
+        "reason": "community education and ecosystem discovery"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "community education and ecosystem discovery",
+      "displayName": "ZecHub"
+    },
+    {
+      "id": "zec:zgo",
+      "toolId": "zgo",
+      "chainId": "zec",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://zgo.cash/",
+          "checked": "2026-08-29",
+          "note": "non-custodial shielded ZEC point-of-sale, invoicing, WooCommerce, and API"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-16"
+        ],
+        "relationship": "Native / service",
+        "reason": "non-custodial shielded ZEC point-of-sale, invoicing, WooCommerce, and API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "shielded-support-documented"
+      },
+      "chainNote": "non-custodial shielded ZEC point-of-sale, invoicing, WooCommerce, and API",
+      "displayName": "ZGo"
+    },
+    {
+      "id": "zec:pay-with-zcash",
+      "toolId": "pay-with-zcash",
+      "chainId": "zec",
+      "categories": [
+        "CT-15",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Community service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://paywithz.cash/",
+          "checked": "2026-08-29",
+          "note": "merchant discovery; listing is not merchant verification"
+        }
+      ],
+      "riskFlags": [
+        "privacy-boundary",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-10"
+        ],
+        "relationship": "Community service",
+        "reason": "merchant discovery; listing is not merchant verification"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Community service",
+        "trustModel": "service-provider",
+        "shieldedSupport": "not-documented"
+      },
+      "chainNote": "merchant discovery; listing is not merchant verification",
+      "displayName": "Pay with Zcash"
+    }
+  ],
+  "gaps": [
+    "ZIP 227 is a draft proposal with deployment TBD. ZSAs must not create a production launch, DEX, stablecoin, or collectible count.",
+    "Zcash is proof of work. CT-07 must say `no native staking`; mining belongs in network/developer context.",
+    "MAYA Protocol and NEAR Intents currently document transparent-address-only Zcash paths. Those transfers do not preserve Zcash shielded sender/receiver/value privacy end to end.",
+    "An explorer’s inability to display shielded details is correct protocol behavior, not incomplete indexing.",
+    "Wallet compatibility varies by pool, Unified Address handling, seed/account derivation, sync strategy, and fee support. A simple “supports ZEC” badge is inadequate.",
+    "Full Viewing Keys enable scoped visibility; they are not spending authority. Tool drawers must use precise key language.",
+    "Market-price APIs know the exchange price of ZEC, not the value or ownership of shielded notes."
+  ],
+  "sources": [
+    {
+      "label": "Zcash documentation",
+      "url": "https://zcash.readthedocs.io/en/latest/"
+    },
+    {
+      "label": "Zcash developer tools",
+      "url": "https://zcash.readthedocs.io/en/master/rtd_pages/dev_tools.html"
+    },
+    {
+      "label": "Zcash Shielded Assets ZIP status",
+      "url": "https://zips.z.cash/zip-0227"
+    },
+    {
+      "label": "Zcash Foundation engineering work",
+      "url": "https://zfnd.org/our-work/"
+    },
+    {
+      "label": "Zcash community ecosystem",
+      "url": "https://www.zcashcommunity.com/"
+    },
+    {
+      "label": "Electric Coin Company / Zashi cross-chain updates",
+      "url": "https://electriccoin.co/"
+    },
+    {
+      "label": "NEAR Intents supported chains",
+      "url": "https://docs.near-intents.org/resources/chain-support"
+    },
+    {
+      "label": "MAYA Protocol Zcash integration",
+      "url": "https://docs.mayaprotocol.com/mayachain-dev-docs/protocol-development/chain-clients/zcash"
+    }
+  ]
+}

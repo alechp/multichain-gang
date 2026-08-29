@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "verified": "2026-08-29",
+  "editorialNotice": "Curated documentation, not a ranking, endorsement, investment recommendation, or completeness guarantee.",
+  "categories": [
+    {
+      "id": "CT-01",
+      "name": "Launch and issuance",
+      "shortName": "Launch",
+      "include": "token creation, fair launch, auction, sale, liquidity graduation, project funding rails",
+      "exclude": "a DEX that only lists an already-issued asset"
+    },
+    {
+      "id": "CT-02",
+      "name": "Spot DEX and liquidity",
+      "shortName": "Spot DEX",
+      "include": "AMMs, CLOBs, RFQ pools, LP management",
+      "exclude": "centralized exchange spot markets"
+    },
+    {
+      "id": "CT-03",
+      "name": "Aggregation, routing, and intents",
+      "shortName": "Routing",
+      "include": "route optimization, solvers, meta-aggregation, chain intents",
+      "exclude": "a single-venue swap router"
+    },
+    {
+      "id": "CT-04",
+      "name": "Derivatives and prediction",
+      "shortName": "Derivatives",
+      "include": "perpetuals, options, futures, prediction markets",
+      "exclude": "spot margin that does not create a derivative"
+    },
+    {
+      "id": "CT-05",
+      "name": "Lending, borrowing, and stablecoins",
+      "shortName": "Credit",
+      "include": "money markets, collateralized credit, CDPs, stablecoin issuance",
+      "exclude": "simple wallet credit or centralized loans"
+    },
+    {
+      "id": "CT-06",
+      "name": "Yield, vaults, and strategy",
+      "shortName": "Yield",
+      "include": "managed vaults, LP strategy, yield routing, automated farms",
+      "exclude": "protocol-native staking alone"
+    },
+    {
+      "id": "CT-07",
+      "name": "Staking, restaking, and validation",
+      "shortName": "Staking",
+      "include": "native delegation, liquid staking, restaking, validator operations",
+      "exclude": "proof-of-work mining or generic yield"
+    },
+    {
+      "id": "CT-08",
+      "name": "Pricing, oracles, and market data",
+      "shortName": "Pricing",
+      "include": "contract-consumable or API pricing, reference data, fee markets",
+      "exclude": "a chart UI without a reusable data surface"
+    },
+    {
+      "id": "CT-09",
+      "name": "Analytics, indexing, and exploration",
+      "shortName": "Analytics",
+      "include": "explorers, decoded data, SQL analytics, indexing, dashboards",
+      "exclude": "trading chart frontends"
+    },
+    {
+      "id": "CT-10",
+      "name": "Charting, portfolio, and discovery",
+      "shortName": "Discovery",
+      "include": "screeners, candles, portfolio views, protocol discovery",
+      "exclude": "raw indexers with no reader-facing view"
+    },
+    {
+      "id": "CT-11",
+      "name": "Wallets, accounts, and custody",
+      "shortName": "Wallets",
+      "include": "self-custody, smart accounts, multisig, institutional custody",
+      "exclude": "connection libraries alone"
+    },
+    {
+      "id": "CT-12",
+      "name": "Bridges and interoperability",
+      "shortName": "Bridges",
+      "include": "canonical bridges, messaging, atomic or cross-chain swaps",
+      "exclude": "centralized exchange deposit or withdrawal"
+    },
+    {
+      "id": "CT-13",
+      "name": "MEV, order flow, and execution",
+      "shortName": "Execution",
+      "include": "block building, private order flow, protected RPC, transaction landing",
+      "exclude": "generic RPC reads"
+    },
+    {
+      "id": "CT-14",
+      "name": "Security, risk, and compliance",
+      "shortName": "Security",
+      "include": "simulation, audits, token risk, monitoring, KYT and compliance",
+      "exclude": "an explorer warning with no distinct risk product"
+    },
+    {
+      "id": "CT-15",
+      "name": "SocialFi, identity, and consumer",
+      "shortName": "Social",
+      "include": "social graphs, names, tipping, creator markets, payments and commerce",
+      "exclude": "ordinary marketing communities"
+    },
+    {
+      "id": "CT-16",
+      "name": "Developer infrastructure",
+      "shortName": "Developer",
+      "include": "RPC, SDK, framework, node client, test tooling, APIs",
+      "exclude": "a consumer-only application"
+    },
+    {
+      "id": "CT-17",
+      "name": "Collectibles and marketplaces",
+      "shortName": "Collectibles",
+      "include": "NFT or inscription creation, discovery, sale, marketplace APIs",
+      "exclude": "fungible-token DEX trading"
+    }
+  ],
+  "enums": {
+    "status": [
+      "production",
+      "beta",
+      "testnet",
+      "announced",
+      "deprecated",
+      "unknown"
+    ],
+    "scope": [
+      "native-l1",
+      "native-l2",
+      "app-layer",
+      "cross-chain",
+      "adjacent-layer",
+      "offchain-service"
+    ],
+    "access": [
+      "permissionless",
+      "gated",
+      "mixed",
+      "not-applicable"
+    ],
+    "surface": [
+      "ui",
+      "api",
+      "sdk",
+      "contracts",
+      "rpc",
+      "cli",
+      "node"
+    ],
+    "custody": [
+      "self",
+      "smart-contract",
+      "custodial",
+      "mixed",
+      "not-applicable"
+    ],
+    "evidenceGrade": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "coverage": [
+      "dense",
+      "established",
+      "emerging",
+      "adjacent",
+      "native-gap"
+    ]
+  },
+  "evidencePolicy": {
+    "firstPartyRequired": true,
+    "httpsOnly": true,
+    "freshnessRelativeToSnapshot": true,
+    "maximumAgeDays": {
+      "production": 365,
+      "beta": 180,
+      "testnet": 180,
+      "announced": 180,
+      "deprecated": 730,
+      "unknown": 180
+    }
+  },
+  "riskFlags": {
+    "adjacent-execution": "Execution occurs on an additional protocol, layer, or service.",
+    "bridge-or-route-trust": "Inspect the selected route, asset provenance, and trust assumptions.",
+    "custody-model": "Confirm who can control or recover assets and keys.",
+    "execution-ordering": "Ordering, inclusion, or landing behavior is product-specific.",
+    "leverage-oracle-liquidation": "Leverage, oracle, and liquidation mechanics can compound losses.",
+    "liquidity-and-exit": "Depth, withdrawal, maturity, and exit behavior require product-level review.",
+    "methodology-not-endorsement": "A label, score, verification, or dataset is not an endorsement.",
+    "privacy-boundary": "Shielded, transparent, and viewing-key behavior must be confirmed.",
+    "service-provider-dependency": "Availability or completeness depends on an off-chain provider.",
+    "smart-contract-risk": "Contract behavior, upgrades, dependencies, and admin controls require review.",
+    "availability-not-production": "The cited surface is announced, testnet-only, or otherwise not production."
+  }
+}

@@ -1,0 +1,3657 @@
+{
+  "schemaVersion": 1,
+  "chainId": "sol",
+  "slug": "solana",
+  "name": "Solana",
+  "shorthand": "SOL",
+  "route": "#/tools/solana",
+  "hubRoute": "#/c/solana",
+  "verified": "2026-08-29",
+  "scopeStatement": "Solana-native programs, transaction paths, applications, and verified off-chain services.",
+  "thesis": "Solana’s tooling is densest where low-latency shared state matters: token launch and liquidity graduation, spot routing, transaction landing, real-time market data, and integrated wallets. The important distinction is no longer whether a category exists, but which execution surface, pool model, validator path, and data freshness guarantee an integration uses.",
+  "visual": {
+    "src": "assets/chain-tools/solana-landscape.png",
+    "alt": "Abstract Solana tooling topology with parallel execution lanes",
+    "objectPosition": "42% 50%",
+    "caption": "parallel lanes enter a dense routing and liquidity fabric. It is illustrative context, not a protocol map; the table below is authoritative.",
+    "label": "CONCEPTUAL TOPOLOGY"
+  },
+  "coverage": [
+    {
+      "categoryId": "CT-01",
+      "level": "dense",
+      "label": "dense",
+      "note": "several current bonding-curve, auction, and launch-liquidity systems"
+    },
+    {
+      "categoryId": "CT-02",
+      "level": "dense",
+      "label": "dense",
+      "note": "CPMM, CLMM, DLMM, CLOB, and orderbook-style primitives coexist"
+    },
+    {
+      "categoryId": "CT-03",
+      "level": "dense",
+      "label": "dense",
+      "note": "Jupiter is the main reference surface; competing smart routers exist"
+    },
+    {
+      "categoryId": "CT-04",
+      "level": "established",
+      "label": "established",
+      "note": "perpetuals are active; options/prediction coverage is narrower"
+    },
+    {
+      "categoryId": "CT-05",
+      "level": "established",
+      "label": "established",
+      "note": "multiple production money markets and integrated vaults"
+    },
+    {
+      "categoryId": "CT-06",
+      "level": "dense",
+      "label": "dense",
+      "note": "liquidity managers, rate markets, and vault routers overlap"
+    },
+    {
+      "categoryId": "CT-07",
+      "level": "dense",
+      "label": "dense",
+      "note": "native delegation plus several liquid-staking and validator markets"
+    },
+    {
+      "categoryId": "CT-08",
+      "level": "dense",
+      "label": "dense",
+      "note": "pull/push oracle and API market-data choices"
+    },
+    {
+      "categoryId": "CT-09",
+      "level": "dense",
+      "label": "dense",
+      "note": "explorer, decoded RPC, SQL, and institutional data layers"
+    },
+    {
+      "categoryId": "CT-10",
+      "level": "dense",
+      "label": "dense",
+      "note": "retail screeners and portfolio surfaces are highly developed"
+    },
+    {
+      "categoryId": "CT-11",
+      "level": "dense",
+      "label": "dense",
+      "note": "mobile, browser, embedded, and multisig surfaces"
+    },
+    {
+      "categoryId": "CT-12",
+      "level": "established",
+      "label": "established",
+      "note": "several message/asset routes; route and token provenance still matter"
+    },
+    {
+      "categoryId": "CT-13",
+      "level": "dense",
+      "label": "dense",
+      "note": "block engine, private paths, senders, and staked connections"
+    },
+    {
+      "categoryId": "CT-14",
+      "level": "established",
+      "label": "established",
+      "note": "token-risk and institutional monitoring layers"
+    },
+    {
+      "categoryId": "CT-15",
+      "level": "established",
+      "label": "established",
+      "note": "names, messaging, commerce, and collectible distribution"
+    },
+    {
+      "categoryId": "CT-16",
+      "level": "dense",
+      "label": "dense",
+      "note": "strong RPC, framework, indexing, and asset SDK coverage"
+    },
+    {
+      "categoryId": "CT-17",
+      "level": "dense",
+      "label": "dense",
+      "note": "mature NFT standards, marketplaces, and creator tooling"
+    }
+  ],
+  "placements": [
+    {
+      "id": "sol:metaplex-genesis",
+      "toolId": "metaplex-genesis",
+      "chainId": "sol",
+      "categories": [
+        "CT-01",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "cli",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.metaplex.com/smart-contracts/genesis",
+          "checked": "2026-08-29",
+          "note": "launch pools, fixed sales, auctions, and Raydium graduation are documented for Solana"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "launch pools, fixed sales, auctions, and Raydium graduation are documented for Solana"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "launch pools, fixed sales, auctions, and Raydium graduation are documented for Solana",
+      "displayName": "Metaplex Genesis"
+    },
+    {
+      "id": "sol:raydium-launchlab",
+      "toolId": "raydium-launchlab",
+      "chainId": "sol",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.raydium.io/user-flows/launchlab-overview",
+          "checked": "2026-08-29",
+          "note": "permissionless curve launch with automatic CPMM migration"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "Native",
+        "reason": "permissionless curve launch with automatic CPMM migration"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "permissionless curve launch with automatic CPMM migration",
+      "displayName": "Raydium LaunchLab"
+    },
+    {
+      "id": "sol:meteora",
+      "toolId": "meteora",
+      "chainId": "sol",
+      "categories": [
+        "CT-01",
+        "CT-02",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.meteora.ag/",
+          "checked": "2026-08-29",
+          "note": "DAMM, DLMM, DBC, launch pools, vaults, and anti-bot launch mechanisms"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02",
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "DAMM, DLMM, DBC, launch pools, vaults, and anti-bot launch mechanisms"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-02",
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "DAMM, DLMM, DBC, launch pools, vaults, and anti-bot launch mechanisms",
+      "displayName": "Meteora"
+    },
+    {
+      "id": "sol:pump-fun",
+      "toolId": "pump-fun",
+      "chainId": "sol",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E3",
+          "url": "https://pump.fun/",
+          "checked": "2026-08-29",
+          "note": "official app check; bonding-curve launch surface, exact migration settings must be inspected per launch"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "Native",
+        "reason": "official app check; bonding-curve launch surface, exact migration settings must be inspected per launch"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "official app check; bonding-curve launch surface, exact migration settings must be inspected per launch",
+      "displayName": "pump.fun"
+    },
+    {
+      "id": "sol:raydium",
+      "toolId": "raydium",
+      "chainId": "sol",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.raydium.io/",
+          "checked": "2026-08-29",
+          "note": "CPMM, CLMM, routing, farms, and pools"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "CPMM, CLMM, routing, farms, and pools"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "CPMM, CLMM, routing, farms, and pools",
+      "displayName": "Raydium"
+    },
+    {
+      "id": "sol:orca",
+      "toolId": "orca",
+      "chainId": "sol",
+      "categories": [
+        "CT-02",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.orca.so/",
+          "checked": "2026-08-29",
+          "note": "Whirlpool concentrated-liquidity protocol and SDK"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "Whirlpool concentrated-liquidity protocol and SDK"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Whirlpool concentrated-liquidity protocol and SDK",
+      "displayName": "Orca"
+    },
+    {
+      "id": "sol:phoenix-solana-dex",
+      "toolId": "phoenix-solana-dex",
+      "chainId": "sol",
+      "categories": [
+        "CT-02",
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "contracts"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.ellipsis-labs.xyz/",
+          "checked": "2026-08-29",
+          "note": "fully on-chain order book program and client tooling"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "fully on-chain order book program and client tooling"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-13",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "fully on-chain order book program and client tooling",
+      "displayName": "Phoenix"
+    },
+    {
+      "id": "sol:openbook",
+      "toolId": "openbook",
+      "chainId": "sol",
+      "categories": [
+        "CT-02",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://github.com/openbook-dex/openbook-v2",
+          "checked": "2026-08-29",
+          "note": "open-source Solana CLOB program; integrators must verify active market depth"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "open-source Solana CLOB program; integrators must verify active market depth"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "open-source Solana CLOB program; integrators must verify active market depth",
+      "displayName": "OpenBook"
+    },
+    {
+      "id": "sol:jupiter",
+      "toolId": "jupiter",
+      "chainId": "sol",
+      "categories": [
+        "CT-03",
+        "CT-08",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://dev.jup.ag/",
+          "checked": "2026-08-29",
+          "note": "swap routing, token/price APIs, and developer integration surface"
+        }
+      ],
+      "riskFlags": [
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-08",
+          "CT-16"
+        ],
+        "relationship": "Native",
+        "reason": "swap routing, token/price APIs, and developer integration surface"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-08",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "swap routing, token/price APIs, and developer integration surface",
+      "displayName": "Jupiter"
+    },
+    {
+      "id": "sol:titan",
+      "toolId": "titan",
+      "chainId": "sol",
+      "categories": [
+        "CT-03"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://titan-exchange.gitbook.io/titan",
+          "checked": "2026-08-29",
+          "note": "Solana swap/meta-aggregation; include only while current docs confirm production"
+        }
+      ],
+      "riskFlags": [
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03"
+        ],
+        "relationship": "Native",
+        "reason": "Solana swap/meta-aggregation; include only while current docs confirm production"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Solana swap/meta-aggregation; include only while current docs confirm production",
+      "displayName": "Titan"
+    },
+    {
+      "id": "sol:drift",
+      "toolId": "drift",
+      "chainId": "sol",
+      "categories": [
+        "CT-04",
+        "CT-05",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.drift.trade/",
+          "checked": "2026-08-29",
+          "note": "perpetuals, spot, borrow/lend, and vault surfaces"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04",
+          "CT-05",
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "perpetuals, spot, borrow/lend, and vault surfaces"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-05",
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "perpetuals, spot, borrow/lend, and vault surfaces",
+      "displayName": "Drift"
+    },
+    {
+      "id": "sol:flash-trade",
+      "toolId": "flash-trade",
+      "chainId": "sol",
+      "categories": [
+        "CT-04"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.flash.trade/",
+          "checked": "2026-08-29",
+          "note": "perpetual trading and liquidity-pool architecture"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04"
+        ],
+        "relationship": "Native",
+        "reason": "perpetual trading and liquidity-pool architecture"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "perpetual trading and liquidity-pool architecture",
+      "displayName": "Flash.Trade"
+    },
+    {
+      "id": "sol:adrena",
+      "toolId": "adrena",
+      "chainId": "sol",
+      "categories": [
+        "CT-04"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.adrena.trade/about-adrena/what-is-adrena",
+          "checked": "2026-08-29",
+          "note": "Solana perpetuals surface; leverage and oracle risk flags required"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04"
+        ],
+        "relationship": "Native",
+        "reason": "Solana perpetuals surface; leverage and oracle risk flags required"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Solana perpetuals surface; leverage and oracle risk flags required",
+      "displayName": "Adrena"
+    },
+    {
+      "id": "sol:kamino",
+      "toolId": "kamino",
+      "chainId": "sol",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.kamino.finance/",
+          "checked": "2026-08-29",
+          "note": "lending markets, liquidity vaults, and automated strategies"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05",
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "lending markets, liquidity vaults, and automated strategies"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "lending markets, liquidity vaults, and automated strategies",
+      "displayName": "Kamino"
+    },
+    {
+      "id": "sol:marginfi",
+      "toolId": "marginfi",
+      "chainId": "sol",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.marginfi.com/",
+          "checked": "2026-08-29",
+          "note": "overcollateralized lending and borrowing"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native",
+        "reason": "overcollateralized lending and borrowing"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "overcollateralized lending and borrowing",
+      "displayName": "marginfi"
+    },
+    {
+      "id": "sol:save",
+      "toolId": "save",
+      "chainId": "sol",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.save.finance/",
+          "checked": "2026-08-29",
+          "note": "current successor surface to Solend; preserve historical alias for search"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native",
+        "reason": "current successor surface to Solend; preserve historical alias for search"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "current successor surface to Solend; preserve historical alias for search",
+      "displayName": "Save"
+    },
+    {
+      "id": "sol:loopscale",
+      "toolId": "loopscale",
+      "chainId": "sol",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.loopscale.com/",
+          "checked": "2026-08-29",
+          "note": "orderbook-based lending; position and maturity mechanics need tool details"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native",
+        "reason": "orderbook-based lending; position and maturity mechanics need tool details"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "orderbook-based lending; position and maturity mechanics need tool details",
+      "displayName": "Loopscale"
+    },
+    {
+      "id": "sol:exponent",
+      "toolId": "exponent",
+      "chainId": "sol",
+      "categories": [
+        "CT-06"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.exponent.finance/",
+          "checked": "2026-08-29",
+          "note": "fixed-yield and yield-market surface"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "fixed-yield and yield-market surface"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "fixed-yield and yield-market surface",
+      "displayName": "Exponent"
+    },
+    {
+      "id": "sol:lulo",
+      "toolId": "lulo",
+      "chainId": "sol",
+      "categories": [
+        "CT-06",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lulo.fi/",
+          "checked": "2026-08-29",
+          "note": "yield routing across integrated Solana protocols"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06",
+          "CT-03"
+        ],
+        "relationship": "Native",
+        "reason": "yield routing across integrated Solana protocols"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "yield routing across integrated Solana protocols",
+      "displayName": "Lulo"
+    },
+    {
+      "id": "sol:solana-native-staking",
+      "toolId": "solana-native-staking",
+      "chainId": "sol",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "cli",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI-dependent",
+        "CLI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://solana.com/staking",
+          "checked": "2026-08-29",
+          "note": "protocol delegation baseline; never describe as a third-party product"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native",
+        "reason": "protocol delegation baseline; never describe as a third-party product"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "protocol delegation baseline; never describe as a third-party product",
+      "displayName": "Solana native staking"
+    },
+    {
+      "id": "sol:marinade",
+      "toolId": "marinade",
+      "chainId": "sol",
+      "categories": [
+        "CT-07",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.marinade.finance/",
+          "checked": "2026-08-29",
+          "note": "native and liquid staking surfaces"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07",
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "native and liquid staking surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "native and liquid staking surfaces",
+      "displayName": "Marinade"
+    },
+    {
+      "id": "sol:jito",
+      "toolId": "jito",
+      "chainId": "sol",
+      "categories": [
+        "CT-07",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.jito.network/docs/",
+          "checked": "2026-08-29",
+          "note": "liquid staking plus block-engine/execution infrastructure"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07",
+          "CT-13"
+        ],
+        "relationship": "Native",
+        "reason": "liquid staking plus block-engine/execution infrastructure"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "liquid staking plus block-engine/execution infrastructure",
+      "displayName": "Jito"
+    },
+    {
+      "id": "sol:sanctum",
+      "toolId": "sanctum",
+      "chainId": "sol",
+      "categories": [
+        "CT-07",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://learn.sanctum.so/",
+          "checked": "2026-08-29",
+          "note": "liquid-staking-token liquidity, routing, and validator LST tooling"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07",
+          "CT-03"
+        ],
+        "relationship": "Native",
+        "reason": "liquid-staking-token liquidity, routing, and validator LST tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "liquid-staking-token liquidity, routing, and validator LST tooling",
+      "displayName": "Sanctum"
+    },
+    {
+      "id": "sol:blazestake",
+      "toolId": "blazestake",
+      "chainId": "sol",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://stake-docs.solblaze.org/",
+          "checked": "2026-08-29",
+          "note": "stake pool and liquid-staking token"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native",
+        "reason": "stake pool and liquid-staking token"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "stake pool and liquid-staking token",
+      "displayName": "BlazeStake"
+    },
+    {
+      "id": "sol:pyth-network",
+      "toolId": "pyth-network",
+      "chainId": "sol",
+      "categories": [
+        "CT-08",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pyth.network/price-feeds",
+          "checked": "2026-08-29",
+          "note": "Solana-origin market-data network with pull oracle integrations"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "Solana-origin market-data network with pull oracle integrations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Solana-origin market-data network with pull oracle integrations",
+      "displayName": "Pyth Network"
+    },
+    {
+      "id": "sol:switchboard",
+      "toolId": "switchboard",
+      "chainId": "sol",
+      "categories": [
+        "CT-08",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.switchboard.xyz/",
+          "checked": "2026-08-29",
+          "note": "oracle feeds, randomness, and custom data surfaces"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "oracle feeds, randomness, and custom data surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "oracle feeds, randomness, and custom data surfaces",
+      "displayName": "Switchboard"
+    },
+    {
+      "id": "sol:chainlink",
+      "toolId": "chainlink",
+      "chainId": "sol",
+      "categories": [
+        "CT-08",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.chain.link/data-feeds",
+          "checked": "2026-08-29",
+          "note": "include only feeds/services whose directory explicitly lists Solana"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "include only feeds/services whose directory explicitly lists Solana"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionSurface": "solana"
+      },
+      "chainNote": "include only feeds/services whose directory explicitly lists Solana",
+      "displayName": "Chainlink"
+    },
+    {
+      "id": "sol:solana-explorer",
+      "toolId": "solana-explorer",
+      "chainId": "sol",
+      "categories": [
+        "CT-09"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Native service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://explorer.solana.com/",
+          "checked": "2026-08-29",
+          "note": "official account, transaction, program, and cluster explorer"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09"
+        ],
+        "relationship": "Native service",
+        "reason": "official account, transaction, program, and cluster explorer"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "official account, transaction, program, and cluster explorer",
+      "displayName": "Solana Explorer"
+    },
+    {
+      "id": "sol:solscan",
+      "toolId": "solscan",
+      "chainId": "sol",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.solscan.io/",
+          "checked": "2026-08-29",
+          "note": "explorer and API; included in the Foundation source catalog"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "explorer and API; included in the Foundation source catalog"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "explorer and API; included in the Foundation source catalog",
+      "displayName": "Solscan"
+    },
+    {
+      "id": "sol:helius-orb",
+      "toolId": "helius-orb",
+      "chainId": "sol",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.helius.dev/orb",
+          "checked": "2026-08-29",
+          "note": "human-readable explorer built on Helius data"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "human-readable explorer built on Helius data"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "human-readable explorer built on Helius data",
+      "displayName": "Helius Orb"
+    },
+    {
+      "id": "sol:dune",
+      "toolId": "dune",
+      "chainId": "sol",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dune.com/data-catalog/solana/overview",
+          "checked": "2026-08-29",
+          "note": "raw/decoded Solana data, curated DEX/price datasets"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "raw/decoded Solana data, curated DEX/price datasets"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "raw/decoded Solana data, curated DEX/price datasets",
+      "displayName": "Dune"
+    },
+    {
+      "id": "sol:allium",
+      "toolId": "allium",
+      "chainId": "sol",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.allium.so/",
+          "checked": "2026-08-29",
+          "note": "indexed institutional Solana datasets; also used on the official Solana data page"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "indexed institutional Solana datasets; also used on the official Solana data page"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "indexed institutional Solana datasets; also used on the official Solana data page",
+      "displayName": "Allium"
+    },
+    {
+      "id": "sol:birdeye",
+      "toolId": "birdeye",
+      "chainId": "sol",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.birdeye.so/",
+          "checked": "2026-08-29",
+          "note": "token market data, charts, trades, and discovery"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "token market data, charts, trades, and discovery"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "token market data, charts, trades, and discovery",
+      "displayName": "Birdeye"
+    },
+    {
+      "id": "sol:dex-screener",
+      "toolId": "dex-screener",
+      "chainId": "sol",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dexscreener.com/",
+          "checked": "2026-08-29",
+          "note": "pair discovery/charting; official Solana source catalog placement"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "pair discovery/charting; official Solana source catalog placement"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "pair discovery/charting; official Solana source catalog placement",
+      "displayName": "DEX Screener"
+    },
+    {
+      "id": "sol:geckoterminal",
+      "toolId": "geckoterminal",
+      "chainId": "sol",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://apiguide.geckoterminal.com/",
+          "checked": "2026-08-29",
+          "note": "on-chain pool data and charts"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "on-chain pool data and charts"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "on-chain pool data and charts",
+      "displayName": "GeckoTerminal"
+    },
+    {
+      "id": "sol:defillama",
+      "toolId": "defillama",
+      "chainId": "sol",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://defillama.com/docs/api",
+          "checked": "2026-08-29",
+          "note": "protocol discovery and aggregated metrics; metric methodology is not chain truth"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "protocol discovery and aggregated metrics; metric methodology is not chain truth"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "protocol discovery and aggregated metrics; metric methodology is not chain truth",
+      "displayName": "DeFiLlama"
+    },
+    {
+      "id": "sol:step-finance",
+      "toolId": "step-finance",
+      "chainId": "sol",
+      "categories": [
+        "CT-10"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.step.finance/",
+          "checked": "2026-08-29",
+          "note": "Solana portfolio and transaction view"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10"
+        ],
+        "relationship": "Native / service",
+        "reason": "Solana portfolio and transaction view"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "Solana portfolio and transaction view",
+      "displayName": "Step Finance"
+    },
+    {
+      "id": "sol:phantom",
+      "toolId": "phantom",
+      "chainId": "sol",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.phantom.com/",
+          "checked": "2026-08-29",
+          "note": "wallet and embedded/in-app integration surfaces"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "App / service",
+        "reason": "wallet and embedded/in-app integration surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionSurface": "service"
+      },
+      "chainNote": "wallet and embedded/in-app integration surfaces",
+      "displayName": "Phantom"
+    },
+    {
+      "id": "sol:solflare",
+      "toolId": "solflare",
+      "chainId": "sol",
+      "categories": [
+        "CT-11",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.solflare.com/",
+          "checked": "2026-08-29",
+          "note": "Solana wallet plus token/pricing surfaces"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-10"
+        ],
+        "relationship": "App / service",
+        "reason": "Solana wallet plus token/pricing surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionSurface": "service"
+      },
+      "chainNote": "Solana wallet plus token/pricing surfaces",
+      "displayName": "Solflare"
+    },
+    {
+      "id": "sol:backpack",
+      "toolId": "backpack",
+      "chainId": "sol",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.backpack.app/",
+          "checked": "2026-08-29",
+          "note": "Solana wallet; exchange functionality is not categorized as on-chain DEX"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App / service",
+        "reason": "Solana wallet; exchange functionality is not categorized as on-chain DEX"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionSurface": "service"
+      },
+      "chainNote": "Solana wallet; exchange functionality is not categorized as on-chain DEX",
+      "displayName": "Backpack"
+    },
+    {
+      "id": "sol:squads",
+      "toolId": "squads",
+      "chainId": "sol",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "native-l1",
+      "scopeLabel": "Native / app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.squads.so/",
+          "checked": "2026-08-29",
+          "note": "multisig and smart-account infrastructure"
+        }
+      ],
+      "riskFlags": [
+        "custody-model"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "Native / app",
+        "reason": "multisig and smart-account infrastructure"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / app",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "multisig and smart-account infrastructure",
+      "displayName": "Squads"
+    },
+    {
+      "id": "sol:wormhole",
+      "toolId": "wormhole",
+      "chainId": "sol",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://wormhole.com/docs/products/connect/overview/",
+          "checked": "2026-08-29",
+          "note": "messaging and token-transfer products with Solana support"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "messaging and token-transfer products with Solana support"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionSurface": "solana"
+      },
+      "chainNote": "messaging and token-transfer products with Solana support",
+      "displayName": "Wormhole"
+    },
+    {
+      "id": "sol:debridge",
+      "toolId": "debridge",
+      "chainId": "sol",
+      "categories": [
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.debridge.com/",
+          "checked": "2026-08-29",
+          "note": "DLN intents and cross-chain transfer routing"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "DLN intents and cross-chain transfer routing"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionSurface": "solana"
+      },
+      "chainNote": "DLN intents and cross-chain transfer routing",
+      "displayName": "deBridge"
+    },
+    {
+      "id": "sol:mayan",
+      "toolId": "mayan",
+      "chainId": "sol",
+      "categories": [
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.mayan.finance/",
+          "checked": "2026-08-29",
+          "note": "auction-based cross-chain swap surface using Solana liquidity"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "auction-based cross-chain swap surface using Solana liquidity"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionSurface": "solana"
+      },
+      "chainNote": "auction-based cross-chain swap surface using Solana liquidity",
+      "displayName": "Mayan"
+    },
+    {
+      "id": "sol:allbridge",
+      "toolId": "allbridge",
+      "chainId": "sol",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.allbridge.io/",
+          "checked": "2026-08-29",
+          "note": "cross-chain bridge with Solana routes"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "cross-chain bridge with Solana routes"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionSurface": "solana"
+      },
+      "chainNote": "cross-chain bridge with Solana routes",
+      "displayName": "Allbridge"
+    },
+    {
+      "id": "sol:jito-block-engine",
+      "toolId": "jito-block-engine",
+      "chainId": "sol",
+      "categories": [
+        "CT-13"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.jito.wtf/lowlatencytxnsend/",
+          "checked": "2026-08-29",
+          "note": "bundles and low-latency transaction sending; separate from JitoSOL"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13"
+        ],
+        "relationship": "Native / service",
+        "reason": "bundles and low-latency transaction sending; separate from JitoSOL"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "bundles and low-latency transaction sending; separate from JitoSOL",
+      "displayName": "Jito Block Engine"
+    },
+    {
+      "id": "sol:helius-sender",
+      "toolId": "helius-sender",
+      "chainId": "sol",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.helius.dev/docs/sending-transactions/sender",
+          "checked": "2026-08-29",
+          "note": "transaction landing and protected send path"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "transaction landing and protected send path"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "transaction landing and protected send path",
+      "displayName": "Helius Sender"
+    },
+    {
+      "id": "sol:bloxroute",
+      "toolId": "bloxroute",
+      "chainId": "sol",
+      "categories": [
+        "CT-13"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.bloxroute.com/solana",
+          "checked": "2026-08-29",
+          "note": "Solana transaction and data streams"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13"
+        ],
+        "relationship": "Service",
+        "reason": "Solana transaction and data streams"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "Solana transaction and data streams",
+      "displayName": "bloXroute"
+    },
+    {
+      "id": "sol:rugcheck",
+      "toolId": "rugcheck",
+      "chainId": "sol",
+      "categories": [
+        "CT-14",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://rugcheck.xyz/",
+          "checked": "2026-08-29",
+          "note": "automated token-risk surface referenced by official token verification docs"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "automated token-risk surface referenced by official token verification docs"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "automated token-risk surface referenced by official token verification docs",
+      "displayName": "RugCheck"
+    },
+    {
+      "id": "sol:blowfish",
+      "toolId": "blowfish",
+      "chainId": "sol",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.blowfish.xyz/",
+          "checked": "2026-08-29",
+          "note": "transaction simulation and wallet security integrations"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "transaction simulation and wallet security integrations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "transaction simulation and wallet security integrations",
+      "displayName": "Blowfish"
+    },
+    {
+      "id": "sol:range",
+      "toolId": "range",
+      "chainId": "sol",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.range.org/",
+          "checked": "2026-08-29",
+          "note": "compliance and risk partner in Solana Developer Platform"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "Service",
+        "reason": "compliance and risk partner in Solana Developer Platform"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "compliance and risk partner in Solana Developer Platform",
+      "displayName": "Range"
+    },
+    {
+      "id": "sol:dialect",
+      "toolId": "dialect",
+      "chainId": "sol",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "sdk",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "API",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dialect.to/",
+          "checked": "2026-08-29",
+          "note": "messaging, notifications, and Solana Actions/Blinks tooling"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-16"
+        ],
+        "relationship": "Native / service",
+        "reason": "messaging, notifications, and Solana Actions/Blinks tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "messaging, notifications, and Solana Actions/Blinks tooling",
+      "displayName": "Dialect"
+    },
+    {
+      "id": "sol:solana-name-service",
+      "toolId": "solana-name-service",
+      "chainId": "sol",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.sns.id/",
+          "checked": "2026-08-29",
+          "note": "names and identity resolution"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "Native",
+        "reason": "names and identity resolution"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "names and identity resolution",
+      "displayName": "Solana Name Service"
+    },
+    {
+      "id": "sol:helius",
+      "toolId": "helius",
+      "chainId": "sol",
+      "categories": [
+        "CT-16",
+        "CT-09",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.helius.dev/docs",
+          "checked": "2026-08-29",
+          "note": "RPC, enhanced transactions, DAS, webhooks, and sender infrastructure"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09",
+          "CT-13"
+        ],
+        "relationship": "Service",
+        "reason": "RPC, enhanced transactions, DAS, webhooks, and sender infrastructure"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-09",
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "RPC, enhanced transactions, DAS, webhooks, and sender infrastructure",
+      "displayName": "Helius"
+    },
+    {
+      "id": "sol:triton-one",
+      "toolId": "triton-one",
+      "chainId": "sol",
+      "categories": [
+        "CT-16",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.triton.one/",
+          "checked": "2026-08-29",
+          "note": "RPC and transaction infrastructure; official SDP provider"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-13"
+        ],
+        "relationship": "Service",
+        "reason": "RPC and transaction infrastructure; official SDP provider"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "transaction-landing"
+      },
+      "chainNote": "RPC and transaction infrastructure; official SDP provider",
+      "displayName": "Triton One"
+    },
+    {
+      "id": "sol:quicknode",
+      "toolId": "quicknode",
+      "chainId": "sol",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.quicknode.com/docs/solana",
+          "checked": "2026-08-29",
+          "note": "Solana RPC and add-on APIs"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "Solana RPC and add-on APIs"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "Solana RPC and add-on APIs",
+      "displayName": "QuickNode"
+    },
+    {
+      "id": "sol:alchemy",
+      "toolId": "alchemy",
+      "chainId": "sol",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.alchemy.com/docs/reference/solana-api-quickstart",
+          "checked": "2026-08-29",
+          "note": "Solana RPC/API surface"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "Solana RPC/API surface"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionSurface": "service"
+      },
+      "chainNote": "Solana RPC/API surface",
+      "displayName": "Alchemy"
+    },
+    {
+      "id": "sol:anchor",
+      "toolId": "anchor",
+      "chainId": "sol",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "sdk",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "framework",
+        "CLI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.anchor-lang.com/docs",
+          "checked": "2026-08-29",
+          "note": "Solana program framework and test workflow"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Native developer",
+        "reason": "Solana program framework and test workflow"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Solana program framework and test workflow",
+      "displayName": "Anchor"
+    },
+    {
+      "id": "sol:metaplex",
+      "toolId": "metaplex",
+      "chainId": "sol",
+      "categories": [
+        "CT-16",
+        "CT-17",
+        "CT-01"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "native-l1",
+      "scopeLabel": "Native developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "cli",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "CLI",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.metaplex.com/",
+          "checked": "2026-08-29",
+          "note": "asset standards, compressed assets, Candy Machine, and Genesis"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-17",
+          "CT-01"
+        ],
+        "relationship": "Native developer",
+        "reason": "asset standards, compressed assets, Candy Machine, and Genesis"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-17",
+          "CT-01"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native developer",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "asset standards, compressed assets, Candy Machine, and Genesis",
+      "displayName": "Metaplex"
+    },
+    {
+      "id": "sol:magic-eden",
+      "toolId": "magic-eden",
+      "chainId": "sol",
+      "categories": [
+        "CT-17",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-17",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.magiceden.io/",
+          "checked": "2026-08-29",
+          "note": "Solana marketplace APIs plus multi-chain surfaces"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-17",
+        "categoryIds": [
+          "CT-17",
+          "CT-10"
+        ],
+        "relationship": "App / service",
+        "reason": "Solana marketplace APIs plus multi-chain surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionSurface": "service"
+      },
+      "chainNote": "Solana marketplace APIs plus multi-chain surfaces",
+      "displayName": "Magic Eden"
+    },
+    {
+      "id": "sol:tensor",
+      "toolId": "tensor",
+      "chainId": "sol",
+      "categories": [
+        "CT-17"
+      ],
+      "primaryCategory": "CT-17",
+      "scope": "native-l1",
+      "scopeLabel": "Native / app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.tensor.trade/",
+          "checked": "2026-08-29",
+          "note": "Solana NFT marketplace and trading APIs"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-17",
+        "categoryIds": [
+          "CT-17"
+        ],
+        "relationship": "Native / app",
+        "reason": "Solana NFT marketplace and trading APIs"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / app",
+        "trustModel": "onchain-or-protocol-native",
+        "executionSurface": "solana"
+      },
+      "chainNote": "Solana NFT marketplace and trading APIs",
+      "displayName": "Tensor"
+    }
+  ],
+  "gaps": [
+    "“Fast RPC” is not automatically “better landing.” RPC reads, transaction senders, staked connections, and block-engine paths must remain distinct records/surfaces.",
+    "A launchpad’s graduation destination is part of the launch model. Do not categorize the destination pool as proof that every launch has durable liquidity.",
+    "A token verification badge confirms identity, not safety or quality. The official [token verification guide](https://solana.com/docs/tokens/how-to-verify-a-token) explicitly separates verification from endorsement.",
+    "Market-data providers often compute materially different volume, trader, or DEX-count definitions. The official [Solana Data](https://solana.com/data?tab=defi) page already presents provider medians; the tools page must not silently merge them into one “truth.”",
+    "Cross-chain wrapped or canonical assets need provenance in the tool drawer. A bridge logo alone is insufficient."
+  ],
+  "sources": [
+    {
+      "label": "Solana Foundation official MCP source catalog",
+      "url": "https://github.com/solana-foundation/solana-mcp-official/blob/main/ingestion/sources.yaml"
+    },
+    {
+      "label": "Solana Data — DeFi and provider methodology",
+      "url": "https://solana.com/data?tab=defi"
+    },
+    {
+      "label": "Solana network explorers and operational resources",
+      "url": "https://solana.com/network"
+    },
+    {
+      "label": "Solana token verification",
+      "url": "https://solana.com/docs/tokens/how-to-verify-a-token"
+    },
+    {
+      "label": "Solana Developer Platform partner map",
+      "url": "https://solana.com/news/solana-developer-platform"
+    }
+  ]
+}
