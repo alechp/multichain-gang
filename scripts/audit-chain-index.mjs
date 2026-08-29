@@ -115,7 +115,7 @@ try{
       await card.locator('.chain-article-link').focus();if((await card.locator('.chain-article-link').evaluate(node=>getComputedStyle(node).pointerEvents))==='none')failures.push('Link Veil blocked keyboard-focused link');
       await page.locator('#chainVeil').click();
     }else if(width===390){
-      if(await page.locator('#chainVeil').isVisible())failures.push('touch layout exposes hover-only Link Veil control');
+      if(!await page.locator('#chainVeil').isVisible()||!await page.locator('#chainVeil').isDisabled())failures.push('touch layout does not expose a disabled Link Veil status control');
       if((await page.locator('.chain-article-link').first().evaluate(node=>getComputedStyle(node).pointerEvents))==='none')failures.push('touch layout blocks article links');
     }
     const first=page.locator('.chain-article').nth(6);await first.scrollIntoViewIfNeeded();const before=await page.locator('#chainChannel').evaluate(node=>node.scrollTop);await first.locator('.chain-article-link').click();await page.waitForTimeout(40);

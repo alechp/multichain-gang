@@ -83,7 +83,8 @@ application and must never be deployed with the page.
 Run the five existing page audits plus
 `node scripts/audit-robinhood-chain.mjs` and
 `node scripts/audit-chain-index.mjs` and
-`node scripts/audit-chain-tools.mjs`, then
+`node scripts/audit-chain-tools.mjs` and
+`node scripts/audit-global-chrome.mjs`, then
 exercise 360/390/430/768/1200 across motion,
 reduced motion, CDN blocked, and JS off. No document-level horizontal overflow;
 the intentional inner pipeline scroller is the only exception. For journal

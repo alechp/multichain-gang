@@ -1022,6 +1022,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <link rel="stylesheet" href="styles/chain-tools.css">
 <link rel="stylesheet" href="styles/command-palette.css">
 <link rel="stylesheet" href="styles/reader-dock.css">
+<link rel="stylesheet" href="styles/global-chrome.css">
 <script>
 (()=>{
   const access=Object.freeze({key:'scope.access.v1',digest:'29e5686dacf7ef28c84317644bf7c395f9b11873f6732d0d0a20985f2c09f002'});
@@ -1032,7 +1033,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v4-2026-08-29.2">
+<body data-rev="v5-2026-08-29.1">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -1087,10 +1088,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <div class="crt" aria-hidden="true"></div>
 <div class="ruler" aria-hidden="true"><b id="rulerTag">CH-01 · TOPOLOGY</b></div>
 
+<a class="scope-skip" id="scopeSkip" href="#scopeRootMain">Skip to active content</a>
 <!-- ═══════════ SLOT CLOCK ═══════════ -->
 <header class="slotbar" aria-label="Slot timing reference">
   <div class="slotbar-inner">
-    <div class="brand">SOLANA<span>//</span>SCOPE</div>
+    <button type="button" class="brand" id="scopeHome" aria-label="SOLANA SCOPE home">SOLANA<span>//</span>SCOPE</button>
     <div class="slot-readout">
       <span class="hide-s">CADENCE</span><b id="slotNum">400 ms</b>
       <span class="hide-s">·&nbsp;TARGET SLOT</span>
@@ -1107,7 +1109,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 </header>
 
 <!-- ═══════════ HERO ═══════════ -->
-<div class="wrap">
+<div class="wrap" id="scopeRootMain" tabindex="-1">
 <section class="hero">
   <p class="hero-kicker reveal">ENGINEERING READOUT · REV 2026-08</p>
   <h1 class="reveal"><span class="h1-line">Solana,</span><br><span class="h1-line thin">on the wire.</span></h1>
@@ -2373,6 +2375,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <button type="button" id="entityPrev" aria-label="Previous entity">←</button>
       <button type="button" id="entityNext" aria-label="Next entity">→</button>
     </nav>
+    <button type="button" class="entity-veil-toggle" id="entityVeil" aria-pressed="false" aria-label="Toggle Link Veil for definitions and supported routes"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
     <button type="button" class="entity-close" id="entityClose" aria-label="Close entity channel">✕</button>
   </header>
   <main class="entity-page" id="entityPage"></main>
@@ -2472,7 +2475,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v4-2026-08-29.2",
+  "_rev": "v5-2026-08-29.1",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -4376,9 +4379,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   const safeUrl=value=>{ try{const url=new URL(value,location.href);return url.protocol==='https:'?url.href:'';}catch(error){return '';} };
   const esc=value=>String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  let activeTrigger=null,activeKey='',pinned=false,showTimer=0,hideTimer=0,lastTouch=-Infinity,positionFrame=0,hoveredTrigger=null,heldControl=false;
+  let activeTrigger=null,activeKey='',pinned=false,showTimer=0,hideTimer=0,lastTouch=-Infinity,positionFrame=0,hoveredTrigger=null;
   const clearTimers=()=>{clearTimeout(showTimer);clearTimeout(hideTimer);showTimer=hideTimer=0;};
-  const chainHoverGuarded=()=>!!(scope.ChainIndex?.veil&&!document.getElementById('chainChannel')?.hidden&&matchMedia('(pointer:fine) and (hover:hover)').matches);
   const setChannel=trigger=>{
     const room=trigger.closest('section,.hero')||trigger;
     const channel=getComputedStyle(room).getPropertyValue('--ch').trim()||'var(--cyan)';
@@ -4463,7 +4465,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     },100);
   }
   function showPreview(trigger,key,{bypassGuard=false}={}){
-    if(pinned||!terms[key]||(!bypassGuard&&chainHoverGuarded()&&!heldControl))return;
+    if(pinned||!terms[key]||(!bypassGuard&&scope.LinkVeil&&!scope.LinkVeil.canPointerPreview(trigger)))return;
     clearTimeout(hideTimer);
     if(activeTrigger&&activeTrigger!==trigger)activeTrigger.removeAttribute('aria-describedby');
     activeTrigger=trigger;activeKey=key;setChannel(trigger);render(key,false);
@@ -4566,23 +4568,15 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const door=event.target.closest('[data-ref-entity]');
     if(door){const id=door.dataset.refEntity;scope.Overlay.close(card,{restoreFocus:false,reason:'entity'});scope.Router.go('/e/'+id);}
   });
-  addEventListener('keydown',event=>{
-    if(event.key!=='Control'||event.repeat||event.metaKey||event.altKey||event.shiftKey||!chainHoverGuarded())return;
-    heldControl=true;
-    if(hoveredTrigger?.dataset.refBound)schedulePreview(hoveredTrigger,hoveredTrigger.dataset.refBound);
-  },{capture:true});
-  addEventListener('keyup',event=>{
-    if(event.key!=='Control')return;
-    heldControl=false;
-    if(chainHoverGuarded()&&!pinned&&document.activeElement!==activeTrigger)closePreview();
-  },{capture:true});
-  addEventListener('blur',()=>{heldControl=false;if(chainHoverGuarded()&&!pinned)closePreview()});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){heldControl=false;if(!pinned)closePreview()}});
-  document.addEventListener('scope:link-veil-change',event=>{
-    if(event.detail?.scope!=='chain')return;
-    heldControl=false;
-    if(event.detail.enabled&&!pinned)closePreview();
-  });
+  let veilUnsubscribe=null;
+  const bindLinkVeil=()=>{
+    if(veilUnsubscribe||!scope.LinkVeil)return;
+    veilUnsubscribe=scope.LinkVeil.subscribe(state=>{
+      if(state.reason==='hold'&&hoveredTrigger?.dataset.refBound)schedulePreview(hoveredTrigger,hoveredTrigger.dataset.refBound);
+      if((state.reason==='route'||state.reason==='blur'||state.reason==='hidden'||(state.effective&&!state.controlHeld&&document.activeElement!==activeTrigger))&&!pinned)closePreview();
+    });
+  };
+  bindLinkVeil();document.addEventListener('scope:link-veil-ready',bindLinkVeil,{once:true});
   addEventListener('resize',queuePosition,{passive:true});
   addEventListener('scroll',queuePosition,{capture:true,passive:true});
 
@@ -4660,6 +4654,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   const closeButton=document.getElementById('entityClose');
   const prevButton=document.getElementById('entityPrev');
   const nextButton=document.getElementById('entityNext');
+  const veilButton=document.getElementById('entityVeil');
   const dataNode=document.getElementById('chainData');
   if(!shell || !page || !dataNode) return;
 
@@ -4889,12 +4884,13 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   }
   function openEntity(route){
     if(!renderEntity(route.id)) return;
+    scope.GlobalChrome?.setRouteContext({family:'entity',refCode:'CH-REF',refText:ref.textContent,main:page});
     if(!scope.Overlay.isOpen(shell)){
       scope.Overlay.open({
         element:shell,trigger:pendingTrigger,focusTarget:closeButton,
-        modal:true,scrim:false,lockScroll:true,outsideClose:false,sheet:false,
+        modal:false,scrim:false,lockScroll:true,outsideClose:false,sheet:false,
         onClose:()=>{
-          stopLoop(); activeId='';
+          stopLoop();scope.GlobalChrome?.clearRouteContext('entity');activeId='';
           if(closingFromRoute) closingFromRoute=false;
           else{ document.title=baseTitle; scope.Router.close(); }
         }
@@ -4903,6 +4899,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     pendingTrigger=null;
     shell.scrollTop=0;
   }
+  const bindChrome=()=>{
+    if(scope.LinkVeil&&veilButton&&!veilButton.dataset.linkVeilBound)scope.LinkVeil.registerControl(veilButton);
+    if(scope.GlobalChrome&&scope.Overlay.isOpen(shell))scope.GlobalChrome.setRouteContext({family:'entity',refCode:'CH-REF',refText:ref.textContent,main:page});
+  };
+  bindChrome();document.addEventListener('scope:link-veil-ready',bindChrome,{once:true});document.addEventListener('scope:global-chrome-ready',bindChrome,{once:true});
   function closeForRoute(){
     if(!scope.Overlay.isOpen(shell)) return;
     closingFromRoute=true;
@@ -6171,6 +6172,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 </script>
 <script src="vendor/fuse.basic.min.js"></script>
 <script src="data/chain-tools/catalog.js"></script>
+<script src="scripts/global-chrome.js"></script>
 <script src="scripts/chain-index.js"></script>
 <script src="scripts/chain-tools.js"></script>
 <script src="scripts/reader-dock.js"></script>

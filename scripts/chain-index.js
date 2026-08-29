@@ -3,7 +3,7 @@
   const dataNode=document.getElementById('chainData');
   const shell=document.getElementById('chainChannel');
   const pageNode=document.getElementById('chainPage');
-  if(!scope?.Overlay||!scope?.Router||!scope?.Store||!dataNode||!shell||!pageNode)return;
+  if(!scope?.Overlay||!scope?.Router||!scope?.LinkVeil||!dataNode||!shell||!pageNode)return;
   let data;
   try{data=JSON.parse(dataNode.textContent)}catch(error){return}
   const pages=data.chainPages||{},entities=data.entities||{};
@@ -13,9 +13,8 @@
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const safeUrl=value=>{try{const url=new URL(String(value),location.href);return url.protocol==='https:'?url.href:''}catch(error){return''}};
   const colorFor=id=>id==='sol'?(data.sol?.color||'#5BD7E8'):(data.chains?.[id]?.color||'#8A9EF5');
-  const veilStore=scope.Store.create('chain.linkVeil',{version:1,defaultValue:{v:1,enabled:false},validate:value=>value?.v===1&&typeof value.enabled==='boolean'});
   const baseTitle=document.title;
-  let activeId='',activeSlug='',pendingTrigger=null,closingForRoute=false,hoveredCard=null,held=false,lastContext=null,filter='all';
+  let activeId='',activeSlug='',pendingTrigger=null,closingForRoute=false,hoveredCard=null,lastContext=null,filter='all';
   const ref=document.getElementById('chainRef'),prev=document.getElementById('chainPrev'),next=document.getElementById('chainNext'),close=document.getElementById('chainClose'),veil=document.getElementById('chainVeil');
 
   function articleIds(page){return page.groups.flatMap(group=>group.items).filter(id=>entities[id]?.article?.status==='published')}
@@ -109,21 +108,19 @@
   function bindPage(){
     pageNode.querySelector('.chain-filters')?.addEventListener('click',event=>{const button=event.target.closest('[data-filter]');if(!button)return;filter=button.dataset.filter;pageNode.querySelectorAll('.chain-filter').forEach(item=>item.setAttribute('aria-pressed',item===button?'true':'false'));pageNode.querySelectorAll('.chain-group').forEach(group=>group.hidden=filter!=='all'&&group.dataset.group!==filter);});
     pageNode.querySelectorAll('.chain-article').forEach(card=>{
-      card.addEventListener('pointerenter',()=>{hoveredCard=card;updateHeld()});
+      card.addEventListener('pointerenter',()=>{hoveredCard=card;updatePeek()});
       card.addEventListener('pointerleave',()=>{if(hoveredCard===card)hoveredCard=null;card.classList.remove('chain-link-revealed')});
     });
   }
-  function veilEnabled(){return veilStore.get().enabled}
+  function veilEnabled(){return scope.LinkVeil.enabled}
   function applyVeil(){
-    const enabled=veilEnabled();shell.classList.toggle('chain-link-veil',enabled);veil.setAttribute('aria-pressed',enabled?'true':'false');veil.querySelector('span').textContent=enabled?'LINK VEIL ON':'LINKS VISIBLE';clearHeld();
-    document.dispatchEvent(new CustomEvent('scope:link-veil-change',{detail:{scope:'chain',enabled}}));
+    const enabled=scope.LinkVeil.effective;shell.classList.toggle('chain-link-veil',enabled);updatePeek();
   }
-  function toggleVeil(){const enabled=!veilEnabled();veilStore.set({v:1,enabled});applyVeil();const status=pageNode.querySelector('#chainVeilStatus');if(status)status.textContent=enabled?'Link Veil on. Hold Control while hovering to reveal links and definition previews.':'Links and definition previews visible.'}
-  function updateHeld(){pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'));if(held&&hoveredCard&&veilEnabled())hoveredCard.classList.add('chain-link-revealed')}
-  function clearHeld(){held=false;pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'))}
-  function editable(target){return target?.closest?.('input,textarea,select,[contenteditable="true"]')}
+  function updatePeek(){pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'));if(scope.LinkVeil.controlHeld&&hoveredCard&&scope.LinkVeil.effective)hoveredCard.classList.add('chain-link-revealed')}
+  function clearHeld(){hoveredCard=null;pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'))}
   function present(){
-    if(!scope.Overlay.isOpen(shell))scope.Overlay.open({element:shell,trigger:pendingTrigger,focusTarget:pageNode.querySelector('h1'),modal:true,scrim:false,lockScroll:true,outsideClose:false,sheet:false,onClose:()=>{clearHeld();activeId='';activeSlug='';if(closingForRoute)closingForRoute=false;else{document.title=baseTitle;scope.Router.close()}}});
+    scope.GlobalChrome?.setRouteContext({family:'chain',refCode:'CH-INDEX',refText:ref.textContent,main:pageNode});
+    if(!scope.Overlay.isOpen(shell))scope.Overlay.open({element:shell,trigger:pendingTrigger,focusTarget:pageNode.querySelector('h1'),modal:false,scrim:false,lockScroll:true,outsideClose:false,sheet:false,onClose:()=>{clearHeld();scope.GlobalChrome?.clearRouteContext('chain');activeId='';activeSlug='';if(closingForRoute)closingForRoute=false;else{document.title=baseTitle;scope.Router.close()}}});
     else pageNode.querySelector('h1')?.focus({preventScroll:true});
     pendingTrigger=null;
   }
@@ -153,24 +150,12 @@
   }
   function launch(trigger){pendingTrigger=trigger instanceof HTMLElement?trigger:null;scope.Router.go('/chains')}
 
-  const subnav=document.createElement('div');subnav.className='chain-subnav';
-  const launcher=document.createElement('button');launcher.type='button';launcher.className='chain-launch';launcher.textContent='CHAINS';launcher.setAttribute('aria-haspopup','true');launcher.setAttribute('aria-expanded','false');launcher.setAttribute('aria-controls','chainSubnavMenu');launcher.setAttribute('aria-label','Open the Chains sub-navigation');
-  const subnavMenu=document.createElement('nav');subnavMenu.className='chain-subnav-menu';subnavMenu.id='chainSubnavMenu';subnavMenu.hidden=true;subnavMenu.setAttribute('aria-label','Chains destinations');
-  subnavMenu.innerHTML='<a href="#/chains" data-chain-destination="directory">CHAIN INDEX<span>Articles and system reading paths</span></a><a href="#/tools" data-chain-destination="tools">TOOL LANDSCAPES<span>DEXes, launchpads, analytics, yield, and infrastructure</span></a>';
-  subnav.append(launcher,subnavMenu);document.querySelector('.slotbar-inner')?.appendChild(subnav);
-  const closeSubnav=({focus=false}={})=>{subnavMenu.hidden=true;launcher.setAttribute('aria-expanded','false');if(focus)launcher.focus({preventScroll:true})};
-  const toggleSubnav=()=>{const open=subnavMenu.hidden;subnavMenu.hidden=!open;launcher.setAttribute('aria-expanded',open?'true':'false');if(open)requestAnimationFrame(()=>subnavMenu.querySelector('a')?.focus({preventScroll:true}))};
-  launcher.addEventListener('click',()=>{if(!document.documentElement.hasAttribute('data-scope-unlocked')){document.getElementById('scopeAccessCode')?.focus();return}toggleSubnav()});
-  subnavMenu.addEventListener('click',event=>{const destination=event.target.closest('[data-chain-destination]');if(!destination)return;closeSubnav();if(destination.dataset.chainDestination==='directory'){event.preventDefault();launch(destination)}else pendingTrigger=destination});
-  subnav.addEventListener('keydown',event=>{if(event.key==='Escape'&&!subnavMenu.hidden){event.preventDefault();event.stopPropagation();closeSubnav({focus:true})}});
-  document.addEventListener('pointerdown',event=>{if(!subnavMenu.hidden&&!subnav.contains(event.target))closeSubnav()},{capture:true});
   scope.Router.on('chain-directory',openDirectory);
   scope.Router.on('chain',openRoute);
-  addEventListener('hashchange',()=>{closeSubnav();const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
-  addEventListener('popstate',()=>{closeSubnav();const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
+  addEventListener('hashchange',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
+  addEventListener('popstate',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
   close.addEventListener('click',()=>scope.Overlay.close(shell,{reason:'button'}));
-  prev.addEventListener('click',()=>scope.Router.go('/c/'+prev.dataset.chainSlug));next.addEventListener('click',()=>scope.Router.go('/c/'+next.dataset.chainSlug));veil.addEventListener('click',toggleVeil);
-  addEventListener('keydown',event=>{if(event.key!=='Control'||event.repeat||editable(event.target)||!scope.Overlay.isOpen(shell)||!veilEnabled())return;held=true;updateHeld()},{capture:true});
-  addEventListener('keyup',event=>{if(event.key==='Control')clearHeld()},{capture:true});addEventListener('blur',clearHeld);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHeld()});
+  prev.addEventListener('click',()=>scope.Router.go('/c/'+prev.dataset.chainSlug));next.addEventListener('click',()=>scope.Router.go('/c/'+next.dataset.chainSlug));
+  scope.LinkVeil.registerControl(veil);scope.LinkVeil.subscribe(()=>applyVeil());
   scope.ChainIndex=Object.freeze({launch,openArticle:rememberArticle,contextFor,get activeSlug(){return activeSlug},get records(){return ordered.map(([id,page])=>({id,slug:page.slug,title:page.name,short:page.short,summary:page.summary}))},get veil(){return veilEnabled()}});
 })(window.SCOPE);

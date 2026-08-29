@@ -192,7 +192,7 @@ if(css){
   check(!/url\(\s*['"]?https?:/i.test(css),'static: Chain Tools CSS has a remote asset dependency');
 }
 if(uiSource){
-  for(const needle of ['tools-directory','tools-chain','detailsTool','tools-row','tools-hoverdoc','tools-compare-dialog','chain.linkVeil','visibilitychange'])check(uiSource.includes(needle),`static: Chain Tools UI hook missing ${needle}`);
+  for(const needle of ['tools-directory','tools-chain','detailsTool','tools-row','tools-hoverdoc','tools-compare-dialog','scope.LinkVeil','visibilitychange'])check(uiSource.includes(needle),`static: Chain Tools UI hook missing ${needle}`);
   check(!/\.innerHTML\s*=|insertAdjacentHTML|document\.write/i.test(uiSource),'static: Chain Tools data renderer uses HTML-string insertion');
   check(!/\bfetch\s*\(|XMLHttpRequest|new\s+WebSocket|new\s+EventSource/i.test(uiSource),'static: Chain Tools UI adds a live/network data dependency');
 }
@@ -418,7 +418,7 @@ async function auditTouch(browser){
   const {context,page,errors}=await openPage(browser,390,{touch:true});
   try{
     await routeTools(page,'#/tools/solana');await page.waitForSelector('.tools-row');
-    check(!await page.locator('#toolsVeil').isVisible(),'runtime: touch exposes hover-only Link Veil toggle');
+    check(await page.locator('#toolsVeil').isVisible()&&await page.locator('#toolsVeil').isDisabled(),'runtime: touch does not expose a disabled Link Veil status control');
     const details=page.locator('.tools-row [data-details-tool]').first();check((await details.evaluate(node=>getComputedStyle(node).pointerEvents))!=='none','runtime: touch layout blocks details action');
     const trigger=page.locator('.tools-row [data-hover-tool]').first();await trigger.tap();await page.waitForTimeout(40);
     check(await page.locator('.tools-hoverdoc:not([hidden])').count()===1,'runtime: touch first tap did not pin a Hoverdoc');
