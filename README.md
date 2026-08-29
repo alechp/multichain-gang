@@ -82,6 +82,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-foundation.mjs
     node scripts/audit-svg-fit.mjs
     node scripts/audit-contrast.mjs
+    node scripts/audit-readability.mjs
     node scripts/audit-degradation.mjs
     node scripts/audit-command-channel.mjs
     node scripts/audit-robinhood-chain.mjs
