@@ -50,6 +50,7 @@ try{const p=JSON.parse(localStorage.getItem('scope.v3.reading.scale')),s=[.85,1,
   --eth:#8A9EF5;
   --bnb:#F0B90B;
   --zec:#E8D28A;     /* desaturated gold — keeps distance from BNB */
+  --robinhood-chain:#CCFF00; /* Robin Neon signal only — not a logo treatment */
   --ch:var(--cyan);  /* active channel tint; overridden per section */
 }
 /* section tinting — the page reads as five distinctly-lit rooms */
@@ -405,6 +406,13 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 .dock-col-head b{color:var(--ink);font-weight:600}
 .dock-col-head .mark{color:var(--ch)}
 .dock-col-chain .dock-col-head .mark{color:var(--cc)}
+.dock-clock{display:inline-flex;align-items:center;margin-left:7px;vertical-align:middle}
+.soft-bound{
+  display:inline-flex;align-items:center;min-height:22px;padding:1px 7px;
+  border:1px solid color-mix(in srgb,var(--cc) 58%,var(--line));border-radius:3px;
+  color:var(--cc);font:600 .58rem "IBM Plex Mono",monospace;letter-spacing:.05em;
+  white-space:nowrap;
+}
 .mini-wrap{border:1px solid var(--line);border-radius:6px;background:var(--panel-2);margin-bottom:12px;padding:8px;-webkit-user-select:none;user-select:none}
 .mini-wrap svg{display:block;width:100%;height:auto}
 .mini-wrap svg[hidden]{display:none}
@@ -430,6 +438,7 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
   color:var(--dim);font-weight:500;padding:6px 2px 12px;text-align:center;
 }
 .tgrid th .th-g{color:var(--cc);font-size:.9rem;display:block;line-height:1.1}
+.tgrid th .th-signal{display:block;width:5px;height:18px;margin:0 auto 3px;border:1px solid var(--cc);border-radius:1px}
 .tgrid td{text-align:center;padding:2px;border-top:1px dashed color-mix(in srgb, var(--line) 60%, transparent)}
 .tgrid .th-label{text-align:left;width:auto}
 .tlabel{
@@ -461,7 +470,12 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 }
 @media(max-width:480px){
   .tgrid th .th-n{display:none}
-  .tcell{width:36px}
+  .tgrid{width:296px;table-layout:fixed}
+  .tgrid .th-label{width:104px}
+  .tgrid th:not(.th-label),.tgrid td:not(.th-label){width:32px}
+  .tcell{width:32px;padding-inline:0}
+  .tlabel{padding-right:4px}
+  .tlabel b{font-size:.64rem;letter-spacing:0}
 }
 /* cell popover / mobile bottom sheet */
 .tpop{
@@ -516,6 +530,9 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 .tb{display:inline-flex;align-items:center;gap:5px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.06em;color:var(--dim)}
 .tb i{width:4px;height:12px;border-radius:1px;background:var(--tb-c)}
 .tool-card[hidden]{display:none}
+.tool-card.is-absence{background:transparent;border-style:dashed;box-shadow:none}
+.tool-signals{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.tool-signal{padding:2px 6px;border:1px solid var(--line);border-radius:3px;color:var(--lbl);font:500 .58rem "IBM Plex Mono",monospace;letter-spacing:.07em;text-transform:uppercase}
 .tool-card.flash{animation:cardflash .6s ease}
 @keyframes cardflash{0%{box-shadow:0 0 0 2px var(--violet)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}}
 .bench-delta{margin-top:16px;font-size:.85rem;color:var(--dim);max-width:72ch}
@@ -531,6 +548,13 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
 .dock-fallback ul{margin:12px 0 0;padding-left:18px;font-size:.8rem;color:var(--dim)}
 .dock-fallback li{margin-bottom:4px}
 .dock-fallback li b{color:var(--ink);font-family:"IBM Plex Mono",monospace;font-size:.7rem}
+.rhc-finality-static{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 2px}
+.rhc-finality-static div{padding:10px;border:1px solid var(--line);border-top-color:var(--robinhood-chain);background:var(--panel-2)}
+.rhc-finality-static b,.rhc-finality-static span{display:block}
+.rhc-finality-static b{color:var(--robinhood-chain);font:600 .65rem "IBM Plex Mono",monospace;letter-spacing:.1em}
+.rhc-finality-static span{color:var(--lbl);font-size:.75rem;margin-top:3px}
+.rhc-finality-static p{grid-column:1/-1;color:var(--lbl);font-size:.74rem}
+@media(max-width:520px){.rhc-finality-static{grid-template-columns:1fr}.rhc-finality-static p{grid-column:auto}}
 
 /* ---------- v2 chrome: ruler, CRT, watermark ---------- */
 /* left ruler — the v2 signature; ≥1100px only */
@@ -978,7 +1002,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v3-2026-08-14.2">
+<body data-rev="v3-2026-08-28.1">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -1192,21 +1216,22 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
   <div class="dock-mount reveal" data-ch="ch1"></div>
   <noscript><div class="dock-fallback">
-    <h3>COMPARE · TOPOLOGY — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <h3>COMPARE · TOPOLOGY — SOL vs BTC · ETH · BNB · ZEC · Robinhood Chain</h3>
     <table>
-      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
-      <tr><td>consensus</td><td>PoS + PoH clock, Tower BFT</td><td>PoW, Nakamoto (longest chain)</td><td>PoS, Gasper (LMD-GHOST + Casper FFG)</td><td>PoSA, ~45 rotating validators (21 produce per epoch)</td><td>PoW (Equihash), Nakamoto</td></tr>
-      <tr><td>block / slot cadence</td><td>400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s (post-Maxwell '25)</td><td>75 s</td></tr>
-      <tr><td>who proposes</td><td>scheduled leader, stake-weighted, published</td><td>any miner, hash-race</td><td>RANDAO-selected proposer per slot</td><td>elected validator rotation</td><td>any miner</td></tr>
-      <tr><td>validating set</td><td>~1,000+ validators</td><td>~tens of thousands of nodes, mining in ~few large pools</td><td>~1M validators (32 ETH each), ~10k nodes</td><td>dozens (permissioned-ish, stake+authority)</td><td>thousands of nodes, pooled mining</td></tr>
-      <tr><td>block propagation</td><td>Turbine shred tree</td><td>gossip flood + compact blocks / FIBRE</td><td>gossip + blob sidecars</td><td>gossip (geth-derived)</td><td>gossip flood (BTC-style)</td></tr>
-      <tr><td>hardware floor</td><td>high — 12+ cores, 256GB+ RAM, NVMe</td><td>low — laptop-class full node</td><td>mid — consumer-plus</td><td>mid-high</td><td>low-mid</td></tr>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>consensus</td><td>PoS + PoH clock, Tower BFT</td><td>PoW, Nakamoto (longest chain)</td><td>PoS, Gasper (LMD-GHOST + Casper FFG)</td><td>PoSA, ~45 rotating validators (21 produce per epoch)</td><td>PoW (Equihash), Nakamoto</td><td>Arbitrum Nitro optimistic rollup; Ethereum DA/settlement; BoLD fraud proofs</td></tr>
+      <tr><td>block / slot cadence</td><td>400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s (post-Maxwell '25)</td><td>75 s</td><td>on-demand Nitro L2 blocks; sub-second sequencer soft confirmation</td></tr>
+      <tr><td>who proposes</td><td>scheduled leader, stake-weighted, published</td><td>any miner, hash-race</td><td>RANDAO-selected proposer per slot</td><td>elected validator rotation</td><td>any miner</td><td>single Robinhood-operated sequencer, FCFS by arrival</td></tr>
+      <tr><td>validating set</td><td>~1,000+ validators</td><td>~tens of thousands of nodes, mining in ~few large pools</td><td>~1M validators (32 ETH each), ~10k nodes</td><td>dozens (permissioned-ish, stake+authority)</td><td>thousands of nodes, pooled mining</td><td>anyone may run a full node; ~2 allowlisted BoLD validators (2026-08)</td></tr>
+      <tr><td>block propagation</td><td>Turbine shred tree</td><td>gossip flood + compact blocks / FIBRE</td><td>gossip + blob sidecars</td><td>gossip (geth-derived)</td><td>gossip flood (BTC-style)</td><td>sequencer WebSocket feed; compressed batches posted in Ethereum blobs</td></tr>
+      <tr><td>hardware floor</td><td>high — 12+ cores, 256GB+ RAM, NVMe</td><td>low — laptop-class full node</td><td>mid — consumer-plus</td><td>mid-high</td><td>low-mid</td><td>8+ CPU cores, 64 GB RAM (128 GB recommended), NVMe, several TB, plus L1 execution + beacon endpoints</td></tr>
     </table>
     <ul>
       <li><b>BTC</b> — BTC maximizes who <em>can</em> validate; SOL maximizes what a validator can do per second.</li>
       <li><b>ETH</b> — ETH spreads trust across ~a million small stakes; SOL concentrates work in fewer, heavier machines.</li>
       <li><b>BNB</b> — BNB buys sub-second blocks with a small permissioned set — closer to SOL's speed, further from its openness.</li>
       <li><b>ZEC</b> — ZEC keeps BTC's shape and spends its innovation budget on privacy, not throughput.</li>
+      <li><b>Robinhood Chain</b> — Solana rotates ordering through scheduled leaders; Robinhood Chain compresses ordering into one sequencer and pushes hard settlement to Ethereum.</li>
     </ul>
   </div></noscript>
 
@@ -1367,21 +1392,22 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
   <div class="dock-mount reveal" data-ch="ch2"></div>
   <noscript><div class="dock-fallback">
-    <h3>COMPARE · TX FLOW — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <h3>COMPARE · TX FLOW — SOL vs BTC · ETH · BNB · ZEC · Robinhood Chain</h3>
     <table>
-      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
-      <tr><td>pre-block staging</td><td>none — Gulf Stream streams to leaders</td><td>public mempool, fee-rate sorted</td><td>public mempool + private order flow (builders)</td><td>public mempool (fast blocks drain it)</td><td>public mempool; shielded txs reveal nothing but fee</td></tr>
-      <tr><td>fee model</td><td>base per sig + priority per CU, per-account markets</td><td>sat/vB auction</td><td>EIP-1559 base burn + tip</td><td>low fixed-ish gas, tip auction</td><td>sat-style, near-zero</td></tr>
-      <tr><td>execution</td><td>parallel (Sealevel, declared accounts)</td><td>UTXO script (no general contracts)</td><td>sequential EVM</td><td>sequential EVM</td><td>UTXO + shielded circuits (no general contracts)</td></tr>
-      <tr><td>inclusion latency (typ.)</td><td>&lt; 1 s</td><td>minutes–hours (fee dependent)</td><td>~12–24 s</td><td>~1–2 s</td><td>~1–3 min</td></tr>
-      <tr><td>finality</td><td>~13 s (32 rooted slots)</td><td>probabilistic, ~60 min at 6 conf</td><td>~13–15 min (2 epochs)</td><td>seconds (fast finality post-'25 upgrades)</td><td>probabilistic, ~hours conservative</td></tr>
-      <tr><td>expiry / replay</td><td>blockhash expires ~1 min</td><td>RBF replaceable</td><td>nonce-replaceable</td><td>nonce-replaceable</td><td>standard UTXO</td></tr>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>pre-block staging</td><td>none — Gulf Stream streams to leaders</td><td>public mempool, fee-rate sorted</td><td>public mempool + private order flow (builders)</td><td>public mempool (fast blocks drain it)</td><td>public mempool; shielded txs reveal nothing but fee</td><td>direct/provider submission to sequencer; no canonical public mempool documented</td></tr>
+      <tr><td>fee model</td><td>base per sig + priority per CU, per-account markets</td><td>sat/vB auction</td><td>EIP-1559 base burn + tip</td><td>low fixed-ish gas, tip auction</td><td>sat-style, near-zero</td><td>ETH gas = L2 execution + L1 data; higher fee does not buy earlier order</td></tr>
+      <tr><td>execution</td><td>parallel (Sealevel, declared accounts)</td><td>UTXO script (no general contracts)</td><td>sequential EVM</td><td>sequential EVM</td><td>UTXO + shielded circuits (no general contracts)</td><td>sequential EVM semantics on Nitro; one transaction may call/multicall atomically</td></tr>
+      <tr><td>inclusion latency (typ.)</td><td>&lt; 1 s</td><td>minutes–hours (fee dependent)</td><td>~12–24 s</td><td>~1–2 s</td><td>~1–3 min</td><td>sub-second soft receipt</td></tr>
+      <tr><td>finality</td><td>~13 s (32 rooted slots)</td><td>probabilistic, ~60 min at 6 conf</td><td>~13–15 min (2 epochs)</td><td>seconds (fast finality post-'25 upgrades)</td><td>probabilistic, ~hours conservative</td><td>batch posting in minutes; Ethereum finality ~13 min after posting</td></tr>
+      <tr><td>expiry / replay</td><td>blockhash expires ~1 min</td><td>RBF replaceable</td><td>nonce-replaceable</td><td>nonce-replaceable</td><td>standard UTXO</td><td>EVM account nonce + chain ID; deadline is application-defined, no recent-blockhash expiry</td></tr>
     </table>
     <ul>
       <li><b>BTC</b> — BTC's mempool is a waiting room; Solana deleted the room.</li>
       <li><b>ETH</b> — Same 'confirmed vs finalized' ladder — ETH just climbs it 60× slower and in sequence.</li>
       <li><b>BNB</b> — On paper BNB now rivals SOL's cadence; the EVM still executes one transaction at a time.</li>
       <li><b>ZEC</b> — ZEC's flow is BTC's flow — except validators can't even see what they're ordering.</li>
+      <li><b>Robinhood Chain</b> — Solana prices urgency around hot accounts; Robinhood Chain charges for execution and Ethereum data while arrival time fixes the queue.</li>
     </ul>
   </div></noscript>
 
@@ -1525,19 +1551,20 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
   <div class="dock-mount reveal" data-ch="ch3"></div>
   <noscript><div class="dock-fallback">
-    <h3>COMPARE · MEV — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <h3>COMPARE · MEV — SOL vs BTC · ETH · BNB · ZEC · Robinhood Chain</h3>
     <table>
-      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
-      <tr><td>visibility of pending txs</td><td>none public; leaks via infra</td><td>fully public mempool</td><td>public mempool + private channels</td><td>public mempool, tiny window</td><td>shielded txs opaque by design</td></tr>
-      <tr><td>ordering market</td><td>Jito bundles, out-of-protocol auction</td><td>fee-rate + out-of-band accelerators</td><td>PBS: builders → relays → proposers (MEV-Boost)</td><td>validator-adjacent (bloXroute, 48Club private txs)</td><td>effectively none</td></tr>
-      <tr><td>dominant plays</td><td>atomic arb, sandwich via private flow, spam racing</td><td>fee sniping, time-bandit (theoretical), ordinals-era fee wars</td><td>sandwich, backrun, liquidations, CEX-DEX arb</td><td>sandwich (historically heavy), arb</td><td>~none (no DEX layer, hidden amounts)</td></tr>
-      <tr><td>user protection</td><td>tight slippage, MEV-protect RPCs, tips</td><td>RBF awareness; little to protect</td><td>Flashbots Protect, CoW/intents, private RPCs</td><td>private-tx RPCs, slippage</td><td>privacy <em>is</em> the protection</td></tr>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>visibility of pending txs</td><td>none public; leaks via infra</td><td>fully public mempool</td><td>public mempool + private channels</td><td>public mempool, tiny window</td><td>shielded txs opaque by design</td><td>sequencer/provider sees submitted order flow; no canonical public mempool documented; RFQ intent may remain offchain</td></tr>
+      <tr><td>ordering market</td><td>Jito bundles, out-of-protocol auction</td><td>fee-rate + out-of-band accelerators</td><td>PBS: builders → relays → proposers (MEV-Boost)</td><td>validator-adjacent (bloXroute, 48Club private txs)</td><td>effectively none</td><td>FCFS centralized sequencer; no priority gas auction or documented public bundle auction</td></tr>
+      <tr><td>dominant plays</td><td>atomic arb, sandwich via private flow, spam racing</td><td>fee sniping, time-bandit (theoretical), ordinals-era fee wars</td><td>sandwich, backrun, liquidations, CEX-DEX arb</td><td>sandwich (historically heavy), arb</td><td>~none (no DEX layer, hidden amounts)</td><td>latency arb, backruns, liquidations, CEX–DEX arb, launch sniping; sandwiches require visible/leaked intent</td></tr>
+      <tr><td>user protection</td><td>tight slippage, MEV-protect RPCs, tips</td><td>RBF awareness; little to protect</td><td>Flashbots Protect, CoW/intents, private RPCs</td><td>private-tx RPCs, slippage</td><td>privacy <em>is</em> the protection</td><td>RFQ/intents, tight slippage and deadlines, limit prices, trusted submission paths; no official protection RPC documented</td></tr>
     </table>
     <ul>
       <li><b>BTC</b> — No smart contracts, no sandwiches — BTC's MEV is mostly a fee story.</li>
       <li><b>ETH</b> — ETH industrialized MEV into a supply chain; Solana runs the same auction inside 400 ms.</li>
       <li><b>BNB</b> — Fast blocks + concentrated validators made BNB a sandwich hotspot until private-tx rails matured.</li>
       <li><b>ZEC</b> — ZEC is the control group: hide the order flow and extraction has nothing to grip.</li>
+      <li><b>Robinhood Chain</b> — Robinhood Chain removes the public gas auction, not ordering value: the edge moves to who reaches the sequencer—and who keeps intent private—first.</li>
     </ul>
   </div></noscript>
 
@@ -1572,20 +1599,27 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 
   <div class="dock-mount reveal" data-ch="ch4"></div>
   <noscript><div class="dock-fallback">
-    <h3>COMPARE · LATENCY — SOL vs BTC · ETH · BNB · ZEC</h3>
+    <h3>COMPARE · LATENCY — SOL vs BTC · ETH · BNB · ZEC · Robinhood Chain</h3>
     <table>
-      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th></tr>
-      <tr><td>decision window</td><td>~400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s</td><td>75 s</td></tr>
-      <tr><td>does colocation matter</td><td>decisive — leader-adjacent placement</td><td>barely (relay networks like FIBRE for miners)</td><td>yes — relay/builder proximity</td><td>yes — validator proximity</td><td>no</td></tr>
-      <tr><td>fast-data rails</td><td>ShredStream, SWQoS staked lanes, DoubleZero fiber</td><td>FIBRE / compact-block relays</td><td>bloXroute BDN, relay colocation, mempool streams</td><td>bloXroute BDN</td><td>none needed</td></tr>
-      <tr><td>preconfirmations</td><td>optimistic conf &lt; 1 s; the shred race is the de-facto preconf; Alpenglow targets ~150 ms finality</td><td>zero-conf acceptance, mostly dead post-RBF; Lightning for instant commit</td><td>the explicit frontier — based/proposer preconfs (Bolt, Primev commitments), ePBS groundwork</td><td>fast finality in seconds stands in; no separate preconf market</td><td>n/a — nothing trades on sub-block timing</td></tr>
-      <tr><td>frontier</td><td>act on shreds mid-slot</td><td>mining latency (stratum, pool hops)</td><td>ePBS, preconfirmations</td><td>sub-second finality tuning</td><td>n/a</td></tr>
+      <tr><th>metric</th><th>SOL</th><th>BTC</th><th>ETH</th><th>BNB</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>decision window</td><td>~400 ms</td><td>~10 min</td><td>12 s</td><td>~0.75 s</td><td>75 s</td><td>sub-second sequencer soft confirmation; no fixed user-facing block interval</td></tr>
+      <tr><td>does colocation matter</td><td>decisive — leader-adjacent placement</td><td>barely (relay networks like FIBRE for miners)</td><td>yes — relay/builder proximity</td><td>yes — validator proximity</td><td>no</td><td>yes—FCFS rewards low and low-variance arrival latency to sequencer/provider</td></tr>
+      <tr><td>fast-data rails</td><td>ShredStream, SWQoS staked lanes, DoubleZero fiber</td><td>FIBRE / compact-block relays</td><td>bloXroute BDN, relay colocation, mempool streams</td><td>bloXroute BDN</td><td>none needed</td><td>sequencer feed, managed WebSockets, full-node feed input, Chainlink Data Streams for market data</td></tr>
+      <tr><td>preconfirmations</td><td>optimistic conf &lt; 1 s; the shred race is the de-facto preconf; Alpenglow targets ~150 ms finality</td><td>zero-conf acceptance, mostly dead post-RBF; Lightning for instant commit</td><td>the explicit frontier — based/proposer preconfs (Bolt, Primev commitments), ePBS groundwork</td><td>fast finality in seconds stands in; no separate preconf market</td><td>n/a — nothing trades on sub-block timing</td><td>sequencer receipt is the native soft confirmation; hard guarantee arrives after L1 publication/finality</td></tr>
+      <tr><td>frontier</td><td>act on shreds mid-slot</td><td>mining latency (stratum, pool hops)</td><td>ePBS, preconfirmations</td><td>sub-second finality tuning</td><td>n/a</td><td>market-data → decision → sequencer path, feed gap recovery, and offchain hedge latency</td></tr>
     </table>
+    <div class="rhc-finality-static" aria-label="Robinhood Chain confirmation and settlement stages">
+      <div><b>SOFT</b><span>&lt;1000 ms typical sequencer confirmation</span></div>
+      <div><b>POSTED</b><span>batch publication to Ethereum in minutes, typically</span></div>
+      <div><b>FINAL</b><span>Ethereum finality ~13 min after posting · 2026-08</span></div>
+      <p>Canonical bridge withdrawal: ~7 days · 2026-08. This separate fraud-proof challenge window is not transaction-finality latency.</p>
+    </div>
     <ul>
       <li><b>BTC</b> — BTC's race is measured in exahashes, not microseconds.</li>
       <li><b>ETH</b> — ETH's 12 s slot forgives a slow network; Solana's 400 ms does not.</li>
       <li><b>BNB</b> — The closest analog to Solana's arms race — one order of magnitude behind.</li>
       <li><b>ZEC</b> — A 75 s private chain has no latency game at all — that's the point.</li>
+      <li><b>Robinhood Chain</b> — Solana’s race is leader-local and shred-driven; Robinhood Chain’s is sequencer-local, then waits minutes for Ethereum anchoring.</li>
     </ul>
   </div></noscript>
 
@@ -1615,7 +1649,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     <span class="ch-tag ch-05"><i></i>CH-05 · CROSS-CHAIN BENCH</span>
     <h2 data-idx="05">Same game, different tables.</h2>
   </div>
-  <p class="ch-sub reveal">Every chain with an ordering market grows the same organs: an auction where position is sold, a protection rail that shields users from it, and a fast-data feed for whoever pays for the early look. The bench below lays them side by side — eight techniques, five chains, and the tooling that runs the table.</p>
+  <p class="ch-sub reveal">Every valuable ordering surface grows the same organs: a mechanism that fixes position, a protection rail that limits leaked intent, and a fast-data feed for whoever pays for the early look. Robinhood Chain is the counterexample to calling every mechanism an auction: fees cannot buy the front, so latency becomes the bid. The bench lays eight techniques across six chains and the tooling that runs the table.</p>
 
   <div class="panel grid-panel reveal" id="gridPanel">
     <span class="panel-label"><b>FIG 5.1</b><span>TECHNIQUE × CHAIN HEAT GRID</span></span>
@@ -1633,25 +1667,26 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   <noscript><div class="dock-fallback">
     <h3>FIG 5.1 · TECHNIQUE × CHAIN (hot / active / limited / none)</h3>
     <table>
-      <tr><th>technique</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th></tr>
-      <tr><td>Atomic arbitrage — same-block multi-pool price closing</td><td>hot</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
-      <tr><td>Sandwiching — bracketing a victim swap</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
-      <tr><td>Liquidations — racing to repay undercollateralized loans</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>none</td></tr>
-      <tr><td>Backrunning — riding immediately after a known tx</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td></tr>
-      <tr><td>JIT liquidity — flashing LP depth around a big swap</td><td>active</td><td>hot</td><td>limited</td><td>none</td><td>none</td></tr>
-      <tr><td>CEX–DEX arb — off-chain vs on-chain price gaps</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>limited</td></tr>
-      <tr><td>Spam / probabilistic racing — duplicate-flooding for placement</td><td>hot</td><td>limited</td><td>active</td><td>none</td><td>none</td></tr>
-      <tr><td>Mint / launch sniping — first-block buys on new listings</td><td>hot</td><td>active</td><td>active</td><td>limited</td><td>none</td></tr>
+      <tr><th>technique</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>Atomic arbitrage — same-block multi-pool price closing</td><td>hot</td><td>hot</td><td>active</td><td>none</td><td>none</td><td>active</td></tr>
+      <tr><td>Sandwiching — bracketing a victim swap</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td><td>limited</td></tr>
+      <tr><td>Liquidations — racing to repay undercollateralized loans</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>none</td><td>active</td></tr>
+      <tr><td>Backrunning — riding immediately after a known tx</td><td>active</td><td>hot</td><td>active</td><td>none</td><td>none</td><td>active</td></tr>
+      <tr><td>JIT liquidity — flashing LP depth around a big swap</td><td>active</td><td>hot</td><td>limited</td><td>none</td><td>none</td><td>active</td></tr>
+      <tr><td>CEX–DEX arb — off-chain vs on-chain price gaps</td><td>hot</td><td>hot</td><td>active</td><td>limited</td><td>limited</td><td>active</td></tr>
+      <tr><td>Spam / probabilistic racing — duplicate-flooding for placement</td><td>hot</td><td>limited</td><td>active</td><td>none</td><td>none</td><td>active</td></tr>
+      <tr><td>Mint / launch sniping — first-block buys on new listings</td><td>hot</td><td>active</td><td>active</td><td>limited</td><td>none</td><td>active</td></tr>
     </table>
     <h3>FIG 5.2 · TOOL BENCH</h3>
     <table>
-      <tr><th>function</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th></tr>
-      <tr><td>Ordering auction</td><td>Jito Block Engine (bundles + tips)</td><td>Flashbots MEV-Boost / BuilderNet</td><td>bloXroute / 48Club validator rails</td><td>out-of-band accelerators (miner-direct)</td><td>—</td></tr>
-      <tr><td>Protection RPC</td><td>Jito MEV-protect endpoints</td><td>Flashbots Protect, MEV Blocker</td><td>48Club Privacy RPC, bloXroute protect</td><td>n/a (RBF hygiene)</td><td>protocol-level (shielded pool)</td></tr>
-      <tr><td>Order-flow auction / intents</td><td>Jupiter (routing + limit/DCA)</td><td>CoW Swap, UniswapX, 1inch Fusion</td><td>1inch, KyberSwap</td><td>—</td><td>—</td></tr>
-      <tr><td>Fast data feed</td><td>Jito ShredStream, Geyser plugins</td><td>bloXroute BDN, relay streams, mempool ws</td><td>bloXroute BDN</td><td>FIBRE / compact relays, mempool.space APIs</td><td>standard p2p</td></tr>
-      <tr><td>Priority market</td><td>priority fees per CU + Jito tips</td><td>EIP-1559 tips + builder bids</td><td>gas tips + private bids</td><td>sat/vB fee market</td><td>minimal fee market</td></tr>
-      <tr><td>Node/client edge</td><td>Firedancer, SWQoS stake, DoubleZero</td><td>ePBS research, preconfirmations, Reth/erigon perf</td><td>fast-finality client tuning</td><td>Stratum v2</td><td>—</td></tr>
+      <tr><th>function</th><th>SOL</th><th>ETH</th><th>BNB</th><th>BTC</th><th>ZEC</th><th>Robinhood Chain</th></tr>
+      <tr><td>Ordering / sequencing</td><td>Jito Block Engine (bundles + tips)</td><td>Flashbots MEV-Boost / BuilderNet</td><td>bloXroute / 48Club validator rails</td><td>out-of-band accelerators (miner-direct)</td><td>—</td><td>Robinhood Chain FCFS sequencer</td></tr>
+      <tr><td>Protection RPC</td><td>Jito MEV-protect endpoints</td><td>Flashbots Protect, MEV Blocker</td><td>48Club Privacy RPC, bloXroute protect</td><td>n/a (RBF hygiene)</td><td>protocol-level (shielded pool)</td><td>no official protection RPC documented</td></tr>
+      <tr><td>Order-flow auction / intents</td><td>Jupiter (routing + limit/DCA)</td><td>CoW Swap, UniswapX, 1inch Fusion</td><td>1inch, KyberSwap</td><td>—</td><td>—</td><td>UniswapX · 0x RFQ · 1inch Fusion · LiFi</td></tr>
+      <tr><td>Fast data feed</td><td>Jito ShredStream, Geyser plugins</td><td>bloXroute BDN, relay streams, mempool ws</td><td>bloXroute BDN</td><td>FIBRE / compact relays, mempool.space APIs</td><td>standard p2p</td><td>Robinhood Chain sequencer feed · WebSockets; Chainlink Data Streams for market data</td></tr>
+      <tr><td>Priority market</td><td>priority fees per CU + Jito tips</td><td>EIP-1559 tips + builder bids</td><td>gas tips + private bids</td><td>sat/vB fee market</td><td>minimal fee market</td><td>FCFS gas policy — ETH pays execution + L1 data, not queue position</td></tr>
+      <tr><td>Node/client edge</td><td>Firedancer, SWQoS stake, DoubleZero</td><td>ePBS research, preconfirmations, Reth/erigon perf</td><td>fast-finality client tuning</td><td>Stratum v2</td><td>—</td><td>Nitro full node · ArbOS · L1 blob reader</td></tr>
+      <tr><td>Launch &amp; bootstrap</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Uniswap Liquidity Launcher — resolve from current SDK + verify onchain</td></tr>
     </table>
   </div></noscript>
 </section>
@@ -1736,6 +1771,13 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <tr><td>CoW Protocol</td><td>An intent-based exchange protocol whose solvers batch orders and can match coincident wants before using on-chain liquidity.</td><td><a href="https://docs.cow.fi/cow-protocol/concepts/introduction">CoW Protocol docs ↗</a></td></tr>
         <tr><td>Slippage</td><td>The difference between an expected swap price and its executed price, bounded by a user's minimum-output constraint.</td><td><a href="https://docs.uniswap.org/concepts/protocol/swaps">Uniswap swap docs ↗</a></td></tr>
         <tr><td>Preconfirmations</td><td>Credible promises about transaction inclusion or execution issued before the underlying chain reaches full consensus finality.</td><td><a href="https://ethresear.ch/t/based-preconfirmations/17353">Ethereum research ↗</a></td></tr>
+        <tr><td>Arbitrum Nitro</td><td>The optimistic-rollup stack Robinhood Chain uses for EVM execution, compressed batches, and Ethereum settlement.</td><td><a href="https://github.com/OffchainLabs/nitro">Arbitrum Nitro repository ↗</a></td></tr>
+        <tr><td>Sequencer soft confirmation</td><td>A fast sequencer commitment that an accepted transaction has entered Robinhood Chain's ordered L2 state; it is not Ethereum finality.</td><td><a href="https://docs.robinhood.com/chain/transaction-finality/">Robinhood Chain finality docs ↗</a></td></tr>
+        <tr><td>BoLD fraud proofs</td><td>Arbitrum's dispute system for challenging invalid rollup assertions; Robinhood Chain used ~2 allowlisted validators as of 2026-08.</td><td><a href="https://docs.robinhood.com/chain/governance/">Robinhood Chain governance docs ↗</a></td></tr>
+        <tr><td>L1 data fee</td><td>The fee component paying for compressed Robinhood Chain batch data published to Ethereum in addition to L2 execution.</td><td><a href="https://docs.robinhood.com/chain/gas-and-fees/">Robinhood Chain gas and fee docs ↗</a></td></tr>
+        <tr><td>ERC-8056</td><td>A token interface exposing a UI multiplier so Stock Token display balances can adjust for events such as dividends or splits.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>Corporate-action multiplier</td><td>A scheduled Stock Token display-balance adjustment for corporate actions; multiplier-adjusted oracle values must not be multiplied again.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>Sequencer uptime feed</td><td>An oracle signal applications use with staleness and grace-period checks before resuming price-sensitive actions after sequencer downtime.</td><td><a href="https://docs.robinhood.com/chain/oracles-and-price-feeds/">Robinhood Chain oracle docs ↗</a></td></tr>
         <tr><td>Equihash</td><td>A memory-oriented proof-of-work algorithm based on the generalized birthday problem and used by Zcash mining.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
         <tr><td>Shielded pool</td><td>A Zcash value pool where zero-knowledge proofs hide sender, receiver, and amount while proving conservation and authorization.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
         <tr><td>Orchard</td><td>Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.</td><td><a href="https://zcash.github.io/orchard/">Orchard book ↗</a></td></tr>
@@ -1827,6 +1869,21 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <tr><td>Preconfirmations</td><td>term</td><td>Credible inclusion or execution promises issued before consensus finality.</td><td><a href="https://ethresear.ch/t/based-preconfirmations/17353">Based preconfirmations research ↗</a></td></tr>
         <tr><td>Equihash</td><td>term</td><td>A generalized-birthday proof-of-work puzzle used by Zcash mining.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
         <tr><td>Shielded pool</td><td>term</td><td>A Zcash value pool whose proofs hide the public transaction graph.</td><td><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash protocol specification ↗</a></td></tr>
+        <tr><td>Robinhood Chain</td><td>chain</td><td>A first-come-first-served Nitro rollup with a fast sequencer receipt and Ethereum-anchored hard settlement.</td><td><a href="https://docs.robinhood.com/chain/">About Robinhood Chain ↗</a></td></tr>
+        <tr><td>Robinhood Chain FCFS sequencer</td><td>tool</td><td>One operator orders accepted transactions by arrival; gas pays execution and data, not queue position.</td><td><a href="https://docs.robinhood.com/chain/differences-from-ethereum/">Differences from Ethereum ↗</a></td></tr>
+        <tr><td>Robinhood Chain sequencer feed · WebSockets</td><td>tool</td><td>A low-lag ordered-state stream that must be gap-checked and backfilled before it becomes durable evidence.</td><td><a href="https://docs.robinhood.com/chain/connecting/">Connecting to Robinhood Chain ↗</a></td></tr>
+        <tr><td>UniswapX · 0x RFQ · 1inch Fusion · LiFi</td><td>tool</td><td>Offchain quotes and intents reduce public preview while adding solver, maker, and route dependencies.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>FCFS gas policy</td><td>tool</td><td>ETH pays Nitro execution plus Ethereum data while arrival time—not a larger tip—fixes queue position.</td><td><a href="https://docs.robinhood.com/chain/gas-and-fees/">Robinhood Chain gas and fees ↗</a></td></tr>
+        <tr><td>Nitro full node · ArbOS · L1 blob reader</td><td>tool</td><td>Independent Robinhood Chain reads require L2 state plus Ethereum execution and beacon/blob dependencies.</td><td><a href="https://docs.robinhood.com/chain/run-a-full-node/">Run a Robinhood Chain full node ↗</a></td></tr>
+        <tr><td>Chainlink Data Streams</td><td>tool</td><td>Pull-based signed market reports support fast execution only when staleness, session, and sequencer guards hold.</td><td><a href="https://docs.robinhood.com/chain/data-streams/">Data Streams on Robinhood Chain ↗</a></td></tr>
+        <tr><td>Uniswap Liquidity Launcher</td><td>tool</td><td>A continuous-clearing auction distributes tokens before proceeds and inventory graduate into a Uniswap v4 pool.</td><td><a href="https://github.com/Uniswap/liquidity-launcher">Uniswap Liquidity Launcher ↗</a></td></tr>
+        <tr><td>Arbitrum Nitro</td><td>term</td><td>The optimistic-rollup execution stack beneath Robinhood Chain's EVM and Ethereum batch pipeline.</td><td><a href="https://github.com/OffchainLabs/nitro">Arbitrum Nitro repository ↗</a></td></tr>
+        <tr><td>Sequencer soft confirmation</td><td>term</td><td>A fast acceptance signal from the sequencer that precedes L1 publication and Ethereum finality.</td><td><a href="https://docs.robinhood.com/chain/transaction-finality/">Robinhood Chain transaction finality ↗</a></td></tr>
+        <tr><td>BoLD fraud proofs</td><td>term</td><td>A challenge system for invalid rollup assertions whose Robinhood Chain validator set remained allowlisted in 2026-08.</td><td><a href="https://docs.robinhood.com/chain/governance/">Robinhood Chain governance ↗</a></td></tr>
+        <tr><td>L1 data fee</td><td>term</td><td>The Ethereum publication charge bundled with Robinhood Chain's L2 execution cost.</td><td><a href="https://docs.robinhood.com/chain/gas-and-fees/">Robinhood Chain gas and fees ↗</a></td></tr>
+        <tr><td>ERC-8056</td><td>term</td><td>The Stock Token UI-multiplier interface used to express corporate-action-adjusted display balances.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>Corporate-action multiplier</td><td>term</td><td>A scheduled Stock Token display adjustment that keeps splits and distributions aligned with economic exposure.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>Sequencer uptime feed</td><td>term</td><td>A liveness signal that gates price-sensitive actions after a sequencer outage and recovery grace period.</td><td><a href="https://docs.robinhood.com/chain/oracles-and-price-feeds/">Robinhood Chain oracles and price feeds ↗</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -1836,7 +1893,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v3-2026-08-14.2",
+  "_rev": "v3-2026-08-28.1",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -1887,7 +1944,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     "equihash": {"term":"Equihash","aliases":["Equihash"],"def":"A memory-oriented proof-of-work algorithm based on the generalized birthday problem and used by Zcash mining.","purpose":"Its resource profile aimed to make mining less dominated by raw compute throughput alone.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"equihash"},
     "shielded-pool": {"term":"Shielded pool","aliases":["shielded transactions","shielded txs","shielded pool"],"def":"A Zcash value pool where zero-knowledge proofs hide sender, receiver, and amount while proving conservation and authorization.","purpose":"Hiding the transaction graph removes the visibility that most ordering extraction needs.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"shielded-pool"},
     "orchard": {"term":"Orchard","aliases":["Orchard"],"def":"Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.","purpose":"Privacy is the default shape of the value pool, not an optional wrapper around transparent coins.","links":[{"label":"Orchard book","url":"https://zcash.github.io/orchard/","kind":"official"}]},
-    "zk-snarks": {"term":"zk-SNARKs","aliases":["zero-knowledge proofs","zk-SNARKs","SNARKs"],"def":"Succinct non-interactive zero-knowledge proofs that let a verifier check a statement without learning its private witness.","purpose":"The chain can verify correctness while never receiving the secret transaction details.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}]}
+    "zk-snarks": {"term":"zk-SNARKs","aliases":["zero-knowledge proofs","zk-SNARKs","SNARKs"],"def":"Succinct non-interactive zero-knowledge proofs that let a verifier check a statement without learning its private witness.","purpose":"The chain can verify correctness while never receiving the secret transaction details.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}]},
+    "arbitrum-nitro": {"term":"Arbitrum Nitro","aliases":["Arbitrum L2","Arbitrum Nitro","Nitro"],"def":"The optimistic-rollup stack Robinhood Chain uses for EVM execution, compressed batches, and Ethereum settlement.","purpose":"Execution can feel local and fast while data availability, dispute resolution, and hard settlement live on a slower parent chain.","links":[{"label":"Arbitrum Nitro repository","url":"https://github.com/OffchainLabs/nitro","kind":"official"}],"entity":"arbitrum-nitro"},
+    "sequencer-soft-confirmation": {"term":"Sequencer soft confirmation","aliases":["FCFS sequencer","sequencer soft confirmation","soft confirmation","soft receipt"],"def":"A fast sequencer commitment that an accepted transaction has entered Robinhood Chain's ordered L2 state; it is not Ethereum finality.","purpose":"Applications can acknowledge low-risk activity quickly while reserving irreversible actions for L1-posted or L1-final evidence.","links":[{"label":"Robinhood Chain finality docs","url":"https://docs.robinhood.com/chain/transaction-finality/","kind":"official"}],"entity":"sequencer-soft-confirmation"},
+    "bold-fraud-proofs": {"term":"BoLD fraud proofs","aliases":["BoLD fraud proofs","BoLD","fraud proofs"],"def":"Arbitrum's dispute system for challenging invalid rollup assertions; Robinhood Chain used ~2 allowlisted validators as of 2026-08.","purpose":"Independent re-execution can challenge an invalid state claim, but the current challenger set remains permissioned.","links":[{"label":"Robinhood Chain governance docs","url":"https://docs.robinhood.com/chain/governance/","kind":"official"}],"entity":"bold-fraud-proofs"},
+    "l1-data-fee": {"term":"L1 data fee","aliases":["L1 data fee","Ethereum data fee","data fee"],"def":"The fee component paying for compressed Robinhood Chain batch data published to Ethereum in addition to L2 execution.","purpose":"Calldata size and Ethereum conditions remain part of total cost even when L2 execution is inexpensive.","links":[{"label":"Robinhood Chain gas and fee docs","url":"https://docs.robinhood.com/chain/gas-and-fees/","kind":"official"}],"entity":"l1-data-fee"},
+    "erc-8056": {"term":"ERC-8056","aliases":["ERC-8056","uiMultiplier"],"def":"A token interface exposing a UI multiplier so Stock Token display balances can adjust for events such as dividends or splits.","purpose":"Integrators can display economically adjusted balances without mutating the ERC-20's raw unit accounting.","links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"}],"entity":"erc-8056"},
+    "corporate-action-multiplier": {"term":"Corporate-action multiplier","aliases":["Stock Tokens","corporate-action multiplier","corporate action multiplier","multiplier-adjusted"],"def":"A scheduled Stock Token display-balance adjustment for corporate actions; multiplier-adjusted oracle values must not be multiplied again.","purpose":"Splits and dividends can change display units without breaking the token's raw accounting or valuation path.","links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"}],"entity":"corporate-action-multiplier"},
+    "sequencer-uptime-feed": {"term":"Sequencer uptime feed","aliases":["sequencer uptime feed","sequencer-up check","sequencer status feed"],"def":"An oracle signal applications use with staleness and grace-period checks before resuming price-sensitive actions after sequencer downtime.","purpose":"A live price is not safely actionable when users have not had a fair chance to transact after the sequencer returns.","links":[{"label":"Robinhood Chain oracle docs","url":"https://docs.robinhood.com/chain/oracles-and-price-feeds/","kind":"official"}],"entity":"sequencer-uptime-feed"}
   },
   "==/V3A:JSON==": null,
   "==V3B:JSON==": null,
@@ -1898,6 +1962,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     {"id":"fig-1-1","anchor":"#turbineSvg","ch":"ch1","title":"FIG 1.1 · Turbine tree","note":"Turbine is a bandwidth strategy, not consensus. Shreds fan out redundantly so one leader need not send a full block to every validator.","dwellMs":8000,"action":"restart-figure"},
     {"id":"ch1-readout","anchor":"#ch1 .notes","ch":"ch1","title":"READOUT · cluster constants","note":"PoH orders; Tower BFT commits; the leader schedule says who works next. Keep those jobs distinct.","dwellMs":6000,"action":"none"},
     {"id":"ch1-dock","anchor":".dock-mount[data-ch='ch1']","ch":"ch1","title":"COMPARE · topology × ETH","note":"Both networks separate proposal from agreement, but Solana compresses the cadence and leans harder on scheduled, capable machines.","dwellMs":8000,"action":"open-dock:eth"},
+    {"id":"ch1-robinhood-finality","anchor":".dock-mount[data-ch='ch1']","ch":"ch1","title":"COMPARE · Robinhood Chain settlement ladder","note":"Fast receipt, slow anchor: the sequencer commits first; Ethereum makes the order hard later.","dwellMs":8500,"action":"open-dock:robinhood_chain"},
     {"id":"ch2-intro","anchor":"#ch2 .ch-sub","ch":"ch2","title":"CH-02 · transaction flow","note":"A transaction declares the accounts it will touch. That declaration lets the runtime schedule non-conflicting work in parallel.","dwellMs":9000,"action":"none"},
     {"id":"fig-2-1","anchor":"#ch2 .pipe-scroll","ch":"ch2","title":"FIG 2.1 · signal path","note":"Follow the packet: wallet → RPC → leader ingress → signature checks → account locks → execution → PoH record → shreds.","dwellMs":9000,"action":"restart-figure"},
     {"id":"ch2-dock","anchor":".dock-mount[data-ch='ch2']","ch":"ch2","title":"COMPARE · flow × BTC","note":"Bitcoin waits in a public fee-sorted room; Solana forwards toward near-future leaders. Queue topology changes the races each chain creates.","dwellMs":8000,"action":"open-dock:btc"},
@@ -1911,6 +1976,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     {"id":"ch4-notes","anchor":"#ch4 .notes","ch":"ch4","title":"FIELD NOTES · 2026 frontier","note":"The frontier copies HFT: colocation, private fiber, fast feeds, and specialized clients. The trade-off is concentrated advantage.","dwellMs":8000,"action":"none"},
     {"id":"ch5-intro","anchor":"#ch5 .ch-sub","ch":"ch5","title":"CH-05 · cross-chain bench","note":"Across chains, the same organs recur: ordering market, protection rail, fast-data feed, priority market, and optimized client.","dwellMs":9000,"action":"none"},
     {"id":"fig-5-1","anchor":"#gridPanel","ch":"ch5","title":"FIG 5.1 · technique heat grid","note":"Hot cells reveal where programmability, visible flow, and valuable state transitions overlap.","dwellMs":8000,"action":"cascade"},
+    {"id":"ch5-robinhood-launch","anchor":"#gridPanel .tcell[data-tech='snipe'][data-chain='robinhood_chain']","ch":"ch5","title":"DETAIL · Robinhood Chain launch path","note":"FCFS makes a fixed first fill a network race; an auction distributes before the pool becomes the price.","dwellMs":7500,"action":"cascade","activate":true},
     {"id":"grid-sandwich","anchor":"#gridPanel .tcell[data-tech='sandwich'][data-chain='sol']","ch":"ch5","title":"DETAIL · sandwich × SOL","note":"Active does not mean Ethereum-like: Solana lacks a public mempool, so private infrastructure and bundle paths determine visibility.","dwellMs":6500,"action":"cascade","activate":true},
     {"id":"fig-5-2","anchor":"#benchMount","ch":"ch5","title":"FIG 5.2 · protection bench","note":"Protection products are not altruistic add-ons; they are the counter-market created by extractive ordering.","dwellMs":8000,"action":"flash-legend","filter":"protect"},
     {"id":"tool-protect","anchor":"#tool-jito-protect","ch":"ch5","title":"TOOL · Jito protect rail","note":"A protected endpoint changes the route, not consensus. It reduces exposure to leaked order flow and targets leaders directly.","dwellMs":6500,"action":"none"},
@@ -2651,6 +2717,168 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "signals": [{"k": "public artifacts", "v": "commitments + nullifiers"}, {"k": "hidden fields", "v": "sender + receiver + amount"}],
       "links": [{"label": "Zcash protocol specification", "url": "https://zips.z.cash/protocol/protocol.pdf", "kind": "official"}, {"label": "Orchard protocol book", "url": "https://zcash.github.io/orchard/", "kind": "docs"}, {"label": "Orchard source", "url": "https://github.com/zcash/orchard", "kind": "official"}],
       "related": ["zec", "equihash", "zec-shield"], "term": "shielded-pool"
+    },
+    "robinhood-chain": {
+      "kind": "chain",
+      "name": "Robinhood Chain",
+      "tagline": "A first-come-first-served Nitro rollup with a fast sequencer receipt and Ethereum-anchored hard settlement.",
+      "chains": ["robinhood_chain"],
+      "body": [
+        "Robinhood Chain is an EVM-compatible Arbitrum Nitro optimistic rollup. A single Robinhood-operated sequencer screens accepted transactions and orders them first-come-first-served by arrival; paying more gas does not move a later transaction ahead of an earlier one. Anyone may deploy contracts or run a full node, but ordering, dispute resolution, and protocol upgrades have distinct control planes. Official documentation listed ~2 allowlisted BoLD validators as of 2026-08.",
+        "Confirmation has three clocks. A sequencer soft confirmation is typically sub-second, compressed batches reach Ethereum in minutes, and the containing Ethereum block finalizes ~13 minutes after posting in the documented typical case. A canonical L2-to-L1 withdrawal then has a separate ~7-day fraud-proof challenge window. That bridge delay is not transaction-finality latency and fast bridges substitute third-party liquidity and trust for part of it.",
+        "The application stack emphasizes Stock Tokens, Uniswap, RFQ and intent routes, a propAMM, lending, perpetuals, Chainlink feeds, and Data Streams. Stock Tokens are issuer-created tokenised debt securities giving economic exposure rather than ownership of underlying shares; ordinary developers cannot assume primary mint or redemption access. Venue presence is not proof of depth. Every pair still needs executable size, spread, slippage, session, oracle-age, and bridge-inventory measurement. Deploying a token on the chain does not list it in a Robinhood product or imply endorsement."
+      ],
+      "how": {"diagram":"rollup-stack","params":{},"steps":["Wallets and providers send signed EVM transactions to one sequencer","The sequencer screens and fixes accepted order by arrival","Nitro nodes re-execute while batches enter Ethereum blobs","BoLD challengers and Ethereum finality harden the ordered state"]},
+      "signals": [
+        {"k":"soft confirmation","v":"sub-second typically"},
+        {"k":"L1 finality","v":"~13 min after posting · 2026-08"},
+        {"k":"canonical withdrawal","v":"~7 days · separate challenge window"},
+        {"k":"chain ID","v":"4663 · ETH gas"}
+      ],
+      "links": [
+        {"label":"About Robinhood Chain","url":"https://docs.robinhood.com/chain/","kind":"official"},
+        {"label":"Robinhood Chain transaction finality","url":"https://docs.robinhood.com/chain/transaction-finality/","kind":"docs"},
+        {"label":"Robinhood Chain governance","url":"https://docs.robinhood.com/chain/governance/","kind":"docs"},
+        {"label":"Robinhood Chain Blockscout","url":"https://robinhoodchain.blockscout.com/","kind":"explorer"}
+      ],
+      "related": ["robinhood-sequencer","arbitrum-nitro","bold-fraud-proofs","robinhood-feed","robinhood-orderflow","uniswap-launcher"]
+    },
+    "robinhood-sequencer": {
+      "kind":"tool","name":"Robinhood Chain FCFS sequencer","tagline":"One operator orders accepted transactions by arrival; gas pays execution and data, not queue position.","chains":["robinhood_chain"],
+      "body":[
+        "Robinhood operates the chain's sequencer. It accepts signed EVM transactions through direct and provider routes, applies sequencer-level screening, fixes accepted order first-come-first-served by arrival, executes the resulting lane through Nitro, and issues the first soft receipt. Official documentation says Robinhood Chain does not use a priority gas auction: a larger fee does not jump a transaction ahead of one that arrived first.",
+        "First-come-first-served does not remove MEV. It moves ordering value toward network latency, route variance, exclusive order flow, solver selection, and the sequencer control plane. Redundant providers can reduce a provider outage, and broadcasting the identical signed transaction may reduce transport failure, but every route still converges on one sequencer. Conflicting nonce replacements can create self-inflicted failure without guaranteeing earlier placement.",
+        "Applications should treat the sequencer receipt as soft state, expose downtime clearly, and reserve irreversible or high-value offchain actions for an explicit L1-posted or L1-final policy. Standard Nitro includes a delayed-inbox censorship-resistance path on Ethereum, but it is a slow and expensive escape hatch whose Robinhood Chain-specific parameters must be verified before use."
+      ],
+      "how":{"diagram":"fcfs-race","params":{},"steps":["Two signed transactions leave through paths with different delay","The earlier arrival enters the sequencer lane first","A later higher-fee transaction remains second","Soft receipts arrive before the batch is anchored to Ethereum"]},
+      "signals":[{"k":"operator","v":"Robinhood"},{"k":"ordering","v":"first-come-first-served arrival"},{"k":"priority fee effect","v":"does not buy earlier order"},{"k":"risk","v":"single terminal sequencer dependency"}],
+      "links":[{"label":"Differences from Ethereum","url":"https://docs.robinhood.com/chain/differences-from-ethereum/","kind":"official"},{"label":"Robinhood Chain terms","url":"https://docs.robinhood.com/chain/terms-of-service/","kind":"docs"}],
+      "related":["robinhood-chain","sequencer-soft-confirmation","robinhood-fees","robinhood-feed","spam"]
+    },
+    "robinhood-feed": {
+      "kind":"tool","name":"Robinhood Chain sequencer feed · WebSockets","tagline":"A low-lag ordered-state stream that must be gap-checked and backfilled before it becomes durable evidence.","chains":["robinhood_chain"],
+      "body":[
+        "The sequencer feed exposes ordered L2 updates earlier than a conventional indexer, and Nitro full nodes can consume it as an input. Consumers should persist the last contiguous block and hash, detect gaps, duplicates, parent mismatch, and provider-head drift, then backfill bounded ranges over HTTP after any disconnect. Feed delivery is a latency surface, not a substitute for deterministic replay.",
+        "Feed records are soft state. An indexer row, WebSocket head, or sequencer message is not evidence that a batch has reached or finalized on Ethereum. Interfaces should label soft, L1-posted, and L1-final observations separately and promote records only as stronger evidence arrives. This feed is also not a market-price oracle; price-sensitive applications need a separate feed, staleness policy, sequencer-up check, and post-outage grace period."
+      ],
+      "how":{"diagram":"sequencer-ladder","params":{},"steps":["The sequencer emits an ordered L2 update","A consumer checks continuity against its stored head","Any gap is repaired over bounded HTTP ranges","L1 evidence later promotes soft state to posted and final"]},
+      "signals":[{"k":"mainnet feed","v":"wss://feed.mainnet.chain.robinhood.com"},{"k":"first rule","v":"detect gaps + parent mismatch"},{"k":"source of truth","v":"HTTP replay + L1 evidence"}],
+      "links":[{"label":"Connecting to Robinhood Chain","url":"https://docs.robinhood.com/chain/connecting/","kind":"official"},{"label":"Run a full node","url":"https://docs.robinhood.com/chain/run-a-full-node/","kind":"docs"}],
+      "related":["robinhood-chain","robinhood-sequencer","robinhood-node","robinhood-streams"]
+    },
+    "robinhood-orderflow": {
+      "kind":"tool","name":"UniswapX · 0x RFQ · 1inch Fusion · LiFi","tagline":"Offchain quotes and intents reduce public preview while adding solver, maker, and route dependencies.","chains":["robinhood_chain"],
+      "body":[
+        "Robinhood Chain's documented liquidity surface spans public AMMs, RFQ and intent systems, a propAMM, order-book venues, and aggregators. RFQ or intent routes can keep quote formation offchain until a signed fill settles, structurally limiting public preview. They do not make extraction impossible: providers, solvers, or leaked routes may still expose intent, and users inherit maker availability, rejection, route-policy, spender, and solver-concentration risk.",
+        "A public AMM remains permissionless and inspectable but exposes thin ranges, adverse selection, sandwich risk when intent is visible, and inventory imbalance. Professional RFQ can supply firm size with lower displayed impact; a propAMM supplies maker-managed onchain pricing; an order book exposes price-time liquidity. Routing should compare all-in executable price after gas, hedge cost, failure probability, quote age, and bridge inventory—not a displayed midpoint.",
+        "For Stock Tokens, separate the 24/5 reference-market schedule from 24/7 token transfer. When the underlier is closed or an oracle is stale or paused, reduce size, increase haircuts, or pause price-dependent openings under a disclosed risk policy. Presence of a venue never proves a particular pair is deep."
+      ],
+      "how":{"diagram":"intent-batch","params":{},"steps":["A user signs an outcome or requests a firm quote","Solvers and makers price inventory offchain","The chosen route reveals only the settlement fill","The contract settles against canonical token addresses and limits"]},
+      "signals":[{"k":"visibility","v":"quote formation may remain offchain"},{"k":"measure","v":"executable depth + quote age + fill rate"},{"k":"session risk","v":"24/5 reference · 24/7 transfer"}],
+      "links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"},{"label":"UniswapX deployment registry","url":"https://github.com/Uniswap/UniswapX/blob/main/deployments.md","kind":"docs"}],
+      "related":["robinhood-chain","robinhood-sequencer","robinhood-streams","jit","cexdex","sandwich"]
+    },
+    "robinhood-fees": {
+      "kind":"tool","name":"FCFS gas policy","tagline":"ETH pays Nitro execution plus Ethereum data while arrival time—not a larger tip—fixes queue position.","chains":["robinhood_chain"],
+      "body":[
+        "A Robinhood Chain transaction pays for L2 execution and its compressed share of L1 data publication. Wallet and `eth_estimateGas` results combine those components, so calldata size and current Ethereum conditions can matter even when L2 execution is inexpensive. Batching can amortize overhead but increases atomic revert blast radius and data size.",
+        "The gas policy is not a priority ordering market. Official documentation says accepted transactions are ordered by arrival and a higher fee cannot move a later transaction ahead of an earlier one. Operators should budget execution, L1 data volatility, retries, and emergency actions while optimizing transport latency separately from gas estimation."
+      ],
+      "how":{"diagram":"fcfs-race","params":{},"steps":["A wallet estimates L2 work and compressed L1 data","The signed transaction enters a provider path","Arrival time fixes order at the sequencer","The receipt accounts for execution and data costs"]},
+      "signals":[{"k":"gas asset","v":"ETH"},{"k":"total cost","v":"L2 execution + L1 data"},{"k":"ordering bid","v":"none · arrival fixes position"}],
+      "links":[{"label":"Robinhood Chain gas and fees","url":"https://docs.robinhood.com/chain/gas-and-fees/","kind":"official"},{"label":"Differences from Ethereum","url":"https://docs.robinhood.com/chain/differences-from-ethereum/","kind":"docs"}],
+      "related":["robinhood-chain","robinhood-sequencer","l1-data-fee"]
+    },
+    "robinhood-node": {
+      "kind":"tool","name":"Nitro full node · ArbOS · L1 blob reader","tagline":"Independent Robinhood Chain reads require L2 state plus Ethereum execution and beacon/blob dependencies.","chains":["robinhood_chain"],
+      "body":[
+        "A Robinhood Chain full node runs Nitro and ArbOS, consumes the sequencer feed for low-lag ordered state, and replays batches against Ethereum data. Independent verification therefore needs L2 storage and compute plus healthy L1 execution and beacon endpoints capable of serving blob data. The official guide's ArbOS and Nitro release pins are operational versions, not timeless protocol properties.",
+        "The published floor was 8+ CPU cores, 64 GB RAM with 128 GB recommended, NVMe, and several terabytes of storage, plus L1 endpoint capacity. A node reduces reliance on a third-party read provider but does not decentralize the sequencer. Production systems should still monitor feed gaps, L1 endpoint health, disk growth, head drift, and provider divergence."
+      ],
+      "how":{"diagram":"rollup-stack","params":{},"steps":["The node receives ordered L2 data from the sequencer feed","Nitro re-executes the EVM state transition","Ethereum execution and beacon endpoints supply batches and blobs","Local state is checked against the parent-chain record"]},
+      "signals":[{"k":"CPU","v":"8+ cores · 2026-08"},{"k":"memory","v":"64 GB floor · 128 GB recommended"},{"k":"parent dependencies","v":"Ethereum execution + beacon/blob"}],
+      "links":[{"label":"Run a Robinhood Chain full node","url":"https://docs.robinhood.com/chain/run-a-full-node/","kind":"official"},{"label":"Arbitrum Nitro repository","url":"https://github.com/OffchainLabs/nitro","kind":"research"}],
+      "related":["robinhood-chain","arbitrum-nitro","robinhood-feed"]
+    },
+    "robinhood-streams": {
+      "kind":"tool","name":"Chainlink Data Streams","tagline":"Pull-based signed market reports support fast execution only when staleness, session, and sequencer guards hold.","chains":["robinhood_chain"],
+      "body":[
+        "Chainlink Data Streams provide signed sub-second offchain market reports that an application can fetch and verify onchain for perps, options, liquidations, and other latency-sensitive paths. The market-data clock starts when the source moves, not when an L2 block appears. Systems should record source, report-sign, local-receipt, verifier, transaction-receipt, and hedge-completion times separately.",
+        "The application owns safety policy: acceptable report age, verifier calls, sequencer-up checks, a post-outage grace period, and market-closed behavior. Stock Token feeds follow a 24/5 schedule even while tokens can transfer and trade 24/7, so Friday's last price cannot be treated as indefinitely current. Multiplier-adjusted onchain values must not be multiplied a second time."
+      ],
+      "how":{"diagram":"sequencer-ladder","params":{},"steps":["A data source is observed and a signed report is produced","The application receives and checks report age","A verifier validates the report onchain","Sequencer status, grace period, and session policy gate execution"]},
+      "signals":[{"k":"delivery","v":"pull-based signed reports"},{"k":"guards","v":"staleness + sequencer uptime + grace"},{"k":"Stock Token schedule","v":"24/5 feed · 24/7 transfer"}],
+      "links":[{"label":"Data Streams on Robinhood Chain","url":"https://docs.robinhood.com/chain/data-streams/","kind":"official"},{"label":"Robinhood Chain price feeds","url":"https://docs.robinhood.com/chain/oracles-and-price-feeds/","kind":"docs"}],
+      "related":["robinhood-chain","sequencer-uptime-feed","corporate-action-multiplier","liquidations"]
+    },
+    "uniswap-launcher": {
+      "kind":"tool","name":"Uniswap Liquidity Launcher","tagline":"A continuous-clearing auction distributes tokens before proceeds and inventory graduate into a Uniswap v4 pool.","chains":["robinhood_chain"],
+      "body":[
+        "The Liquidity Launcher is an optional path for an ordinary permissionless ERC-20 launch—not a way to create a Robinhood Stock Token or secure a Robinhood product listing. Before code, choose the canonical issuance ledger, fixed or controlled supply, immutable or upgradeable architecture, authority and vesting model, quote asset, distribution mechanism, and legal/compliance path. A simple token should minimize roles and hidden transfer behavior; specialized restrictions, fees, rebasing, bridges, or upgrades require a bespoke threat model.",
+        "Pin audited dependencies, assert chain IDs 4663 and 46630, use timestamp deadlines, never use `block.number` as elapsed L2 time or `block.prevrandao` as randomness, test Arbitrum address aliasing where L1 calls L2, fuzz the global supply invariant, and verify source from a reproducible build. Rehearse twice on testnet with two independent providers, WebSocket-loss backfill, sequencer downtime, L1-data-fee spikes, a reverted multicall, abort criteria, multisig roles, monitoring, and pre-positioned ETH plus token and quote inventory.",
+        "At launch, resolve every current chain-4663 launcher, strategy, factory, pool manager, router, fee recipient, and supported type from `@uniswap/liquidity-launcher-sdk`, then verify bytecode, ownership, and pointers onchain. Configure auction supply, UTC schedule, price bounds, proceeds, unsold inventory, fees, and graduation; reproduce decimal and tick math independently and simulate the complete multicall from real balances. Publish the clearing and abort policy, monitor inclusion and concentration, and confirm settlement plus v4 pool inventory before directing users to trade. Never copy mutable addresses from teaching prose.",
+        "An instant v3 or v4 pool is simpler but turns initialization and first fill into a first-come-first-served latency race. Initialize and fund atomically where possible, verify token decimals and square-root price twice, choose fee tier and range from expected flow, and run a two-way canary. Ramp routes and size gradually with breakers for oracle age, sequencer downtime, divergence, spread, depth, inventory, revert rate, and RPC lag. Track p50/p95/p99 receipt and finality paths plus 0.5–10% depth, realized slippage, LP range, maker liveness, bridge inventory, and review at 1 hour, 24 hours, 7 days, and 30 days."
+      ],
+      "how":{"diagram":"cca-graduation","params":{},"steps":["Token supply enters a configured continuous-clearing auction","Bids discover one clearing price over an absolute UTC window","Auction proceeds and remaining inventory settle","The configured inventory graduates into a Uniswap v4 pool"]},
+      "signals":[{"k":"address policy","v":"resolve current SDK + verify onchain"},{"k":"deadline clock","v":"absolute timestamp · not L2 block count"},{"k":"opening defense","v":"auction before pool price"},{"k":"liquidity gate","v":"two-way canary + measured depth"}],
+      "links":[{"label":"Uniswap Liquidity Launcher","url":"https://github.com/Uniswap/liquidity-launcher","kind":"official"},{"label":"Liquidity Launcher SDK usage","url":"https://github.com/Uniswap/sdks/blob/main/sdks/liquidity-launcher-sdk/README.md","kind":"docs"},{"label":"Liquidity Launcher SDK changelog","url":"https://github.com/Uniswap/sdks/blob/main/sdks/liquidity-launcher-sdk/CHANGELOG.md","kind":"research"}],
+      "related":["robinhood-chain","robinhood-sequencer","robinhood-fees","robinhood-orderflow","snipe"]
+    },
+    "arbitrum-nitro": {
+      "kind":"term","name":"Arbitrum Nitro","tagline":"The optimistic-rollup execution stack beneath Robinhood Chain's EVM and Ethereum batch pipeline.","chains":["robinhood_chain"],
+      "body":["Arbitrum Nitro executes EVM transactions in an L2 state machine, compresses their ordered data into batches, and uses Ethereum for data availability and settlement. On Robinhood Chain, the fast order comes from the sequencer while independent full nodes replay the transition and BoLD validators can challenge invalid assertions. Nitro compatibility carries Arbitrum-specific semantics: `block.number` estimates the L1 height, `ArbSys.arbBlockNumber()` exposes the L2 count, and L1-to-L2 callers are address-aliased."],
+      "how":{"diagram":"rollup-stack","params":{},"steps":["The sequencer orders EVM transactions","Nitro executes and compresses the state transition","Full nodes independently replay the ordered data","Ethereum blobs and fraud proofs anchor the result"]},
+      "signals":[{"k":"VM","v":"EVM semantics on ArbOS"},{"k":"data availability","v":"Ethereum blobs"},{"k":"actual L2 height","v":"ArbSys.arbBlockNumber()"}],
+      "links":[{"label":"Arbitrum Nitro repository","url":"https://github.com/OffchainLabs/nitro","kind":"official"},{"label":"Inside Arbitrum Nitro","url":"https://docs.arbitrum.io/how-arbitrum-works/inside-arbitrum-nitro","kind":"docs"}],
+      "related":["robinhood-chain","robinhood-node","bold-fraud-proofs"],"term":"arbitrum-nitro"
+    },
+    "sequencer-soft-confirmation": {
+      "kind":"term","name":"Sequencer soft confirmation","tagline":"A fast acceptance signal from the sequencer that precedes L1 publication and Ethereum finality.","chains":["robinhood_chain"],
+      "body":["A soft confirmation says the Robinhood-operated sequencer accepted and ordered a transaction in the L2 state it is serving. It is typically sub-second, useful for responsive low-risk UX, and backed by the sequencer's commitment—not Ethereum finality. The record becomes stronger when its batch is posted to Ethereum and stronger again when the containing Ethereum block finalizes. Applications should name the evidence they require instead of calling all three states confirmed."],
+      "how":{"diagram":"sequencer-ladder","params":{},"steps":["The sequencer accepts and orders the transaction","A soft receipt returns to the user","The compressed batch is posted to Ethereum","The Ethereum block later reaches finality"]},
+      "signals":[{"k":"typical speed","v":"sub-second"},{"k":"issuer","v":"Robinhood-operated sequencer"},{"k":"not equivalent to","v":"L1 posted or Ethereum final"}],
+      "links":[{"label":"Robinhood Chain transaction finality","url":"https://docs.robinhood.com/chain/transaction-finality/","kind":"official"}],
+      "related":["robinhood-chain","robinhood-sequencer","bold-fraud-proofs"],"term":"sequencer-soft-confirmation"
+    },
+    "bold-fraud-proofs": {
+      "kind":"term","name":"BoLD fraud proofs","tagline":"A challenge system for invalid rollup assertions whose Robinhood Chain validator set remained allowlisted in 2026-08.","chains":["robinhood_chain"],
+      "body":["BoLD is Arbitrum's bounded-liquidity-delay dispute protocol. Validators assert an L2 state derived from posted data, and a challenger can force an interactive dispute that narrows disagreement to a verifiable execution step. Robinhood Chain documentation listed ~2 allowlisted validators operated by Offchain Labs and Alchemy as of 2026-08. Anyone can replay state as a full node, but that does not make the current dispute set permissionless."],
+      "how":{"diagram":"rollup-stack","params":{},"steps":["A validator posts an assertion about L2 state","A challenger identifies a conflicting assertion","The dispute narrows to a one-step execution proof","Ethereum resolves which assertion can advance"]},
+      "signals":[{"k":"validator set","v":"~2 allowlisted · 2026-08"},{"k":"role","v":"challenge invalid assertion"},{"k":"settlement court","v":"Ethereum"}],
+      "links":[{"label":"Robinhood Chain governance","url":"https://docs.robinhood.com/chain/governance/","kind":"official"}],
+      "related":["robinhood-chain","arbitrum-nitro","sequencer-soft-confirmation"],"term":"bold-fraud-proofs"
+    },
+    "l1-data-fee": {
+      "kind":"term","name":"L1 data fee","tagline":"The Ethereum publication charge bundled with Robinhood Chain's L2 execution cost.","chains":["robinhood_chain"],
+      "body":["Robinhood Chain compresses transaction data into batches and publishes them to Ethereum, so total gas includes L2 execution plus a share of parent-chain data cost. Calldata-heavy transactions can therefore cost more even when their EVM work is modest, and an Ethereum fee spike can change deployment or multicall budgets. Wallet estimates normally combine both pieces; operators should preserve the distinction in telemetry and simulation."],
+      "how":{"diagram":"sequencer-ladder","params":{},"steps":["The transaction consumes L2 execution gas","Its calldata contributes to a compressed batch","The batch buys Ethereum blob data","The receipt reflects execution plus the allocated data cost"]},
+      "signals":[{"k":"component 1","v":"L2 EVM execution"},{"k":"component 2","v":"compressed Ethereum data share"}],
+      "links":[{"label":"Robinhood Chain gas and fees","url":"https://docs.robinhood.com/chain/gas-and-fees/","kind":"official"}],
+      "related":["robinhood-chain","robinhood-fees","arbitrum-nitro"],"term":"l1-data-fee"
+    },
+    "erc-8056": {
+      "kind":"term","name":"ERC-8056","tagline":"The Stock Token UI-multiplier interface used to express corporate-action-adjusted display balances.","chains":["robinhood_chain"],
+      "body":["Stock Tokens use 18-decimal ERC-20 accounting and expose `uiMultiplier()` so interfaces can adjust displayed economic units around dividends, splits, and other scheduled events. Integrators must distinguish raw token amounts from UI-adjusted balances and use the canonical registry address. Chainlink's per-token onchain feed already incorporates the multiplier; applying it again is a valuation bug. These issuer-created tokenised debt securities give economic exposure, not ownership of underlying shares."],
+      "how":{"diagram":"window","params":{},"steps":["The issuer schedules a corporate-action multiplier","The token exposes the current UI multiplier","Interfaces adjust raw balances for display","Multiplier-adjusted oracle values are consumed without multiplying again"]},
+      "signals":[{"k":"raw token decimals","v":"18"},{"k":"display method","v":"uiMultiplier()"},{"k":"oracle rule","v":"do not multiply adjusted value twice"}],
+      "links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"}],
+      "related":["robinhood-chain","corporate-action-multiplier","robinhood-streams"],"term":"erc-8056"
+    },
+    "corporate-action-multiplier": {
+      "kind":"term","name":"Corporate-action multiplier","tagline":"A scheduled Stock Token display adjustment that keeps splits and distributions aligned with economic exposure.","chains":["robinhood_chain"],
+      "body":["A corporate-action multiplier changes how an interface presents a Stock Token's raw balance when the reference security has a split, dividend, or similar event. The token contract exposes the value through ERC-8056, while the asset registry and read-only API describe scheduled changes and pause state. Integrators need deterministic unit conversions, event monitoring, and a policy for `oraclePaused()`; ordinary holders cannot assume issuer mint and burn access during dislocation."],
+      "how":{"diagram":"window","params":{},"steps":["A corporate action is published for the reference asset","The multiplier schedule and pause state are exposed","Balances and risk thresholds are recalculated","Trading or collateral actions resume under fresh oracle evidence"]},
+      "signals":[{"k":"affects","v":"display balances + risk thresholds"},{"k":"pause signal","v":"oraclePaused() advisory"},{"k":"primary market","v":"authorized participants only"}],
+      "links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"},{"label":"Stock Token read-only APIs","url":"https://docs.robinhood.com/chain/stock-token-apis/","kind":"docs"}],
+      "related":["erc-8056","robinhood-streams","sequencer-uptime-feed"],"term":"corporate-action-multiplier"
+    },
+    "sequencer-uptime-feed": {
+      "kind":"term","name":"Sequencer uptime feed","tagline":"A liveness signal that gates price-sensitive actions after a sequencer outage and recovery grace period.","chains":["robinhood_chain"],
+      "body":["A sequencer uptime feed tells a contract whether the fast L2 ordering path is available. It must be combined with the price report's age and a configured grace period after recovery: immediately reopening liquidations can punish accounts that had no fair chance to update while the sequencer was unavailable. The feed is a safety input, not proof of pair liquidity, oracle freshness, or Ethereum finality."],
+      "how":{"diagram":"sequencer-ladder","params":{},"steps":["The uptime feed reports sequencer status","Price-dependent actions pause during downtime","Recovery starts a configured grace period","Fresh price and liveness checks permit controlled reopening"]},
+      "signals":[{"k":"during outage","v":"pause price-sensitive actions"},{"k":"after recovery","v":"enforce grace period"},{"k":"also check","v":"price age + market session"}],
+      "links":[{"label":"Robinhood Chain oracles and price feeds","url":"https://docs.robinhood.com/chain/oracles-and-price-feeds/","kind":"official"}],
+      "related":["robinhood-streams","sequencer-soft-confirmation","corporate-action-multiplier"],"term":"sequencer-uptime-feed"
     }
   },
   "==/V3E:JSON==": null,
@@ -2677,7 +2905,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     "latency":  ["~400 ms", "decisive — leader-adjacent placement", "ShredStream, SWQoS staked lanes, DoubleZero fiber", "optimistic conf < 1 s; the shred race is the de-facto preconf; Alpenglow targets ~150 ms finality", "act on shreds mid-slot"],
     "windowMs": 400
   },
-  "chainOrder": ["btc", "eth", "bnb", "zec"],
+  "chainOrder": ["btc", "eth", "bnb", "zec", "robinhood_chain"],
   "chains": {
     "btc": {
       "name": "BTC", "label": "Bitcoin", "color": "#F7931A", "glyph": "₿",
@@ -2778,124 +3006,163 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         "adv":     ["", "", "", "", ""],
         "delta": "A 75 s private chain has no latency game at all — that's the point."
       }
+    },
+    "robinhood_chain": {
+      "name": "Robinhood Chain", "label": "Robinhood Chain", "color": "#CCFF00", "glyph": null,
+      "windowKind": "soft-confirmation", "windowMs": 1000, "observed": false, "dated": "2026-08",
+      "diagrams": { "topology": "rollup-stack", "txflow": "sequencer-ladder", "mev": "fcfs-race", "latency": "finality-ladder" },
+      "topology": {
+        "metrics": ["Arbitrum Nitro optimistic rollup; Ethereum DA/settlement; BoLD fraud proofs", "on-demand Nitro L2 blocks; sub-second sequencer soft confirmation", "single Robinhood-operated sequencer, FCFS by arrival", "anyone may run a full node; ~2 allowlisted BoLD validators (2026-08)", "sequencer WebSocket feed; compressed batches posted in Ethereum blobs", "8+ CPU cores, 64 GB RAM (128 GB recommended), NVMe, several TB, plus L1 execution + beacon endpoints"],
+        "adv": ["", "", "sol", "sol", "", "sol"],
+        "delta": "Solana rotates ordering through scheduled leaders; Robinhood Chain compresses ordering into one sequencer and pushes hard settlement to Ethereum."
+      },
+      "txflow": {
+        "metrics": ["direct/provider submission to sequencer; no canonical public mempool documented", "ETH gas = L2 execution + L1 data; higher fee does not buy earlier order", "sequential EVM semantics on Nitro; one transaction may call/multicall atomically", "sub-second soft receipt", "batch posting in minutes; Ethereum finality ~13 min after posting", "EVM account nonce + chain ID; deadline is application-defined, no recent-blockhash expiry"],
+        "adv": ["", "", "sol", "", "sol", ""],
+        "delta": "Solana prices urgency around hot accounts; Robinhood Chain charges for execution and Ethereum data while arrival time fixes the queue."
+      },
+      "mev": {
+        "metrics": ["sequencer/provider sees submitted order flow; no canonical public mempool documented; RFQ intent may remain offchain", "FCFS centralized sequencer; no priority gas auction or documented public bundle auction", "latency arb, backruns, liquidations, CEX–DEX arb, launch sniping; sandwiches require visible/leaked intent", "RFQ/intents, tight slippage and deadlines, limit prices, trusted submission paths; no official protection RPC documented"],
+        "adv": ["", "", "", ""],
+        "delta": "Robinhood Chain removes the public gas auction, not ordering value: the edge moves to who reaches the sequencer—and who keeps intent private—first."
+      },
+      "latency": {
+        "metrics": ["sub-second sequencer soft confirmation; no fixed user-facing block interval", "yes—FCFS rewards low and low-variance arrival latency to sequencer/provider", "sequencer feed, managed WebSockets, full-node feed input, Chainlink Data Streams for market data", "sequencer receipt is the native soft confirmation; hard guarantee arrives after L1 publication/finality", "market-data → decision → sequencer path, feed gap recovery, and offchain hedge latency"],
+        "adv": ["", "", "", "", ""],
+        "delta": "Solana’s race is leader-local and shred-driven; Robinhood Chain’s is sequencer-local, then waits minutes for Ethereum anchoring.",
+        "finalityStages": [
+          {"id":"soft","label":"SOFT","timing":"<1000 ms typ."},
+          {"id":"posted","label":"POSTED","timing":"minutes typ."},
+          {"id":"final","label":"FINAL","timing":"~13 min after post · 2026-08"}
+        ],
+        "bridgeWithdrawal": "~7 days · 2026-08"
+      }
     }
   },
-  "benchCols": ["sol", "eth", "bnb", "btc", "zec"],
+  "benchCols": ["sol", "eth", "bnb", "btc", "zec", "robinhood_chain"],
   "techniques": [
     {
       "id": "atomic-arb", "name": "Atomic arbitrage", "short": "Atomic arb",
       "def": "same-block multi-pool price closing",
-      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "Multi-DEX routes close price gaps inside one Jito bundle — all-or-nothing, so a miss costs only the tip.",
         "eth": "Flash-loan-funded multi-pool loops are the classic; builders pack them at the top of the block.",
         "bnb": "Same EVM playbook as ETH, with thinner competition and faster blocks.",
         "btc": "No expressive contracts to route through — nothing closes atomically.",
-        "zec": "No on-chain DEX layer; there is no price to arbitrage."
+        "zec": "No on-chain DEX layer; there is no price to arbitrage.",
+        "robinhood_chain": "Multiple EVM liquidity surfaces can be composed in one transaction. FCFS replaces the public gas auction with an arrival race."
       },
-      "tools": { "sol": "jito-be", "eth": "mev-boost", "bnb": "bnb-rails" }
+      "tools": { "sol": "jito-be", "eth": "mev-boost", "bnb": "bnb-rails", "robinhood_chain": "robinhood-sequencer" }
     },
     {
       "id": "sandwich", "name": "Sandwiching", "short": "Sandwich",
       "def": "bracketing a victim swap",
-      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none", "robinhood_chain": "limited" },
       "notes": {
         "sol": "Needs a view of pending flow, so it lives on leaked and private order flow — Jito closing its public mempool in 2024 pushed it underground, not away.",
         "eth": "The canonical MEV play: spot a swap in the mempool, bracket it via a builder bundle.",
         "bnb": "Historically rampant on the public mempool; private-tx rails drained much of it — hot cooled to active.",
         "btc": "No AMMs to bracket; ordering games on BTC are fee games.",
-        "zec": "Amounts and recipients are shielded — there is nothing to target."
+        "zec": "Amounts and recipients are shielded — there is nothing to target.",
+        "robinhood_chain": "No canonical public mempool is documented and RFQ keeps quoting offchain, but leaked provider/solver flow or visible AMM intent can still be bracketed."
       },
-      "tools": { "sol": "jito-protect", "eth": "flashbots-protect", "bnb": "club48", "zec": "zec-shield" }
+      "tools": { "sol": "jito-protect", "eth": "flashbots-protect", "bnb": "club48", "zec": "zec-shield", "robinhood_chain": "robinhood-orderflow" }
     },
     {
       "id": "liquidations", "name": "Liquidations", "short": "Liquidations",
       "def": "racing to repay undercollateralized loans",
-      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "none" },
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "Perps and lending keepers race per-account; priority fees decide who repays first.",
         "eth": "Aave and Compound liquidations are a benchmark MEV market — bots bid gas against each other.",
         "bnb": "Venus and its forks run the same keeper races at BNB cadence.",
         "btc": "Only on L2s and sidechains that host lending — the base layer has none.",
-        "zec": "No on-chain lending; nothing to liquidate."
+        "zec": "No on-chain lending; nothing to liquidate.",
+        "robinhood_chain": "Lending/perps plus Chainlink feeds create keeper races; stale-feed and sequencer-up guards are part of the opportunity boundary."
       },
-      "tools": { "sol": "sol-priority", "eth": "eth-priority", "bnb": "bnb-rails" }
+      "tools": { "sol": "sol-priority", "eth": "eth-priority", "bnb": "bnb-rails", "robinhood_chain": "robinhood-streams" }
     },
     {
       "id": "backrun", "name": "Backrunning", "short": "Backrun",
       "def": "riding immediately after a known tx",
-      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none" },
+      "cells": { "sol": "active", "eth": "hot", "bnb": "active", "btc": "none", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "Bundle position two: ride directly behind a known state change — an oracle update, a big swap.",
         "eth": "MEV-Share turned backrunning into a paid market for order flow — extraction with a revenue share.",
         "bnb": "The same trailing plays behind large swaps; validator-adjacent rails carry them.",
         "btc": "State is just UTXOs — there is no composable state change to ride.",
-        "zec": "State transitions are hidden; there is nothing visible to follow."
+        "zec": "State transitions are hidden; there is nothing visible to follow.",
+        "robinhood_chain": "Bots can react after oracle updates or swaps; low-latency feed and sequencer arrival determine the first safe reaction."
       },
-      "tools": { "sol": "jito-be", "eth": "flashbots-protect", "bnb": "bnb-rails" }
+      "tools": { "sol": "jito-be", "eth": "flashbots-protect", "bnb": "bnb-rails", "robinhood_chain": "robinhood-feed" }
     },
     {
       "id": "jit", "name": "JIT liquidity", "short": "JIT LP",
       "def": "flashing LP depth around a big swap",
-      "cells": { "sol": "active", "eth": "hot", "bnb": "limited", "btc": "none", "zec": "none" },
+      "cells": { "sol": "active", "eth": "hot", "bnb": "limited", "btc": "none", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "Flash liquidity around large CLMM swaps — present, but less dominant than on Uniswap v3.",
         "eth": "Native to Uniswap v3: mint deep liquidity one block, collect the fee, burn it the next.",
         "bnb": "Pancake v3 supports it; thinner flow keeps it marginal.",
         "btc": "No AMM liquidity to flash.",
-        "zec": "No AMM liquidity to flash."
+        "zec": "No AMM liquidity to flash.",
+        "robinhood_chain": "Uniswap concentrated-liquidity deployments make short-lived LP placement possible; actual prevalence must be measured."
       },
-      "tools": { "eth": "cow" }
+      "tools": { "eth": "cow", "robinhood_chain": "robinhood-orderflow" }
     },
     {
       "id": "cexdex", "name": "CEX–DEX arb", "short": "CEX-DEX",
       "def": "off-chain vs on-chain price gaps",
-      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "limited" },
+      "cells": { "sol": "hot", "eth": "hot", "bnb": "active", "btc": "limited", "zec": "limited", "robinhood_chain": "active" },
       "notes": {
         "sol": "The dominant institutional play: colocated firms close CEX–Solana gaps thousands of times a day.",
         "eth": "The largest MEV category by revenue; integrated builders internalize it.",
         "bnb": "A natural fit — the venue gap to the affiliated CEX is one hop.",
         "btc": "Venue-to-venue arb exists, but it moves at custody speed, not block speed.",
-        "zec": "Thin listings arbitrage slowly across exchanges; nothing on-chain competes."
+        "zec": "Thin listings arbitrage slowly across exchanges; nothing on-chain competes.",
+        "robinhood_chain": "RWA/crypto venue divergence can be hedged against AMM, RFQ, propAMM, or order-book liquidity; 24/5 underlier feeds create session boundaries."
       },
-      "tools": { "sol": "shredstream", "eth": "bdn", "bnb": "bdn" }
+      "tools": { "sol": "shredstream", "eth": "bdn", "bnb": "bdn", "robinhood_chain": "robinhood-orderflow" }
     },
     {
       "id": "spam", "name": "Spam / probabilistic racing", "short": "Spam race",
       "def": "duplicate-flooding for placement",
-      "cells": { "sol": "hot", "eth": "limited", "bnb": "active", "btc": "none", "zec": "none" },
+      "cells": { "sol": "hot", "eth": "limited", "bnb": "active", "btc": "none", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "Duplicate-blast the same trade through many RPCs; SWQoS pricing is squeezing it out — hot, but declining.",
         "eth": "12-second blocks make packet racing pointless; the gas auction replaced it.",
         "bnb": "Fast blocks still reward duplicate submission on thin margins.",
         "btc": "Racing is a fee auction, not a packet race.",
-        "zec": "Nothing to race for."
+        "zec": "Nothing to race for.",
+        "robinhood_chain": "FCFS rewards transport speed; duplicate raw-tx submission may improve path redundancy, but fee bidding does not jump the queue and nonce conflicts can hurt reliability."
       },
-      "tools": { "sol": "firedancer" }
+      "tools": { "sol": "firedancer", "robinhood_chain": "robinhood-sequencer" }
     },
     {
       "id": "snipe", "name": "Mint / launch sniping", "short": "Snipe",
       "def": "first-block buys on new listings",
-      "cells": { "sol": "hot", "eth": "active", "bnb": "active", "btc": "limited", "zec": "none" },
+      "cells": { "sol": "hot", "eth": "active", "bnb": "active", "btc": "limited", "zec": "none", "robinhood_chain": "active" },
       "notes": {
         "sol": "The launchpad meta: bots fight for the first slots after a pool goes live.",
         "eth": "First-block buys on new pairs; snipe bots and services abound.",
         "bnb": "Launch culture keeps snipe bots busy.",
         "btc": "The ordinals and BRC-20 era minted a brief first-in snipe market.",
-        "zec": "No token launches on-chain."
+        "zec": "No token launches on-chain.",
+        "robinhood_chain": "Permissionless ERC-20 and Uniswap launch infrastructure make launches possible; FCFS makes initialization/first-fill arrival time decisive unless an auction distributes first."
       },
-      "tools": { "sol": "jito-be", "eth": "bdn" }
+      "tools": { "sol": "jito-be", "eth": "bdn", "robinhood_chain": "uniswap-launcher" }
     }
   ],
-  "toolFns": ["Ordering auction", "Protection RPC", "Order-flow auction / intents", "Fast data feed", "Priority market", "Node/client edge"],
+  "toolFns": ["Ordering / sequencing", "Protection RPC", "Order-flow auction / intents", "Fast data feed", "Priority market", "Node/client edge", "Launch & bootstrap"],
   "tools": [
-    { "id": "jito-be", "fn": "Ordering auction", "name": "Jito Block Engine", "chains": ["sol"], "stance": "neutral",
+    { "id": "jito-be", "fn": "Ordering / sequencing", "name": "Jito Block Engine", "chains": ["sol"], "stance": "neutral",
       "blurb": "Sealed-bid bundle auction; tips buy top-of-block placement.", "links_technique": ["atomic-arb", "backrun", "snipe"] },
-    { "id": "mev-boost", "fn": "Ordering auction", "name": "Flashbots MEV-Boost / BuilderNet", "chains": ["eth"], "stance": "neutral",
+    { "id": "mev-boost", "fn": "Ordering / sequencing", "name": "Flashbots MEV-Boost / BuilderNet", "chains": ["eth"], "stance": "neutral",
       "blurb": "Proposers outsource block building to competing builders — PBS in practice.", "links_technique": ["atomic-arb", "sandwich", "liquidations"] },
-    { "id": "bnb-rails", "fn": "Ordering auction", "name": "bloXroute / 48Club validator rails", "chains": ["bnb"], "stance": "neutral",
+    { "id": "bnb-rails", "fn": "Ordering / sequencing", "name": "bloXroute / 48Club validator rails", "chains": ["bnb"], "stance": "neutral",
       "blurb": "Validator-adjacent submission lanes for bundles and private transactions.", "links_technique": ["sandwich", "backrun", "liquidations"] },
-    { "id": "btc-accel", "fn": "Ordering auction", "name": "Out-of-band accelerators", "chains": ["btc"], "stance": "neutral",
+    { "id": "btc-accel", "fn": "Ordering / sequencing", "name": "Out-of-band accelerators", "chains": ["btc"], "stance": "neutral",
       "blurb": "Miner-direct fee deals to jump the sat/vB queue.", "links_technique": [] },
     { "id": "jito-protect", "fn": "Protection RPC", "name": "Jito MEV-protect endpoints", "chains": ["sol"], "stance": "protect",
       "blurb": "Submission endpoints that route around leaked order flow.", "links_technique": ["sandwich"] },
@@ -2934,9 +3201,23 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     { "id": "bnb-edge", "fn": "Node/client edge", "name": "Fast-finality client tuning", "chains": ["bnb"], "stance": "neutral",
       "blurb": "Sub-second finality work in the post-Maxwell clients.", "links_technique": [] },
     { "id": "stratum", "fn": "Node/client edge", "name": "Stratum v2", "chains": ["btc"], "stance": "neutral",
-      "blurb": "Miner-side protocol modernization — job negotiation, lower latency.", "links_technique": [] }
+      "blurb": "Miner-side protocol modernization — job negotiation, lower latency.", "links_technique": [] },
+    { "id": "robinhood-sequencer", "fn": "Ordering / sequencing", "name": "Robinhood Chain FCFS sequencer", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "One operator orders accepted transactions by arrival; gas does not buy position.", "links_technique": ["atomic-arb", "spam"] },
+    { "id": "robinhood-orderflow", "fn": "Order-flow auction / intents", "name": "UniswapX · 0x RFQ · 1inch Fusion · LiFi", "chains": ["robinhood_chain"], "stance": "protect", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "Quotes/intents stay offchain until settlement, reducing public preview while adding solver and route dependencies.", "links_technique": ["sandwich", "jit", "cexdex"] },
+    { "id": "robinhood-feed", "fn": "Fast data feed", "name": "Robinhood Chain sequencer feed · WebSockets", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "Ordered L2 updates arrive before a conventional indexer; consumers must detect gaps and backfill.", "links_technique": ["backrun"] },
+    { "id": "robinhood-fees", "fn": "Priority market", "name": "FCFS gas policy", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "ETH pays L2 execution plus Ethereum data; a larger tip does not move the transaction ahead.", "links_technique": [] },
+    { "id": "robinhood-node", "fn": "Node/client edge", "name": "Nitro full node · ArbOS · L1 blob reader", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "Independent reads require L2 state plus Ethereum execution and beacon/blob access.", "links_technique": [] },
+    { "id": "robinhood-streams", "fn": "Fast data feed", "name": "Chainlink Data Streams", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08",
+      "blurb": "Signed sub-second offchain market reports can be verified onchain for perps, options, and liquidations.", "links_technique": ["liquidations"] },
+    { "id": "uniswap-launcher", "fn": "Launch & bootstrap", "name": "Uniswap Liquidity Launcher", "chains": ["robinhood_chain"], "stance": "neutral", "confidence":"confirmed", "dated":"2026-08", "operational":"resolve from current SDK + verify onchain",
+      "blurb": "A continuous-clearing auction distributes tokens, then migrates proceeds and inventory into a Uniswap v4 pool.", "links_technique": ["snipe"] }
   ],
-  "benchDelta": "The tools converge because the problem converges: wherever ordering is worth money, someone builds the auction, someone sells the shield, and someone lays the fiber."
+  "benchDelta": "The tools converge because the problem converges: wherever ordering is worth money, someone fixes the sequence, someone sells the shield, and someone lays the fiber. Robinhood Chain shows that when fees cannot buy the front, latency becomes the bid."
 }
 </script>
 
@@ -3669,6 +3950,30 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       phaseGroup(1,`${node(352,42,252,112,'TX FLOW · GULF STREAM','var(--amber)')}<path d="M392 116H564" stroke="var(--amber)" stroke-width="3"/>`),
       phaseGroup(2,`${node(36,206,252,112,'MEV · BUNDLE AUCTION','var(--red)')}<circle cx="110" cy="266" r="7" fill="var(--red)"/><circle cx="160" cy="266" r="7" fill="var(--violet)"/>`),
       phaseGroup(3,`${node(352,206,252,112,'LATENCY · 400 ms','var(--green)')}<rect x="390" y="258" width="176" height="12" rx="6" fill="var(--green)" opacity=".5"/>`)
+    ].join('')),
+    'rollup-stack':()=>frame('rollup-stack','Robinhood Chain orders transactions in one sequencer, replays them in Nitro, and anchors batches to Ethereum',[
+      phaseGroup(0,`${node(30,48,130,46,'WALLETS / RPCS','var(--robinhood-chain)')}<path d="M160 71H230" class="edge"/>`),
+      phaseGroup(1,`${node(230,36,180,70,'ROBINHOOD SEQUENCER','var(--robinhood-chain)')}<text x="320" y="126" text-anchor="middle" fill="var(--robinhood-chain)">FCFS · SCREEN · SOFT</text>`),
+      phaseGroup(2,`${node(470,42,140,58,'NITRO NODES')}<path d="M410 71H470M540 100V166" class="edge"/>${node(470,166,140,48,'~2 BoLD · 2026-08','var(--violet)')}`),
+      phaseGroup(3,`${node(230,246,180,62,'ETHEREUM BLOBS','var(--eth)')}<path d="M320 106V246M470 190L410 267" class="edge"/><text x="320" y="332" text-anchor="middle" fill="var(--eth)">POSTED · FINAL</text>`)
+    ].join('')),
+    'fcfs-race':()=>frame('fcfs-race','Two routes race to one first-come-first-served sequencer where arrival, not gas, fixes order',[
+      phaseGroup(0,`${node(32,54,150,48,'TX A · LOWER FEE','var(--cyan)')}${node(32,244,150,48,'TX B · HIGHER FEE','var(--amber)')}`),
+      phaseGroup(1,`<path d="M182 78C272 78 252 138 352 154" fill="none" stroke="var(--cyan)" stroke-width="2"/><path d="M182 268C262 268 280 210 352 194" fill="none" stroke="var(--amber)" stroke-width="2"/><text x="242" y="62" text-anchor="middle">SHORTER ROUTE</text><text x="250" y="300" text-anchor="middle">LONGER ROUTE</text>`),
+      phaseGroup(2,`${node(352,126,200,96,'FCFS SEQUENCER','var(--robinhood-chain)')}<text x="452" y="244" text-anchor="middle" fill="var(--robinhood-chain)">ARRIVAL FIXES ORDER</text>`),
+      phaseGroup(3,`<rect x="572" y="132" width="34" height="34" rx="4" fill="var(--cyan)" opacity=".5"/><rect x="572" y="180" width="34" height="34" rx="4" fill="var(--amber)" opacity=".5"/><text x="590" y="250" text-anchor="middle">A → B</text>`)
+    ].join('')),
+    'sequencer-ladder':()=>frame('sequencer-ladder','A Robinhood Chain receipt returns immediately while the batch continues through posted and final Ethereum stages',[
+      phaseGroup(0,`${node(34,132,130,62,'SIGNED TX','var(--amber)')}<path d="M164 163H224" class="edge"/>`),
+      phaseGroup(1,`${node(224,116,164,94,'SEQUENCER','var(--robinhood-chain)')}<path d="M306 116V62H470" fill="none" stroke="var(--robinhood-chain)"/><text x="474" y="66" fill="var(--robinhood-chain)">SOFT · &lt;1000 ms typ.</text>`),
+      phaseGroup(2,`<path d="M306 210V254H428" class="edge"/>${node(428,228,164,52,'POSTED · MINUTES','var(--violet)')}`),
+      phaseGroup(3,`<path d="M510 280V314H342" class="edge"/><text x="334" y="318" text-anchor="end" fill="var(--eth)">FINAL · ~13 min AFTER POST</text>`)
+    ].join('')),
+    'cca-graduation':()=>frame('cca-graduation','Token supply clears through a continuous auction before inventory graduates into a Uniswap v4 pool',[
+      phaseGroup(0,`${node(26,142,132,58,'TOKEN SUPPLY','var(--amber)')}<path d="M158 171H218" class="edge"/>`),
+      phaseGroup(1,`${node(218,104,204,134,'CONTINUOUS-CLEARING AUCTION','var(--violet)')}<text x="320" y="202" text-anchor="middle">UTC WINDOW · ONE CLEARING PRICE</text>`),
+      phaseGroup(2,`<path d="M422 145H476" class="edge"/>${node(476,116,138,58,'CLEARING PRICE','var(--green)')}`),
+      phaseGroup(3,`<path d="M320 238V286H476" class="edge"/>${node(476,258,138,58,'UNISWAP V4 POOL','var(--robinhood-chain)')}<text x="320" y="334" text-anchor="middle">PROCEEDS + REMAINING INVENTORY</text>`)
     ].join(''))
   });
   const diagramAliases={
@@ -3688,6 +3993,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const chain=CD.chains?.[id];
     return {name:chain?.name || id.toUpperCase(),color:chain?.color || 'var(--violet)'};
   };
+  const chainEntityId=id=>id==='robinhood_chain' ? 'robinhood-chain' : id;
   function kindPeers(entity){
     return Object.entries(entities).filter(([,item])=>item.kind===entity.kind).sort((a,b)=>a[1].name.localeCompare(b[1].name));
   }
@@ -3855,7 +4161,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     document.querySelectorAll('.dock-col-sol .dock-col-head').forEach(head=>replaceLabelWithDoor(head.querySelector('b,button.entity-door'),'sol'));
     document.querySelectorAll('.dock-col-chain').forEach(col=>{
       const dock=col.closest('.dock'),id=dock?.dataset.active;
-      if(id) replaceLabelWithDoor(col.querySelector('.head-name'),id);
+      if(id) replaceLabelWithDoor(col.querySelector('.head-name'),chainEntityId(id));
     });
     document.querySelectorAll('.tpop').forEach(decorateGridPopover);
   }
@@ -4196,14 +4502,18 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     }).join('');
   };
   const cadenceSvg = (ms,color,extra='')=>`<svg class="cadence ${extra}" viewBox="0 0 24 10" aria-hidden="true" style="--cadence-c:${color}">${cadenceBars(ms)}</svg>`;
+  const clockSignal = (chain,color='var(--cc)')=>chain?.windowKind==='soft-confirmation'
+    ? '<span class="soft-bound" title="typical soft-confirmation bound shown" aria-label="less than 1000 milliseconds typical; typical soft-confirmation bound shown">&lt;1000 ms typ.</span>'
+    : cadenceSvg(chain?.windowMs||1000,color);
   const familyGlyph = fn=>{
     const paths={
-      'Ordering auction':'M2 3.5h5M4.5 1v5M7 5.5l3 3M8.5 8l-3 3M2 11h7',
+      'Ordering / sequencing':'M2 3.5h5M4.5 1v5M7 5.5l3 3M8.5 8l-3 3M2 11h7',
       'Protection RPC':'M6 1.2l4 1.7v3.4c0 2.4-1.6 4.1-4 4.9-2.4-.8-4-2.5-4-4.9V2.9z',
       'Order-flow auction / intents':'M1.5 6h7M6 3l3 3-3 3M2 10.5h4',
       'Fast data feed':'M1 8.5l2-5 2 6 2-7 2 6 2-3',
       'Priority market':'M2 9.5h8M3 7h6M4 4.5h4M5 2h2',
-      'Node/client edge':'M1 7C3 2 4 2 6 7S9 10 11 5M2 10.5H10'
+      'Node/client edge':'M1 7C3 2 4 2 6 7S9 10 11 5M2 10.5H10',
+      'Launch & bootstrap':'M1.5 9.5L6 1.5l4.5 8M3.3 6.4h5.4M2 10.5h8'
     };
     return `<svg class="family-glyph" viewBox="0 0 12 12" aria-hidden="true"><path d="${paths[fn]||paths['Node/client edge']}"/></svg>`;
   };
@@ -4545,6 +4855,70 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         const w = +svg.querySelector('.wfill').dataset.w;
         return anime({targets:cur, translateX:[0,w], duration:2000, easing:'linear', loop:true});
       }
+    },
+    'rollup-stack': {
+      draw: c => `
+        <rect x="18" y="30" width="88" height="42" rx="5" fill="var(--panel-2)" stroke="var(--line)"/>
+        <text x="62" y="55" text-anchor="middle" class="lbl-f">RPC PATHS</text>
+        <line x1="106" y1="51" x2="132" y2="51" class="edge"/>
+        <rect x="132" y="26" width="176" height="50" rx="5" fill="var(--panel-2)" stroke="${c}" stroke-width="1.3"/>
+        <text x="220" y="48" text-anchor="middle" class="lbl-f" fill="${c}">ROBINHOOD SEQUENCER</text>
+        <text x="220" y="65" text-anchor="middle" class="lbl-f">FCFS · SOFT</text>
+        <path d="M220 76V112H62M220 112H278M220 112V150" class="edge"/>
+        <rect x="18" y="112" width="88" height="38" rx="5" fill="var(--panel-2)" stroke="var(--violet)"/>
+        <text x="62" y="135" text-anchor="middle" class="lbl-f">NITRO NODES</text>
+        <rect x="238" y="94" width="70" height="38" rx="5" fill="var(--panel-2)" stroke="var(--violet)"/>
+        <text x="273" y="117" text-anchor="middle" class="lbl-f">~2 BoLD</text>
+        <rect x="132" y="150" width="176" height="34" rx="5" fill="var(--panel-2)" stroke="var(--eth)"/>
+        <text x="220" y="172" text-anchor="middle" class="lbl-f">ETHEREUM BLOBS · FINAL</text>
+        <circle class="rsig" cx="106" cy="51" r="4" fill="${c}" opacity=".25"/>`,
+      loop: svg => anime.timeline({loop:true,easing:'easeInOutQuad'})
+        .add({targets:svg.querySelector('.rsig'),cx:[106,220],cy:[51,51],opacity:[.25,1],duration:650})
+        .add({targets:svg.querySelector('.rsig'),cx:[220,220],cy:[51,167],opacity:[1,.25],duration:1250})
+        .add({duration:500})
+    },
+    'sequencer-ladder': {
+      draw: c => `
+        <rect x="18" y="76" width="76" height="42" rx="5" fill="var(--panel-2)" stroke="var(--line)"/><text x="56" y="101" text-anchor="middle" class="lbl-f">SIGNED TX</text>
+        <line x1="94" y1="97" x2="122" y2="97" class="edge"/>
+        <rect x="122" y="66" width="112" height="62" rx="5" fill="var(--panel-2)" stroke="${c}"/><text x="178" y="92" text-anchor="middle" class="lbl-f" fill="${c}">SEQUENCER</text><text x="178" y="110" text-anchor="middle" class="lbl-f">FCFS</text>
+        <path d="M178 66V34H286M234 97H286" class="edge"/>
+        <text x="300" y="38" text-anchor="end" class="lbl-f" fill="${c}">SOFT · &lt;1000 ms typ.</text>
+        <text x="300" y="92" text-anchor="end" class="lbl-f">POSTED · minutes typ.</text>
+        <text x="300" y="146" text-anchor="end" class="lbl-f" fill="var(--eth)">FINAL · ~13 min after post</text>
+        <path d="M286 97V142" class="edge"/>
+        <circle class="rstep" cx="94" cy="97" r="4" fill="${c}" opacity=".25"/>`,
+      loop: svg => anime.timeline({loop:true,easing:'easeInOutQuad'})
+        .add({targets:svg.querySelector('.rstep'),cx:[94,178],cy:[97,97],opacity:[.25,1],duration:520})
+        .add({targets:svg.querySelector('.rstep'),cx:[178,286],cy:[97,97],duration:900})
+        .add({targets:svg.querySelector('.rstep'),cy:[97,142],opacity:[1,.25],duration:1000})
+        .add({duration:450})
+    },
+    'fcfs-race': {
+      draw: c => `
+        <text x="20" y="35" class="lbl-f" fill="var(--cyan)">TX A · LOWER FEE</text><text x="20" y="169" class="lbl-f" fill="var(--amber)">TX B · HIGHER FEE</text>
+        <path d="M26 52C116 52 112 82 184 92" fill="none" stroke="var(--cyan)"/><path d="M26 152C104 152 124 118 184 106" fill="none" stroke="var(--amber)"/>
+        <rect x="184" y="72" width="118" height="54" rx="5" fill="var(--panel-2)" stroke="${c}"/><text x="243" y="95" text-anchor="middle" class="lbl-f" fill="${c}">FCFS SEQUENCER</text><text x="243" y="113" text-anchor="middle" class="lbl-f">A → B · NOT FEE SORT</text>
+        <circle class="race-a" cx="26" cy="52" r="4" fill="var(--cyan)"/><circle class="race-b" cx="26" cy="152" r="4" fill="var(--amber)"/>`,
+      loop: svg => anime.timeline({loop:true,easing:'easeInOutQuad'})
+        .add({targets:svg.querySelector('.race-a'),translateX:[0,158],translateY:[0,40],duration:700},0)
+        .add({targets:svg.querySelector('.race-b'),translateX:[0,158],translateY:[0,-46],duration:900},220)
+        .add({targets:[svg.querySelector('.race-a'),svg.querySelector('.race-b')],opacity:[1,.2],duration:300},1200)
+        .add({duration:500})
+    },
+    'finality-ladder': {
+      draw: (c,o) => {
+        const stages=o.stages||[];
+        const timing=i=>esc(stages[i]?.timing||['<1000 ms typ.','minutes typ.','~13 min after post · 2026-08'][i]);
+        return `
+        <text x="18" y="24" class="lbl-f">THREE CONFIRMATION CLOCKS</text>
+        <line x1="60" y1="48" x2="260" y2="48" class="edge"/>
+        <g class="fst"><circle cx="60" cy="48" r="9" fill="${c}" opacity=".45"/><text x="60" y="80" text-anchor="middle" class="lbl-f" fill="${c}">SOFT</text><text x="60" y="96" text-anchor="middle" class="lbl-f">${timing(0)}</text></g>
+        <g class="fst"><circle cx="160" cy="48" r="9" fill="var(--violet)" opacity=".45"/><text x="160" y="80" text-anchor="middle" class="lbl-f" fill="var(--violet)">POSTED</text><text x="160" y="96" text-anchor="middle" class="lbl-f">${timing(1)}</text></g>
+        <g class="fst"><circle cx="260" cy="48" r="9" fill="var(--eth)" opacity=".45"/><text x="260" y="80" text-anchor="middle" class="lbl-f" fill="var(--eth)">FINAL</text><text x="260" y="96" text-anchor="middle" class="lbl-f">${timing(2)}</text></g>
+        <rect x="38" y="126" width="244" height="48" rx="5" fill="var(--panel-2)" stroke="var(--line)"/><text x="160" y="147" text-anchor="middle" class="lbl-f">BRIDGE / WITHDRAWAL · SEPARATE CLOCK</text><text x="160" y="164" text-anchor="middle" class="lbl-f" fill="${c}">${esc(o.bridge||'~7 days · 2026-08')}</text>`;
+      },
+      loop: svg => anime({targets:svg.querySelectorAll('.fst'),opacity:[.35,1,.35],delay:anime.stagger(520),duration:1560,easing:'easeInOutSine',loop:true})
     }
   };
 
@@ -4558,7 +4932,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     textLayer.setAttribute('class','text-layer');
     Array.from(svg.querySelectorAll('text')).forEach(t=>textLayer.appendChild(t));
     svg.appendChild(textLayer);
-    const motion = Array.from(svg.querySelectorAll('.md,.mnr,.mkr,.seg,.pd,.wcur,.sr1,.sr3,.s1,.s2,.hop,.b1,.b2,.bd,.fd'));
+    const motion = Array.from(svg.querySelectorAll('.md,.mnr,.mkr,.seg,.pd,.wcur,.sr1,.sr3,.s1,.s2,.hop,.b1,.b2,.bd,.fd,.rsig,.rstep,.race-a,.race-b,.fst'));
     motion.forEach(el=>el.classList.add('motion-node'));
     if(!reduced){
       const inst = MINI[tpl].loop(svg, color, opts||{});
@@ -4598,12 +4972,12 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <div class="dock-body" id="dockpanel-${chId}" role="tabpanel" hidden>
           <div class="dock-cols">
             <div class="dock-col dock-col-sol">
-              <div class="dock-col-head"><span class="mark">◤</span> <b>SOL</b> — reference ${cadenceSvg(CD.sol.windowMs,'var(--cyan)')}</div>
+              <div class="dock-col-head"><span class="mark">◤</span> <b>SOL</b> — reference <span class="dock-clock">${cadenceSvg(CD.sol.windowMs,'var(--cyan)')}</span></div>
               <div class="mini-wrap sol-mini"></div>
               <div class="dock-metrics">${metricsHtml(keys, CD.sol[sec])}</div>
             </div>
             <div class="dock-col dock-col-chain">
-              <div class="dock-col-head"><span class="mark">◤</span> <b class="head-name"></b><span class="head-tail"> — selected</span>${cadenceSvg(1000,'var(--cc)','head-cadence')}</div>
+              <div class="dock-col-head"><span class="mark">◤</span> <b class="head-name"></b><span class="head-tail"> — selected</span><span class="dock-clock head-clock"></span></div>
               <div class="mini-wrap chain-minis"></div>
               <div class="dock-metrics">${metricsHtml(keys, keys.map(()=>' '))}</div>
             </div>
@@ -4624,6 +4998,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         const ch = CD.chains[cid];
         const tpl = ch.diagrams[sec];
         const opts = tpl==='window' ? {ms:ch.windowMs, label:ch[sec].metrics[0]}
+                   : tpl==='finality-ladder' ? {stages:ch.latency.finalityStages,bridge:ch.latency.bridgeWithdrawal}
                    : tpl==='miners' && cid==='zec' ? {shield:true}
                    : tpl==='mempool' ? {} : {};
         if(tpl==='miners-shield'){ /* alias */ }
@@ -4649,8 +5024,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     dock.querySelectorAll('.chip').forEach(ch=>ch.setAttribute('aria-selected', String(ch.dataset.chain===cid)));
     dock.querySelector('.dock-body').setAttribute('aria-labelledby', dock.querySelector('.chip[data-chain="'+cid+'"]').id);
     dock.querySelector('.head-name').textContent = chain.name;
-    const cadence=dock.querySelector('.head-cadence');
-    cadence.innerHTML=cadenceBars(chain.windowMs); cadence.style.setProperty('--cadence-c',chain.color);
+    dock.querySelector('.head-clock').innerHTML=clockSignal(chain,chain.color);
     const rows = dock.querySelectorAll('.dock-col-chain .dm-row');
     rows.forEach((r,i)=>{
       r.querySelector('.dm-v').textContent = cdata.metrics[i];
@@ -4749,7 +5123,11 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const mount = document.querySelector('.tgrid-mount'); if(!mount) return;
     let html = '<table class="tgrid"><thead><tr><th class="th-label" scope="col"><span class="th-n">TECHNIQUE</span></th>';
     CD.benchCols.forEach(cid=>{
-      html += `<th scope="col" style="--cc:${colColor(cid)}"><span class="th-g" aria-hidden="true">${glyphOf(cid)}</span><span class="th-n">${nameOf(cid)}</span></th>`;
+      const name=nameOf(cid),glyph=glyphOf(cid);
+      const mark=glyph==null
+        ? `<span class="th-signal" role="img" aria-label="${esc(name)}"></span>`
+        : `<span class="th-g" aria-hidden="true">${esc(glyph)}</span>`;
+      html += `<th scope="col" data-chain="${cid}" aria-label="${esc(name)}" style="--cc:${colColor(cid)}">${mark}<span class="th-n">${esc(name)}</span></th>`;
     });
     html += '</tr></thead><tbody>';
     CD.techniques.forEach(t=>{
@@ -4834,18 +5212,20 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     if(!CD || !CD.tools) return;
     const mount = document.getElementById('benchMount'); if(!mount) return;
     const cardsEl = mount.querySelector('.bench-cards');
-    cardsEl.innerHTML = CD.tools.map(t=>
-      `<div class="card tool-card" id="tool-${t.id}" data-chains="${t.chains.join(' ')}" data-stance="${t.stance}">`+
+    const orderedTools=[...CD.tools].sort((a,b)=>CD.toolFns.indexOf(a.fn)-CD.toolFns.indexOf(b.fn));
+    cardsEl.innerHTML = orderedTools.map(t=>
+      `<div class="card tool-card${t.absence?' is-absence':''}" id="tool-${t.id}" data-chains="${t.chains.join(' ')}" data-stance="${t.stance}"${t.absence?' data-absence="true"':''}>`+
       `<span class="mono-tag">${familyGlyph(t.fn)}${esc(t.fn).toUpperCase()}</span>`+
       `<span class="stance stance-${t.stance}">${t.stance.toUpperCase()}</span>`+
       `<h4>${esc(t.name)}</h4>`+
       `<p>${esc(t.blurb)}</p>`+
       `<div class="tool-badges">${t.chains.map(c=>`<span class="tb" style="--tb-c:${colColor(c)}"><i></i>${nameOf(c)}</span>`).join('')}</div>`+
+      `${t.confidence||t.dated||t.absence||t.operational?`<div class="tool-signals">${t.absence?'<span class="tool-signal">documented absence</span>':''}${t.confidence?`<span class="tool-signal">${esc(t.confidence)}</span>`:''}${t.dated?`<span class="tool-signal">${esc(t.dated)}</span>`:''}${t.operational?`<span class="tool-signal">${esc(t.operational)}</span>`:''}</div>`:''}`+
       `</div>`).join('');
     mount.querySelector('.bench-delta').textContent = CD.benchDelta;
 
     const fEl = mount.querySelector('.bench-filters');
-    const chains = ['all','sol','eth','bnb','btc','zec'];
+    const chains = ['all',...CD.benchCols];
     const stances = ['all','extract','protect','neutral'];
     const stanceColor = s => s==='extract' ? 'var(--red)' : s==='protect' ? 'var(--green)' : 'var(--violet)';
     fEl.innerHTML =
