@@ -134,4 +134,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 local index (177 records), chain-directory and article-page routing, persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 data-derived local index, chain-directory, article-page, and Chain Tools routing, persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');

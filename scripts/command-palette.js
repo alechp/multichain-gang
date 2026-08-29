@@ -66,10 +66,15 @@
   let visible=[],active=0;
   const glyph={section:'§',command:'⌘','chain-directory':'⌂','chain-index':'◇','tools-directory':'⌗','tools-chain':'▦',tool:'TOOL',article:'DOC',entity:'↗',glossary:'REF',focus:'◎'};
   const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind==='chain-directory'?'chain directory':item.kind==='chain-index'?'chain index':item.kind==='tools-directory'?'chain tools':item.kind==='tools-chain'?'tool landscape':item.kind;
+  const coreTitle=item=>String(item?.title||'').split(' · ')[0].trim().toLowerCase();
+  const titleKindPriority={article:0,entity:1,glossary:2,'tools-chain':3,tool:4};
   const search=query=>{
     const term=query.trim();
     if(!term)return [...sections,...commands,chainDirectory,...(toolsDirectory?[toolsDirectory]:[])].map(item=>records.find(record=>record.kind===item.kind&&record.id===item.id)).filter(Boolean);
-    if(fuse)return fuse.search(term,{limit:14}).map(result=>result.item);
+    if(fuse)return fuse.search(term,{limit:20}).sort((a,b)=>{
+      if(coreTitle(a.item)===coreTitle(b.item))return (titleKindPriority[a.item.kind]??9)-(titleKindPriority[b.item.kind]??9)||(a.score??1)-(b.score??1);
+      return (a.score??1)-(b.score??1);
+    }).slice(0,14).map(result=>result.item);
     const needle=term.toLowerCase();return records.filter(item=>[item.title,item.summary,...(item.aliases||[]),...(item.keywords||[])].join(' ').toLowerCase().includes(needle)).slice(0,14);
   };
   function select(index){

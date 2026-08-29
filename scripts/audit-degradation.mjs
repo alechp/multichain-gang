@@ -16,7 +16,7 @@ try {
       const { context, page, errors } = await openAuditPage(browser, width, mode);
       const result = await page.evaluate(({ jsOff }) => ({
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-        sections: Array.from(document.querySelectorAll('section')).filter(section => !section.closest('.chain-noscript') && section.getClientRects().length).length,
+        sections: Array.from(document.querySelectorAll('section')).filter(section => !section.closest('.chain-noscript') && !section.closest('.tools-noscript') && section.getClientRects().length).length,
         hiddenReveal: Array.from(document.querySelectorAll('.reveal')).filter(element => {
           const style = getComputedStyle(element); return style.visibility === 'hidden' || Number(style.opacity) === 0;
         }).length,
