@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-08-29",
+  "assetRoot": "assets/chain-tools",
+  "rendering": {
+    "decorative": true,
+    "renderedAlt": "",
+    "captionLabel": "CONCEPTUAL TOPOLOGY"
+  },
+  "derivativePolicy": {
+    "widths": [960, 1440],
+    "format": "webp",
+    "maxBytes": 225280,
+    "encoder": {
+      "tool": "cwebp",
+      "version": "1.6.0",
+      "arguments": ["-q", "82", "-m", "6", "-sharp_yuv", "-metadata", "none", "-resize", "{width}", "0"]
+    }
+  },
+  "assets": [
+    {
+      "chain": "Solana",
+      "slug": "solana",
+      "alt": "Abstract Solana tooling topology with parallel execution lanes.",
+      "caption": "CONCEPTUAL TOPOLOGY · Solana parallel execution lanes enter a dense routing and liquidity fabric; this editorial visual is not a protocol map.",
+      "source": {
+        "path": "assets/chain-tools/solana-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 1894866,
+        "sha256": "e41fee36905397c3f07b47c2ad05d6434be2e3a6aeadf0781240e8b26ac32395",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Dense parallel execution lanes and routing basins in cyan, violet, and magenta."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/solana-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 58282,
+          "sha256": "45aaf45e9cfd607e5d4de575810ee8a0ac1c0ce152666448ee468e8704e6f5b4"
+        },
+        {
+          "path": "assets/chain-tools/solana-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 106406,
+          "sha256": "b8034561e038771d6cc22fd923909ba14f9bbad9106ba25eac6d0815f68c214a"
+        }
+      ]
+    },
+    {
+      "chain": "Ethereum",
+      "slug": "ethereum",
+      "alt": "Abstract Ethereum tooling topology with layered settlement planes.",
+      "caption": "CONCEPTUAL TOPOLOGY · Ethereum settlement supports composable protocol layers and routes; this editorial stack is not live dependency data.",
+      "source": {
+        "path": "assets/chain-tools/ethereum-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2334442,
+        "sha256": "2b24d2a72f6c569b55f8df0f26db6c99bd857bddbb898c9de3805460caeec31e",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Layered settlement planes and a composable lattice in periwinkle and silver."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/ethereum-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 72898,
+          "sha256": "b8a7aa8bd2757e3fa437367847f611bb425627f437e0dc3148d8e4bfc3aac567"
+        },
+        {
+          "path": "assets/chain-tools/ethereum-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 134954,
+          "sha256": "b3b0fe471b144aa69664c3b43c0eed3748ab8135f7e99a08026db4e4ce4b2771"
+        }
+      ]
+    },
+    {
+      "chain": "BNB Chain",
+      "slug": "bnb-chain",
+      "alt": "Abstract BNB Chain tooling topology with a compact validator and liquidity ring.",
+      "caption": "CONCEPTUAL TOPOLOGY · A BNB Chain validator and liquidity ring feeds a busy issuance center without claiming an exact validator count.",
+      "source": {
+        "path": "assets/chain-tools/bnb-chain-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2216375,
+        "sha256": "038ac58d617cd9082e3a24b7ebf364fac256c9d570f2fc6547085299cf82fa7a",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Compact validator and liquidity ring with an issuance grid in amber and brass."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/bnb-chain-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 78822,
+          "sha256": "fdbec5f9839aff115100dea3d49750ced71a3f6902d75e550db4254febb45c56"
+        },
+        {
+          "path": "assets/chain-tools/bnb-chain-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 149554,
+          "sha256": "2b56f49cce5c146c2f53650568d41bdb60b7467f2901f1027b235ed6e665de1e"
+        }
+      ]
+    },
+    {
+      "chain": "Bitcoin",
+      "slug": "bitcoin",
+      "alt": "Abstract Bitcoin tooling topology with base settlement blocks and Lightning channels.",
+      "caption": "CONCEPTUAL TOPOLOGY · Bitcoin base settlement, Lightning, and inscription planes are shown without claiming live node or channel counts.",
+      "source": {
+        "path": "assets/chain-tools/bitcoin-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 1871343,
+        "sha256": "f96d3b436e9cf761800813a0764c1a118e3a5f6ffe7d9bc0690910ae3d5869a7",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Deliberate settlement blocks with a Lightning mesh and inscription branch in orange and off-white."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/bitcoin-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 42458,
+          "sha256": "bdf325abddf8ea191847be1653c8edaded841ef85f5999bfbfe271bb6fc4dae0"
+        },
+        {
+          "path": "assets/chain-tools/bitcoin-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 82282,
+          "sha256": "c55b0fd8f6fb29b7fd5952fa6bb4d7fa55ccf2f7853fb4da31d2e96a2cc1b3ba"
+        }
+      ]
+    },
+    {
+      "chain": "Zcash",
+      "slug": "zcash",
+      "alt": "Abstract Zcash tooling topology with shielded pools and selective outputs.",
+      "caption": "CONCEPTUAL TOPOLOGY · This Zcash privacy topology shows a structured shielded region without claiming that pictured inputs or outputs are observable onchain.",
+      "source": {
+        "path": "assets/chain-tools/zcash-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 1754090,
+        "sha256": "be1cc65424ae592a43b862e0af10dc92c35126b8cbf284b3f808301c91243ea8",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Observable inputs, a shielded geometric interior, and minimal outputs in gold and teal."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/zcash-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 31276,
+          "sha256": "19d097ab90c9137dd93a05d9c7200c2ee74e21ceef5ffcb52c620190d5b3ace8"
+        },
+        {
+          "path": "assets/chain-tools/zcash-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 57846,
+          "sha256": "ba1a1fec6e03696c31927a398e9536db09dd23af20a5b6b94ce60b5e9d905c42"
+        }
+      ]
+    },
+    {
+      "chain": "Robinhood Chain",
+      "slug": "robinhood-chain",
+      "alt": "Abstract Robinhood Chain tooling topology with a sequencer spine and open ecosystem sockets.",
+      "caption": "CONCEPTUAL TOPOLOGY · A Robinhood Chain sequencer spine, layered finality rails, and open sockets signal an emerging ecosystem, not missing content or exact dependencies.",
+      "source": {
+        "path": "assets/chain-tools/robinhood-chain-landscape.png",
+        "format": "png",
+        "width": 1672,
+        "height": 941,
+        "bytes": 2088956,
+        "sha256": "2a4acc0635e435353b069f14ccb01a27b30d42393caf3eb1a301e6488f65cc24",
+        "provenance": {
+          "mode": "generate",
+          "purpose": "Created specifically for Chain Tools as a text-free, logo-free raster master.",
+          "promptSummary": "Sequencer spine, finality rails, institutional modules, and open sockets in acid green and violet."
+        }
+      },
+      "derivatives": [
+        {
+          "path": "assets/chain-tools/robinhood-chain-landscape-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 541,
+          "bytes": 44954,
+          "sha256": "1bcb0e6eefcbc88f1f57effb4170d677cb43125530eb9e548d4c4847f0a9cc86"
+        },
+        {
+          "path": "assets/chain-tools/robinhood-chain-landscape-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 811,
+          "bytes": 82390,
+          "sha256": "526b33398e0c74926eb15a04bae9001fbfebecdcd370fb3f483b11f4e69be51f"
+        }
+      ]
+    }
+  ]
+}
