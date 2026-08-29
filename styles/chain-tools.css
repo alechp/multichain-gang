@@ -286,6 +286,7 @@
   .tools-gap-list{grid-template-columns:1fr}.tools-legend{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:520px){
+  .tools-veil-toggle{display:none}
   .tools-page{width:min(100% - 24px,1240px)}
   .tools-mast h1{font-size:clamp(2.85rem,17vw,4.8rem)}
   .tools-global-search{grid-template-columns:1fr}.tools-global-search kbd{display:none}
