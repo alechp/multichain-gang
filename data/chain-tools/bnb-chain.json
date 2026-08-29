@@ -1,0 +1,3381 @@
+{
+  "schemaVersion": 1,
+  "chainId": "bnb",
+  "slug": "bnb-chain",
+  "name": "BNB Chain",
+  "shorthand": "BNB",
+  "route": "#/tools/bnb-chain",
+  "hubRoute": "#/c/bnb-chain",
+  "verified": "2026-08-29",
+  "scopeStatement": "BNB Smart Chain first; opBNB, Greenfield, cross-chain, and service surfaces remain distinct.",
+  "thesis": "BNB Chain is unusually dense in retail issuance, AMM liquidity, yield, wallet distribution, and consumer applications. The page must still separate BNB Smart Chain (BSC), opBNB, and Greenfield. “BNB Chain” is a family label, not evidence that one deployment spans all three.",
+  "visual": {
+    "src": "assets/chain-tools/bnb-chain-landscape.png",
+    "alt": "Abstract BNB Chain tooling topology with compact validator and liquidity rings",
+    "objectPosition": "51% 50%",
+    "caption": "Conceptual topology; the inventory is authoritative.",
+    "label": "CONCEPTUAL TOPOLOGY"
+  },
+  "coverage": [
+    {
+      "categoryId": "CT-01",
+      "level": "dense",
+      "label": "dense",
+      "note": "bonding curves, meme launchers, IFOs, and DEX-linked graduation"
+    },
+    {
+      "categoryId": "CT-02",
+      "level": "dense",
+      "label": "dense",
+      "note": "PancakeSwap dominates mindshare but several pool models coexist"
+    },
+    {
+      "categoryId": "CT-03",
+      "level": "established",
+      "label": "established",
+      "note": "multi-chain routers include BSC; verify route sources"
+    },
+    {
+      "categoryId": "CT-04",
+      "level": "established",
+      "label": "established",
+      "note": "current perps products exist on BSC/opBNB; scope is material"
+    },
+    {
+      "categoryId": "CT-05",
+      "level": "established",
+      "label": "established",
+      "note": "large native money markets and collateralized stablecoin products"
+    },
+    {
+      "categoryId": "CT-06",
+      "level": "dense",
+      "label": "dense",
+      "note": "farms, vaults, gauges, liquid staking, and strategy routers overlap"
+    },
+    {
+      "categoryId": "CT-07",
+      "level": "established",
+      "label": "established",
+      "note": "native BSC delegation plus liquid/restaking services"
+    },
+    {
+      "categoryId": "CT-08",
+      "level": "established",
+      "label": "established",
+      "note": "multiple EVM oracle/data choices"
+    },
+    {
+      "categoryId": "CT-09",
+      "level": "dense",
+      "label": "dense",
+      "note": "BscScan, DappBay, SQL, risk, and labeled analytics"
+    },
+    {
+      "categoryId": "CT-10",
+      "level": "dense",
+      "label": "dense",
+      "note": "strong retail discovery surface"
+    },
+    {
+      "categoryId": "CT-11",
+      "level": "dense",
+      "label": "dense",
+      "note": "major mobile and exchange-adjacent wallets support BSC"
+    },
+    {
+      "categoryId": "CT-12",
+      "level": "dense",
+      "label": "dense",
+      "note": "BNB Chain Bridge plus generalized messaging/routers"
+    },
+    {
+      "categoryId": "CT-13",
+      "level": "emerging",
+      "label": "emerging",
+      "note": "builder interfaces exist; consumer visibility remains thinner"
+    },
+    {
+      "categoryId": "CT-14",
+      "level": "established",
+      "label": "established",
+      "note": "DappBay risk surfaces and cross-chain security vendors"
+    },
+    {
+      "categoryId": "CT-15",
+      "level": "established",
+      "label": "established",
+      "note": "BSC/opBNB host Access-Fi, identity, gaming, and creator tools"
+    },
+    {
+      "categoryId": "CT-16",
+      "level": "dense",
+      "label": "dense",
+      "note": "EVM tooling plus BNB-specific node and data providers"
+    },
+    {
+      "categoryId": "CT-17",
+      "level": "established",
+      "label": "established",
+      "note": "activity exists across BSC/opBNB but marketplace status changes quickly"
+    }
+  ],
+  "placements": [
+    {
+      "id": "bnb:four-meme",
+      "toolId": "four-meme",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://four.meme/",
+          "checked": "2026-08-29",
+          "note": "official launcher; BNB Chain’s official launch guide documents curve-to-Pancake migration"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "BSC native",
+        "reason": "official launcher; BNB Chain’s official launch guide documents curve-to-Pancake migration"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official launcher; BNB Chain’s official launch guide documents curve-to-Pancake migration",
+      "displayName": "Four.meme"
+    },
+    {
+      "id": "bnb:pancakeswap-springboard",
+      "toolId": "pancakeswap-springboard",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://pancakeswap.finance/springboard",
+          "checked": "2026-08-29",
+          "note": "official launch surface; verify current pool/graduation settings in app"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "BSC native",
+        "reason": "official launch surface; verify current pool/graduation settings in app"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official launch surface; verify current pool/graduation settings in app",
+      "displayName": "PancakeSwap SpringBoard"
+    },
+    {
+      "id": "bnb:pancakeswap-ifo",
+      "toolId": "pancakeswap-ifo",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pancakeswap.finance/earn/ifo-initial-farm-offering",
+          "checked": "2026-08-29",
+          "note": "Initial Farm Offering flow and chain-specific eligibility"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "Initial Farm Offering flow and chain-specific eligibility"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "Initial Farm Offering flow and chain-specific eligibility",
+      "displayName": "PancakeSwap IFO"
+    },
+    {
+      "id": "bnb:pinksale",
+      "toolId": "pinksale",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pinksale.finance/",
+          "checked": "2026-08-29",
+          "note": "token sale and launch tooling; surface access and audit status vary per launch"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "token sale and launch tooling; surface access and audit status vary per launch"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "token sale and launch tooling; surface access and audit status vary per launch",
+      "displayName": "PinkSale"
+    },
+    {
+      "id": "bnb:flap",
+      "toolId": "flap",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.flap.sh/",
+          "checked": "2026-08-29",
+          "note": "BSC token launch surface; official BNB liquidity program also lists it"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "BSC native",
+        "reason": "BSC token launch surface; official BNB liquidity program also lists it"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BSC token launch surface; official BNB liquidity program also lists it",
+      "displayName": "Flap"
+    },
+    {
+      "id": "bnb:grafun",
+      "toolId": "grafun",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://gra.fun/",
+          "checked": "2026-08-29",
+          "note": "official app plus BNB Chain ecosystem-program evidence"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01"
+        ],
+        "relationship": "BSC native",
+        "reason": "official app plus BNB Chain ecosystem-program evidence"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official app plus BNB Chain ecosystem-program evidence",
+      "displayName": "GraFun"
+    },
+    {
+      "id": "bnb:burve",
+      "toolId": "burve",
+      "chainId": "bnb",
+      "categories": [
+        "CT-01"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://burve.io/",
+          "checked": "2026-08-29",
+          "note": "official app plus BNB Chain launch-platform listing"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01"
+        ],
+        "relationship": "BSC native",
+        "reason": "official app plus BNB Chain launch-platform listing"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official app plus BNB Chain launch-platform listing",
+      "displayName": "Burve"
+    },
+    {
+      "id": "bnb:pancakeswap",
+      "toolId": "pancakeswap",
+      "chainId": "bnb",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-06",
+        "CT-04"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pancakeswap.finance/",
+          "checked": "2026-08-29",
+          "note": "swaps, pools, farms, IFOs, and prediction/perpetual surfaces; product scope shown separately"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "leverage-oracle-liquidation",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-03",
+          "CT-06",
+          "CT-04"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "swaps, pools, farms, IFOs, and prediction/perpetual surfaces; product scope shown separately"
+      },
+      "overlap": {
+        "categoryCount": 4,
+        "additionalCategoryIds": [
+          "CT-03",
+          "CT-06",
+          "CT-04"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "swaps, pools, farms, IFOs, and prediction/perpetual surfaces; product scope shown separately",
+      "displayName": "PancakeSwap"
+    },
+    {
+      "id": "bnb:thena",
+      "toolId": "thena",
+      "chainId": "bnb",
+      "categories": [
+        "CT-02",
+        "CT-04",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "BSC/opBNB",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.thena.fi/thena",
+          "checked": "2026-08-29",
+          "note": "spot liquidity, perpetuals, gauges, and strategy surfaces"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-04",
+          "CT-06"
+        ],
+        "relationship": "BSC/opBNB",
+        "reason": "spot liquidity, perpetuals, gauges, and strategy surfaces"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-04",
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC/opBNB",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain",
+          "opBNB"
+        ]
+      },
+      "chainNote": "spot liquidity, perpetuals, gauges, and strategy surfaces",
+      "displayName": "THENA"
+    },
+    {
+      "id": "bnb:biswap",
+      "toolId": "biswap",
+      "chainId": "bnb",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.biswap.org/",
+          "checked": "2026-08-29",
+          "note": "AMM, farms, and launch-related products; exact active modules checked individually"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06"
+        ],
+        "relationship": "BSC native",
+        "reason": "AMM, farms, and launch-related products; exact active modules checked individually"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "AMM, farms, and launch-related products; exact active modules checked individually",
+      "displayName": "Biswap"
+    },
+    {
+      "id": "bnb:wombat-exchange",
+      "toolId": "wombat-exchange",
+      "chainId": "bnb",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.wombat.exchange/",
+          "checked": "2026-08-29",
+          "note": "single-sided liquidity design and yield integrations"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "single-sided liquidity design and yield integrations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "single-sided liquidity design and yield integrations",
+      "displayName": "Wombat Exchange"
+    },
+    {
+      "id": "bnb:dodo",
+      "toolId": "dodo",
+      "chainId": "bnb",
+      "categories": [
+        "CT-02",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dodoex.io/",
+          "checked": "2026-08-29",
+          "note": "PMM liquidity and aggregation surfaces"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-03"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "PMM liquidity and aggregation surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "PMM liquidity and aggregation surfaces",
+      "displayName": "DODO"
+    },
+    {
+      "id": "bnb:1inch",
+      "toolId": "1inch",
+      "chainId": "bnb",
+      "categories": [
+        "CT-03"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://portal.1inch.dev/documentation/overview",
+          "checked": "2026-08-29",
+          "note": "BNB Chain routing support must remain tied to current API chain list"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "BNB Chain routing support must remain tied to current API chain list"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB Chain routing support must remain tied to current API chain list",
+      "displayName": "1inch"
+    },
+    {
+      "id": "bnb:openocean",
+      "toolId": "openocean",
+      "chainId": "bnb",
+      "categories": [
+        "CT-03"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.openocean.finance/",
+          "checked": "2026-08-29",
+          "note": "DEX aggregation with BNB Chain routing"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "DEX aggregation with BNB Chain routing"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "DEX aggregation with BNB Chain routing",
+      "displayName": "OpenOcean"
+    },
+    {
+      "id": "bnb:transit-swap",
+      "toolId": "transit-swap",
+      "chainId": "bnb",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.transit.finance/",
+          "checked": "2026-08-29",
+          "note": "swap and cross-chain routing; BNB/opBNB routes shown distinctly"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-12"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "swap and cross-chain routing; BNB/opBNB routes shown distinctly"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain",
+          "opBNB"
+        ]
+      },
+      "chainNote": "swap and cross-chain routing; BNB/opBNB routes shown distinctly",
+      "displayName": "Transit Swap"
+    },
+    {
+      "id": "bnb:kiloex",
+      "toolId": "kiloex",
+      "chainId": "bnb",
+      "categories": [
+        "CT-04"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "native-l1",
+      "scopeLabel": "BSC/opBNB",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.kiloex.io/",
+          "checked": "2026-08-29",
+          "note": "perpetual venue deployed in the BNB ecosystem"
+        }
+      ],
+      "riskFlags": [
+        "leverage-oracle-liquidation",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04"
+        ],
+        "relationship": "BSC/opBNB",
+        "reason": "perpetual venue deployed in the BNB ecosystem"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC/opBNB",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain",
+          "opBNB"
+        ]
+      },
+      "chainNote": "perpetual venue deployed in the BNB ecosystem",
+      "displayName": "KiloEx"
+    },
+    {
+      "id": "bnb:venus",
+      "toolId": "venus",
+      "chainId": "bnb",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.venus.io/",
+          "checked": "2026-08-29",
+          "note": "native BNB money-market and stablecoin-related surfaces"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "native BNB money-market and stablecoin-related surfaces"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "native BNB money-market and stablecoin-related surfaces",
+      "displayName": "Venus"
+    },
+    {
+      "id": "bnb:lista-dao",
+      "toolId": "lista-dao",
+      "chainId": "bnb",
+      "categories": [
+        "CT-05",
+        "CT-06",
+        "CT-07"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lista.org/",
+          "checked": "2026-08-29",
+          "note": "borrowing, stablecoin, and liquid-staking integrations"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05",
+          "CT-06",
+          "CT-07"
+        ],
+        "relationship": "BSC native",
+        "reason": "borrowing, stablecoin, and liquid-staking integrations"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-06",
+          "CT-07"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "borrowing, stablecoin, and liquid-staking integrations",
+      "displayName": "Lista DAO"
+    },
+    {
+      "id": "bnb:aave",
+      "toolId": "aave",
+      "chainId": "bnb",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://aave.com/docs",
+          "checked": "2026-08-29",
+          "note": "include only current official BNB market/deployment evidence"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "include only current official BNB market/deployment evidence"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "include only current official BNB market/deployment evidence",
+      "displayName": "Aave"
+    },
+    {
+      "id": "bnb:beefy",
+      "toolId": "beefy",
+      "chainId": "bnb",
+      "categories": [
+        "CT-06"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.beefy.finance/",
+          "checked": "2026-08-29",
+          "note": "strategy vaults; source protocols and vault risks remain visible"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "strategy vaults; source protocols and vault risks remain visible"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "strategy vaults; source protocols and vault risks remain visible",
+      "displayName": "Beefy"
+    },
+    {
+      "id": "bnb:bnb-native-staking",
+      "toolId": "bnb-native-staking",
+      "chainId": "bnb",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "cli",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI-dependent",
+        "CLI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.bnbchain.org/bc-fusion/validators/staking/",
+          "checked": "2026-08-29",
+          "note": "post-fusion BSC delegation and validator mechanism"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "BSC native",
+        "reason": "post-fusion BSC delegation and validator mechanism"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "post-fusion BSC delegation and validator mechanism",
+      "displayName": "BNB native staking"
+    },
+    {
+      "id": "bnb:pstake",
+      "toolId": "pstake",
+      "chainId": "bnb",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pstake.finance/",
+          "checked": "2026-08-29",
+          "note": "liquid staking for BNB; unbonding and validator dependencies required in details"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "liquid staking for BNB; unbonding and validator dependencies required in details"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "liquid staking for BNB; unbonding and validator dependencies required in details",
+      "displayName": "pSTAKE"
+    },
+    {
+      "id": "bnb:stader-bnbx",
+      "toolId": "stader-bnbx",
+      "chainId": "bnb",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.staderlabs.com/docs-v1/bnb/",
+          "checked": "2026-08-29",
+          "note": "BNB liquid staking; verify current contracts before integration"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "BSC native",
+        "reason": "BNB liquid staking; verify current contracts before integration"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB liquid staking; verify current contracts before integration",
+      "displayName": "Stader BNBx"
+    },
+    {
+      "id": "bnb:kernel",
+      "toolId": "kernel",
+      "chainId": "bnb",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "adjacent-layer",
+      "scopeLabel": "BSC / adjacent services",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.kerneldao.com/",
+          "checked": "2026-08-29",
+          "note": "BNB restaking/shared-security surface; not native validator staking"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "BSC / adjacent services",
+        "reason": "BNB restaking/shared-security surface; not native validator staking"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / adjacent services",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB restaking/shared-security surface; not native validator staking",
+      "displayName": "Kernel"
+    },
+    {
+      "id": "bnb:chainlink",
+      "toolId": "chainlink",
+      "chainId": "bnb",
+      "categories": [
+        "CT-08",
+        "CT-12"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.chain.link/",
+          "checked": "2026-08-29",
+          "note": "BNB data feeds and CCIP surfaces from current directories"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-12"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "BNB data feeds and CCIP surfaces from current directories"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-12"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB data feeds and CCIP surfaces from current directories",
+      "displayName": "Chainlink"
+    },
+    {
+      "id": "bnb:pyth-network",
+      "toolId": "pyth-network",
+      "chainId": "bnb",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pyth.network/price-feeds",
+          "checked": "2026-08-29",
+          "note": "pull price feeds available on BNB deployments"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "pull price feeds available on BNB deployments"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "pull price feeds available on BNB deployments",
+      "displayName": "Pyth Network"
+    },
+    {
+      "id": "bnb:binance-oracle",
+      "toolId": "binance-oracle",
+      "chainId": "bnb",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "offchain-service",
+      "scopeLabel": "BSC / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://oracle.binance.com/docs/",
+          "checked": "2026-08-29",
+          "note": "BNB ecosystem oracle; source composition must remain visible"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "BSC / service",
+        "reason": "BNB ecosystem oracle; source composition must remain visible"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB ecosystem oracle; source composition must remain visible",
+      "displayName": "Binance Oracle"
+    },
+    {
+      "id": "bnb:bscscan",
+      "toolId": "bscscan",
+      "chainId": "bnb",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.bscscan.com/",
+          "checked": "2026-08-29",
+          "note": "BSC explorer and API"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "BSC explorer and API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BSC explorer and API",
+      "displayName": "BscScan"
+    },
+    {
+      "id": "bnb:dune",
+      "toolId": "dune",
+      "chainId": "bnb",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dune.com/data-catalog/evm/bnb/overview",
+          "checked": "2026-08-29",
+          "note": "raw, decoded, DEX, price, bridge, and gas datasets for BNB"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "raw, decoded, DEX, price, bridge, and gas datasets for BNB"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "raw, decoded, DEX, price, bridge, and gas datasets for BNB",
+      "displayName": "Dune"
+    },
+    {
+      "id": "bnb:dappbay",
+      "toolId": "dappbay",
+      "chainId": "bnb",
+      "categories": [
+        "CT-09",
+        "CT-10",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "BNB service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://dappbay.bnbchain.org/",
+          "checked": "2026-08-29",
+          "note": "official dApp directory, rankings, and Red Alarm risk surface"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10",
+          "CT-14"
+        ],
+        "relationship": "BNB service",
+        "reason": "official dApp directory, rankings, and Red Alarm risk surface"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-10",
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BNB service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official dApp directory, rankings, and Red Alarm risk surface",
+      "displayName": "DappBay"
+    },
+    {
+      "id": "bnb:nansen",
+      "toolId": "nansen",
+      "chainId": "bnb",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.nansen.ai/",
+          "checked": "2026-08-29",
+          "note": "labeled-address and portfolio analytics with BNB coverage"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "labeled-address and portfolio analytics with BNB coverage"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "labeled-address and portfolio analytics with BNB coverage",
+      "displayName": "Nansen"
+    },
+    {
+      "id": "bnb:defillama",
+      "toolId": "defillama",
+      "chainId": "bnb",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://defillama.com/docs/api",
+          "checked": "2026-08-29",
+          "note": "protocol and metric discovery; not a deployment authority"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "protocol and metric discovery; not a deployment authority"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "protocol and metric discovery; not a deployment authority",
+      "displayName": "DeFiLlama"
+    },
+    {
+      "id": "bnb:dex-screener",
+      "toolId": "dex-screener",
+      "chainId": "bnb",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dexscreener.com/",
+          "checked": "2026-08-29",
+          "note": "BSC pair charts and discovery"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "BSC pair charts and discovery"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BSC pair charts and discovery",
+      "displayName": "DEX Screener"
+    },
+    {
+      "id": "bnb:geckoterminal",
+      "toolId": "geckoterminal",
+      "chainId": "bnb",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://apiguide.geckoterminal.com/",
+          "checked": "2026-08-29",
+          "note": "pool data and charts"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "pool data and charts"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "pool data and charts",
+      "displayName": "GeckoTerminal"
+    },
+    {
+      "id": "bnb:trust-wallet",
+      "toolId": "trust-wallet",
+      "chainId": "bnb",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developer.trustwallet.com/developer/",
+          "checked": "2026-08-29",
+          "note": "BNB-compatible wallet and Wallet Core/developer surface"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "App / service",
+        "reason": "BNB-compatible wallet and Wallet Core/developer surface"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB-compatible wallet and Wallet Core/developer surface",
+      "displayName": "Trust Wallet"
+    },
+    {
+      "id": "bnb:binance-wallet",
+      "toolId": "binance-wallet",
+      "chainId": "bnb",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.binance.com/docs/binance-w3w",
+          "checked": "2026-08-29",
+          "note": "exchange-adjacent self-custody wallet; custody mode stated precisely"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App / service",
+        "reason": "exchange-adjacent self-custody wallet; custody mode stated precisely"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "exchange-adjacent self-custody wallet; custody mode stated precisely",
+      "displayName": "Binance Wallet"
+    },
+    {
+      "id": "bnb:safepal",
+      "toolId": "safepal",
+      "chainId": "bnb",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.safepal.com/",
+          "checked": "2026-08-29",
+          "note": "wallet/hardware surfaces with BNB support"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App / service",
+        "reason": "wallet/hardware surfaces with BNB support"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "wallet/hardware surfaces with BNB support",
+      "displayName": "SafePal"
+    },
+    {
+      "id": "bnb:metamask",
+      "toolId": "metamask",
+      "chainId": "bnb",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.metamask.io/",
+          "checked": "2026-08-29",
+          "note": "EVM wallet; BSC network configuration is an integration, not endorsement"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "App / service",
+        "reason": "EVM wallet; BSC network configuration is an integration, not endorsement"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "EVM wallet; BSC network configuration is an integration, not endorsement",
+      "displayName": "MetaMask"
+    },
+    {
+      "id": "bnb:bnb-chain-bridge",
+      "toolId": "bnb-chain-bridge",
+      "chainId": "bnb",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.bnbchain.org/en/bnb-chain-bridge",
+          "checked": "2026-08-29",
+          "note": "official bridge directory/route surface; underlying provider varies and must be shown"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "official bridge directory/route surface; underlying provider varies and must be shown"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official bridge directory/route surface; underlying provider varies and must be shown",
+      "displayName": "BNB Chain Bridge"
+    },
+    {
+      "id": "bnb:stargate",
+      "toolId": "stargate",
+      "chainId": "bnb",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.stargate.finance/",
+          "checked": "2026-08-29",
+          "note": "LayerZero-based asset bridge with BNB routes"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "LayerZero-based asset bridge with BNB routes"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "LayerZero-based asset bridge with BNB routes",
+      "displayName": "Stargate"
+    },
+    {
+      "id": "bnb:celer-cbridge",
+      "toolId": "celer-cbridge",
+      "chainId": "bnb",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://cbridge-docs.celer.network/",
+          "checked": "2026-08-29",
+          "note": "liquidity bridge and developer integration"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "liquidity bridge and developer integration"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "liquidity bridge and developer integration",
+      "displayName": "Celer cBridge"
+    },
+    {
+      "id": "bnb:debridge",
+      "toolId": "debridge",
+      "chainId": "bnb",
+      "categories": [
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.debridge.com/",
+          "checked": "2026-08-29",
+          "note": "DLN intent routes including BNB support"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "DLN intent routes including BNB support"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "DLN intent routes including BNB support",
+      "displayName": "deBridge"
+    },
+    {
+      "id": "bnb:bnb-mev",
+      "toolId": "bnb-mev",
+      "chainId": "bnb",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "api",
+        "node"
+      ],
+      "surfaceLabels": [
+        "API",
+        "node"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.bnbchain.org/bnb-smart-chain/validator/mev/",
+          "checked": "2026-08-29",
+          "note": "official builder/validator MEV interface; page should expose builder centralization considerations"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "BSC native",
+        "reason": "official builder/validator MEV interface; page should expose builder centralization considerations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official builder/validator MEV interface; page should expose builder centralization considerations",
+      "displayName": "BNB MEV"
+    },
+    {
+      "id": "bnb:bloxroute",
+      "toolId": "bloxroute",
+      "chainId": "bnb",
+      "categories": [
+        "CT-13"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.bloxroute.com/bsc-and-eth",
+          "checked": "2026-08-29",
+          "note": "BSC transaction and data streams"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13"
+        ],
+        "relationship": "Service",
+        "reason": "BSC transaction and data streams"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BSC transaction and data streams",
+      "displayName": "bloXroute"
+    },
+    {
+      "id": "bnb:dappbay-red-alarm",
+      "toolId": "dappbay-red-alarm",
+      "chainId": "bnb",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "BNB service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://dappbay.bnbchain.org/red-alarm",
+          "checked": "2026-08-29",
+          "note": "BNB ecosystem risk scan; labels are signals, not audits"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "BNB service",
+        "reason": "BNB ecosystem risk scan; labels are signals, not audits"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BNB service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB ecosystem risk scan; labels are signals, not audits",
+      "displayName": "DappBay Red Alarm"
+    },
+    {
+      "id": "bnb:hashdit",
+      "toolId": "hashdit",
+      "chainId": "bnb",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk",
+        "ui"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.hashdit.io/",
+          "checked": "2026-08-29",
+          "note": "transaction/token risk tooling with BNB ecosystem integrations"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "Service",
+        "reason": "transaction/token risk tooling with BNB ecosystem integrations"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "transaction/token risk tooling with BNB ecosystem integrations",
+      "displayName": "HashDit"
+    },
+    {
+      "id": "bnb:goplus",
+      "toolId": "goplus",
+      "chainId": "bnb",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.gopluslabs.io/",
+          "checked": "2026-08-29",
+          "note": "token, address, and transaction security APIs"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "Service",
+        "reason": "token, address, and transaction security APIs"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "token, address, and transaction security APIs",
+      "displayName": "GoPlus"
+    },
+    {
+      "id": "bnb:reach-me",
+      "toolId": "reach-me",
+      "chainId": "bnb",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://reachme.io/",
+          "checked": "2026-08-29",
+          "note": "official app plus BNB Chain’s 2025 Access-Fi ecosystem report"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "BSC native",
+        "reason": "official app plus BNB Chain’s 2025 Access-Fi ecosystem report"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official app plus BNB Chain’s 2025 Access-Fi ecosystem report",
+      "displayName": "Reach Me"
+    },
+    {
+      "id": "bnb:pieverse",
+      "toolId": "pieverse",
+      "chainId": "bnb",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "BSC native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://pieverse.io/",
+          "checked": "2026-08-29",
+          "note": "TimeFi/Access-Fi app listed by official BNB Chain reporting"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "BSC native",
+        "reason": "TimeFi/Access-Fi app listed by official BNB Chain reporting"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "TimeFi/Access-Fi app listed by official BNB Chain reporting",
+      "displayName": "Pieverse"
+    },
+    {
+      "id": "bnb:space-id",
+      "toolId": "space-id",
+      "chainId": "bnb",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "BSC / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.space.id/",
+          "checked": "2026-08-29",
+          "note": "`.bnb` identity and name-service integrations"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-16"
+        ],
+        "relationship": "BSC / cross-chain",
+        "reason": "`.bnb` identity and name-service integrations"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "`.bnb` identity and name-service integrations",
+      "displayName": "SPACE ID"
+    },
+    {
+      "id": "bnb:hooked-protocol",
+      "toolId": "hooked-protocol",
+      "chainId": "bnb",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "BSC/opBNB",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://hooked-protocol.gitbook.io/hooked-protocol/",
+          "checked": "2026-08-29",
+          "note": "social/education consumer protocol; chain scope checked per app"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "BSC/opBNB",
+        "reason": "social/education consumer protocol; chain scope checked per app"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BSC/opBNB",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "BNB Smart Chain",
+          "opBNB"
+        ]
+      },
+      "chainNote": "social/education consumer protocol; chain scope checked per app",
+      "displayName": "Hooked Protocol"
+    },
+    {
+      "id": "bnb:nodereal",
+      "toolId": "nodereal",
+      "chainId": "bnb",
+      "categories": [
+        "CT-16",
+        "CT-09"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "BNB service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.nodereal.io/",
+          "checked": "2026-08-29",
+          "note": "BSC/opBNB node, data, and indexing products"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16",
+          "CT-09"
+        ],
+        "relationship": "BNB service",
+        "reason": "BSC/opBNB node, data, and indexing products"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-09"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "BNB service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain",
+          "opBNB"
+        ]
+      },
+      "chainNote": "BSC/opBNB node, data, and indexing products",
+      "displayName": "NodeReal"
+    },
+    {
+      "id": "bnb:ankr",
+      "toolId": "ankr",
+      "chainId": "bnb",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.ankr.com/docs/rpc-service/chains/chains-api/bnb-smart-chain/",
+          "checked": "2026-08-29",
+          "note": "BSC RPC/API surface"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "BSC RPC/API surface"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BSC RPC/API surface",
+      "displayName": "Ankr"
+    },
+    {
+      "id": "bnb:quicknode",
+      "toolId": "quicknode",
+      "chainId": "bnb",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.quicknode.com/docs/bnb-smart-chain",
+          "checked": "2026-08-29",
+          "note": "BNB Smart Chain RPC and add-ons"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "BNB Smart Chain RPC and add-ons"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "BNB Smart Chain RPC and add-ons",
+      "displayName": "QuickNode"
+    },
+    {
+      "id": "bnb:bnb-chain-developer-tooling-directory",
+      "toolId": "bnb-chain-developer-tooling-directory",
+      "chainId": "bnb",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "BNB service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.bnbchain.org/en/dev-tools",
+          "checked": "2026-08-29",
+          "note": "official browsable tooling directory; directory inclusion is not a risk endorsement"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "BNB service",
+        "reason": "official browsable tooling directory; directory inclusion is not a risk endorsement"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "BNB service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "BNB Smart Chain or service"
+        ]
+      },
+      "chainNote": "official browsable tooling directory; directory inclusion is not a risk endorsement",
+      "displayName": "BNB Chain developer tooling directory"
+    }
+  ],
+  "gaps": [
+    "BSC, opBNB, and Greenfield are separate placement scopes. A tool in the One BNB ecosystem may support only one.",
+    "A launch platform’s inclusion in a liquidity incentive program proves eligibility at that time, not audit quality or future support.",
+    "PancakeSwap is a multi-product canonical record; search results must open the relevant product tab instead of presenting all activity as “DEX.”",
+    "Wallets connected to a centralized exchange need an explicit custody model. “Binance” in a product name is not enough.",
+    "DappBay/Red Alarm and GoPlus/HashDit produce risk signals; none should render as a guarantee."
+  ],
+  "sources": [
+    {
+      "label": "BNB Smart Chain documentation",
+      "url": "https://docs.bnbchain.org/bnb-smart-chain/"
+    },
+    {
+      "label": "BNB staking mechanism",
+      "url": "https://docs.bnbchain.org/bc-fusion/validators/staking/"
+    },
+    {
+      "label": "BNB developer tooling landscape",
+      "url": "https://www.bnbchain.org/en/dev-tools"
+    },
+    {
+      "label": "BNB Chain launch-platform liquidity program",
+      "url": "https://www.bnbchain.org/en/blog/4-4m-liquidity-pool-support-to-top-memecoins-round-1"
+    },
+    {
+      "label": "BNB Chain memecoin launch guide",
+      "url": "https://www.bnbchain.org/en/blog/how-to-launch-a-memecoin-on-bnb-chain-a-step-by-step-guide"
+    },
+    {
+      "label": "BNB Access-Fi ecosystem",
+      "url": "https://www.bnbchain.org/en/blog/access-fi-on-bnb-chain-a-new-branch-of-social-fi-for-web3-content-monetization"
+    }
+  ]
+}

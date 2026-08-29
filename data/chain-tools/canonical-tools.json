@@ -1,0 +1,3012 @@
+{
+  "schemaVersion": 1,
+  "verified": "2026-08-29",
+  "tools": [
+    {
+      "id": "0x-matcha",
+      "name": "0x / Matcha",
+      "summary": "Swap and RFQ aggregation on Ethereum.",
+      "categories": [
+        "CT-03",
+        "CT-12",
+        "CT-16"
+      ],
+      "aliases": [
+        "0x",
+        "Matcha"
+      ],
+      "officialUrl": "https://0x.org/docs/",
+      "docsUrl": "https://0x.org/docs/"
+    },
+    {
+      "id": "1inch",
+      "name": "1inch",
+      "summary": "Aggregation and intent APIs; chain support must come from current portal configuration.",
+      "categories": [
+        "CT-03"
+      ],
+      "aliases": [],
+      "officialUrl": "https://portal.1inch.dev/documentation/overview",
+      "docsUrl": "https://portal.1inch.dev/documentation/overview"
+    },
+    {
+      "id": "3xpl-zcash",
+      "name": "3xpl Zcash",
+      "summary": "Explorer/API and exports; tracking/privacy behavior labeled.",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://3xpl.com/zcash"
+    },
+    {
+      "id": "aave",
+      "name": "Aave",
+      "summary": "Ethereum lending deployment and current developer documentation.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://aave.com/docs",
+      "docsUrl": "https://aave.com/docs"
+    },
+    {
+      "id": "across",
+      "name": "Across",
+      "summary": "Intent-based bridge and interoperability APIs.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.across.to/",
+      "docsUrl": "https://docs.across.to/"
+    },
+    {
+      "id": "adrena",
+      "name": "Adrena",
+      "summary": "Solana perpetuals surface; leverage and oracle risk flags required.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.adrena.trade/about-adrena/what-is-adrena",
+      "docsUrl": "https://docs.adrena.trade/about-adrena/what-is-adrena"
+    },
+    {
+      "id": "alchemy",
+      "name": "Alchemy",
+      "summary": "Solana RPC/API surface.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.alchemy.com/docs/reference/solana-api-quickstart",
+      "docsUrl": "https://www.alchemy.com/docs/reference/solana-api-quickstart"
+    },
+    {
+      "id": "allbridge",
+      "name": "Allbridge",
+      "summary": "Cross-chain bridge with Solana routes.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.allbridge.io/",
+      "docsUrl": "https://docs.allbridge.io/"
+    },
+    {
+      "id": "allium",
+      "name": "Allium",
+      "summary": "Indexed institutional Solana datasets; also used on the official Solana data page.",
+      "categories": [
+        "CT-08",
+        "CT-09"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.allium.so/",
+      "docsUrl": "https://docs.allium.so/"
+    },
+    {
+      "id": "anchor",
+      "name": "Anchor",
+      "summary": "Solana program framework and test workflow.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.anchor-lang.com/docs",
+      "docsUrl": "https://www.anchor-lang.com/docs"
+    },
+    {
+      "id": "ankr",
+      "name": "Ankr",
+      "summary": "BSC RPC/API surface.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.ankr.com/docs/rpc-service/chains/chains-api/bnb-smart-chain/",
+      "docsUrl": "https://www.ankr.com/docs/rpc-service/chains/chains-api/bnb-smart-chain/"
+    },
+    {
+      "id": "api3",
+      "name": "API3",
+      "summary": "First-party oracle and OEV surfaces.",
+      "categories": [
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.api3.org/",
+      "docsUrl": "https://docs.api3.org/"
+    },
+    {
+      "id": "arbdata-entropy-advisors",
+      "name": "arbdata / Entropy Advisors",
+      "summary": "Official RHC ecosystem table identifies analytics dashboards.",
+      "categories": [
+        "CT-09"
+      ],
+      "aliases": [
+        "arbdata",
+        "Entropy Advisors"
+      ],
+      "officialUrl": "https://docs.robinhood.com/chain/",
+      "docsUrl": "https://docs.robinhood.com/chain/"
+    },
+    {
+      "id": "arbitrum-canonical-bridge",
+      "name": "Arbitrum canonical bridge",
+      "summary": "Official RHC bridge guide identifies canonical bridge and withdrawal semantics.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.arbitrum.io/launch-arbitrum-chain/how-tos/custom-gas-token/how-to-bridge-custom-gas-token",
+      "docsUrl": "https://docs.arbitrum.io/launch-arbitrum-chain/how-tos/custom-gas-token/how-to-bridge-custom-gas-token"
+    },
+    {
+      "id": "arcus",
+      "name": "Arcus",
+      "summary": "Official RHC table identifies perps integration; use official product link from data source when available.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.robinhood.com/chain/",
+      "docsUrl": "https://docs.robinhood.com/chain/"
+    },
+    {
+      "id": "babylon-bitcoin-staking",
+      "name": "Babylon Bitcoin Staking",
+      "summary": "BTC locking supports external PoS security; must not be called Bitcoin consensus staking.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.babylonlabs.io/guides/btc-staking/",
+      "docsUrl": "https://docs.babylonlabs.io/guides/btc-staking/"
+    },
+    {
+      "id": "babylon-trustless-bitcoin-vaults",
+      "name": "Babylon Trustless Bitcoin Vaults",
+      "summary": "Signet BTC vault and Aave integration are explicitly testnet; never show as mainnet lending.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.babylonlabs.io/",
+      "docsUrl": "https://docs.babylonlabs.io/"
+    },
+    {
+      "id": "backpack",
+      "name": "Backpack",
+      "summary": "Solana wallet; exchange functionality is not categorized as on-chain DEX.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.backpack.app/",
+      "docsUrl": "https://docs.backpack.app/"
+    },
+    {
+      "id": "balancer",
+      "name": "Balancer",
+      "summary": "Weighted/composable pools and vault architecture.",
+      "categories": [
+        "CT-02",
+        "CT-06",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.balancer.fi/",
+      "docsUrl": "https://docs.balancer.fi/"
+    },
+    {
+      "id": "beefy",
+      "name": "Beefy",
+      "summary": "Strategy vaults; source protocols and vault risks remain visible.",
+      "categories": [
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.beefy.finance/",
+      "docsUrl": "https://docs.beefy.finance/"
+    },
+    {
+      "id": "binance-oracle",
+      "name": "Binance Oracle",
+      "summary": "BNB ecosystem oracle; source composition must remain visible.",
+      "categories": [
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://oracle.binance.com/docs/",
+      "docsUrl": "https://oracle.binance.com/docs/"
+    },
+    {
+      "id": "binance-wallet",
+      "name": "Binance Wallet",
+      "summary": "Exchange-adjacent self-custody wallet; custody mode stated precisely.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.binance.com/docs/binance-w3w",
+      "docsUrl": "https://developers.binance.com/docs/binance-w3w"
+    },
+    {
+      "id": "birdeye",
+      "name": "Birdeye",
+      "summary": "Token market data, charts, trades, and discovery.",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.birdeye.so/",
+      "docsUrl": "https://docs.birdeye.so/"
+    },
+    {
+      "id": "bisq",
+      "name": "Bisq",
+      "summary": "Decentralized peer-to-peer exchange; not an on-chain AMM.",
+      "categories": [
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://bisq.wiki/Main_Page"
+    },
+    {
+      "id": "biswap",
+      "name": "Biswap",
+      "summary": "AMM, farms, and launch-related products; exact active modules checked individually.",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.biswap.org/",
+      "docsUrl": "https://docs.biswap.org/"
+    },
+    {
+      "id": "bitcoin-core",
+      "name": "Bitcoin Core",
+      "summary": "Reference full node, wallet, mempool, fee, signing, and broadcast surface.",
+      "categories": [
+        "CT-09",
+        "CT-11",
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://bitcoincore.org/en/doc/"
+    },
+    {
+      "id": "bitcoin-dev-kit",
+      "name": "Bitcoin Dev Kit",
+      "summary": "Descriptor-based wallet development libraries.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://bitcoindevkit.org/"
+    },
+    {
+      "id": "bitcoin-wallet-selector",
+      "name": "Bitcoin wallet selector",
+      "summary": "Feature-based wallet comparison; directory inclusion is not endorsement.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://bitcoin.org/en/choose-your-wallet"
+    },
+    {
+      "id": "bitgo",
+      "name": "BitGo",
+      "summary": "Custody provider listed in official RHC ecosystem table.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.bitgo.com/"
+    },
+    {
+      "id": "blazestake",
+      "name": "BlazeStake",
+      "summary": "Stake pool and liquid-staking token.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://stake-docs.solblaze.org/",
+      "docsUrl": "https://stake-docs.solblaze.org/"
+    },
+    {
+      "id": "blockdaemon",
+      "name": "Blockdaemon",
+      "summary": "RPC provider listed by official RHC connect page.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.blockdaemon.com/",
+      "docsUrl": "https://docs.blockdaemon.com/"
+    },
+    {
+      "id": "blockscout",
+      "name": "Blockscout",
+      "summary": "Official RHC connect page links the chain explorer.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.blockscout.com/",
+      "docsUrl": "https://docs.blockscout.com/"
+    },
+    {
+      "id": "blockstream-explorer-esplora",
+      "name": "Blockstream Explorer / Esplora",
+      "summary": "Open-source explorer and HTTP API for blocks, transactions, addresses, and scripts.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [
+        "Blockstream Explorer",
+        "Esplora"
+      ],
+      "officialUrl": "https://github.com/Blockstream/esplora"
+    },
+    {
+      "id": "blowfish",
+      "name": "Blowfish",
+      "summary": "Transaction simulation and wallet security integrations.",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.blowfish.xyz/",
+      "docsUrl": "https://docs.blowfish.xyz/"
+    },
+    {
+      "id": "bloxroute",
+      "name": "bloXroute",
+      "summary": "Solana transaction and data streams.",
+      "categories": [
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.bloxroute.com/solana",
+      "docsUrl": "https://docs.bloxroute.com/solana"
+    },
+    {
+      "id": "bluewallet",
+      "name": "BlueWallet",
+      "summary": "Bitcoin wallet with on-chain and Lightning support.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://bluewallet.io/docs/",
+      "docsUrl": "https://bluewallet.io/docs/"
+    },
+    {
+      "id": "blur",
+      "name": "Blur",
+      "summary": "Ethereum NFT marketplace and lending-adjacent product; verify version surfaces.",
+      "categories": [
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.blur.foundation/",
+      "docsUrl": "https://docs.blur.foundation/"
+    },
+    {
+      "id": "bnb-chain-bridge",
+      "name": "BNB Chain Bridge",
+      "summary": "Official bridge directory/route surface; underlying provider varies and must be shown.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.bnbchain.org/en/bnb-chain-bridge"
+    },
+    {
+      "id": "bnb-chain-developer-tooling-directory",
+      "name": "BNB Chain developer tooling directory",
+      "summary": "Official browsable tooling directory; directory inclusion is not a risk endorsement.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.bnbchain.org/en/dev-tools"
+    },
+    {
+      "id": "bnb-mev",
+      "name": "BNB MEV",
+      "summary": "Official builder/validator MEV interface; page should expose builder centralization considerations.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.bnbchain.org/bnb-smart-chain/validator/mev/",
+      "docsUrl": "https://docs.bnbchain.org/bnb-smart-chain/validator/mev/"
+    },
+    {
+      "id": "bnb-native-staking",
+      "name": "BNB native staking",
+      "summary": "Post-fusion BSC delegation and validator mechanism.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.bnbchain.org/bc-fusion/validators/staking/",
+      "docsUrl": "https://docs.bnbchain.org/bc-fusion/validators/staking/"
+    },
+    {
+      "id": "boltz",
+      "name": "Boltz",
+      "summary": "Submarine/atomic swaps among Bitcoin, Lightning, and supported layers.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.boltz.exchange/",
+      "docsUrl": "https://docs.boltz.exchange/"
+    },
+    {
+      "id": "bscscan",
+      "name": "BscScan",
+      "summary": "BSC explorer and API.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.bscscan.com/",
+      "docsUrl": "https://docs.bscscan.com/"
+    },
+    {
+      "id": "btcpay-server",
+      "name": "BTCPay Server",
+      "summary": "Self-hosted Bitcoin/Lightning payment processing.",
+      "categories": [
+        "CT-14",
+        "CT-15",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.btcpayserver.org/",
+      "docsUrl": "https://docs.btcpayserver.org/"
+    },
+    {
+      "id": "burve",
+      "name": "Burve",
+      "summary": "Official app plus BNB Chain launch-platform listing.",
+      "categories": [
+        "CT-01"
+      ],
+      "aliases": [],
+      "officialUrl": "https://burve.io/"
+    },
+    {
+      "id": "celer-cbridge",
+      "name": "Celer cBridge",
+      "summary": "Liquidity bridge and developer integration.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://cbridge-docs.celer.network/",
+      "docsUrl": "https://cbridge-docs.celer.network/"
+    },
+    {
+      "id": "chainalysis",
+      "name": "Chainalysis",
+      "summary": "Compliance monitoring; not a protocol risk rating.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.chainalysis.com/chainalysis-kyt/"
+    },
+    {
+      "id": "chainlink",
+      "name": "Chainlink",
+      "summary": "Include only feeds/services whose directory explicitly lists Solana.",
+      "categories": [
+        "CT-08",
+        "CT-12",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.chain.link/data-feeds",
+      "docsUrl": "https://docs.chain.link/data-feeds"
+    },
+    {
+      "id": "chainlink-ccip-transporter",
+      "name": "Chainlink CCIP / Transporter",
+      "summary": "Official RHC bridging guide lists CCIP/Transporter.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [
+        "Chainlink CCIP",
+        "Transporter"
+      ],
+      "officialUrl": "https://docs.chain.link/ccip",
+      "docsUrl": "https://docs.chain.link/ccip"
+    },
+    {
+      "id": "chainlink-data-feeds",
+      "name": "Chainlink Data Feeds",
+      "summary": "Robinhood Chain feed support appears in current Chainlink directory/changelog.",
+      "categories": [
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.chain.link/data-feeds",
+      "docsUrl": "https://docs.chain.link/data-feeds"
+    },
+    {
+      "id": "chainlink-data-streams",
+      "name": "Chainlink Data Streams",
+      "summary": "RHC documents sub-second pull data and VerifierProxy integration.",
+      "categories": [
+        "CT-08",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.robinhood.com/chain/data-streams/",
+      "docsUrl": "https://docs.robinhood.com/chain/data-streams/"
+    },
+    {
+      "id": "chronicle",
+      "name": "Chronicle",
+      "summary": "Oracle feeds and validator architecture.",
+      "categories": [
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.chroniclelabs.org/",
+      "docsUrl": "https://docs.chroniclelabs.org/"
+    },
+    {
+      "id": "cipherscan",
+      "name": "CipherScan",
+      "summary": "Zcash explorer app; public data cannot reveal shielded sender, receiver, or value.",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://cipherscan.app/"
+    },
+    {
+      "id": "coin-metrics",
+      "name": "Coin Metrics",
+      "summary": "Market and network data; metric definitions must be linked.",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.coinmetrics.io/",
+      "docsUrl": "https://docs.coinmetrics.io/"
+    },
+    {
+      "id": "coingecko",
+      "name": "CoinGecko",
+      "summary": "ZEC market-price and chart data; not shielded chain analytics.",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.coingecko.com/",
+      "docsUrl": "https://docs.coingecko.com/"
+    },
+    {
+      "id": "compound",
+      "name": "Compound",
+      "summary": "Ethereum lending markets and contract documentation.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.compound.finance/",
+      "docsUrl": "https://docs.compound.finance/"
+    },
+    {
+      "id": "convex",
+      "name": "Convex",
+      "summary": "Curve/Prisma-aligned yield and voting layer.",
+      "categories": [
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.convexfinance.com/",
+      "docsUrl": "https://docs.convexfinance.com/"
+    },
+    {
+      "id": "core-lightning",
+      "name": "Core Lightning",
+      "summary": "Modular Lightning node implementation.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.corelightning.org/",
+      "docsUrl": "https://docs.corelightning.org/"
+    },
+    {
+      "id": "cow-protocol",
+      "name": "CoW Protocol",
+      "summary": "Batch auctions, solvers, intents, and MEV-aware execution.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.cow.fi/cow-protocol",
+      "docsUrl": "https://docs.cow.fi/cow-protocol"
+    },
+    {
+      "id": "cryptoquant",
+      "name": "CryptoQuant",
+      "summary": "Network, miner, and exchange-flow analytics.",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://userguide.cryptoquant.com/"
+    },
+    {
+      "id": "curve",
+      "name": "Curve",
+      "summary": "Stableswap, pools, gauges, and lending-related product surfaces.",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.curve.finance/",
+      "docsUrl": "https://docs.curve.finance/"
+    },
+    {
+      "id": "damus",
+      "name": "Damus",
+      "summary": "Nostr client with Lightning zaps.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://damus.io/"
+    },
+    {
+      "id": "dappbay",
+      "name": "DappBay",
+      "summary": "Official dApp directory, rankings, and Red Alarm risk surface.",
+      "categories": [
+        "CT-09",
+        "CT-10",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://dappbay.bnbchain.org/"
+    },
+    {
+      "id": "dappbay-red-alarm",
+      "name": "DappBay Red Alarm",
+      "summary": "BNB ecosystem risk scan; labels are signals, not audits.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://dappbay.bnbchain.org/red-alarm"
+    },
+    {
+      "id": "debridge",
+      "name": "deBridge",
+      "summary": "DLN intents and cross-chain transfer routing.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.debridge.com/",
+      "docsUrl": "https://docs.debridge.com/"
+    },
+    {
+      "id": "defillama",
+      "name": "DeFiLlama",
+      "summary": "Protocol discovery and aggregated metrics; metric methodology is not chain truth.",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://defillama.com/docs/api",
+      "docsUrl": "https://defillama.com/docs/api"
+    },
+    {
+      "id": "dex-screener",
+      "name": "DEX Screener",
+      "summary": "Pair discovery/charting; official Solana source catalog placement.",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.dexscreener.com/",
+      "docsUrl": "https://docs.dexscreener.com/"
+    },
+    {
+      "id": "dialect",
+      "name": "Dialect",
+      "summary": "Messaging, notifications, and Solana Actions/Blinks tooling.",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.dialect.to/",
+      "docsUrl": "https://docs.dialect.to/"
+    },
+    {
+      "id": "discreet-log-contracts",
+      "name": "Discreet Log Contracts",
+      "summary": "Open DLC specifications; not itself a consumer derivatives venue.",
+      "categories": [
+        "CT-04",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/discreetlogcontracts/dlcspecs"
+    },
+    {
+      "id": "dodo",
+      "name": "DODO",
+      "summary": "PMM liquidity and aggregation surfaces.",
+      "categories": [
+        "CT-02",
+        "CT-03"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.dodoex.io/",
+      "docsUrl": "https://docs.dodoex.io/"
+    },
+    {
+      "id": "drift",
+      "name": "Drift",
+      "summary": "Perpetuals, spot, borrow/lend, and vault surfaces.",
+      "categories": [
+        "CT-04",
+        "CT-05",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.drift.trade/",
+      "docsUrl": "https://docs.drift.trade/"
+    },
+    {
+      "id": "drpc",
+      "name": "dRPC",
+      "summary": "RPC provider listed by official RHC connect page.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://drpc.org/docs",
+      "docsUrl": "https://drpc.org/docs"
+    },
+    {
+      "id": "dune",
+      "name": "Dune",
+      "summary": "Raw/decoded Solana data, curated DEX/price datasets.",
+      "categories": [
+        "CT-08",
+        "CT-09"
+      ],
+      "aliases": [
+        "Dune Bitcoin"
+      ],
+      "officialUrl": "https://docs.dune.com/data-catalog/solana/overview",
+      "docsUrl": "https://docs.dune.com/data-catalog/solana/overview"
+    },
+    {
+      "id": "edge-wallet",
+      "name": "Edge Wallet",
+      "summary": "ZEC wallet support; shielded-pool features shown explicitly.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://support.edge.app/support/solutions/articles/8000096295-zcash-zec-"
+    },
+    {
+      "id": "eigenlayer",
+      "name": "EigenLayer",
+      "summary": "Restaking and AVS tooling; risk is not equivalent to protocol staking.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.eigenlayer.xyz/",
+      "docsUrl": "https://docs.eigenlayer.xyz/"
+    },
+    {
+      "id": "electrum",
+      "name": "Electrum",
+      "summary": "SPV wallet and plugin/client tooling.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://electrum.readthedocs.io/",
+      "docsUrl": "https://electrum.readthedocs.io/"
+    },
+    {
+      "id": "electrumx",
+      "name": "ElectrumX",
+      "summary": "Electrum protocol server and indexing surface.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://electrumx-spesmilo.readthedocs.io/",
+      "docsUrl": "https://electrumx-spesmilo.readthedocs.io/"
+    },
+    {
+      "id": "ens",
+      "name": "ENS",
+      "summary": "Naming, resolution, and identity primitives.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ens.domains/",
+      "docsUrl": "https://docs.ens.domains/"
+    },
+    {
+      "id": "erc-4337-account-abstraction",
+      "name": "ERC-4337 account abstraction",
+      "summary": "Official RHC material documents AA support; provider/bundler remains explicit.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.erc4337.io/",
+      "docsUrl": "https://docs.erc4337.io/"
+    },
+    {
+      "id": "ethereum-native-staking",
+      "name": "Ethereum native staking",
+      "summary": "Solo staking baseline; not a vendor record.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://ethereum.org/staking/"
+    },
+    {
+      "id": "ethers",
+      "name": "ethers",
+      "summary": "EVM client library in official RHC development guidance.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ethers.org/",
+      "docsUrl": "https://docs.ethers.org/"
+    },
+    {
+      "id": "etherscan",
+      "name": "Etherscan",
+      "summary": "Ethereum explorer and API.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.etherscan.io/",
+      "docsUrl": "https://docs.etherscan.io/"
+    },
+    {
+      "id": "exponent",
+      "name": "Exponent",
+      "summary": "Fixed-yield and yield-market surface.",
+      "categories": [
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.exponent.finance/",
+      "docsUrl": "https://docs.exponent.finance/"
+    },
+    {
+      "id": "farcaster",
+      "name": "Farcaster",
+      "summary": "Ethereum accounts/assets are relevant, but social data is not Ethereum L1 execution.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.farcaster.xyz/",
+      "docsUrl": "https://docs.farcaster.xyz/"
+    },
+    {
+      "id": "fireblocks",
+      "name": "Fireblocks",
+      "summary": "Custody provider listed in official RHC ecosystem table.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.fireblocks.com/docs",
+      "docsUrl": "https://developers.fireblocks.com/docs"
+    },
+    {
+      "id": "firefish",
+      "name": "Firefish",
+      "summary": "Peer-to-peer BTC-backed lending; custody/liquidation model must be expanded.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.firefish.io/",
+      "docsUrl": "https://docs.firefish.io/"
+    },
+    {
+      "id": "fjord-foundry",
+      "name": "Fjord Foundry",
+      "summary": "Token sale and liquidity bootstrapping surface; deployment chain shown per sale.",
+      "categories": [
+        "CT-01"
+      ],
+      "aliases": [],
+      "officialUrl": "https://help.fjordfoundry.com/"
+    },
+    {
+      "id": "flap",
+      "name": "Flap",
+      "summary": "BSC token launch surface; official BNB liquidity program also lists it.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.flap.sh/",
+      "docsUrl": "https://docs.flap.sh/"
+    },
+    {
+      "id": "flash-trade",
+      "name": "Flash.Trade",
+      "summary": "Perpetual trading and liquidity-pool architecture.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.flash.trade/",
+      "docsUrl": "https://docs.flash.trade/"
+    },
+    {
+      "id": "flashbots",
+      "name": "Flashbots",
+      "summary": "MEV-Boost, Protect, builder/relay, and research tooling.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.flashbots.net/",
+      "docsUrl": "https://docs.flashbots.net/"
+    },
+    {
+      "id": "forta",
+      "name": "Forta",
+      "summary": "Decentralized monitoring/detection network.",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.forta.network/",
+      "docsUrl": "https://docs.forta.network/"
+    },
+    {
+      "id": "foundry",
+      "name": "Foundry",
+      "summary": "Ethereum smart-contract build/test/deploy toolchain.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://getfoundry.sh/"
+    },
+    {
+      "id": "fountain",
+      "name": "Fountain",
+      "summary": "Podcast value transfer through Lightning.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.fountain.fm/"
+    },
+    {
+      "id": "four-meme",
+      "name": "Four.meme",
+      "summary": "Official launcher; BNB Chain’s official launch guide documents curve-to-Pancake migration.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://four.meme/"
+    },
+    {
+      "id": "free2z",
+      "name": "Free2Z",
+      "summary": "Private publishing, tipping, and project-funding surface.",
+      "categories": [
+        "CT-01",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://free2z.com/"
+    },
+    {
+      "id": "frost-for-zcash",
+      "name": "FROST for Zcash",
+      "summary": "Threshold signatures with privacy-preserving re-randomization; workflow is not a consumer wallet by itself.",
+      "categories": [
+        "CT-11",
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://frost.zfnd.org/zcash/"
+    },
+    {
+      "id": "gamma",
+      "name": "Gamma",
+      "summary": "Ordinals creation/launch and marketplace surface; exact live modules checked in current support docs.",
+      "categories": [
+        "CT-01",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://support.gamma.io/hc/en-us/sections/13774457783571-Launching-and-managing-your-Ordinals-collection"
+    },
+    {
+      "id": "geckoterminal",
+      "name": "GeckoTerminal",
+      "summary": "On-chain pool data and charts.",
+      "categories": [
+        "CT-08",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://apiguide.geckoterminal.com/"
+    },
+    {
+      "id": "glassnode",
+      "name": "Glassnode",
+      "summary": "Bitcoin on-chain and market analytics.",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.glassnode.com/",
+      "docsUrl": "https://docs.glassnode.com/"
+    },
+    {
+      "id": "gmx",
+      "name": "GMX",
+      "summary": "Derivatives venue shown only in adjacent scope.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.gmx.io/",
+      "docsUrl": "https://docs.gmx.io/"
+    },
+    {
+      "id": "goplus",
+      "name": "GoPlus",
+      "summary": "Token, address, and transaction security APIs.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.gopluslabs.io/",
+      "docsUrl": "https://docs.gopluslabs.io/"
+    },
+    {
+      "id": "grafun",
+      "name": "GraFun",
+      "summary": "Official app plus BNB Chain ecosystem-program evidence.",
+      "categories": [
+        "CT-01"
+      ],
+      "aliases": [],
+      "officialUrl": "https://gra.fun/"
+    },
+    {
+      "id": "hardhat",
+      "name": "Hardhat",
+      "summary": "EVM development and testing environment.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://hardhat.org/docs",
+      "docsUrl": "https://hardhat.org/docs"
+    },
+    {
+      "id": "hashdit",
+      "name": "HashDit",
+      "summary": "Transaction/token risk tooling with BNB ecosystem integrations.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.hashdit.io/",
+      "docsUrl": "https://docs.hashdit.io/"
+    },
+    {
+      "id": "helius",
+      "name": "Helius",
+      "summary": "RPC, enhanced transactions, DAS, webhooks, and sender infrastructure.",
+      "categories": [
+        "CT-09",
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.helius.dev/docs",
+      "docsUrl": "https://www.helius.dev/docs"
+    },
+    {
+      "id": "helius-orb",
+      "name": "Helius Orb",
+      "summary": "Human-readable explorer built on Helius data.",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.helius.dev/orb"
+    },
+    {
+      "id": "helius-sender",
+      "name": "Helius Sender",
+      "summary": "Transaction landing and protected send path.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.helius.dev/docs/sending-transactions/sender",
+      "docsUrl": "https://www.helius.dev/docs/sending-transactions/sender"
+    },
+    {
+      "id": "hooked-protocol",
+      "name": "Hooked Protocol",
+      "summary": "Social/education consumer protocol; chain scope checked per app.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://hooked-protocol.gitbook.io/hooked-protocol/"
+    },
+    {
+      "id": "infura",
+      "name": "Infura",
+      "summary": "Ethereum RPC and developer APIs.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.metamask.io/services/",
+      "docsUrl": "https://docs.metamask.io/services/"
+    },
+    {
+      "id": "jito",
+      "name": "Jito",
+      "summary": "Liquid staking plus block-engine/execution infrastructure.",
+      "categories": [
+        "CT-07",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.jito.network/docs/",
+      "docsUrl": "https://www.jito.network/docs/"
+    },
+    {
+      "id": "jito-block-engine",
+      "name": "Jito Block Engine",
+      "summary": "Bundles and low-latency transaction sending; separate from JitoSOL.",
+      "categories": [
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.jito.wtf/lowlatencytxnsend/",
+      "docsUrl": "https://docs.jito.wtf/lowlatencytxnsend/"
+    },
+    {
+      "id": "juicebox",
+      "name": "Juicebox",
+      "summary": "Programmable project funding and treasury issuance on Ethereum deployments.",
+      "categories": [
+        "CT-01",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.juicebox.money/",
+      "docsUrl": "https://docs.juicebox.money/"
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "summary": "Swap routing, token/price APIs, and developer integration surface.",
+      "categories": [
+        "CT-03",
+        "CT-08",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://dev.jup.ag/"
+    },
+    {
+      "id": "kamino",
+      "name": "Kamino",
+      "summary": "Lending markets, liquidity vaults, and automated strategies.",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.kamino.finance/",
+      "docsUrl": "https://docs.kamino.finance/"
+    },
+    {
+      "id": "kernel",
+      "name": "Kernel",
+      "summary": "BNB restaking/shared-security surface; not native validator staking.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.kerneldao.com/",
+      "docsUrl": "https://docs.kerneldao.com/"
+    },
+    {
+      "id": "kiloex",
+      "name": "KiloEx",
+      "summary": "Perpetual venue deployed in the BNB ecosystem.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.kiloex.io/",
+      "docsUrl": "https://docs.kiloex.io/"
+    },
+    {
+      "id": "layerzero",
+      "name": "LayerZero",
+      "summary": "Omnichain messaging and token tooling.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.layerzero.network/",
+      "docsUrl": "https://docs.layerzero.network/"
+    },
+    {
+      "id": "layerzero-stargate",
+      "name": "LayerZero / Stargate",
+      "summary": "Official RHC bridging guide lists LayerZero/Stargate.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [
+        "LayerZero",
+        "Stargate"
+      ],
+      "officialUrl": "https://docs.layerzero.network/",
+      "docsUrl": "https://docs.layerzero.network/"
+    },
+    {
+      "id": "li-fi",
+      "name": "LI.FI",
+      "summary": "Bridge/swap aggregation; route trust model exposed per route.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.li.fi/",
+      "docsUrl": "https://docs.li.fi/"
+    },
+    {
+      "id": "librustzcash",
+      "name": "librustzcash",
+      "summary": "Core Rust libraries for Zcash transaction and wallet functionality.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/zcash/librustzcash"
+    },
+    {
+      "id": "lido",
+      "name": "Lido",
+      "summary": "Liquid staking protocol and stETH integrations.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lido.fi/",
+      "docsUrl": "https://docs.lido.fi/"
+    },
+    {
+      "id": "lighter",
+      "name": "Lighter",
+      "summary": "Perps entry in official RHC ecosystem table; verify RHC endpoint/deployment before integration.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lighter.xyz/",
+      "docsUrl": "https://docs.lighter.xyz/"
+    },
+    {
+      "id": "lightning-dev-kit",
+      "name": "Lightning Dev Kit",
+      "summary": "Embeddable Lightning protocol libraries.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://lightningdevkit.org/"
+    },
+    {
+      "id": "lightning-loop",
+      "name": "Lightning Loop",
+      "summary": "Submarine swaps for channel liquidity management.",
+      "categories": [
+        "CT-12",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lightning.engineering/lightning-network-tools/loop",
+      "docsUrl": "https://docs.lightning.engineering/lightning-network-tools/loop"
+    },
+    {
+      "id": "lightning-pool",
+      "name": "Lightning Pool",
+      "summary": "Non-custodial marketplace for channel liquidity, not base-layer yield.",
+      "categories": [
+        "CT-06",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lightning.engineering/lightning-network-tools/pool",
+      "docsUrl": "https://docs.lightning.engineering/lightning-network-tools/pool"
+    },
+    {
+      "id": "lightwalletd",
+      "name": "lightwalletd",
+      "summary": "Compact-block service for light clients; server trust/availability caveats required.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/zcash/lightwalletd"
+    },
+    {
+      "id": "liquid-network",
+      "name": "Liquid Network",
+      "summary": "Federated sidechain and peg; separate consensus/trust model.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.liquid.net/docs/",
+      "docsUrl": "https://docs.liquid.net/docs/"
+    },
+    {
+      "id": "liquity",
+      "name": "Liquity",
+      "summary": "ETH-backed stablecoin/borrowing protocol; version and frontend are material.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.liquity.org/",
+      "docsUrl": "https://docs.liquity.org/"
+    },
+    {
+      "id": "lista-dao",
+      "name": "Lista DAO",
+      "summary": "Borrowing, stablecoin, and liquid-staking integrations.",
+      "categories": [
+        "CT-05",
+        "CT-06",
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lista.org/",
+      "docsUrl": "https://docs.lista.org/"
+    },
+    {
+      "id": "lnd",
+      "name": "LND",
+      "summary": "Lightning node implementation and APIs.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lightning.engineering/lightning-network-tools/lnd",
+      "docsUrl": "https://docs.lightning.engineering/lightning-network-tools/lnd"
+    },
+    {
+      "id": "loopscale",
+      "name": "Loopscale",
+      "summary": "Orderbook-based lending; position and maturity mechanics need tool details.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.loopscale.com/",
+      "docsUrl": "https://docs.loopscale.com/"
+    },
+    {
+      "id": "lulo",
+      "name": "Lulo",
+      "summary": "Yield routing across integrated Solana protocols.",
+      "categories": [
+        "CT-03",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.lulo.fi/",
+      "docsUrl": "https://docs.lulo.fi/"
+    },
+    {
+      "id": "magic-eden",
+      "name": "Magic Eden",
+      "summary": "Solana marketplace APIs plus multi-chain surfaces.",
+      "categories": [
+        "CT-01",
+        "CT-10",
+        "CT-17"
+      ],
+      "aliases": [
+        "Magic Eden Bitcoin"
+      ],
+      "officialUrl": "https://docs.magiceden.io/",
+      "docsUrl": "https://docs.magiceden.io/"
+    },
+    {
+      "id": "marginfi",
+      "name": "marginfi",
+      "summary": "Overcollateralized lending and borrowing.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.marginfi.com/",
+      "docsUrl": "https://docs.marginfi.com/"
+    },
+    {
+      "id": "marinade",
+      "name": "Marinade",
+      "summary": "Native and liquid staking surfaces.",
+      "categories": [
+        "CT-06",
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.marinade.finance/",
+      "docsUrl": "https://docs.marinade.finance/"
+    },
+    {
+      "id": "maya-protocol",
+      "name": "MAYA Protocol",
+      "summary": "Native ZEC pool is supported, but transparent addresses only and MAYAChain supplies execution/security.",
+      "categories": [
+        "CT-02",
+        "CT-06",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.mayaprotocol.com/introduction/readme/getting-started",
+      "docsUrl": "https://docs.mayaprotocol.com/introduction/readme/getting-started"
+    },
+    {
+      "id": "mayan",
+      "name": "Mayan",
+      "summary": "Auction-based cross-chain swap surface using Solana liquidity.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.mayan.finance/",
+      "docsUrl": "https://docs.mayan.finance/"
+    },
+    {
+      "id": "mempool-space",
+      "name": "mempool.space",
+      "summary": "Mempool, fee, block, mining, and Lightning views/API.",
+      "categories": [
+        "CT-08",
+        "CT-09",
+        "CT-10",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://mempool.space/docs/api/rest",
+      "docsUrl": "https://mempool.space/docs/api/rest"
+    },
+    {
+      "id": "metamask",
+      "name": "MetaMask",
+      "summary": "Wallet, SDK, embedded-wallet, and developer surfaces.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [
+        "MetaMask and EVM wallets"
+      ],
+      "officialUrl": "https://docs.metamask.io/",
+      "docsUrl": "https://docs.metamask.io/"
+    },
+    {
+      "id": "metaplex",
+      "name": "Metaplex",
+      "summary": "Asset standards, compressed assets, Candy Machine, and Genesis.",
+      "categories": [
+        "CT-01",
+        "CT-16",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.metaplex.com/"
+    },
+    {
+      "id": "metaplex-genesis",
+      "name": "Metaplex Genesis",
+      "summary": "Launch pools, fixed sales, auctions, and Raydium graduation are documented for Solana.",
+      "categories": [
+        "CT-01",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.metaplex.com/smart-contracts/genesis"
+    },
+    {
+      "id": "meteora",
+      "name": "Meteora",
+      "summary": "DAMM, DLMM, DBC, launch pools, vaults, and anti-bot launch mechanisms.",
+      "categories": [
+        "CT-01",
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.meteora.ag/",
+      "docsUrl": "https://docs.meteora.ag/"
+    },
+    {
+      "id": "mev-blocker",
+      "name": "MEV Blocker",
+      "summary": "Protected transaction submission and order-flow auction.",
+      "categories": [
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.mevblocker.io/",
+      "docsUrl": "https://docs.mevblocker.io/"
+    },
+    {
+      "id": "morpho",
+      "name": "Morpho",
+      "summary": "Permissionless markets, vaults, and Ethereum Chain ID 1 API coverage.",
+      "categories": [
+        "CT-05",
+        "CT-06",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.morpho.org/get-started/",
+      "docsUrl": "https://docs.morpho.org/get-started/"
+    },
+    {
+      "id": "nansen",
+      "name": "Nansen",
+      "summary": "Labeled-wallet analytics and portfolio surfaces.",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.nansen.ai/",
+      "docsUrl": "https://docs.nansen.ai/"
+    },
+    {
+      "id": "near-intents",
+      "name": "NEAR Intents",
+      "summary": "Solver-based cross-chain intents with supported BTC routes; settlement model shown per route.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.near-intents.org/",
+      "docsUrl": "https://docs.near-intents.org/"
+    },
+    {
+      "id": "nighthawk-zcash-explorer",
+      "name": "Nighthawk Zcash Explorer",
+      "summary": "Current official app check; privacy policy and node backend shown in details.",
+      "categories": [
+        "CT-09"
+      ],
+      "aliases": [],
+      "officialUrl": "https://mainnet.zcashexplorer.app/"
+    },
+    {
+      "id": "nodereal",
+      "name": "NodeReal",
+      "summary": "BSC/opBNB node, data, and indexing products.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.nodereal.io/",
+      "docsUrl": "https://docs.nodereal.io/"
+    },
+    {
+      "id": "nostr-protocol",
+      "name": "Nostr protocol",
+      "summary": "NIP-57 zaps connect Nostr events to Lightning payments; not L1 social state.",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/nostr-protocol/nips"
+    },
+    {
+      "id": "odos",
+      "name": "Odos",
+      "summary": "Smart-order routing and multi-asset paths.",
+      "categories": [
+        "CT-03"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.odos.xyz/",
+      "docsUrl": "https://docs.odos.xyz/"
+    },
+    {
+      "id": "openbook",
+      "name": "OpenBook",
+      "summary": "Open-source Solana CLOB program; integrators must verify active market depth.",
+      "categories": [
+        "CT-02",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/openbook-dex/openbook-v2"
+    },
+    {
+      "id": "openocean",
+      "name": "OpenOcean",
+      "summary": "DEX aggregation with BNB Chain routing.",
+      "categories": [
+        "CT-03"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.openocean.finance/",
+      "docsUrl": "https://docs.openocean.finance/"
+    },
+    {
+      "id": "opensea",
+      "name": "OpenSea",
+      "summary": "Marketplace and NFT APIs; chain shown per collection/order.",
+      "categories": [
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.opensea.io/",
+      "docsUrl": "https://docs.opensea.io/"
+    },
+    {
+      "id": "openzeppelin",
+      "name": "OpenZeppelin",
+      "summary": "Contract libraries, upgrades, monitor, and defender tooling.",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.openzeppelin.com/",
+      "docsUrl": "https://docs.openzeppelin.com/"
+    },
+    {
+      "id": "orca",
+      "name": "Orca",
+      "summary": "Whirlpool concentrated-liquidity protocol and SDK.",
+      "categories": [
+        "CT-02",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.orca.so/",
+      "docsUrl": "https://docs.orca.so/"
+    },
+    {
+      "id": "ord",
+      "name": "ord",
+      "summary": "Reference Ordinal Theory implementation, wallet, explorer, and Runes specification.",
+      "categories": [
+        "CT-01",
+        "CT-09",
+        "CT-16",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ordinals.com/",
+      "docsUrl": "https://docs.ordinals.com/"
+    },
+    {
+      "id": "ordinals-com-explorer",
+      "name": "ordinals.com Explorer",
+      "summary": "Reference ord explorer and JSON API.",
+      "categories": [
+        "CT-09",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ordinals.com/guides/explorer.html",
+      "docsUrl": "https://docs.ordinals.com/guides/explorer.html"
+    },
+    {
+      "id": "ordinalsbot",
+      "name": "OrdinalsBot",
+      "summary": "Inscription, Runes, marketplace, and launchpad APIs that return PSBTs.",
+      "categories": [
+        "CT-01",
+        "CT-16",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ordinalsbot.com/",
+      "docsUrl": "https://docs.ordinalsbot.com/"
+    },
+    {
+      "id": "oxt",
+      "name": "OXT",
+      "summary": "UTXO and transaction-graph analysis; privacy caveat required.",
+      "categories": [
+        "CT-09",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://github.com/samourai-wallet/oxt"
+    },
+    {
+      "id": "pancakeswap",
+      "name": "PancakeSwap",
+      "summary": "Swaps, pools, farms, IFOs, and prediction/perpetual surfaces; product scope shown separately.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-04",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pancakeswap.finance/",
+      "docsUrl": "https://docs.pancakeswap.finance/"
+    },
+    {
+      "id": "pancakeswap-ifo",
+      "name": "PancakeSwap IFO",
+      "summary": "Initial Farm Offering flow and chain-specific eligibility.",
+      "categories": [
+        "CT-01"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pancakeswap.finance/earn/ifo-initial-farm-offering",
+      "docsUrl": "https://docs.pancakeswap.finance/earn/ifo-initial-farm-offering"
+    },
+    {
+      "id": "pancakeswap-springboard",
+      "name": "PancakeSwap SpringBoard",
+      "summary": "Official launch surface; verify current pool/graduation settings in app.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://pancakeswap.finance/springboard"
+    },
+    {
+      "id": "paxos-usdg",
+      "name": "Paxos USDG",
+      "summary": "Official RHC ecosystem table identifies USDG; reserve/issuer links required in details.",
+      "categories": [
+        "CT-05",
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.paxos.com/",
+      "docsUrl": "https://docs.paxos.com/"
+    },
+    {
+      "id": "pay-with-zcash",
+      "name": "Pay with Zcash",
+      "summary": "Merchant discovery; listing is not merchant verification.",
+      "categories": [
+        "CT-10",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://paywithz.cash/"
+    },
+    {
+      "id": "pendle",
+      "name": "Pendle",
+      "summary": "Tokenized yield and AMM markets.",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pendle.finance/",
+      "docsUrl": "https://docs.pendle.finance/"
+    },
+    {
+      "id": "phantom",
+      "name": "Phantom",
+      "summary": "Wallet and embedded/in-app integration surfaces.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.phantom.com/",
+      "docsUrl": "https://docs.phantom.com/"
+    },
+    {
+      "id": "phoenix-lightning-wallet",
+      "name": "Phoenix",
+      "summary": "Self-custodial Lightning wallet with channel/liquidity abstraction.",
+      "categories": [
+        "CT-11",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://phoenix.acinq.co/faq"
+    },
+    {
+      "id": "phoenix-solana-dex",
+      "name": "Phoenix",
+      "summary": "Fully on-chain order book program and client tooling.",
+      "categories": [
+        "CT-02",
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.ellipsis-labs.xyz/",
+      "docsUrl": "https://docs.ellipsis-labs.xyz/"
+    },
+    {
+      "id": "pieverse",
+      "name": "Pieverse",
+      "summary": "TimeFi/Access-Fi app listed by official BNB Chain reporting.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://pieverse.io/"
+    },
+    {
+      "id": "pinksale",
+      "name": "PinkSale",
+      "summary": "Token sale and launch tooling; surface access and audit status vary per launch.",
+      "categories": [
+        "CT-01"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pinksale.finance/",
+      "docsUrl": "https://docs.pinksale.finance/"
+    },
+    {
+      "id": "poap",
+      "name": "POAP",
+      "summary": "Attendance/identity collectibles; mint chain is shown per drop.",
+      "categories": [
+        "CT-15",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://documentation.poap.tech/",
+      "docsUrl": "https://documentation.poap.tech/"
+    },
+    {
+      "id": "polar",
+      "name": "Polar",
+      "summary": "Local Lightning network development environment.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://lightningpolar.com/"
+    },
+    {
+      "id": "polymarket",
+      "name": "Polymarket",
+      "summary": "Ethereum-compatible ecosystem tool, but execution is not Ethereum L1; excluded from native count.",
+      "categories": [
+        "CT-04"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.polymarket.com/",
+      "docsUrl": "https://docs.polymarket.com/"
+    },
+    {
+      "id": "primal",
+      "name": "Primal",
+      "summary": "Nostr client and Bitcoin/Lightning wallet surfaces.",
+      "categories": [
+        "CT-11",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://primal.net/"
+    },
+    {
+      "id": "pstake",
+      "name": "pSTAKE",
+      "summary": "Liquid staking for BNB; unbonding and validator dependencies required in details.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pstake.finance/",
+      "docsUrl": "https://docs.pstake.finance/"
+    },
+    {
+      "id": "pump-fun",
+      "name": "pump.fun",
+      "summary": "Official app check; bonding-curve launch surface, exact migration settings must be inspected per launch.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://pump.fun/"
+    },
+    {
+      "id": "pyth-network",
+      "name": "Pyth Network",
+      "summary": "Solana-origin market-data network with pull oracle integrations.",
+      "categories": [
+        "CT-08",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.pyth.network/price-feeds",
+      "docsUrl": "https://docs.pyth.network/price-feeds"
+    },
+    {
+      "id": "quicknode",
+      "name": "QuickNode",
+      "summary": "Solana RPC and add-on APIs.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.quicknode.com/docs/solana",
+      "docsUrl": "https://www.quicknode.com/docs/solana"
+    },
+    {
+      "id": "rabby",
+      "name": "Rabby",
+      "summary": "EVM wallet with simulation/security UI; official app evidence.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://rabby.io/"
+    },
+    {
+      "id": "rainbow",
+      "name": "Rainbow",
+      "summary": "Ethereum wallet; browser/mobile features checked on official app.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://rainbow.me/"
+    },
+    {
+      "id": "range",
+      "name": "Range",
+      "summary": "Compliance and risk partner in Solana Developer Platform.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.range.org/"
+    },
+    {
+      "id": "raydium",
+      "name": "Raydium",
+      "summary": "CPMM, CLMM, routing, farms, and pools.",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.raydium.io/",
+      "docsUrl": "https://docs.raydium.io/"
+    },
+    {
+      "id": "raydium-launchlab",
+      "name": "Raydium LaunchLab",
+      "summary": "Permissionless curve launch with automatic CPMM migration.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.raydium.io/user-flows/launchlab-overview",
+      "docsUrl": "https://docs.raydium.io/user-flows/launchlab-overview"
+    },
+    {
+      "id": "reach-me",
+      "name": "Reach Me",
+      "summary": "Official app plus BNB Chain’s 2025 Access-Fi ecosystem report.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://reachme.io/"
+    },
+    {
+      "id": "redstone",
+      "name": "RedStone",
+      "summary": "Modular oracle delivery models and Ethereum support.",
+      "categories": [
+        "CT-08"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.redstone.finance/",
+      "docsUrl": "https://docs.redstone.finance/"
+    },
+    {
+      "id": "relay",
+      "name": "Relay",
+      "summary": "Official RHC bridging guide lists Relay.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.relay.link/",
+      "docsUrl": "https://docs.relay.link/"
+    },
+    {
+      "id": "rialto",
+      "name": "Rialto",
+      "summary": "Official RHC table identifies PropAMM and aggregator; public vs proprietary surfaces must be labeled.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.robinhood.com/chain/",
+      "docsUrl": "https://docs.robinhood.com/chain/"
+    },
+    {
+      "id": "robinhood-wallet",
+      "name": "Robinhood Wallet",
+      "summary": "Official RHC wallet guide identifies the first-party wallet.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://robinhood.com/us/en/support/articles/robinhood-wallet/"
+    },
+    {
+      "id": "rocket-pool",
+      "name": "Rocket Pool",
+      "summary": "Decentralized node operator and liquid-staking surfaces.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.rocketpool.net/",
+      "docsUrl": "https://docs.rocketpool.net/"
+    },
+    {
+      "id": "rootstock",
+      "name": "Rootstock",
+      "summary": "PowPeg bridge and EVM sidechain; not Bitcoin L1 smart contracts.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://dev.rootstock.io/kb/rootstock-tokenomics/powpeg/"
+    },
+    {
+      "id": "rugcheck",
+      "name": "RugCheck",
+      "summary": "Automated token-risk surface referenced by official token verification docs.",
+      "categories": [
+        "CT-10",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://rugcheck.xyz/"
+    },
+    {
+      "id": "rust-bitcoin",
+      "name": "rust-bitcoin",
+      "summary": "Bitcoin data structures and serialization library.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.rs/bitcoin/",
+      "docsUrl": "https://docs.rs/bitcoin/"
+    },
+    {
+      "id": "safe",
+      "name": "Safe",
+      "summary": "Smart accounts, multisig, modules, and transaction service.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.safe.global/",
+      "docsUrl": "https://docs.safe.global/"
+    },
+    {
+      "id": "safepal",
+      "name": "SafePal",
+      "summary": "Wallet/hardware surfaces with BNB support.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.safepal.com/",
+      "docsUrl": "https://docs.safepal.com/"
+    },
+    {
+      "id": "sanctum",
+      "name": "Sanctum",
+      "summary": "Liquid-staking-token liquidity, routing, and validator LST tooling.",
+      "categories": [
+        "CT-03",
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://learn.sanctum.so/"
+    },
+    {
+      "id": "save",
+      "name": "Save",
+      "summary": "Current successor surface to Solend; preserve historical alias for search.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [
+        "Solend"
+      ],
+      "officialUrl": "https://docs.save.finance/",
+      "docsUrl": "https://docs.save.finance/"
+    },
+    {
+      "id": "sequencer-feed",
+      "name": "Sequencer feed",
+      "summary": "Official connect page publishes sequencer-feed endpoint; it is a wake-up/data surface, not a finality oracle.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.robinhood.com/chain/connecting/",
+      "docsUrl": "https://docs.robinhood.com/chain/connecting/"
+    },
+    {
+      "id": "sky-protocol",
+      "name": "Sky Protocol",
+      "summary": "USDS/Sky Savings and protocol developer surfaces; keep Maker alias searchable.",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.sky.money/"
+    },
+    {
+      "id": "solana-explorer",
+      "name": "Solana Explorer",
+      "summary": "Official account, transaction, program, and cluster explorer.",
+      "categories": [
+        "CT-09"
+      ],
+      "aliases": [],
+      "officialUrl": "https://explorer.solana.com/"
+    },
+    {
+      "id": "solana-name-service",
+      "name": "Solana Name Service",
+      "summary": "Names and identity resolution.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [
+        "Bonfida",
+        "SNS"
+      ],
+      "officialUrl": "https://docs.sns.id/",
+      "docsUrl": "https://docs.sns.id/"
+    },
+    {
+      "id": "solana-native-staking",
+      "name": "Solana native staking",
+      "summary": "Protocol delegation baseline; never describe as a third-party product.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://solana.com/staking"
+    },
+    {
+      "id": "solflare",
+      "name": "Solflare",
+      "summary": "Solana wallet plus token/pricing surfaces.",
+      "categories": [
+        "CT-10",
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.solflare.com/",
+      "docsUrl": "https://docs.solflare.com/"
+    },
+    {
+      "id": "solscan",
+      "name": "Solscan",
+      "summary": "Explorer and API; included in the Foundation source catalog.",
+      "categories": [
+        "CT-08",
+        "CT-09"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.solscan.io/",
+      "docsUrl": "https://docs.solscan.io/"
+    },
+    {
+      "id": "space-id",
+      "name": "SPACE ID",
+      "summary": "`.bnb` identity and name-service integrations.",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.space.id/",
+      "docsUrl": "https://docs.space.id/"
+    },
+    {
+      "id": "spark",
+      "name": "Spark",
+      "summary": "Lending and savings surfaces; chain/deployment shown per product.",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.spark.fi/",
+      "docsUrl": "https://docs.spark.fi/"
+    },
+    {
+      "id": "sparrow-wallet",
+      "name": "Sparrow Wallet",
+      "summary": "Descriptor/PSBT-focused desktop wallet with coin control.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://sparrowwallet.com/docs/",
+      "docsUrl": "https://sparrowwallet.com/docs/"
+    },
+    {
+      "id": "specter-desktop",
+      "name": "Specter Desktop",
+      "summary": "Multisig and hardware-wallet coordination around Bitcoin Core.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.specter.solutions/desktop/",
+      "docsUrl": "https://docs.specter.solutions/desktop/"
+    },
+    {
+      "id": "squads",
+      "name": "Squads",
+      "summary": "Multisig and smart-account infrastructure.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.squads.so/",
+      "docsUrl": "https://docs.squads.so/"
+    },
+    {
+      "id": "stader-bnbx",
+      "name": "Stader BNBx",
+      "summary": "BNB liquid staking; verify current contracts before integration.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.staderlabs.com/docs-v1/bnb/",
+      "docsUrl": "https://www.staderlabs.com/docs-v1/bnb/"
+    },
+    {
+      "id": "stakewise",
+      "name": "StakeWise",
+      "summary": "Staking vaults and operator tooling.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.stakewise.io/",
+      "docsUrl": "https://docs.stakewise.io/"
+    },
+    {
+      "id": "stargate",
+      "name": "Stargate",
+      "summary": "LayerZero-based asset bridge with BNB routes.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.stargate.finance/",
+      "docsUrl": "https://docs.stargate.finance/"
+    },
+    {
+      "id": "status",
+      "name": "Status",
+      "summary": "Messaging and Ethereum wallet surface.",
+      "categories": [
+        "CT-11",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://status.app/help/"
+    },
+    {
+      "id": "step-finance",
+      "name": "Step Finance",
+      "summary": "Solana portfolio and transaction view.",
+      "categories": [
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.step.finance/",
+      "docsUrl": "https://docs.step.finance/"
+    },
+    {
+      "id": "switchboard",
+      "name": "Switchboard",
+      "summary": "Oracle feeds, randomness, and custom data surfaces.",
+      "categories": [
+        "CT-08",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.switchboard.xyz/",
+      "docsUrl": "https://docs.switchboard.xyz/"
+    },
+    {
+      "id": "symbiotic",
+      "name": "Symbiotic",
+      "summary": "Shared-security/restaking infrastructure.",
+      "categories": [
+        "CT-07"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.symbiotic.fi/",
+      "docsUrl": "https://docs.symbiotic.fi/"
+    },
+    {
+      "id": "tbtc",
+      "name": "tBTC",
+      "summary": "Threshold-custodied BTC representation on EVM; not native Bitcoin execution.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.threshold.network/applications/tbtc-v2/",
+      "docsUrl": "https://docs.threshold.network/applications/tbtc-v2/"
+    },
+    {
+      "id": "tenderly",
+      "name": "Tenderly",
+      "summary": "Simulation, debugging, monitoring, and virtual testnets.",
+      "categories": [
+        "CT-09",
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.tenderly.co/",
+      "docsUrl": "https://docs.tenderly.co/"
+    },
+    {
+      "id": "tensor",
+      "name": "Tensor",
+      "summary": "Solana NFT marketplace and trading APIs.",
+      "categories": [
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.tensor.trade/",
+      "docsUrl": "https://docs.tensor.trade/"
+    },
+    {
+      "id": "the-graph",
+      "name": "The Graph",
+      "summary": "Subgraphs and decentralized data-query infrastructure.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://thegraph.com/docs/",
+      "docsUrl": "https://thegraph.com/docs/"
+    },
+    {
+      "id": "thena",
+      "name": "THENA",
+      "summary": "Spot liquidity, perpetuals, gauges, and strategy surfaces.",
+      "categories": [
+        "CT-02",
+        "CT-04",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.thena.fi/thena",
+      "docsUrl": "https://docs.thena.fi/thena"
+    },
+    {
+      "id": "thorchain",
+      "name": "THORChain",
+      "summary": "Native-BTC swap input but execution/security spans THORChain; excluded from Bitcoin-native count.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://dev.thorchain.org/"
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "summary": "Solana swap/meta-aggregation; include only while current docs confirm production.",
+      "categories": [
+        "CT-03"
+      ],
+      "aliases": [],
+      "officialUrl": "https://titan-exchange.gitbook.io/titan"
+    },
+    {
+      "id": "transit-swap",
+      "name": "Transit Swap",
+      "summary": "Swap and cross-chain routing; BNB/opBNB routes shown distinctly.",
+      "categories": [
+        "CT-03",
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.transit.finance/",
+      "docsUrl": "https://docs.transit.finance/"
+    },
+    {
+      "id": "triton-one",
+      "name": "Triton One",
+      "summary": "RPC and transaction infrastructure; official SDP provider.",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.triton.one/",
+      "docsUrl": "https://docs.triton.one/"
+    },
+    {
+      "id": "trm-labs",
+      "name": "TRM Labs",
+      "summary": "Compliance provider listed in official RHC ecosystem table.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.trmlabs.com/trm-products/transaction-monitoring"
+    },
+    {
+      "id": "trust-wallet",
+      "name": "Trust Wallet",
+      "summary": "BNB-compatible wallet and Wallet Core/developer surface.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developer.trustwallet.com/developer/"
+    },
+    {
+      "id": "unisat",
+      "name": "UniSat",
+      "summary": "Bitcoin wallet, inscription/Runes, and marketplace tooling.",
+      "categories": [
+        "CT-01",
+        "CT-11",
+        "CT-17"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.unisat.io/",
+      "docsUrl": "https://docs.unisat.io/"
+    },
+    {
+      "id": "uniswap",
+      "name": "Uniswap",
+      "summary": "Ethereum deployments and developer surfaces; versions remain distinct.",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.uniswap.org/docs/protocols/overview",
+      "docsUrl": "https://developers.uniswap.org/docs/protocols/overview"
+    },
+    {
+      "id": "uniswap-liquidity-launchpad",
+      "name": "Uniswap Liquidity Launchpad",
+      "summary": "Public mechanism specification; do not label production without deployed-address evidence.",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.uniswap.org/assets/files/whitepaper_cca-fc8b989c3a5b11f6fcd199f6c6837a77.pdf",
+      "docsUrl": "https://docs.uniswap.org/assets/files/whitepaper_cca-fc8b989c3a5b11f6fcd199f6c6837a77.pdf"
+    },
+    {
+      "id": "unstoppable-wallet",
+      "name": "Unstoppable Wallet",
+      "summary": "Multi-coin wallet with Zcash support; shielded support verified from official feature surface.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://unstoppable.money/"
+    },
+    {
+      "id": "validation-cloud",
+      "name": "Validation Cloud",
+      "summary": "RPC provider listed by official RHC connect page.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.validationcloud.io/",
+      "docsUrl": "https://docs.validationcloud.io/"
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "summary": "Native BNB money-market and stablecoin-related surfaces.",
+      "categories": [
+        "CT-05"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.venus.io/",
+      "docsUrl": "https://docs.venus.io/"
+    },
+    {
+      "id": "viem",
+      "name": "viem",
+      "summary": "Typed TypeScript interface to Ethereum.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://viem.sh/docs/introduction",
+      "docsUrl": "https://viem.sh/docs/introduction"
+    },
+    {
+      "id": "viem-wagmi",
+      "name": "viem / wagmi",
+      "summary": "Typed client and app integration stack in official RHC development guidance.",
+      "categories": [
+        "CT-16"
+      ],
+      "aliases": [
+        "viem",
+        "wagmi"
+      ],
+      "officialUrl": "https://viem.sh/docs/introduction",
+      "docsUrl": "https://viem.sh/docs/introduction"
+    },
+    {
+      "id": "wasabi-wallet",
+      "name": "Wasabi Wallet",
+      "summary": "Privacy-focused desktop wallet; current coinjoin availability must be region/version labeled.",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.wasabiwallet.io/",
+      "docsUrl": "https://docs.wasabiwallet.io/"
+    },
+    {
+      "id": "wombat-exchange",
+      "name": "Wombat Exchange",
+      "summary": "Single-sided liquidity design and yield integrations.",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.wombat.exchange/",
+      "docsUrl": "https://docs.wombat.exchange/"
+    },
+    {
+      "id": "wormhole",
+      "name": "Wormhole",
+      "summary": "Messaging and token-transfer products with Solana support.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://wormhole.com/docs/products/connect/overview/",
+      "docsUrl": "https://wormhole.com/docs/products/connect/overview/"
+    },
+    {
+      "id": "wrapped-bitcoin",
+      "name": "Wrapped Bitcoin",
+      "summary": "Custodial tokenized BTC on EVM; custody is mandatory in row display.",
+      "categories": [
+        "CT-12"
+      ],
+      "aliases": [],
+      "officialUrl": "https://wbtc.network/"
+    },
+    {
+      "id": "yearn",
+      "name": "Yearn",
+      "summary": "Strategy vaults and developer integration.",
+      "categories": [
+        "CT-06"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.yearn.fi/",
+      "docsUrl": "https://docs.yearn.fi/"
+    },
+    {
+      "id": "zapper",
+      "name": "Zapper",
+      "summary": "Portfolio and protocol-position decoding.",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "aliases": [],
+      "officialUrl": "https://protocol.zapper.xyz/"
+    },
+    {
+      "id": "zaprite",
+      "name": "Zaprite",
+      "summary": "Bitcoin and Lightning invoicing/commerce tools.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://help.zaprite.com/"
+    },
+    {
+      "id": "zashi-sdks",
+      "name": "Zashi SDKs",
+      "summary": "Official mobile SDK resources for shielded wallet integration.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zcash.readthedocs.io/en/latest/rtd_pages/mobile_sdk.html",
+      "docsUrl": "https://zcash.readthedocs.io/en/latest/rtd_pages/mobile_sdk.html"
+    },
+    {
+      "id": "zashi-zodl",
+      "name": "Zashi / Zodl",
+      "summary": "Shielded ZEC wallet with NEAR Intents swaps and CrossPay; preserve both names as aliases during rebrand.",
+      "categories": [
+        "CT-03",
+        "CT-11",
+        "CT-12"
+      ],
+      "aliases": [
+        "Zashi",
+        "Zodl"
+      ],
+      "officialUrl": "https://electriccoin.co/"
+    },
+    {
+      "id": "zcash-community-grants",
+      "name": "Zcash Community Grants",
+      "summary": "Funds project launches and public goods; explicitly not a token launchpad.",
+      "categories": [
+        "CT-01",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zcashcommunitygrants.org/"
+    },
+    {
+      "id": "zcash-devtool",
+      "name": "zcash-devtool",
+      "summary": "Transaction construction/signing tutorial and PCZT tooling.",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://frost.zfnd.org/zcash/devtool-demo.html"
+    },
+    {
+      "id": "zcash-privacy-best-practices",
+      "name": "Zcash privacy best practices",
+      "summary": "Operational privacy guidance; shown as a resource, not a security product.",
+      "categories": [
+        "CT-14"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zcash.readthedocs.io/en/master/rtd_pages/privacy_recommendations_best_practices.html",
+      "docsUrl": "https://zcash.readthedocs.io/en/master/rtd_pages/privacy_recommendations_best_practices.html"
+    },
+    {
+      "id": "zcash-rpc-documentation",
+      "name": "Zcash RPC documentation",
+      "summary": "Generated command reference for node integration.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zcash.github.io/rpc/"
+    },
+    {
+      "id": "zcash-shielded-assets-zip-227",
+      "name": "Zcash Shielded Assets / ZIP 227",
+      "summary": "Status is `Draft`, reference implementation and deployment are `TBD`; never show as usable issuance.",
+      "categories": [
+        "CT-01",
+        "CT-16"
+      ],
+      "aliases": [
+        "Zcash Shielded Assets",
+        "ZIP 227"
+      ],
+      "officialUrl": "https://zips.z.cash/zip-0227"
+    },
+    {
+      "id": "zcash-wallet-ecosystem-guide",
+      "name": "Zcash wallet ecosystem guide",
+      "summary": "Community-maintained wallet discovery with a warning that not every wallet supports private transactions.",
+      "categories": [
+        "CT-10",
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://www.zcashcommunity.com/wallets/"
+    },
+    {
+      "id": "zcashd-zcash-cli",
+      "name": "zcashd / zcash-cli",
+      "summary": "Reference node/RPC and legacy wallet tooling; deprecation/migration status tracked per release.",
+      "categories": [
+        "CT-09",
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [
+        "zcash-cli",
+        "zcashd"
+      ],
+      "officialUrl": "https://zcash.readthedocs.io/en/latest/",
+      "docsUrl": "https://zcash.readthedocs.io/en/latest/"
+    },
+    {
+      "id": "zebra",
+      "name": "Zebra",
+      "summary": "Independent consensus-compatible Rust node implementation.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zfnd.org/zebra/download/"
+    },
+    {
+      "id": "zec-rocks-explorer",
+      "name": "zec.rocks Explorer",
+      "summary": "Community explorer and lightwallet infrastructure; exact backend shown.",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://explorer.zec.rocks/"
+    },
+    {
+      "id": "zechub",
+      "name": "ZecHub",
+      "summary": "Community education and ecosystem discovery.",
+      "categories": [
+        "CT-10",
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zechub.wiki/"
+    },
+    {
+      "id": "zecpages",
+      "name": "ZecPages",
+      "summary": "Anonymous message board using Zcash payments/identity conventions.",
+      "categories": [
+        "CT-15"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zecpages.com/"
+    },
+    {
+      "id": "zerion",
+      "name": "Zerion",
+      "summary": "Portfolio data and wallet surfaces.",
+      "categories": [
+        "CT-09",
+        "CT-10",
+        "CT-11"
+      ],
+      "aliases": [],
+      "officialUrl": "https://developers.zerion.io/"
+    },
+    {
+      "id": "zeus",
+      "name": "Zeus",
+      "summary": "Lightning node/wallet control and embedded-node surfaces.",
+      "categories": [
+        "CT-11",
+        "CT-13"
+      ],
+      "aliases": [],
+      "officialUrl": "https://docs.zeusln.app/",
+      "docsUrl": "https://docs.zeusln.app/"
+    },
+    {
+      "id": "zgo",
+      "name": "ZGo",
+      "summary": "Non-custodial shielded ZEC point-of-sale, invoicing, WooCommerce, and API.",
+      "categories": [
+        "CT-15",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zgo.cash/"
+    },
+    {
+      "id": "ziggurat",
+      "name": "Ziggurat",
+      "summary": "Network conformance, performance, and resilience testing for node implementations.",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zcash.readthedocs.io/en/master/rtd_pages/dev_tools.html",
+      "docsUrl": "https://zcash.readthedocs.io/en/master/rtd_pages/dev_tools.html"
+    },
+    {
+      "id": "zingo",
+      "name": "Zingo!",
+      "summary": "Open-source shielded wallet and ecosystem tooling.",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "aliases": [],
+      "officialUrl": "https://zingolabs.org/"
+    },
+    {
+      "id": "zkool-ywallet",
+      "name": "Zkool / YWallet",
+      "summary": "Current wallet repository/releases; preserve YWallet alias and show compatibility caveats.",
+      "categories": [
+        "CT-11"
+      ],
+      "aliases": [
+        "YWallet",
+        "Zkool"
+      ],
+      "officialUrl": "https://github.com/hhanh00/zwallet"
+    }
+  ]
+}

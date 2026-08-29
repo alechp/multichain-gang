@@ -1,0 +1,4134 @@
+{
+  "schemaVersion": 1,
+  "chainId": "eth",
+  "slug": "ethereum",
+  "name": "Ethereum",
+  "shorthand": "ETH",
+  "route": "#/tools/ethereum",
+  "hubRoute": "#/c/ethereum",
+  "verified": "2026-08-29",
+  "scopeStatement": "Ethereum mainnet first; L2, cross-chain, and off-chain placements remain explicitly labeled.",
+  "thesis": "Ethereum has the broadest mature tool surface in the set, but “Ethereum ecosystem” can conceal a major scope error: many high-volume applications execute on an L2 or app chain rather than Ethereum mainnet. This page defaults to Ethereum L1 placements. Explicitly named L2 and off-chain services are discoverable through scope filters and never counted as L1-native coverage.",
+  "visual": {
+    "src": "assets/chain-tools/ethereum-landscape.png",
+    "alt": "Abstract Ethereum tooling topology with layered settlement planes",
+    "objectPosition": "50% 48%",
+    "caption": "Conceptual topology; the inventory is authoritative.",
+    "label": "CONCEPTUAL TOPOLOGY"
+  },
+  "coverage": [
+    {
+      "categoryId": "CT-01",
+      "level": "established",
+      "label": "established",
+      "note": "auctions, community funding, and liquidity-launch mechanisms; some are not yet production"
+    },
+    {
+      "categoryId": "CT-02",
+      "level": "dense",
+      "label": "dense",
+      "note": "multiple AMM designs plus solver-driven exchange"
+    },
+    {
+      "categoryId": "CT-03",
+      "level": "dense",
+      "label": "dense",
+      "note": "API, RFQ, solver, and meta-routing choices"
+    },
+    {
+      "categoryId": "CT-04",
+      "level": "adjacent",
+      "label": "adjacent",
+      "note": "much current execution lives on L2s or app chains; name the execution chain"
+    },
+    {
+      "categoryId": "CT-05",
+      "level": "dense",
+      "label": "dense",
+      "note": "deep general and permissionless market infrastructure"
+    },
+    {
+      "categoryId": "CT-06",
+      "level": "dense",
+      "label": "dense",
+      "note": "mature vault, fixed-yield, and LP-management layer"
+    },
+    {
+      "categoryId": "CT-07",
+      "level": "dense",
+      "label": "dense",
+      "note": "native staking, liquid staking, and restaking are distinct risk planes"
+    },
+    {
+      "categoryId": "CT-08",
+      "level": "dense",
+      "label": "dense",
+      "note": "many contract-consumable oracle designs"
+    },
+    {
+      "categoryId": "CT-09",
+      "level": "dense",
+      "label": "dense",
+      "note": "explorer, SQL, subgraph, simulation, and labeled-data layers"
+    },
+    {
+      "categoryId": "CT-10",
+      "level": "dense",
+      "label": "dense",
+      "note": "mature cross-protocol portfolio and pool discovery"
+    },
+    {
+      "categoryId": "CT-11",
+      "level": "dense",
+      "label": "dense",
+      "note": "EOAs, smart accounts, multisig, embedded, and institutional custody"
+    },
+    {
+      "categoryId": "CT-12",
+      "level": "dense",
+      "label": "dense",
+      "note": "canonical L2 bridges plus generalized messaging and intent layers"
+    },
+    {
+      "categoryId": "CT-13",
+      "level": "dense",
+      "label": "dense",
+      "note": "builders, relays, private RPC, solver auctions, and protected submission"
+    },
+    {
+      "categoryId": "CT-14",
+      "level": "dense",
+      "label": "dense",
+      "note": "libraries, monitoring, simulation, and transaction-risk services"
+    },
+    {
+      "categoryId": "CT-15",
+      "level": "established",
+      "label": "established",
+      "note": "Ethereum identity is native; several social networks execute elsewhere"
+    },
+    {
+      "categoryId": "CT-16",
+      "level": "dense",
+      "label": "dense",
+      "note": "the reference EVM tool ecosystem"
+    },
+    {
+      "categoryId": "CT-17",
+      "level": "established",
+      "label": "established",
+      "note": "mature standards and markets, with newer activity spread across L2s"
+    }
+  ],
+  "placements": [
+    {
+      "id": "eth:uniswap-liquidity-launchpad",
+      "toolId": "uniswap-liquidity-launchpad",
+      "chainId": "eth",
+      "categories": [
+        "CT-01",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native design",
+      "status": "announced",
+      "statusLabel": "announced",
+      "access": "permissionless",
+      "surfaces": [
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "contracts/design"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.uniswap.org/assets/files/whitepaper_cca-fc8b989c3a5b11f6fcd199f6c6837a77.pdf",
+          "checked": "2026-08-29",
+          "note": "public mechanism specification; do not label production without deployed-address evidence"
+        }
+      ],
+      "riskFlags": [
+        "availability-not-production",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-02"
+        ],
+        "relationship": "Native design",
+        "reason": "public mechanism specification; do not label production without deployed-address evidence"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native design",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "public mechanism specification; do not label production without deployed-address evidence",
+      "displayName": "Uniswap Liquidity Launchpad"
+    },
+    {
+      "id": "eth:fjord-foundry",
+      "toolId": "fjord-foundry",
+      "chainId": "eth",
+      "categories": [
+        "CT-01"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://help.fjordfoundry.com/",
+          "checked": "2026-08-29",
+          "note": "token sale and liquidity bootstrapping surface; deployment chain shown per sale"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "token sale and liquidity bootstrapping surface; deployment chain shown per sale"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "token sale and liquidity bootstrapping surface; deployment chain shown per sale",
+      "displayName": "Fjord Foundry"
+    },
+    {
+      "id": "eth:juicebox",
+      "toolId": "juicebox",
+      "chainId": "eth",
+      "categories": [
+        "CT-01",
+        "CT-15"
+      ],
+      "primaryCategory": "CT-01",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.juicebox.money/",
+          "checked": "2026-08-29",
+          "note": "programmable project funding and treasury issuance on Ethereum deployments"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-01",
+        "categoryIds": [
+          "CT-01",
+          "CT-15"
+        ],
+        "relationship": "Native",
+        "reason": "programmable project funding and treasury issuance on Ethereum deployments"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-15"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "programmable project funding and treasury issuance on Ethereum deployments",
+      "displayName": "Juicebox"
+    },
+    {
+      "id": "eth:uniswap",
+      "toolId": "uniswap",
+      "chainId": "eth",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.uniswap.org/docs/protocols/overview",
+          "checked": "2026-08-29",
+          "note": "Ethereum deployments and developer surfaces; versions remain distinct"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-03",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "Ethereum deployments and developer surfaces; versions remain distinct"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-03",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "Ethereum deployments and developer surfaces; versions remain distinct",
+      "displayName": "Uniswap"
+    },
+    {
+      "id": "eth:curve",
+      "toolId": "curve",
+      "chainId": "eth",
+      "categories": [
+        "CT-02",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.curve.finance/",
+          "checked": "2026-08-29",
+          "note": "stableswap, pools, gauges, and lending-related product surfaces"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "stableswap, pools, gauges, and lending-related product surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "stableswap, pools, gauges, and lending-related product surfaces",
+      "displayName": "Curve"
+    },
+    {
+      "id": "eth:balancer",
+      "toolId": "balancer",
+      "chainId": "eth",
+      "categories": [
+        "CT-02",
+        "CT-06",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.balancer.fi/",
+          "checked": "2026-08-29",
+          "note": "weighted/composable pools and vault architecture"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-06",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "weighted/composable pools and vault architecture"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-06",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "weighted/composable pools and vault architecture",
+      "displayName": "Balancer"
+    },
+    {
+      "id": "eth:cow-protocol",
+      "toolId": "cow-protocol",
+      "chainId": "eth",
+      "categories": [
+        "CT-02",
+        "CT-03",
+        "CT-13"
+      ],
+      "primaryCategory": "CT-02",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / offchain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.cow.fi/cow-protocol",
+          "checked": "2026-08-29",
+          "note": "batch auctions, solvers, intents, and MEV-aware execution"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "liquidity-and-exit",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-02",
+        "categoryIds": [
+          "CT-02",
+          "CT-03",
+          "CT-13"
+        ],
+        "relationship": "Native / offchain service",
+        "reason": "batch auctions, solvers, intents, and MEV-aware execution"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-03",
+          "CT-13"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / offchain service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "batch auctions, solvers, intents, and MEV-aware execution",
+      "displayName": "CoW Protocol"
+    },
+    {
+      "id": "eth:1inch",
+      "toolId": "1inch",
+      "chainId": "eth",
+      "categories": [
+        "CT-03"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://portal.1inch.dev/documentation/overview",
+          "checked": "2026-08-29",
+          "note": "aggregation and intent APIs; chain support must come from current portal configuration"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "aggregation and intent APIs; chain support must come from current portal configuration"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "aggregation and intent APIs; chain support must come from current portal configuration",
+      "displayName": "1inch"
+    },
+    {
+      "id": "eth:0x-matcha",
+      "toolId": "0x-matcha",
+      "chainId": "eth",
+      "categories": [
+        "CT-03",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://0x.org/docs/",
+          "checked": "2026-08-29",
+          "note": "swap and RFQ aggregation on Ethereum"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03",
+          "CT-16"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "swap and RFQ aggregation on Ethereum"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "swap and RFQ aggregation on Ethereum",
+      "displayName": "0x / Matcha"
+    },
+    {
+      "id": "eth:odos",
+      "toolId": "odos",
+      "chainId": "eth",
+      "categories": [
+        "CT-03"
+      ],
+      "primaryCategory": "CT-03",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.odos.xyz/",
+          "checked": "2026-08-29",
+          "note": "smart-order routing and multi-asset paths"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-03",
+        "categoryIds": [
+          "CT-03"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "smart-order routing and multi-asset paths"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "smart-order routing and multi-asset paths",
+      "displayName": "Odos"
+    },
+    {
+      "id": "eth:polymarket",
+      "toolId": "polymarket",
+      "chainId": "eth",
+      "categories": [
+        "CT-04"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent: Polygon",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.polymarket.com/",
+          "checked": "2026-08-29",
+          "note": "Ethereum-compatible ecosystem tool, but execution is not Ethereum L1; excluded from native count"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "leverage-oracle-liquidation"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04"
+        ],
+        "relationship": "Adjacent: Polygon",
+        "reason": "Ethereum-compatible ecosystem tool, but execution is not Ethereum L1; excluded from native count"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent: Polygon",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "Polygon"
+        ]
+      },
+      "chainNote": "Ethereum-compatible ecosystem tool, but execution is not Ethereum L1; excluded from native count",
+      "displayName": "Polymarket"
+    },
+    {
+      "id": "eth:gmx",
+      "toolId": "gmx",
+      "chainId": "eth",
+      "categories": [
+        "CT-04"
+      ],
+      "primaryCategory": "CT-04",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent: Arbitrum/Avalanche",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.gmx.io/",
+          "checked": "2026-08-29",
+          "note": "derivatives venue shown only in adjacent scope"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "leverage-oracle-liquidation"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-04",
+        "categoryIds": [
+          "CT-04"
+        ],
+        "relationship": "Adjacent: Arbitrum/Avalanche",
+        "reason": "derivatives venue shown only in adjacent scope"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent: Arbitrum/Avalanche",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "Arbitrum",
+          "Avalanche"
+        ]
+      },
+      "chainNote": "derivatives venue shown only in adjacent scope",
+      "displayName": "GMX"
+    },
+    {
+      "id": "eth:aave",
+      "toolId": "aave",
+      "chainId": "eth",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://aave.com/docs",
+          "checked": "2026-08-29",
+          "note": "Ethereum lending deployment and current developer documentation"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "Ethereum lending deployment and current developer documentation"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "Ethereum lending deployment and current developer documentation",
+      "displayName": "Aave"
+    },
+    {
+      "id": "eth:morpho",
+      "toolId": "morpho",
+      "chainId": "eth",
+      "categories": [
+        "CT-05",
+        "CT-06",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.morpho.org/get-started/",
+          "checked": "2026-08-29",
+          "note": "permissionless markets, vaults, and Ethereum Chain ID 1 API coverage"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05",
+          "CT-06",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "permissionless markets, vaults, and Ethereum Chain ID 1 API coverage"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-06",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "permissionless markets, vaults, and Ethereum Chain ID 1 API coverage",
+      "displayName": "Morpho"
+    },
+    {
+      "id": "eth:compound",
+      "toolId": "compound",
+      "chainId": "eth",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.compound.finance/",
+          "checked": "2026-08-29",
+          "note": "Ethereum lending markets and contract documentation"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "Ethereum lending markets and contract documentation"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "Ethereum lending markets and contract documentation",
+      "displayName": "Compound"
+    },
+    {
+      "id": "eth:spark",
+      "toolId": "spark",
+      "chainId": "eth",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.spark.fi/",
+          "checked": "2026-08-29",
+          "note": "lending and savings surfaces; chain/deployment shown per product"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05",
+          "CT-06"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "lending and savings surfaces; chain/deployment shown per product"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "lending and savings surfaces; chain/deployment shown per product",
+      "displayName": "Spark"
+    },
+    {
+      "id": "eth:sky-protocol",
+      "toolId": "sky-protocol",
+      "chainId": "eth",
+      "categories": [
+        "CT-05",
+        "CT-06"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.sky.money/",
+          "checked": "2026-08-29",
+          "note": "USDS/Sky Savings and protocol developer surfaces; keep Maker alias searchable"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05",
+          "CT-06"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "USDS/Sky Savings and protocol developer surfaces; keep Maker alias searchable"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-06"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "USDS/Sky Savings and protocol developer surfaces; keep Maker alias searchable",
+      "displayName": "Sky Protocol"
+    },
+    {
+      "id": "eth:liquity",
+      "toolId": "liquity",
+      "chainId": "eth",
+      "categories": [
+        "CT-05"
+      ],
+      "primaryCategory": "CT-05",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.liquity.org/",
+          "checked": "2026-08-29",
+          "note": "ETH-backed stablecoin/borrowing protocol; version and frontend are material"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-05",
+        "categoryIds": [
+          "CT-05"
+        ],
+        "relationship": "Native",
+        "reason": "ETH-backed stablecoin/borrowing protocol; version and frontend are material"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "ETH-backed stablecoin/borrowing protocol; version and frontend are material",
+      "displayName": "Liquity"
+    },
+    {
+      "id": "eth:yearn",
+      "toolId": "yearn",
+      "chainId": "eth",
+      "categories": [
+        "CT-06"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.yearn.fi/",
+          "checked": "2026-08-29",
+          "note": "strategy vaults and developer integration"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "strategy vaults and developer integration"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "strategy vaults and developer integration",
+      "displayName": "Yearn"
+    },
+    {
+      "id": "eth:pendle",
+      "toolId": "pendle",
+      "chainId": "eth",
+      "categories": [
+        "CT-06",
+        "CT-02"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "API"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pendle.finance/",
+          "checked": "2026-08-29",
+          "note": "tokenized yield and AMM markets"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06",
+          "CT-02"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "tokenized yield and AMM markets"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-02"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "tokenized yield and AMM markets",
+      "displayName": "Pendle"
+    },
+    {
+      "id": "eth:convex",
+      "toolId": "convex",
+      "chainId": "eth",
+      "categories": [
+        "CT-06"
+      ],
+      "primaryCategory": "CT-06",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.convexfinance.com/",
+          "checked": "2026-08-29",
+          "note": "Curve/Prisma-aligned yield and voting layer"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-06",
+        "categoryIds": [
+          "CT-06"
+        ],
+        "relationship": "Native",
+        "reason": "Curve/Prisma-aligned yield and voting layer"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "Curve/Prisma-aligned yield and voting layer",
+      "displayName": "Convex"
+    },
+    {
+      "id": "eth:ethereum-native-staking",
+      "toolId": "ethereum-native-staking",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "node",
+        "cli",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "node",
+        "CLI",
+        "protocol"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://ethereum.org/staking/",
+          "checked": "2026-08-29",
+          "note": "solo staking baseline; not a vendor record"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native",
+        "reason": "solo staking baseline; not a vendor record"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Base"
+        ]
+      },
+      "chainNote": "solo staking baseline; not a vendor record",
+      "displayName": "Ethereum native staking"
+    },
+    {
+      "id": "eth:lido",
+      "toolId": "lido",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.lido.fi/",
+          "checked": "2026-08-29",
+          "note": "liquid staking protocol and stETH integrations"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "liquid staking protocol and stETH integrations"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "liquid staking protocol and stETH integrations",
+      "displayName": "Lido"
+    },
+    {
+      "id": "eth:rocket-pool",
+      "toolId": "rocket-pool",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "node",
+        "cli",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "node",
+        "CLI",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.rocketpool.net/",
+          "checked": "2026-08-29",
+          "note": "decentralized node operator and liquid-staking surfaces"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native",
+        "reason": "decentralized node operator and liquid-staking surfaces"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "decentralized node operator and liquid-staking surfaces",
+      "displayName": "Rocket Pool"
+    },
+    {
+      "id": "eth:stakewise",
+      "toolId": "stakewise",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.stakewise.io/",
+          "checked": "2026-08-29",
+          "note": "staking vaults and operator tooling"
+        }
+      ],
+      "riskFlags": [
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native",
+        "reason": "staking vaults and operator tooling"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "staking vaults and operator tooling",
+      "displayName": "StakeWise"
+    },
+    {
+      "id": "eth:eigenlayer",
+      "toolId": "eigenlayer",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Native / adjacent services",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts",
+        "cli"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts",
+        "CLI"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.eigenlayer.xyz/",
+          "checked": "2026-08-29",
+          "note": "restaking and AVS tooling; risk is not equivalent to protocol staking"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution",
+        "liquidity-and-exit"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native / adjacent services",
+        "reason": "restaking and AVS tooling; risk is not equivalent to protocol staking"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / adjacent services",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "restaking and AVS tooling; risk is not equivalent to protocol staking",
+      "displayName": "EigenLayer"
+    },
+    {
+      "id": "eth:symbiotic",
+      "toolId": "symbiotic",
+      "chainId": "eth",
+      "categories": [
+        "CT-07"
+      ],
+      "primaryCategory": "CT-07",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.symbiotic.fi/",
+          "checked": "2026-08-29",
+          "note": "shared-security/restaking infrastructure"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "liquidity-and-exit",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-07",
+        "categoryIds": [
+          "CT-07"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "shared-security/restaking infrastructure"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "shared-security/restaking infrastructure",
+      "displayName": "Symbiotic"
+    },
+    {
+      "id": "eth:chainlink",
+      "toolId": "chainlink",
+      "chainId": "eth",
+      "categories": [
+        "CT-08",
+        "CT-12",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.chain.link/",
+          "checked": "2026-08-29",
+          "note": "feeds, streams, CCIP, automation, and developer products"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "smart-contract-risk"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08",
+          "CT-12",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "feeds, streams, CCIP, automation, and developer products"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-12",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "feeds, streams, CCIP, automation, and developer products",
+      "displayName": "Chainlink"
+    },
+    {
+      "id": "eth:redstone",
+      "toolId": "redstone",
+      "chainId": "eth",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.redstone.finance/",
+          "checked": "2026-08-29",
+          "note": "modular oracle delivery models and Ethereum support"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "modular oracle delivery models and Ethereum support"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "modular oracle delivery models and Ethereum support",
+      "displayName": "RedStone"
+    },
+    {
+      "id": "eth:chronicle",
+      "toolId": "chronicle",
+      "chainId": "eth",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.chroniclelabs.org/",
+          "checked": "2026-08-29",
+          "note": "oracle feeds and validator architecture"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "oracle feeds and validator architecture"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "oracle feeds and validator architecture",
+      "displayName": "Chronicle"
+    },
+    {
+      "id": "eth:api3",
+      "toolId": "api3",
+      "chainId": "eth",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.api3.org/",
+          "checked": "2026-08-29",
+          "note": "first-party oracle and OEV surfaces"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "first-party oracle and OEV surfaces"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "first-party oracle and OEV surfaces",
+      "displayName": "API3"
+    },
+    {
+      "id": "eth:pyth-network",
+      "toolId": "pyth-network",
+      "chainId": "eth",
+      "categories": [
+        "CT-08"
+      ],
+      "primaryCategory": "CT-08",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "not-applicable",
+      "surfaces": [
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.pyth.network/price-feeds",
+          "checked": "2026-08-29",
+          "note": "pull price feeds available to Ethereum integrations"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-08",
+        "categoryIds": [
+          "CT-08"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "pull price feeds available to Ethereum integrations"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "pull price feeds available to Ethereum integrations",
+      "displayName": "Pyth Network"
+    },
+    {
+      "id": "eth:etherscan",
+      "toolId": "etherscan",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.etherscan.io/",
+          "checked": "2026-08-29",
+          "note": "Ethereum explorer and API"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "Ethereum explorer and API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum explorer and API",
+      "displayName": "Etherscan"
+    },
+    {
+      "id": "eth:dune",
+      "toolId": "dune",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dune.com/data-catalog/evm/ethereum/overview",
+          "checked": "2026-08-29",
+          "note": "raw, decoded, and curated Ethereum datasets"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "raw, decoded, and curated Ethereum datasets"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "raw, decoded, and curated Ethereum datasets",
+      "displayName": "Dune"
+    },
+    {
+      "id": "eth:the-graph",
+      "toolId": "the-graph",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://thegraph.com/docs/",
+          "checked": "2026-08-29",
+          "note": "subgraphs and decentralized data-query infrastructure"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-16"
+        ],
+        "relationship": "Native / service",
+        "reason": "subgraphs and decentralized data-query infrastructure"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "subgraphs and decentralized data-query infrastructure",
+      "displayName": "The Graph"
+    },
+    {
+      "id": "eth:allium",
+      "toolId": "allium",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SQL"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.allium.so/",
+          "checked": "2026-08-29",
+          "note": "institutional indexed blockchain data"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "institutional indexed blockchain data"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "institutional indexed blockchain data",
+      "displayName": "Allium"
+    },
+    {
+      "id": "eth:tenderly",
+      "toolId": "tenderly",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.tenderly.co/",
+          "checked": "2026-08-29",
+          "note": "simulation, debugging, monitoring, and virtual testnets"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "simulation, debugging, monitoring, and virtual testnets"
+      },
+      "overlap": {
+        "categoryCount": 3,
+        "additionalCategoryIds": [
+          "CT-14",
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "simulation, debugging, monitoring, and virtual testnets",
+      "displayName": "Tenderly"
+    },
+    {
+      "id": "eth:nansen",
+      "toolId": "nansen",
+      "chainId": "eth",
+      "categories": [
+        "CT-09",
+        "CT-10"
+      ],
+      "primaryCategory": "CT-09",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.nansen.ai/",
+          "checked": "2026-08-29",
+          "note": "labeled-wallet analytics and portfolio surfaces"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-09",
+        "categoryIds": [
+          "CT-09",
+          "CT-10"
+        ],
+        "relationship": "Service",
+        "reason": "labeled-wallet analytics and portfolio surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-10"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "labeled-wallet analytics and portfolio surfaces",
+      "displayName": "Nansen"
+    },
+    {
+      "id": "eth:defillama",
+      "toolId": "defillama",
+      "chainId": "eth",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://defillama.com/docs/api",
+          "checked": "2026-08-29",
+          "note": "protocol and market discovery; methodology labels required"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "protocol and market discovery; methodology labels required"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "protocol and market discovery; methodology labels required",
+      "displayName": "DeFiLlama"
+    },
+    {
+      "id": "eth:dex-screener",
+      "toolId": "dex-screener",
+      "chainId": "eth",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.dexscreener.com/",
+          "checked": "2026-08-29",
+          "note": "pair charts and API"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "pair charts and API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "pair charts and API",
+      "displayName": "DEX Screener"
+    },
+    {
+      "id": "eth:geckoterminal",
+      "toolId": "geckoterminal",
+      "chainId": "eth",
+      "categories": [
+        "CT-10",
+        "CT-08"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://apiguide.geckoterminal.com/",
+          "checked": "2026-08-29",
+          "note": "on-chain pool charts and API"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-08"
+        ],
+        "relationship": "Service",
+        "reason": "on-chain pool charts and API"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-08"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "on-chain pool charts and API",
+      "displayName": "GeckoTerminal"
+    },
+    {
+      "id": "eth:zerion",
+      "toolId": "zerion",
+      "chainId": "eth",
+      "categories": [
+        "CT-10",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service / app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "wallet"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://developers.zerion.io/",
+          "checked": "2026-08-29",
+          "note": "portfolio data and wallet surfaces"
+        }
+      ],
+      "riskFlags": [
+        "custody-model",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-11"
+        ],
+        "relationship": "Service / app",
+        "reason": "portfolio data and wallet surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service / app",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "portfolio data and wallet surfaces",
+      "displayName": "Zerion"
+    },
+    {
+      "id": "eth:zapper",
+      "toolId": "zapper",
+      "chainId": "eth",
+      "categories": [
+        "CT-10",
+        "CT-09"
+      ],
+      "primaryCategory": "CT-10",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://protocol.zapper.xyz/",
+          "checked": "2026-08-29",
+          "note": "portfolio and protocol-position decoding"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-10",
+        "categoryIds": [
+          "CT-10",
+          "CT-09"
+        ],
+        "relationship": "Service",
+        "reason": "portfolio and protocol-position decoding"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-09"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "portfolio and protocol-position decoding",
+      "displayName": "Zapper"
+    },
+    {
+      "id": "eth:metamask",
+      "toolId": "metamask",
+      "chainId": "eth",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "API"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.metamask.io/",
+          "checked": "2026-08-29",
+          "note": "wallet, SDK, embedded-wallet, and developer surfaces"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "App / service",
+        "reason": "wallet, SDK, embedded-wallet, and developer surfaces"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "wallet, SDK, embedded-wallet, and developer surfaces",
+      "displayName": "MetaMask"
+    },
+    {
+      "id": "eth:rabby",
+      "toolId": "rabby",
+      "chainId": "eth",
+      "categories": [
+        "CT-11",
+        "CT-14"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://rabby.io/",
+          "checked": "2026-08-29",
+          "note": "EVM wallet with simulation/security UI; official app evidence"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-14"
+        ],
+        "relationship": "App",
+        "reason": "EVM wallet with simulation/security UI; official app evidence"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-14"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "EVM wallet with simulation/security UI; official app evidence",
+      "displayName": "Rabby"
+    },
+    {
+      "id": "eth:safe",
+      "toolId": "safe",
+      "chainId": "eth",
+      "categories": [
+        "CT-11",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "native-l1",
+      "scopeLabel": "Native / cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.safe.global/",
+          "checked": "2026-08-29",
+          "note": "smart accounts, multisig, modules, and transaction service"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust",
+        "custody-model"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11",
+          "CT-16"
+        ],
+        "relationship": "Native / cross-chain",
+        "reason": "smart accounts, multisig, modules, and transaction service"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / cross-chain",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "smart accounts, multisig, modules, and transaction service",
+      "displayName": "Safe"
+    },
+    {
+      "id": "eth:rainbow",
+      "toolId": "rainbow",
+      "chainId": "eth",
+      "categories": [
+        "CT-11"
+      ],
+      "primaryCategory": "CT-11",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI"
+      ],
+      "custody": "self",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://rainbow.me/",
+          "checked": "2026-08-29",
+          "note": "Ethereum wallet; browser/mobile features checked on official app"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-11",
+        "categoryIds": [
+          "CT-11"
+        ],
+        "relationship": "App",
+        "reason": "Ethereum wallet; browser/mobile features checked on official app"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum wallet; browser/mobile features checked on official app",
+      "displayName": "Rainbow"
+    },
+    {
+      "id": "eth:across",
+      "toolId": "across",
+      "chainId": "eth",
+      "categories": [
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.across.to/",
+          "checked": "2026-08-29",
+          "note": "intent-based bridge and interoperability APIs"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "intent-based bridge and interoperability APIs"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "Base"
+        ]
+      },
+      "chainNote": "intent-based bridge and interoperability APIs",
+      "displayName": "Across"
+    },
+    {
+      "id": "eth:li-fi",
+      "toolId": "li-fi",
+      "chainId": "eth",
+      "categories": [
+        "CT-12",
+        "CT-03"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.li.fi/",
+          "checked": "2026-08-29",
+          "note": "bridge/swap aggregation; route trust model exposed per route"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12",
+          "CT-03"
+        ],
+        "relationship": "Cross-chain service",
+        "reason": "bridge/swap aggregation; route trust model exposed per route"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-03"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain service",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "bridge/swap aggregation; route trust model exposed per route",
+      "displayName": "LI.FI"
+    },
+    {
+      "id": "eth:layerzero",
+      "toolId": "layerzero",
+      "chainId": "eth",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.layerzero.network/",
+          "checked": "2026-08-29",
+          "note": "omnichain messaging and token tooling"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "omnichain messaging and token tooling"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "omnichain messaging and token tooling",
+      "displayName": "LayerZero"
+    },
+    {
+      "id": "eth:wormhole",
+      "toolId": "wormhole",
+      "chainId": "eth",
+      "categories": [
+        "CT-12"
+      ],
+      "primaryCategory": "CT-12",
+      "scope": "cross-chain",
+      "scopeLabel": "Cross-chain",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "smart-contract",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://wormhole.com/docs/",
+          "checked": "2026-08-29",
+          "note": "messaging and token-transfer products"
+        }
+      ],
+      "riskFlags": [
+        "bridge-or-route-trust"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-12",
+        "categoryIds": [
+          "CT-12"
+        ],
+        "relationship": "Cross-chain",
+        "reason": "messaging and token-transfer products"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Cross-chain",
+        "trustModel": "route-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "messaging and token-transfer products",
+      "displayName": "Wormhole"
+    },
+    {
+      "id": "eth:flashbots",
+      "toolId": "flashbots",
+      "chainId": "eth",
+      "categories": [
+        "CT-13",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.flashbots.net/",
+          "checked": "2026-08-29",
+          "note": "MEV-Boost, Protect, builder/relay, and research tooling"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13",
+          "CT-16"
+        ],
+        "relationship": "Native / service",
+        "reason": "MEV-Boost, Protect, builder/relay, and research tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "MEV-Boost, Protect, builder/relay, and research tooling",
+      "displayName": "Flashbots"
+    },
+    {
+      "id": "eth:mev-blocker",
+      "toolId": "mev-blocker",
+      "chainId": "eth",
+      "categories": [
+        "CT-13"
+      ],
+      "primaryCategory": "CT-13",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.mevblocker.io/",
+          "checked": "2026-08-29",
+          "note": "protected transaction submission and order-flow auction"
+        }
+      ],
+      "riskFlags": [
+        "execution-ordering",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-13",
+        "categoryIds": [
+          "CT-13"
+        ],
+        "relationship": "Service",
+        "reason": "protected transaction submission and order-flow auction"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "protected transaction submission and order-flow auction",
+      "displayName": "MEV Blocker"
+    },
+    {
+      "id": "eth:openzeppelin",
+      "toolId": "openzeppelin",
+      "chainId": "eth",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "sdk",
+        "contracts",
+        "ui"
+      ],
+      "surfaceLabels": [
+        "SDK",
+        "contracts",
+        "UI"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.openzeppelin.com/",
+          "checked": "2026-08-29",
+          "note": "contract libraries, upgrades, monitor, and defender tooling"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Developer / service",
+        "reason": "contract libraries, upgrades, monitor, and defender tooling"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer / service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "contract libraries, upgrades, monitor, and defender tooling",
+      "displayName": "OpenZeppelin"
+    },
+    {
+      "id": "eth:forta",
+      "toolId": "forta",
+      "chainId": "eth",
+      "categories": [
+        "CT-14",
+        "CT-16"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Native / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "api",
+        "sdk",
+        "node"
+      ],
+      "surfaceLabels": [
+        "API",
+        "SDK",
+        "node"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.forta.network/",
+          "checked": "2026-08-29",
+          "note": "decentralized monitoring/detection network"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14",
+          "CT-16"
+        ],
+        "relationship": "Native / service",
+        "reason": "decentralized monitoring/detection network"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-16"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "decentralized monitoring/detection network",
+      "displayName": "Forta"
+    },
+    {
+      "id": "eth:chainalysis",
+      "toolId": "chainalysis",
+      "chainId": "eth",
+      "categories": [
+        "CT-14"
+      ],
+      "primaryCategory": "CT-14",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "gated",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E2",
+          "url": "https://www.chainalysis.com/chainalysis-kyt/",
+          "checked": "2026-08-29",
+          "note": "compliance monitoring; not a protocol risk rating"
+        }
+      ],
+      "riskFlags": [
+        "methodology-not-endorsement",
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-14",
+        "categoryIds": [
+          "CT-14"
+        ],
+        "relationship": "Service",
+        "reason": "compliance monitoring; not a protocol risk rating"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "compliance monitoring; not a protocol risk rating",
+      "displayName": "Chainalysis"
+    },
+    {
+      "id": "eth:ens",
+      "toolId": "ens",
+      "chainId": "eth",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "native-l1",
+      "scopeLabel": "Native",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "sdk",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "SDK",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.ens.domains/",
+          "checked": "2026-08-29",
+          "note": "naming, resolution, and identity primitives"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "Native",
+        "reason": "naming, resolution, and identity primitives"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "naming, resolution, and identity primitives",
+      "displayName": "ENS"
+    },
+    {
+      "id": "eth:farcaster",
+      "toolId": "farcaster",
+      "chainId": "eth",
+      "categories": [
+        "CT-15"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Adjacent: OP Stack hubs",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.farcaster.xyz/",
+          "checked": "2026-08-29",
+          "note": "Ethereum accounts/assets are relevant, but social data is not Ethereum L1 execution"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15"
+        ],
+        "relationship": "Adjacent: OP Stack hubs",
+        "reason": "Ethereum accounts/assets are relevant, but social data is not Ethereum L1 execution"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Adjacent: OP Stack hubs",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum accounts/assets are relevant, but social data is not Ethereum L1 execution",
+      "displayName": "Farcaster"
+    },
+    {
+      "id": "eth:status",
+      "toolId": "status",
+      "chainId": "eth",
+      "categories": [
+        "CT-15",
+        "CT-11"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "app-layer",
+      "scopeLabel": "App",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "wallet"
+      ],
+      "custody": "mixed",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://status.app/help/",
+          "checked": "2026-08-29",
+          "note": "messaging and Ethereum wallet surface"
+        }
+      ],
+      "riskFlags": [
+        "custody-model"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-11"
+        ],
+        "relationship": "App",
+        "reason": "messaging and Ethereum wallet surface"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-11"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "App",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "messaging and Ethereum wallet surface",
+      "displayName": "Status"
+    },
+    {
+      "id": "eth:poap",
+      "toolId": "poap",
+      "chainId": "eth",
+      "categories": [
+        "CT-15",
+        "CT-17"
+      ],
+      "primaryCategory": "CT-15",
+      "scope": "adjacent-layer",
+      "scopeLabel": "Native / adjacent",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://documentation.poap.tech/",
+          "checked": "2026-08-29",
+          "note": "attendance/identity collectibles; mint chain is shown per drop"
+        }
+      ],
+      "riskFlags": [
+        "adjacent-execution"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-15",
+        "categoryIds": [
+          "CT-15",
+          "CT-17"
+        ],
+        "relationship": "Native / adjacent",
+        "reason": "attendance/identity collectibles; mint chain is shown per drop"
+      },
+      "overlap": {
+        "categoryCount": 2,
+        "additionalCategoryIds": [
+          "CT-17"
+        ]
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / adjacent",
+        "trustModel": "additional-layer",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "attendance/identity collectibles; mint chain is shown per drop",
+      "displayName": "POAP"
+    },
+    {
+      "id": "eth:infura",
+      "toolId": "infura",
+      "chainId": "eth",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.metamask.io/services/",
+          "checked": "2026-08-29",
+          "note": "Ethereum RPC and developer APIs"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "Ethereum RPC and developer APIs"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum RPC and developer APIs",
+      "displayName": "Infura"
+    },
+    {
+      "id": "eth:alchemy",
+      "toolId": "alchemy",
+      "chainId": "eth",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "rpc",
+        "api",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "RPC",
+        "API",
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://www.alchemy.com/docs/chains/ethereum/ethereum-api-quickstart",
+          "checked": "2026-08-29",
+          "note": "Ethereum node and enhanced APIs"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Service",
+        "reason": "Ethereum node and enhanced APIs"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Service",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum node and enhanced APIs",
+      "displayName": "Alchemy"
+    },
+    {
+      "id": "eth:foundry",
+      "toolId": "foundry",
+      "chainId": "eth",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "cli",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "framework"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://getfoundry.sh/",
+          "checked": "2026-08-29",
+          "note": "Ethereum smart-contract build/test/deploy toolchain"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Developer",
+        "reason": "Ethereum smart-contract build/test/deploy toolchain"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "Ethereum smart-contract build/test/deploy toolchain",
+      "displayName": "Foundry"
+    },
+    {
+      "id": "eth:hardhat",
+      "toolId": "hardhat",
+      "chainId": "eth",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "cli",
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "CLI",
+        "framework"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://hardhat.org/docs",
+          "checked": "2026-08-29",
+          "note": "EVM development and testing environment"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Developer",
+        "reason": "EVM development and testing environment"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "EVM development and testing environment",
+      "displayName": "Hardhat"
+    },
+    {
+      "id": "eth:viem",
+      "toolId": "viem",
+      "chainId": "eth",
+      "categories": [
+        "CT-16"
+      ],
+      "primaryCategory": "CT-16",
+      "scope": "offchain-service",
+      "scopeLabel": "Developer",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "mixed",
+      "surfaces": [
+        "sdk"
+      ],
+      "surfaceLabels": [
+        "SDK"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://viem.sh/docs/introduction",
+          "checked": "2026-08-29",
+          "note": "typed TypeScript interface to Ethereum"
+        }
+      ],
+      "riskFlags": [
+        "service-provider-dependency"
+      ],
+      "chainRole": {
+        "primaryCategory": "CT-16",
+        "categoryIds": [
+          "CT-16"
+        ],
+        "relationship": "Developer",
+        "reason": "typed TypeScript interface to Ethereum"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Developer",
+        "trustModel": "service-provider",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "typed TypeScript interface to Ethereum",
+      "displayName": "viem"
+    },
+    {
+      "id": "eth:opensea",
+      "toolId": "opensea",
+      "chainId": "eth",
+      "categories": [
+        "CT-17"
+      ],
+      "primaryCategory": "CT-17",
+      "scope": "app-layer",
+      "scopeLabel": "App / service",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "api"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "API"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.opensea.io/",
+          "checked": "2026-08-29",
+          "note": "marketplace and NFT APIs; chain shown per collection/order"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-17",
+        "categoryIds": [
+          "CT-17"
+        ],
+        "relationship": "App / service",
+        "reason": "marketplace and NFT APIs; chain shown per collection/order"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "App / service",
+        "trustModel": "application-specific",
+        "executionLayers": [
+          "not documented"
+        ]
+      },
+      "chainNote": "marketplace and NFT APIs; chain shown per collection/order",
+      "displayName": "OpenSea"
+    },
+    {
+      "id": "eth:blur",
+      "toolId": "blur",
+      "chainId": "eth",
+      "categories": [
+        "CT-17"
+      ],
+      "primaryCategory": "CT-17",
+      "scope": "native-l1",
+      "scopeLabel": "Native / app",
+      "status": "production",
+      "statusLabel": "production",
+      "access": "permissionless",
+      "surfaces": [
+        "ui",
+        "contracts"
+      ],
+      "surfaceLabels": [
+        "UI",
+        "contracts"
+      ],
+      "custody": "not-applicable",
+      "evidence": [
+        {
+          "grade": "E1",
+          "url": "https://docs.blur.foundation/",
+          "checked": "2026-08-29",
+          "note": "Ethereum NFT marketplace and lending-adjacent product; verify version surfaces"
+        }
+      ],
+      "riskFlags": [],
+      "chainRole": {
+        "primaryCategory": "CT-17",
+        "categoryIds": [
+          "CT-17"
+        ],
+        "relationship": "Native / app",
+        "reason": "Ethereum NFT marketplace and lending-adjacent product; verify version surfaces"
+      },
+      "overlap": {
+        "categoryCount": 1,
+        "additionalCategoryIds": []
+      },
+      "chainFields": {
+        "relationshipLabel": "Native / app",
+        "trustModel": "onchain-or-protocol-native",
+        "executionLayers": [
+          "Ethereum mainnet"
+        ]
+      },
+      "chainNote": "Ethereum NFT marketplace and lending-adjacent product; verify version surfaces",
+      "displayName": "Blur"
+    }
+  ],
+  "gaps": [
+    "“Runs in the Ethereum ecosystem” does not mean Ethereum L1. Every L2/app-chain row must display its execution chain beside the name.",
+    "Restaking is not ordinary staking. It adds service, slashing, operator, and contract dependencies; the UI must keep CT-07 subtypes visible.",
+    "Solver/RFQ products combine on-chain settlement with off-chain competition. Scope should show both rather than force a false native/off-chain binary.",
+    "An oracle brand may expose feeds, streams, automation, VRF, and bridge products. The drawer must identify the exact product used.",
+    "Versioned protocols are not interchangeable. Uniswap v2/v3/v4, Compound versions, and vault versions need version/deployment fields at integration time."
+  ],
+  "sources": [
+    {
+      "label": "Ethereum.org DeFi",
+      "url": "https://ethereum.org/defi/"
+    },
+    {
+      "label": "Ethereum.org staking",
+      "url": "https://ethereum.org/staking/"
+    },
+    {
+      "label": "Ethereum.org pooled staking",
+      "url": "https://ethereum.org/staking/pools/"
+    },
+    {
+      "label": "Ethereum.org restaking",
+      "url": "https://ethereum.org/restaking/"
+    },
+    {
+      "label": "Ethereum.org oracle guide",
+      "url": "https://ethereum.org/developers/docs/oracles/"
+    },
+    {
+      "label": "Ethereum.org decentralized social networks",
+      "url": "https://ethereum.org/social-networks/"
+    }
+  ]
+}
