@@ -38,29 +38,49 @@ describe("SQLite migrations", () => {
     openDatabases.push(journal);
 
     expect(journal.migrate()).toEqual({
-      applied: ["0001-init.sql", "0002-workbench.sql"],
-      currentVersion: 2,
+      applied: ["0001-init.sql", "0002-workbench.sql", "0003-evm-observation.sql"],
+      currentVersion: 3,
     });
-    expect(journal.migrate()).toEqual({ applied: [], currentVersion: 2 });
+    expect(journal.migrate()).toEqual({ applied: [], currentVersion: 3 });
 
     expect(journal.schemaObjects("table")).toEqual([
       "addresses",
       "collect_log",
       "cursor",
+      "evm_addresses",
+      "evm_balances",
+      "evm_blocks",
+      "evm_finality",
+      "evm_logs",
+      "evm_observations",
+      "evm_txs",
       "journal_entries",
       "metrics",
+      "networks",
       "schema_migrations",
       "sim_runs",
       "snapshots",
       "txs",
     ]);
     expect(journal.schemaObjects("view")).toEqual([
+      "v_activity",
       "v_balance_series",
+      "v_balances",
       "v_daily_fees",
       "v_daily_tx_counts",
+      "v_fees",
+      "v_latency",
     ]);
     expect(journal.schemaObjects("index")).toEqual([
       "collect_log_source_key_ts",
+      "evm_balances_ts",
+      "evm_blocks_ts",
+      "evm_finality_stage_ts",
+      "evm_logs_block",
+      "evm_logs_contract",
+      "evm_observations_series_ts",
+      "evm_txs_block",
+      "evm_txs_ts",
       "journal_entries_address_ts",
       "journal_entries_sim_run",
       "journal_entries_ts",
@@ -231,6 +251,9 @@ describe("configuration", () => {
         COLLECT_INTERVAL_MS: "9000",
         SCRAPE_OK: "1",
         SOLSCAN_API_KEY: "fixture-key",
+        ROBINHOOD_CHAIN_RPC_URL: "https://robinhood-rpc.example.test/",
+        ROBINHOOD_CHAIN_COMPARISON_RPC_URLS: "https://read-a.example.test/, https://read-b.example.test",
+        ROBINHOOD_CHAIN_WS_URL: "wss://robinhood-ws.example.test/",
         JOURNAL_WATCHLIST: JSON.stringify([
           { address: ADDRESS, label: "override", tags: ["one", "one"] },
         ]),
@@ -242,6 +265,18 @@ describe("configuration", () => {
     expect(config.collectIntervalMs).toBe(9_000);
     expect(config.scrapeEnabled).toBe(true);
     expect(config.solscanApiKey).toBe("fixture-key");
+    expect(config.networks.robinhood_chain).toMatchObject({
+      chainId: 4663,
+      rpcUrl: "https://robinhood-rpc.example.test",
+      rpcUrlIsPublic: false,
+      comparisonRpcUrls: ["https://read-a.example.test", "https://read-b.example.test"],
+      wsUrl: "wss://robinhood-ws.example.test",
+      confirmations: {
+        display: "soft",
+        accounting: "l1-posted",
+        irreversible: "l1-final",
+      },
+    });
     expect(config.watchlist).toEqual([
       { address: ADDRESS, label: "override", tags: ["one"], active: true },
     ]);
@@ -272,7 +307,21 @@ describe("read-only safety posture", () => {
     };
     visit(srcRoot);
 
-    const prohibited = ["send" + "Transaction", "sign" + "Transaction", "Key" + "pair"];
+    const prohibited = [
+      "eth_" + "sendRawTransaction",
+      "wallet" + "Client",
+      "create" + "WalletClient",
+      "private" + "KeyToAccount",
+      "sign" + "Transaction",
+      "send" + "Transaction",
+      "send" + "RawTransaction",
+      "write" + "Contract",
+      "deploy" + "Contract",
+      "private" + "Key",
+      "mne" + "monic",
+      "sign" + "er",
+      "Key" + "pair",
+    ];
     for (const path of sourceFiles) {
       const source = readFileSync(path, "utf8");
       for (const term of prohibited) expect(source).not.toContain(term);
