@@ -1,4 +1,4 @@
-# SOLANA//SCOPE v3 — implemented spec set
+# SOLANA//SCOPE v3 — specification set
 
 Interactive-instrument + journal program. Read in this order:
 
@@ -13,6 +13,10 @@ Interactive-instrument + journal program. Read in this order:
 | 06 | [06-JOURNAL-DATA.md](06-JOURNAL-DATA.md) | `journal/` collectors + local SQLite timeseries store (address tracking) |
 | 07 | [07-JOURNAL-WORKBENCH.md](07-JOURNAL-WORKBENCH.md) | Journal UI, technique simulators (paper-only), CLI |
 | 08 | [08-ORCHESTRATION.md](08-ORCHESTRATION.md) | Parallelization plan: lanes, worktrees, zones, waves, merge order |
+| 09 | [09-CHAIN-INDEX-PAGES.md](09-CHAIN-INDEX-PAGES.md) | Proposed per-chain hubs, curated article registers, and optional Link Veil |
+
+Specifications 00–08 describe the implemented v3 release. Specification 09 is
+a post-release proposal and is not represented as shipped behavior.
 
 **Conventions** follow `~/Code/frauthy/root/specs/` (numbered spine, blockquote
 metadata header, numbered H2s, explicit precedence, acceptance section per doc,
