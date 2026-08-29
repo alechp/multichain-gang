@@ -116,8 +116,9 @@
   function veilEnabled(){return veilStore.get().enabled}
   function applyVeil(){
     const enabled=veilEnabled();shell.classList.toggle('chain-link-veil',enabled);veil.setAttribute('aria-pressed',enabled?'true':'false');veil.querySelector('span').textContent=enabled?'LINK VEIL ON':'LINKS VISIBLE';clearHeld();
+    document.dispatchEvent(new CustomEvent('scope:link-veil-change',{detail:{scope:'chain',enabled}}));
   }
-  function toggleVeil(){const enabled=!veilEnabled();veilStore.set({v:1,enabled});applyVeil();const status=pageNode.querySelector('#chainVeilStatus');if(status)status.textContent=enabled?'Link Veil on. Hover an article and hold Control to reveal its link.':'Links visible.'}
+  function toggleVeil(){const enabled=!veilEnabled();veilStore.set({v:1,enabled});applyVeil();const status=pageNode.querySelector('#chainVeilStatus');if(status)status.textContent=enabled?'Link Veil on. Hold Control while hovering to reveal links and definition previews.':'Links and definition previews visible.'}
   function updateHeld(){pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'));if(held&&hoveredCard&&veilEnabled())hoveredCard.classList.add('chain-link-revealed')}
   function clearHeld(){held=false;pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'))}
   function editable(target){return target?.closest?.('input,textarea,select,[contenteditable="true"]')}
@@ -152,12 +153,21 @@
   }
   function launch(trigger){pendingTrigger=trigger instanceof HTMLElement?trigger:null;scope.Router.go('/chains')}
 
-  const launcher=document.createElement('button');launcher.type='button';launcher.className='chain-launch';launcher.textContent='CHAINS';launcher.setAttribute('aria-label','Open the chain directory');launcher.title='Browse all chain indexes';
-  document.querySelector('.slotbar-inner')?.appendChild(launcher);launcher.addEventListener('click',()=>{if(!document.documentElement.hasAttribute('data-scope-unlocked')){document.getElementById('scopeAccessCode')?.focus();return}launch(launcher)});
+  const subnav=document.createElement('div');subnav.className='chain-subnav';
+  const launcher=document.createElement('button');launcher.type='button';launcher.className='chain-launch';launcher.textContent='CHAINS';launcher.setAttribute('aria-haspopup','true');launcher.setAttribute('aria-expanded','false');launcher.setAttribute('aria-controls','chainSubnavMenu');launcher.setAttribute('aria-label','Open the Chains sub-navigation');
+  const subnavMenu=document.createElement('nav');subnavMenu.className='chain-subnav-menu';subnavMenu.id='chainSubnavMenu';subnavMenu.hidden=true;subnavMenu.setAttribute('aria-label','Chains destinations');
+  subnavMenu.innerHTML='<a href="#/chains" data-chain-destination="directory">CHAIN INDEX<span>Articles and system reading paths</span></a><a href="#/tools" data-chain-destination="tools">TOOL LANDSCAPES<span>DEXes, launchpads, analytics, yield, and infrastructure</span></a>';
+  subnav.append(launcher,subnavMenu);document.querySelector('.slotbar-inner')?.appendChild(subnav);
+  const closeSubnav=({focus=false}={})=>{subnavMenu.hidden=true;launcher.setAttribute('aria-expanded','false');if(focus)launcher.focus({preventScroll:true})};
+  const toggleSubnav=()=>{const open=subnavMenu.hidden;subnavMenu.hidden=!open;launcher.setAttribute('aria-expanded',open?'true':'false');if(open)requestAnimationFrame(()=>subnavMenu.querySelector('a')?.focus({preventScroll:true}))};
+  launcher.addEventListener('click',()=>{if(!document.documentElement.hasAttribute('data-scope-unlocked')){document.getElementById('scopeAccessCode')?.focus();return}toggleSubnav()});
+  subnavMenu.addEventListener('click',event=>{const destination=event.target.closest('[data-chain-destination]');if(!destination)return;closeSubnav();if(destination.dataset.chainDestination==='directory'){event.preventDefault();launch(destination)}else pendingTrigger=destination});
+  subnav.addEventListener('keydown',event=>{if(event.key==='Escape'&&!subnavMenu.hidden){event.preventDefault();event.stopPropagation();closeSubnav({focus:true})}});
+  document.addEventListener('pointerdown',event=>{if(!subnavMenu.hidden&&!subnav.contains(event.target))closeSubnav()},{capture:true});
   scope.Router.on('chain-directory',openDirectory);
   scope.Router.on('chain',openRoute);
-  addEventListener('hashchange',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
-  addEventListener('popstate',()=>{const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
+  addEventListener('hashchange',()=>{closeSubnav();const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
+  addEventListener('popstate',()=>{closeSubnav();const route=scope.Router.parse(location.hash);if(!route||!['chain','chain-directory'].includes(route.type))closeForOtherRoute()});
   close.addEventListener('click',()=>scope.Overlay.close(shell,{reason:'button'}));
   prev.addEventListener('click',()=>scope.Router.go('/c/'+prev.dataset.chainSlug));next.addEventListener('click',()=>scope.Router.go('/c/'+next.dataset.chainSlug));veil.addEventListener('click',toggleVeil);
   addEventListener('keydown',event=>{if(event.key!=='Control'||event.repeat||editable(event.target)||!scope.Overlay.isOpen(shell)||!veilEnabled())return;held=true;updateHeld()},{capture:true});

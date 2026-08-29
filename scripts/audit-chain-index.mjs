@@ -57,9 +57,14 @@ try{
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
     await page.route(/^https?:\/\//,route=>route.abort('blockedbyclient'));
     await page.goto(targetUrl,{waitUntil:'load'});await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit'});
+    const topNav=await page.evaluate(()=>({chapters:Array.from(document.querySelectorAll('.chapter-subnav>a')).map(link=>link.textContent.trim()),legacy:Array.from(document.querySelectorAll('.chapter-subnav>a')).filter(link=>/^#\/(chains|tools)/.test(link.getAttribute('href')||'')).length,launchers:document.querySelectorAll('.chain-launch').length}));
+    if(topNav.chapters.length!==5||topNav.chapters.at(-1)!=='CH-05 BENCH'||topNav.legacy||topNav.launchers!==1)failures.push(`${width}px: chapter/Chains navigation is duplicated or malformed ${JSON.stringify(topNav)}`);
     const footer=await page.evaluate(()=>({all:document.querySelectorAll('.footer-chain-nav a[href="#/chains"]').length,chains:Array.from(document.querySelectorAll('.footer-chain-nav a[href^="#/c/"]')).map(link=>link.getAttribute('href'))}));
     if(footer.all!==1||footer.chains.length!==6||new Set(footer.chains).size!==6)failures.push(`${width}px: footer chain routes are incomplete ${JSON.stringify(footer)}`);
-    await page.locator('.chain-launch').click();await page.waitForTimeout(40);
+    await page.locator('.chain-launch').click();await page.waitForTimeout(20);
+    const subnav=await page.evaluate(()=>({expanded:document.querySelector('.chain-launch')?.getAttribute('aria-expanded'),visible:!!document.querySelector('.chain-subnav-menu')?.getClientRects().length,routes:Array.from(document.querySelectorAll('.chain-subnav-menu a')).map(link=>link.getAttribute('href'))}));
+    if(subnav.expanded!=='true'||!subnav.visible||subnav.routes.join('|')!=='#/chains|#/tools')failures.push(`${width}px: Chains sub-navigation contract failed ${JSON.stringify(subnav)}`);
+    await page.locator('[data-chain-destination="directory"]').click();await page.waitForTimeout(40);
     const directory=await page.evaluate(()=>({
       hash:location.hash,visible:!!document.querySelector('#chainChannel:not([hidden])'),view:document.getElementById('chainChannel').dataset.view,
       h1:document.querySelector('#chainPage h1')?.innerText.replace(/\s+/g,' ').trim(),cards:document.querySelectorAll('.chain-directory-card').length,
@@ -89,7 +94,17 @@ try{
     }
     await page.evaluate(()=>SCOPE.Router.go('/c/robinhood-chain'));await page.waitForTimeout(40);
     if(width===1200){
-      await page.locator('#chainVeil').click();const card=page.locator('.chain-article').first();await card.hover();
+      await page.locator('#chainVeil').click();
+      const term=page.locator('.chain-mast .term').first();await term.hover();await page.waitForTimeout(170);
+      if(await page.locator('#refCard').isVisible())failures.push('Link Veil leaves definition Hoverdoc visible without Control');
+      await page.keyboard.down('Control');await page.waitForTimeout(150);
+      if(!await page.locator('#refCard').isVisible())failures.push('Link Veil Control chord did not reveal definition Hoverdoc');
+      await page.keyboard.up('Control');await page.waitForTimeout(30);
+      if(await page.locator('#refCard').isVisible())failures.push('Link Veil keyup did not conceal definition Hoverdoc');
+      await term.focus();await page.waitForTimeout(150);
+      if(!await page.locator('#refCard').isVisible())failures.push('Link Veil blocked keyboard-focused definition Hoverdoc');
+      await page.locator('#chainIndexTitle').focus();await page.waitForTimeout(130);
+      const card=page.locator('.chain-article').first();await card.hover();
       const hidden=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));
       if(hidden.pointer!=='none'||hidden.route!=='0')failures.push(`Link Veil did not conceal pointer route: ${JSON.stringify(hidden)}`);
       await page.keyboard.down('l');const wrongKey=await card.locator('.chain-article-link').evaluate(node=>({pointer:getComputedStyle(node).pointerEvents,route:getComputedStyle(node.querySelector('.chain-article-route')).opacity}));await page.keyboard.up('l');

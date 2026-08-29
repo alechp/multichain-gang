@@ -403,10 +403,11 @@ async function auditInteractions(browser){
     check(tray.ids===1&&tray.visible&&tray.rows===8&&tray.shape&&tray.overflow<=1,`runtime: comparison tray differs ${JSON.stringify(tray)}`);
     await page.keyboard.press('Escape');await page.waitForTimeout(30);
 
-    await page.locator('#toolsVeil').click();const veilRow=page.locator('.tools-row').first(),details=veilRow.locator('[data-details-tool]');await veilRow.hover();
+    await page.locator('#toolsVeil').click();const veilRow=page.locator('.tools-row').first(),details=veilRow.locator('[data-details-tool]'),veilName=veilRow.locator('[data-hover-tool]');await veilName.hover();await page.waitForTimeout(220);
+    check(await page.locator('.tools-hoverdoc:not([hidden])').count()===0,'runtime: Link Veil leaves tool Hoverdoc visible without Control');
     const quiet=await details.evaluate(node=>getComputedStyle(node).pointerEvents);check(quiet==='none',`runtime: fine-pointer Link Veil leaves details at ${quiet}`);
-    await page.keyboard.down('Control');check(await veilRow.evaluate(node=>node.classList.contains('is-control-peek')),'runtime: bare Control did not reveal the hovered row');check((await details.evaluate(node=>getComputedStyle(node).pointerEvents))!=='none','runtime: Control peek did not restore details action');
-    await page.keyboard.up('Control');check(!await veilRow.evaluate(node=>node.classList.contains('is-control-peek')),'runtime: Control keyup did not clear peek');
+    await page.keyboard.down('Control');await page.waitForTimeout(150);check(await veilRow.evaluate(node=>node.classList.contains('is-control-peek')),'runtime: bare Control did not reveal the hovered row');check((await details.evaluate(node=>getComputedStyle(node).pointerEvents))!=='none','runtime: Control peek did not restore details action');check(await page.locator('.tools-hoverdoc:not([hidden])').count()===1,'runtime: Control peek did not reveal tool Hoverdoc');
+    await page.keyboard.up('Control');await page.waitForTimeout(30);check(!await veilRow.evaluate(node=>node.classList.contains('is-control-peek')),'runtime: Control keyup did not clear peek');check(await page.locator('.tools-hoverdoc:not([hidden])').count()===0,'runtime: Control keyup did not conceal tool Hoverdoc');
     await details.focus();check((await details.evaluate(node=>getComputedStyle(node).pointerEvents))!=='none','runtime: keyboard focus does not bypass Link Veil');
     await veilRow.hover();await page.keyboard.down('Control');await page.evaluate(()=>window.dispatchEvent(new Event('blur')));check(!await veilRow.evaluate(node=>node.classList.contains('is-control-peek')),'runtime: window blur did not clear Control peek');await page.keyboard.up('Control');
     errors.forEach(error=>fail(`runtime: interaction page error: ${error}`));

@@ -99,7 +99,7 @@ body::before{
 }
 .slotbar-inner{
   max-width:1200px;margin:0 auto;
-  display:flex;align-items:center;gap:20px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px 20px;
   padding:10px 24px;
   padding-top:calc(10px + env(safe-area-inset-top));
 }
@@ -124,22 +124,22 @@ body::before{
   transform:scaleX(.38);
 }
 .slotbar,.slotbar *{animation:none!important;transition:none!important}
-.slot-nav{display:flex;gap:14px}
-.slot-nav a{
+.chapter-subnav{order:10;display:flex;flex:0 0 100%;justify-content:flex-end;gap:18px;padding-top:7px;border-top:1px solid color-mix(in srgb,var(--line) 72%,transparent)}
+.chapter-subnav a{
   font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;
   color:var(--dim);text-decoration:none;padding:3px 2px;
   border-bottom:1px solid transparent;
 }
-.slot-nav a:hover,.slot-nav a:focus-visible{color:var(--ink);border-color:var(--cyan)}
+.chapter-subnav a:hover,.chapter-subnav a:focus-visible{color:var(--ink);border-color:var(--cyan)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:2px}
-@media(max-width:820px){.slot-nav{display:none}.slot-readout .hide-s{display:none}}
+@media(max-width:820px){.chapter-subnav{display:none}.slot-readout .hide-s{display:none}}
 /* <700px: two-line compact slot bar — brand + slot on line 1, full-width sweep below */
 @media(max-width:700px){
-  .slotbar-inner{flex-wrap:wrap;gap:6px 14px;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top))}
+  .slotbar-inner{gap:6px 14px;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top))}
   .sweep{order:3;flex-basis:100%}
 }
 
-/* section nav as a scrollable chip row below the hero — replaces the hidden slot-nav */
+/* chapter sub-navigation as a scrollable chip row below the hero */
 .nav-chips{display:none}
 @media(max-width:820px){
   .nav-chips{
@@ -1032,7 +1032,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v4-2026-08-29.1">
+<body data-rev="v4-2026-08-29.2">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -1096,14 +1096,12 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <span class="hide-s">·&nbsp;TARGET SLOT</span>
     </div>
     <div class="sweep" aria-hidden="true"><i></i></div>
-    <nav class="slot-nav" aria-label="Sections">
+    <nav class="chapter-subnav" aria-label="Chapter sub-navigation">
       <a href="#ch1">CH-01 NETWORK</a>
       <a href="#ch2">CH-02 TX FLOW</a>
       <a href="#ch3">CH-03 MEV</a>
       <a href="#ch4">CH-04 LATENCY</a>
       <a href="#ch5">CH-05 BENCH</a>
-      <a href="#/chains">CHAINS</a>
-      <a href="#/tools">CHAIN TOOLS</a>
     </nav>
   </div>
 </header>
@@ -1180,15 +1178,13 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   </div>
 </section>
 
-<!-- mobile section nav: scrollable chips (slot-nav is hidden ≤820px) -->
-<nav class="nav-chips" aria-label="Sections">
+<!-- mobile chapter sub-navigation: scrollable chips (desktop sub-nav is hidden ≤820px) -->
+<nav class="nav-chips" aria-label="Chapter sub-navigation">
   <a href="#ch1">CH-01 NETWORK</a>
   <a href="#ch2">CH-02 TX FLOW</a>
   <a href="#ch3">CH-03 MEV</a>
   <a href="#ch4">CH-04 LATENCY</a>
   <a href="#ch5">CH-05 BENCH</a>
-  <a href="#/chains">CHAINS</a>
-  <a href="#/tools">CHAIN TOOLS</a>
 </nav>
 
 <!-- ═══════════ CH-01 · ARCHITECTURE ═══════════ -->
@@ -1860,7 +1856,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <button type="button" id="chainPrev" aria-label="Previous chain index">←</button>
       <button type="button" id="chainNext" aria-label="Next chain index">→</button>
     </nav>
-    <button type="button" class="chain-veil-toggle" id="chainVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hover an article and hold Control to reveal its link"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
+    <button type="button" class="chain-veil-toggle" id="chainVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hold Control while hovering to reveal links and definition previews"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
     <button type="button" class="chain-close" id="chainClose" aria-label="Close chain index">✕</button>
   </header>
   <main class="chain-page" id="chainPage"></main>
@@ -1885,7 +1881,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <button type="button" id="toolsPrev" aria-label="Previous tooling landscape">←</button>
       <button type="button" id="toolsNext" aria-label="Next tooling landscape">→</button>
     </nav>
-    <button type="button" class="tools-veil-toggle" id="toolsVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hover a tooling row and hold Control to reveal its details link"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
+    <button type="button" class="tools-veil-toggle" id="toolsVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hold Control while hovering to reveal details and definition previews"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
     <button type="button" class="tools-close" id="toolsClose" aria-label="Close Chain Tools">✕</button>
   </header>
   <main class="tools-page" id="toolsPage"></main>
@@ -2476,7 +2472,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v4-2026-08-29.1",
+  "_rev": "v4-2026-08-29.2",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -4380,8 +4376,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   const safeUrl=value=>{ try{const url=new URL(value,location.href);return url.protocol==='https:'?url.href:'';}catch(error){return '';} };
   const esc=value=>String(value||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  let activeTrigger=null,activeKey='',pinned=false,showTimer=0,hideTimer=0,lastTouch=-Infinity,positionFrame=0;
+  let activeTrigger=null,activeKey='',pinned=false,showTimer=0,hideTimer=0,lastTouch=-Infinity,positionFrame=0,hoveredTrigger=null,heldControl=false;
   const clearTimers=()=>{clearTimeout(showTimer);clearTimeout(hideTimer);showTimer=hideTimer=0;};
+  const chainHoverGuarded=()=>!!(scope.ChainIndex?.veil&&!document.getElementById('chainChannel')?.hidden&&matchMedia('(pointer:fine) and (hover:hover)').matches);
   const setChannel=trigger=>{
     const room=trigger.closest('section,.hero')||trigger;
     const channel=getComputedStyle(room).getPropertyValue('--ch').trim()||'var(--cyan)';
@@ -4465,19 +4462,19 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       if(!pinned&&!card.matches(':hover')&&activeTrigger&&!activeTrigger.matches(':hover')&&document.activeElement!==activeTrigger)closePreview();
     },100);
   }
-  function showPreview(trigger,key){
-    if(pinned||!terms[key])return;
+  function showPreview(trigger,key,{bypassGuard=false}={}){
+    if(pinned||!terms[key]||(!bypassGuard&&chainHoverGuarded()&&!heldControl))return;
     clearTimeout(hideTimer);
     if(activeTrigger&&activeTrigger!==trigger)activeTrigger.removeAttribute('aria-describedby');
     activeTrigger=trigger;activeKey=key;setChannel(trigger);render(key,false);
     card.classList.remove('ref-pinned');card.setAttribute('role','tooltip');card.removeAttribute('aria-labelledby');
     card.hidden=false;trigger.setAttribute('aria-describedby',card.id);queuePosition();
   }
-  function schedulePreview(trigger,key){
+  function schedulePreview(trigger,key,{bypassGuard=false}={}){
     if(pinned||performance.now()-lastTouch<800)return;
     clearTimeout(showTimer);clearTimeout(hideTimer);
     if(activeTrigger===trigger&&!card.hidden)return;
-    showTimer=setTimeout(()=>showPreview(trigger,key),120);
+    showTimer=setTimeout(()=>showPreview(trigger,key,{bypassGuard}),120);
   }
 
   function pin(trigger,key){
@@ -4542,15 +4539,16 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   document.addEventListener('pointerover',event=>{
     if(event.pointerType==='touch'||performance.now()-lastTouch<800)return;
     const trigger=event.target.closest&&event.target.closest('.term');
-    if(trigger&&trigger.dataset.refBound)schedulePreview(trigger,trigger.dataset.refBound);
+    if(trigger&&trigger.dataset.refBound){hoveredTrigger=trigger;schedulePreview(trigger,trigger.dataset.refBound);}
   });
   document.addEventListener('pointerout',event=>{
     const trigger=event.target.closest&&event.target.closest('.term');
+    if(trigger&&hoveredTrigger===trigger&&!trigger.contains(event.relatedTarget))hoveredTrigger=null;
     if(trigger&&activeTrigger===trigger&&!trigger.contains(event.relatedTarget)&&!card.contains(event.relatedTarget))scheduleHide();
   });
   document.addEventListener('focusin',event=>{
     const trigger=event.target.closest&&event.target.closest('.term');
-    if(trigger&&trigger.dataset.refBound)schedulePreview(trigger,trigger.dataset.refBound);
+    if(trigger&&trigger.dataset.refBound)schedulePreview(trigger,trigger.dataset.refBound,{bypassGuard:true});
   });
   document.addEventListener('focusout',event=>{
     const trigger=event.target.closest&&event.target.closest('.term');
@@ -4567,6 +4565,23 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     if(event.target.closest('[data-ref-close]')){scope.Overlay.close(card,{reason:'button'});return;}
     const door=event.target.closest('[data-ref-entity]');
     if(door){const id=door.dataset.refEntity;scope.Overlay.close(card,{restoreFocus:false,reason:'entity'});scope.Router.go('/e/'+id);}
+  });
+  addEventListener('keydown',event=>{
+    if(event.key!=='Control'||event.repeat||event.metaKey||event.altKey||event.shiftKey||!chainHoverGuarded())return;
+    heldControl=true;
+    if(hoveredTrigger?.dataset.refBound)schedulePreview(hoveredTrigger,hoveredTrigger.dataset.refBound);
+  },{capture:true});
+  addEventListener('keyup',event=>{
+    if(event.key!=='Control')return;
+    heldControl=false;
+    if(chainHoverGuarded()&&!pinned&&document.activeElement!==activeTrigger)closePreview();
+  },{capture:true});
+  addEventListener('blur',()=>{heldControl=false;if(chainHoverGuarded()&&!pinned)closePreview()});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){heldControl=false;if(!pinned)closePreview()}});
+  document.addEventListener('scope:link-veil-change',event=>{
+    if(event.detail?.scope!=='chain')return;
+    heldControl=false;
+    if(event.detail.enabled&&!pinned)closePreview();
   });
   addEventListener('resize',queuePosition,{passive:true});
   addEventListener('scroll',queuePosition,{capture:true,passive:true});

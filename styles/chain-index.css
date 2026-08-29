@@ -1,6 +1,13 @@
 /* Chain indexes — six data-driven reading hubs above the entity reader. */
-.chain-launch{flex:none;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 9px;border:1px solid var(--line);border-radius:2px;background:var(--panel);color:var(--lbl);font:600 .6rem/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}
-.chain-launch::before{content:"⌂";color:var(--violet);font-size:.9rem}.chain-launch:is(:hover,:focus-visible){border-color:var(--violet);color:var(--ink);outline:none}
+.chain-subnav{position:relative;flex:none}
+.chain-launch{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:0 10px;border:1px solid var(--line);border-radius:2px;background:var(--panel);color:var(--lbl);font:600 .6rem/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer}
+.chain-launch::before{content:"⌂";color:var(--violet);font-size:.9rem}.chain-launch::after{content:"⌄";color:var(--dim);font-size:.72rem}.chain-launch:is(:hover,:focus-visible),.chain-launch[aria-expanded="true"]{border-color:var(--violet);color:var(--ink);outline:none;box-shadow:inset 3px 0 var(--violet)}
+.chain-subnav-menu{position:absolute;right:0;top:calc(100% + 53px);z-index:85;display:grid;width:224px;padding:6px;border:1px solid var(--line);border-top:3px solid var(--violet);background:var(--panel);box-shadow:0 18px 44px rgba(0,0,0,.48)}
+.chain-subnav-menu[hidden]{display:none!important}
+.chain-subnav-menu a{display:grid;gap:4px;min-height:52px;padding:10px;border:1px solid transparent;color:var(--ink);text-decoration:none;font:600 .64rem/1.25 "IBM Plex Mono",monospace;letter-spacing:.07em}
+.chain-subnav-menu a+ a{border-top-color:var(--line)}
+.chain-subnav-menu a span{color:var(--dim);font-size:.54rem;font-weight:500;line-height:1.35;letter-spacing:.04em}
+.chain-subnav-menu a:is(:hover,:focus-visible){border-color:var(--violet);outline:none;background:color-mix(in srgb,var(--violet) 8%,var(--panel));color:var(--violet)}
 .chain-channel{
   --cc:var(--violet);
   position:fixed;inset:0;z-index:72;overflow:auto;overscroll-behavior:contain;
@@ -152,6 +159,7 @@
   .chain-lens{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
+  .chain-subnav-menu{position:fixed;left:12px;right:12px;top:calc(58px + env(safe-area-inset-top));width:auto}
   .chain-slotbar{grid-template-columns:minmax(0,1fr) auto auto;padding-left:12px;padding-right:12px}
   .chain-nav{grid-column:1;grid-row:2;justify-self:start}
   .chain-veil-toggle{grid-column:2/4;grid-row:2;justify-self:end}
