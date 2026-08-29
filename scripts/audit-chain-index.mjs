@@ -77,12 +77,14 @@ try{
         cards:document.querySelectorAll('.chain-article').length,
         groups:document.querySelectorAll('.chain-group').length,
         sources:document.querySelectorAll('.chain-source-list a[target="_blank"]').length,
+        toolRoute:document.querySelector('.chain-actions a[href^="#/tools/"]')?.getAttribute('href')||'',
         overflow:document.documentElement.scrollWidth-document.documentElement.clientWidth
       }));
       if(!rendered.visible||rendered.h1!==data.chainPages[chainId].name)failures.push(`${width}px/${slug}: route did not render correct h1`);
       if(rendered.features!==3||rendered.cards!==count)failures.push(`${width}px/${slug}: rendered ${rendered.features} features / ${rendered.cards} cards`);
       if(rendered.groups!==data.chainPages[chainId].groups.length)failures.push(`${width}px/${slug}: group count mismatch`);
       if(rendered.sources<1)failures.push(`${width}px/${slug}: no official source links`);
+      if(rendered.toolRoute!==`#/tools/${slug}`)failures.push(`${width}px/${slug}: missing tooling landscape action ${JSON.stringify(rendered.toolRoute)}`);
       if(rendered.overflow>1)failures.push(`${width}px/${slug}: ${rendered.overflow}px document overflow`);
     }
     await page.evaluate(()=>SCOPE.Router.go('/c/robinhood-chain'));await page.waitForTimeout(40);

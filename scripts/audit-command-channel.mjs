@@ -17,14 +17,21 @@ try{
     await page.goto(targetUrl,{waitUntil:'load'});
     await page.evaluate(()=>{document.documentElement.dataset.scopeUnlocked='audit';document.body.tabIndex=-1;document.body.focus()});
 
-    const engine=await page.evaluate(()=>({engine:SCOPE.CommandPalette?.engine,size:SCOPE.CommandPalette?.size,version:window.Fuse?.version}));
-    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==177)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
+    const engine=await page.evaluate(()=>{
+      const data=JSON.parse(document.getElementById('chainData').textContent),toolRecords=SCOPE.ChainTools?.records?.length||0;
+      const expected=6+3+1+Object.keys(data.chainPages||{}).length+Object.keys(data.entities||{}).length+Object.keys(data.terms||{}).length+(data.cues||[]).length+toolRecords;
+      return {engine:SCOPE.CommandPalette?.engine,size:SCOPE.CommandPalette?.size,version:window.Fuse?.version,toolRecords,expected};
+    });
+    if(engine.engine!=='Fuse 7.5.0'||engine.version!=='7.5.0'||engine.size!==engine.expected)failures.push(`${width}px: bad local index ${JSON.stringify(engine)}`);
     const pageRecords=await page.evaluate(()=>({
       directory:SCOPE.CommandPalette.search('all chains').find(item=>item.kind==='chain-directory'),
-      article:SCOPE.CommandPalette.search('Robinhood Chain coin launch playbook').find(item=>item.id==='robinhood-coin-launch-playbook')
+      article:SCOPE.CommandPalette.search('Robinhood Chain coin launch playbook').find(item=>item.id==='robinhood-coin-launch-playbook'),
+      tools:SCOPE.CommandPalette.search('chain tools').find(item=>item.kind==='tools-directory'),
+      toolPage:SCOPE.CommandPalette.search('Solana tools').find(item=>item.kind==='tools-chain'&&item.slug==='solana')
     }));
     if(pageRecords.directory?.id!=='chain-directory')failures.push(`${width}px: chain directory is not indexed`);
     if(pageRecords.article?.kind!=='article'||pageRecords.article?.entity!=='robinhood-coin-launch-playbook')failures.push(`${width}px: individual article page is not identified ${JSON.stringify(pageRecords.article)}`);
+    if(pageRecords.tools?.id!=='tools-directory'||pageRecords.toolPage?.slug!=='solana')failures.push(`${width}px: Chain Tools routes are not indexed ${JSON.stringify(pageRecords)}`);
     if((await page.evaluate(()=>SCOPE.CommandPalette.search('open field notes').some(item=>item.id==='notes'))))failures.push(`${width}px: hidden Notes command remains searchable`);
     await page.keyboard.press('Meta+K');
     if(!await page.locator('#scopeCommand').isVisible())failures.push(`${width}px: palette did not open`);
