@@ -1019,6 +1019,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 /* ==/V3E:CSS== */
 </style>
 <link rel="stylesheet" href="styles/chain-index.css">
+<link rel="stylesheet" href="styles/chain-tools.css">
 <link rel="stylesheet" href="styles/command-palette.css">
 <link rel="stylesheet" href="styles/reader-dock.css">
 <script>
@@ -1101,6 +1102,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <a href="#ch3">CH-03 MEV</a>
       <a href="#ch4">CH-04 LATENCY</a>
       <a href="#ch5">CH-05 BENCH</a>
+      <a href="#/chains">CHAINS</a>
+      <a href="#/tools">CHAIN TOOLS</a>
     </nav>
   </div>
 </header>
@@ -1184,6 +1187,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   <a href="#ch3">CH-03 MEV</a>
   <a href="#ch4">CH-04 LATENCY</a>
   <a href="#ch5">CH-05 BENCH</a>
+  <a href="#/chains">CHAINS</a>
+  <a href="#/tools">CHAIN TOOLS</a>
 </nav>
 
 <!-- ═══════════ CH-01 · ARCHITECTURE ═══════════ -->
@@ -1732,6 +1737,16 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       <a href="#/c/zcash">ZCASH</a>
       <a href="#/c/robinhood-chain">ROBINHOOD CHAIN</a>
     </nav>
+    <nav class="footer-chain-nav footer-tools-nav" aria-label="Chain tooling landscapes">
+      <span>CHAIN TOOLS</span>
+      <a href="#/tools">ALL TOOLS</a>
+      <a href="#/tools/solana">SOLANA</a>
+      <a href="#/tools/ethereum">ETHEREUM</a>
+      <a href="#/tools/bnb-chain">BNB CHAIN</a>
+      <a href="#/tools/bitcoin">BITCOIN</a>
+      <a href="#/tools/zcash">ZCASH</a>
+      <a href="#/tools/robinhood-chain">ROBINHOOD CHAIN</a>
+    </nav>
     <p>SOLANA//SCOPE · AN ENGINEERING READOUT — FIGURES ARE ILLUSTRATIVE ORDERS OF MAGNITUDE, NOT LIVE TELEMETRY. SLOT COUNTER IS SIMULATED AT 400 MS. BUILT WITH ANIME.JS.</p>
     <p class="channel-legend" aria-label="Channel color legend">
       <span style="--legend-c:var(--cyan)">CYAN NETWORK</span><span style="--legend-c:var(--amber)">AMBER TX</span>
@@ -1861,6 +1876,39 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     <section><h3>BITCOIN · 10 ARTICLES</h3><p>A proof-of-work ledger whose public mempool and fee-rate market feed probabilistic settlement.</p><ul><li>Foundation: Bitcoin</li><li>Consensus: Proof of Work; Bitcoin probabilistic finality</li><li>Transactions: Bitcoin mempool; Replace-by-fee; sat/vB fee market; Lightning Network</li><li>Infrastructure: FIBRE / compact relays · mempool.space APIs; Out-of-band accelerators; Stratum v2</li></ul><a href="https://developer.bitcoin.org/devguide/">Bitcoin developer guide ↗</a></section>
     <section><h3>ZCASH · 6 ARTICLES</h3><p>A proof-of-work chain whose modern shielded pool hides the public transaction graph.</p><ul><li>Foundation: Zcash</li><li>Consensus: Equihash</li><li>Transactions: Shielded pool; Orchard</li><li>Safety: Shielded pool (protocol-level)</li><li>Infrastructure: Standard p2p</li></ul><a href="https://zcash.readthedocs.io/">Zcash documentation ↗</a></section>
     <section><h3>ROBINHOOD CHAIN · 17 ARTICLES</h3><p>A first-come-first-served Nitro rollup with fast sequencer receipts and Ethereum settlement.</p><ul><li>Foundation: Robinhood Chain; Arbitrum Nitro</li><li>Consensus: Sequencer soft confirmation; BoLD fraud proofs</li><li>Transactions: FCFS gas policy; L1 data fee</li><li>Ordering: Robinhood Chain FCFS sequencer; UniswapX · 0x RFQ · 1inch Fusion · LiFi</li><li>Infrastructure: Nitro full node · ArbOS · L1 blob reader; Robinhood Chain sequencer feed · WebSockets; Chainlink Data Streams</li><li>Safety: Sequencer uptime feed</li><li>Liquidity: Uniswap Liquidity Launcher; Robinhood Stock Tokens; Robinhood Chain coin launch playbook; ERC-8056; Corporate-action multiplier</li></ul><a href="https://docs.robinhood.com/chain/">Robinhood Chain documentation ↗</a></section>
+  </div>
+</noscript>
+<article class="tools-channel" id="toolsChannel" aria-labelledby="toolsTitle" hidden>
+  <header class="tools-slotbar">
+    <div class="tools-ref"><b>CH-TOOLS</b> · <span id="toolsRef">LANDSCAPES</span></div>
+    <nav class="tools-nav" aria-label="Chain tooling landscapes">
+      <button type="button" id="toolsPrev" aria-label="Previous tooling landscape">←</button>
+      <button type="button" id="toolsNext" aria-label="Next tooling landscape">→</button>
+    </nav>
+    <button type="button" class="tools-veil-toggle" id="toolsVeil" aria-pressed="false" aria-label="Toggle Link Veil. When on, hover a tooling row and hold Control to reveal its details link"><span>LINKS VISIBLE</span><kbd>CTRL</kbd></button>
+    <button type="button" class="tools-close" id="toolsClose" aria-label="Close Chain Tools">✕</button>
+  </header>
+  <main class="tools-page" id="toolsPage"></main>
+  <aside class="tools-hoverdoc" id="toolsHoverdoc" hidden></aside>
+  <section class="tools-compare" id="toolsCompare" aria-label="Tool comparison" hidden></section>
+</article>
+<noscript>
+  <div class="tools-noscript" role="region" aria-labelledby="toolsNoScriptTitle">
+    <p class="entity-section-label">CHAIN TOOLS · JAVASCRIPT-OFF</p>
+    <h2 id="toolsNoScriptTitle">VERIFIED TOOLING LANDSCAPES</h2>
+    <p>Explore current chain tooling by ecosystem. Each landscape uses the same seventeen-category evidence model and links to first-party sources.</p>
+    <nav aria-label="Chain tooling pages">
+      <a href="#tools-static-solana">SOLANA</a>
+      <a href="#tools-static-ethereum">ETHEREUM</a>
+      <a href="#tools-static-bnb-chain">BNB CHAIN</a>
+      <a href="#tools-static-bitcoin">BITCOIN</a>
+      <a href="#tools-static-zcash">ZCASH</a>
+      <a href="#tools-static-robinhood-chain">ROBINHOOD CHAIN</a>
+    </nav>
+    <p><b>CATEGORY LEGEND</b> · Launch · DEX · Aggregation · Market data · Analytics · Charting · Execution · Lending · Yield · Staking · Wallets · Collectibles · SocialFi · Bridges · Developer infrastructure · Security · Payments</p>
+    <!-- CHAIN_TOOLS_NOSCRIPT_START -->
+    <p>Full evidence tables are included in this document after the local data catalog is generated.</p>
+    <!-- CHAIN_TOOLS_NOSCRIPT_END -->
   </div>
 </noscript>
 <article class="entity-channel" id="entityChannel" aria-labelledby="entityTitle" hidden>
@@ -3608,8 +3656,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   })();
 
   /* Router usage:
-   * 1. Subscribe with SCOPE.Router.on('chain-directory'|'chain'|'entity'|'cue', callback).
-   * 2. Navigate with go('/chains'), go('/c/solana'), go('/e/poh'), or go('/cue/3').
+   * 1. Subscribe with SCOPE.Router.on('chain-directory'|'chain'|'tools-directory'|'tools-chain'|'entity'|'cue', callback).
+   * 2. Navigate with go('/chains'), go('/c/solana'), go('/tools'), go('/tools/solana'), go('/e/poh'), or go('/cue/3').
    * 3. Section anchors and unknown hashes are ignored without side effects.
    * 4. Callback receives a parsed route plus the previous recognized route.
    * 5. close() uses browser history when possible and otherwise clears route.
@@ -3619,6 +3667,10 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     let active = null, activeHash = '';
     const parse = hash=>{
       if(/^#\/chains\/?$/i.test(hash)) return {type:'chain-directory'};
+      const toolsChain = /^#\/tools\/([a-z0-9][a-z0-9-]*)(?:\?([^#]*))?$/i.exec(hash);
+      if(toolsChain) return {type:'tools-chain',slug:decodeURIComponent(toolsChain[1]),query:toolsChain[2]||''};
+      const toolsDirectory = /^#\/tools\/?(?:\?([^#]*))?$/i.exec(hash);
+      if(toolsDirectory) return {type:'tools-directory',query:toolsDirectory[1]||''};
       const chain = /^#\/c\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
       if(chain) return {type:'chain',slug:decodeURIComponent(chain[1])};
       const entity = /^#\/e\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
@@ -5644,7 +5696,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 <script src="vendor/fuse.basic.min.js"></script>
+<script src="data/chain-tools/catalog.js"></script>
 <script src="scripts/chain-index.js"></script>
+<script src="scripts/chain-tools.js"></script>
 <script src="scripts/reader-dock.js"></script>
 <script src="scripts/command-palette.js"></script>
 </body>

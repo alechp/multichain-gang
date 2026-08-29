@@ -28,6 +28,9 @@
     id:'chain-'+id,title:item.name,summary:item.summary||'',kind:'chain-index',slug:item.slug,
     aliases:[id,item.short,item.slug,'chain index',item.name+' articles'],keywords:['chain hub','reading path',(item.groups||[]).map(group=>group.id).join(' ')]
   }));
+  const toolRecords=Array.isArray(scope.ChainTools?.records)?scope.ChainTools.records:[];
+  toolRecords.forEach(item=>records.push(item));
+  const toolsDirectory=toolRecords.find(item=>item.kind==='tools-directory');
   Object.entries(data.entities||{}).forEach(([id,item])=>{
     const kind=item.article?.status==='published'?'article':'entity';
     records.push({id,title:item.name,summary:item.tagline||'',kind,entity:id,
@@ -61,11 +64,11 @@
     const button=document.createElement('button');button.type='button';button.className='cmd-section';button.dataset.section=item.id;button.style.setProperty('--section-c',channelColors['ch'+(index+1)]);button.textContent=item.label;sectionNav.appendChild(button);
   });
   let visible=[],active=0;
-  const glyph={section:'§',command:'⌘','chain-directory':'⌂','chain-index':'◇',article:'DOC',entity:'↗',glossary:'REF',focus:'◎'};
-  const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind==='chain-directory'?'chain directory':item.kind==='chain-index'?'chain index':item.kind;
+  const glyph={section:'§',command:'⌘','chain-directory':'⌂','chain-index':'◇','tools-directory':'⌗','tools-chain':'▦',tool:'TOOL',article:'DOC',entity:'↗',glossary:'REF',focus:'◎'};
+  const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind==='chain-directory'?'chain directory':item.kind==='chain-index'?'chain index':item.kind==='tools-directory'?'chain tools':item.kind==='tools-chain'?'tool landscape':item.kind;
   const search=query=>{
     const term=query.trim();
-    if(!term)return [...sections,...commands,chainDirectory].map(item=>records.find(record=>record.kind===item.kind&&record.id===item.id)).filter(Boolean);
+    if(!term)return [...sections,...commands,chainDirectory,...(toolsDirectory?[toolsDirectory]:[])].map(item=>records.find(record=>record.kind===item.kind&&record.id===item.id)).filter(Boolean);
     if(fuse)return fuse.search(term,{limit:14}).map(result=>result.item);
     const needle=term.toLowerCase();return records.filter(item=>[item.title,item.summary,...(item.aliases||[]),...(item.keywords||[])].join(' ').toLowerCase().includes(needle)).slice(0,14);
   };
@@ -107,6 +110,9 @@
       if(item.kind==='entity'||item.kind==='article'){clearOtherOverlay();scope.Router.go('/e/'+item.entity);return}
       if(item.kind==='chain-directory'){clearOtherOverlay();scope.Router.go('/chains');return}
       if(item.kind==='chain-index'){clearOtherOverlay();scope.Router.go('/c/'+item.slug);return}
+      if(item.kind==='tools-directory'){clearOtherOverlay();scope.Router.go('/tools');return}
+      if(item.kind==='tools-chain'){clearOtherOverlay();scope.Router.go('/tools/'+item.slug);return}
+      if(item.kind==='tool'){clearOtherOverlay();scope.Router.go('/tools/'+item.slug+'?tool='+encodeURIComponent(item.toolId));return}
       if(item.kind==='glossary'){
         clearOtherOverlay();
         const trigger=document.querySelector('.term[data-ref-bound="'+CSS.escape(item.term)+'"]');

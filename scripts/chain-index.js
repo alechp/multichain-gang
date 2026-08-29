@@ -90,7 +90,7 @@
     pageNode.innerHTML=`
       <header class="chain-mast">
         <div><p class="chain-kicker">CHAIN INDEX · ${esc(chainPage.short)} · UPDATED ${esc(chainPage.updated)}</p><h1 id="chainIndexTitle" tabindex="-1">${esc(chainPage.name)}</h1><p class="chain-summary">${esc(chainPage.summary)}</p>
-          <div class="chain-actions"><a class="chain-action primary" href="#/e/${esc(chainPage.overview)}" data-chain-article="${esc(chainPage.overview)}">READ CHAIN OVERVIEW →</a>${(chainPage.links||[]).slice(0,1).map(link=>{const safe=safeUrl(link.url);return safe?`<a class="chain-action" href="${esc(safe)}" target="_blank" rel="noopener">PRIMARY DOCS ↗</a>`:''}).join('')}<span class="chain-count">${items.length} PUBLISHED ARTICLES</span></div>
+          <div class="chain-actions"><a class="chain-action primary" href="#/e/${esc(chainPage.overview)}" data-chain-article="${esc(chainPage.overview)}">READ CHAIN OVERVIEW →</a><a class="chain-action" href="#/tools/${esc(chainPage.slug)}">TOOL LANDSCAPE →</a>${(chainPage.links||[]).slice(0,1).map(link=>{const safe=safeUrl(link.url);return safe?`<a class="chain-action" href="${esc(safe)}" target="_blank" rel="noopener">PRIMARY DOCS ↗</a>`:''}).join('')}<span class="chain-count">${items.length} PUBLISHED ARTICLES</span></div>
         </div>
         <aside class="chain-signal-panel" aria-label="${esc(chainPage.name)} signals"><header>SIGNAL PANEL · ${esc(chainPage.updated)}</header><dl>${chainPage.signals.map(signal=>`<div><dt>${esc(signal.k)}</dt><dd>${esc(signal.v)}</dd></div>`).join('')}</dl></aside>
       </header>
