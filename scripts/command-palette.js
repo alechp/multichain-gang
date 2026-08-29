@@ -22,6 +22,10 @@
   const records=[];
   sections.forEach(item=>records.push({...item,kind:'section',aliases:[item.label,'channel '+item.label.replace(/\D/g,'')]}));
   commands.forEach(item=>records.push({...item,kind:'command',aliases:[item.command,'transport']}));
+  Object.entries(data.chainPages||{}).forEach(([id,item])=>records.push({
+    id:'chain-'+id,title:item.name,summary:item.summary||'',kind:'chain-index',slug:item.slug,
+    aliases:[id,item.short,item.slug,'chain index',item.name+' articles'],keywords:['chain hub','reading path',(item.groups||[]).map(group=>group.id).join(' ')]
+  }));
   Object.entries(data.entities||{}).forEach(([id,item])=>records.push({
     id,title:item.name,summary:item.tagline||'',kind:'entity',entity:id,
     aliases:[id,...(item.chains||[])],keywords:[item.kind,...(item.chains||[]),(item.signals||[]).map(signal=>signal.k).join(' ')]
@@ -54,7 +58,7 @@
     const button=document.createElement('button');button.type='button';button.className='cmd-section';button.dataset.section=item.id;button.style.setProperty('--section-c',channelColors['ch'+(index+1)]);button.textContent=item.label;sectionNav.appendChild(button);
   });
   let visible=[],active=0;
-  const glyph={section:'§',command:'⌘',entity:'↗',glossary:'REF',focus:'◎'};
+  const glyph={section:'§',command:'⌘','chain-index':'⌂',entity:'↗',glossary:'REF',focus:'◎'};
   const typeLabel=item=>item.kind==='entity'?(data.entities?.[item.entity]?.kind||'entity'):item.kind;
   const search=query=>{
     const term=query.trim();
@@ -98,6 +102,7 @@
         focusTarget(document.querySelector(item.target));return;
       }
       if(item.kind==='entity'){clearOtherOverlay();scope.Router.go('/e/'+item.entity);return}
+      if(item.kind==='chain-index'){clearOtherOverlay();scope.Router.go('/c/'+item.slug);return}
       if(item.kind==='glossary'){
         clearOtherOverlay();
         const trigger=document.querySelector('.term[data-ref-bound="'+CSS.escape(item.term)+'"]');

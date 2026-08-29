@@ -1013,6 +1013,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 }
 /* ==/V3E:CSS== */
 </style>
+<link rel="stylesheet" href="styles/chain-index.css">
 <link rel="stylesheet" href="styles/command-palette.css">
 <link rel="stylesheet" href="styles/reader-dock.css">
 <script>
@@ -1025,7 +1026,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v3-2026-08-28.1">
+<body data-rev="v3-2026-08-29.2">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -1822,6 +1823,31 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 </div>
 <!-- ==/V3C:HTML== -->
 <!-- ==V3E:HTML== -->
+<article class="chain-channel" id="chainChannel" aria-labelledby="chainIndexTitle" hidden>
+  <header class="chain-slotbar">
+    <div class="chain-ref"><b>CH-INDEX</b> · <span id="chainRef">CHAIN</span></div>
+    <nav class="chain-nav" aria-label="Chain indexes">
+      <button type="button" id="chainPrev" aria-label="Previous chain index">←</button>
+      <button type="button" id="chainNext" aria-label="Next chain index">→</button>
+    </nav>
+    <button type="button" class="chain-veil-toggle" id="chainVeil" aria-pressed="false"><span>LINKS VISIBLE</span><kbd>L</kbd></button>
+    <button type="button" class="chain-close" id="chainClose" aria-label="Close chain index">✕</button>
+  </header>
+  <main class="chain-page" id="chainPage"></main>
+</article>
+<noscript>
+  <div class="chain-noscript" role="region" aria-labelledby="chainDirectoryTitle">
+    <p class="entity-section-label">CHAIN DIRECTORY · JAVASCRIPT-OFF</p>
+    <h2 id="chainDirectoryTitle">SIX CHAIN READING PATHS</h2>
+    <p>Every article and primary source remains available without the interactive chain index.</p>
+    <section><h3>SOLANA · 14 ARTICLES</h3><p>A scheduled-leader network built around rapid propagation and account-aware parallel execution.</p><ul><li>Foundation: Solana; Proof of History; Turbine</li><li>Consensus: Tower BFT; Alpenglow</li><li>Transactions: Gulf Stream; Sealevel; Priority fees per CU + Jito tips</li><li>Ordering: Jito Block Engine; Jito MEV-protect endpoints</li><li>Infrastructure: Jito ShredStream · Geyser plugins; Firedancer · SWQoS · DoubleZero; SWQoS; DoubleZero</li></ul><a href="https://solana.com/docs">Solana documentation ↗</a></section>
+    <section><h3>ETHEREUM · 13 ARTICLES</h3><p>Proof-of-stake settlement with a public execution market and specialized block-building supply chain.</p><ul><li>Foundation: Ethereum</li><li>Consensus: Gasper; LMD-GHOST; Casper FFG; RANDAO</li><li>Transactions: EIP-1559</li><li>Ordering: Proposer-builder separation; Preconfirmations; Flashbots MEV-Boost / BuilderNet; CoW Swap · UniswapX · 1inch Fusion</li><li>Safety: Flashbots Protect / MEV Blocker</li><li>Infrastructure: bloXroute BDN · relay streams; ePBS research · preconfs · Reth/Erigon perf</li></ul><a href="https://ethereum.org/developers/docs/">Ethereum developer documentation ↗</a></section>
+    <section><h3>BNB CHAIN · 9 ARTICLES</h3><p>A compact elected validator set paired with short block cadence and EVM execution.</p><ul><li>Foundation: BNB Chain</li><li>Consensus: Proof of Staked Authority; Maxwell hardfork</li><li>Transactions: Gas tips + private bids</li><li>Ordering: bloXroute / 48Club validator rails; 1inch · KyberSwap</li><li>Safety: 48Club Privacy RPC / bloXroute protect</li><li>Infrastructure: Fast-finality client tuning; bloXroute BDN · relay streams</li></ul><a href="https://docs.bnbchain.org/bnb-smart-chain/">BNB Smart Chain documentation ↗</a></section>
+    <section><h3>BITCOIN · 10 ARTICLES</h3><p>A proof-of-work ledger whose public mempool and fee-rate market feed probabilistic settlement.</p><ul><li>Foundation: Bitcoin</li><li>Consensus: Proof of Work; Bitcoin probabilistic finality</li><li>Transactions: Bitcoin mempool; Replace-by-fee; sat/vB fee market; Lightning Network</li><li>Infrastructure: FIBRE / compact relays · mempool.space APIs; Out-of-band accelerators; Stratum v2</li></ul><a href="https://developer.bitcoin.org/devguide/">Bitcoin developer guide ↗</a></section>
+    <section><h3>ZCASH · 6 ARTICLES</h3><p>A proof-of-work chain whose modern shielded pool hides the public transaction graph.</p><ul><li>Foundation: Zcash</li><li>Consensus: Equihash</li><li>Transactions: Shielded pool; Orchard</li><li>Safety: Shielded pool (protocol-level)</li><li>Infrastructure: Standard p2p</li></ul><a href="https://zcash.readthedocs.io/">Zcash documentation ↗</a></section>
+    <section><h3>ROBINHOOD CHAIN · 17 ARTICLES</h3><p>A first-come-first-served Nitro rollup with fast sequencer receipts and Ethereum settlement.</p><ul><li>Foundation: Robinhood Chain; Arbitrum Nitro</li><li>Consensus: Sequencer soft confirmation; BoLD fraud proofs</li><li>Transactions: FCFS gas policy; L1 data fee</li><li>Ordering: Robinhood Chain FCFS sequencer; UniswapX · 0x RFQ · 1inch Fusion · LiFi</li><li>Infrastructure: Nitro full node · ArbOS · L1 blob reader; Robinhood Chain sequencer feed · WebSockets; Chainlink Data Streams</li><li>Safety: Sequencer uptime feed</li><li>Liquidity: Uniswap Liquidity Launcher; Robinhood Stock Tokens; Robinhood Chain coin launch playbook; ERC-8056; Corporate-action multiplier</li></ul><a href="https://docs.robinhood.com/chain/">Robinhood Chain documentation ↗</a></section>
+  </div>
+</noscript>
 <article class="entity-channel" id="entityChannel" aria-labelledby="entityTitle" hidden>
   <header class="entity-slotbar">
     <div class="entity-ref"><b>CH-REF</b> · <span id="entityRef">ENTITY</span></div>
@@ -1908,6 +1934,17 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         <tr><td>ERC-8056</td><td>term</td><td>The Stock Token UI-multiplier interface used to express corporate-action-adjusted display balances.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
         <tr><td>Corporate-action multiplier</td><td>term</td><td>A scheduled Stock Token display adjustment that keeps splits and distributions aligned with economic exposure.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
         <tr><td>Sequencer uptime feed</td><td>term</td><td>A liveness signal that gates price-sensitive actions after a sequencer outage and recovery grace period.</td><td><a href="https://docs.robinhood.com/chain/oracles-and-price-feeds/">Robinhood Chain oracles and price feeds ↗</a></td></tr>
+        <tr><td>Gasper</td><td>term</td><td>Ethereum consensus as two coupled machines: an agile head choice and slower checkpoint finality.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper documentation ↗</a></td></tr>
+        <tr><td>LMD-GHOST</td><td>term</td><td>Ethereum&#39;s fork choice follows the heaviest branch using each validator&#39;s latest attestation.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper documentation ↗</a></td></tr>
+        <tr><td>Casper FFG</td><td>term</td><td>A checkpoint finality gadget that turns supermajority attestations into an accountable settlement boundary.</td><td><a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/">Ethereum Gasper documentation ↗</a></td></tr>
+        <tr><td>Proof of Staked Authority</td><td>term</td><td>BNB Smart Chain rotates block production through a compact elected validator set.</td><td><a href="https://docs.bnbchain.org/bnb-smart-chain/introduction/">BNB Smart Chain introduction ↗</a></td></tr>
+        <tr><td>Maxwell hardfork</td><td>term</td><td>BNB Chain timing upgrades that compress block cadence and move the bottleneck toward propagation variance.</td><td><a href="https://github.com/bnb-chain/BEPs">BNB Chain BEPs ↗</a></td></tr>
+        <tr><td>Proof of Work</td><td>term</td><td>Bitcoin converts deliberately expensive computation into permissionless leader election and accumulated-chain weight.</td><td><a href="https://developer.bitcoin.org/devguide/block_chain.html">Bitcoin developer guide · block chain ↗</a></td></tr>
+        <tr><td>Bitcoin probabilistic finality</td><td>term</td><td>Each confirmation adds work an attacker must replace; no single block flips history to mathematically final.</td><td><a href="https://developer.bitcoin.org/devguide/block_chain.html">Bitcoin developer guide · block chain ↗</a></td></tr>
+        <tr><td>Bitcoin mempool</td><td>term</td><td>A node-local waiting room where policy, package ancestry, and fee rate shape what miners can select next.</td><td><a href="https://developer.bitcoin.org/devguide/p2p_network.html">Bitcoin developer guide · P2P network ↗</a></td></tr>
+        <tr><td>Orchard</td><td>term</td><td>Zcash&#39;s modern shielded payment protocol uses Halo 2 actions without a trusted setup.</td><td><a href="https://zcash.github.io/orchard/">Orchard protocol book ↗</a></td></tr>
+        <tr><td>Robinhood Stock Tokens</td><td>term</td><td>Issuer-created tokenised debt securities whose balances, multipliers, oracle sessions, and access boundaries must be integrated together.</td><td><a href="https://docs.robinhood.com/chain/building-with-stock-tokens/">Building with Stock Tokens ↗</a></td></tr>
+        <tr><td>Robinhood Chain coin launch playbook</td><td>technique</td><td>A staged, measurement-first launch path joining contract controls, three finality clocks, two-way liquidity, and rollback gates.</td><td><a href="https://docs.robinhood.com/chain/">Robinhood Chain integration guide ↗</a></td></tr>
       </tbody>
     </table>
   </div>
@@ -1917,7 +1954,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v3-2026-08-28.1",
+  "_rev": "v3-2026-08-29.2",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -1938,7 +1975,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     "priority-fee": {"term":"Priority fee","aliases":["priority fees","priority fee"],"def":"An optional Solana bid equal to requested compute-unit limit times compute-unit price, paid in addition to the base fee.","purpose":"Urgency is priced where contention happens without raising the base cost of every unrelated transaction.","links":[{"label":"Solana fee docs","url":"https://solana.com/docs/core/fees","kind":"official"}]},
     "jito-bundle": {"term":"Jito bundle","aliases":["Jito bundles","Jito bundle","Jito"],"def":"An ordered group of at most five Solana transactions submitted for sequential, atomic execution through Jito's Block Engine.","purpose":"Ordering rights become an explicit auction product instead of an implicit race through public infrastructure.","links":[{"label":"Jito bundle docs","url":"https://docs.jito.wtf/lowlatencytxnsend/#bundles","kind":"docs"}]},
     "proof-of-stake": {"term":"Proof of Stake","aliases":["Proof of Stake","proof-of-stake","PoS"],"def":"A consensus family in which economic stake weights proposal or voting power and can be penalized for protocol violations.","purpose":"Security comes from capital at risk rather than electricity already burned.","links":[{"label":"Ethereum PoS docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/","kind":"official"}]},
-    "proof-of-work": {"term":"Proof of Work","aliases":["Proof of Work","proof-of-work","PoW"],"def":"A consensus mechanism in which miners spend computation to extend the valid chain with the most accumulated work.","purpose":"Leader election is permissionless, but the winning signal is deliberately expensive to produce.","links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/block_chain.html","kind":"docs"}]},
+    "proof-of-work": {"term":"Proof of Work","aliases":["Proof of Work","proof-of-work","PoW"],"def":"A consensus mechanism in which miners spend computation to extend the valid chain with the most accumulated work.","purpose":"Leader election is permissionless, but the winning signal is deliberately expensive to produce.","links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/block_chain.html","kind":"docs"}],"entity":"proof-of-work"},
     "nakamoto-consensus": {"term":"Nakamoto consensus","aliases":["Nakamoto consensus","longest chain"],"def":"Bitcoin's rule set combining proof of work, probabilistic leader election, and selection of the chain with most cumulative work.","purpose":"Finality is confidence that grows with buried work, not a single protocol checkpoint.","links":[{"label":"Bitcoin whitepaper","url":"https://bitcoin.org/bitcoin.pdf","kind":"research"}]},
     "rbf": {"term":"Replace-by-fee","aliases":["Replace-by-fee","replace-by-fee","RBF"],"def":"A Bitcoin policy allowing an unconfirmed transaction to be replaced by a conflicting transaction that pays a higher fee.","purpose":"A sender can rebid for block space, so zero-confirmation acceptance cannot assume the first version will survive.","links":[{"label":"BIP 125","url":"https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki","kind":"official"}],"entity":"rbf"},
     "utxo": {"term":"UTXO","aliases":["unspent transaction output","UTXOs","UTXO"],"def":"An unspent transaction output: a discrete Bitcoin coin record that can be consumed once by a later transaction.","purpose":"Parallel ownership is represented as independent spendable objects rather than balances in shared accounts.","links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/transactions.html","kind":"docs"}]},
@@ -1947,16 +1984,16 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     "stratum-v2": {"term":"Stratum v2","aliases":["Stratum V2","Stratum v2"],"def":"An open mining protocol suite that encrypts transport and can let miners negotiate block-template jobs with pools.","purpose":"The protocol moves some block-construction agency from pool operators back toward individual miners.","links":[{"label":"Stratum v2 specification","url":"https://stratumprotocol.org/specification/","kind":"official"}],"entity":"stratum-v2"},
     "lightning": {"term":"Lightning Network","aliases":["Lightning Network","Lightning"],"def":"A Bitcoin payment-channel network where signed off-chain state updates settle through the base chain only when needed.","purpose":"Instant payments come from precommitted channels, not from making Bitcoin blocks arrive faster.","links":[{"label":"Lightning BOLTs","url":"https://github.com/lightning/bolts","kind":"official"}],"entity":"lightning"},
     "randao": {"term":"RANDAO","aliases":["RANDAO"],"def":"Ethereum's validator-contributed randomness accumulator, mixed with protocol state to select proposers and committees.","purpose":"Future proposers are unpredictable enough to constrain targeted manipulation while remaining publicly verifiable.","links":[{"label":"Ethereum proposer docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/block-proposal/","kind":"official"}],"entity":"randao"},
-    "gasper": {"term":"Gasper","aliases":["Gasper"],"def":"Ethereum's proof-of-stake consensus combining LMD-GHOST fork choice with Casper FFG finality checkpoints.","purpose":"One mechanism continuously chooses a head while another periodically makes history economically final.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
-    "lmd-ghost": {"term":"LMD-GHOST","aliases":["LMD-GHOST"],"def":"Ethereum's fork-choice rule, choosing the branch supported by the latest message from each validator.","purpose":"The chain head can react each slot without waiting for checkpoint finality.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
-    "casper-ffg": {"term":"Casper FFG","aliases":["Casper FFG","Casper"] ,"def":"Ethereum's checkpoint finality gadget, which justifies and finalizes epochs after supermajority validator votes.","purpose":"Fork choice stays agile while checkpoints establish a slower irreversible boundary.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}]},
+    "gasper": {"term":"Gasper","aliases":["Gasper"],"def":"Ethereum's proof-of-stake consensus combining LMD-GHOST fork choice with Casper FFG finality checkpoints.","purpose":"One mechanism continuously chooses a head while another periodically makes history economically final.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}],"entity":"gasper"},
+    "lmd-ghost": {"term":"LMD-GHOST","aliases":["LMD-GHOST"],"def":"Ethereum's fork-choice rule, choosing the branch supported by the latest message from each validator.","purpose":"The chain head can react each slot without waiting for checkpoint finality.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}],"entity":"lmd-ghost"},
+    "casper-ffg": {"term":"Casper FFG","aliases":["Casper FFG","Casper"] ,"def":"Ethereum's checkpoint finality gadget, which justifies and finalizes epochs after supermajority validator votes.","purpose":"Fork choice stays agile while checkpoints establish a slower irreversible boundary.","links":[{"label":"Ethereum Gasper docs","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"}],"entity":"casper-ffg"},
     "eip-1559": {"term":"EIP-1559","aliases":["EIP-1559"],"def":"Ethereum's fee market with a protocol-set base fee that is burned and an optional priority fee paid to the block producer.","purpose":"Wallets bid against a moving posted price instead of guessing a single all-pay auction clearing point.","links":[{"label":"EIP-1559","url":"https://eips.ethereum.org/EIPS/eip-1559","kind":"official"}],"entity":"eip-1559"},
     "blob-sidecars": {"term":"Blob sidecars","aliases":["blob sidecars","blob sidecar","blobs"],"def":"Temporary Ethereum consensus data carrying rollup blobs alongside blocks without exposing the payload to EVM execution.","purpose":"Rollups buy cheaper data availability without forcing permanent execution-layer storage.","links":[{"label":"EIP-4844","url":"https://eips.ethereum.org/EIPS/eip-4844","kind":"official"}]},
     "pbs": {"term":"Proposer-builder separation","aliases":["proposer-builder separation","PBS"],"def":"A block-production design splitting transaction ordering by specialized builders from final block choice by consensus proposers.","purpose":"The validator sells ordering work without needing the search infrastructure to build the most valuable block itself.","links":[{"label":"Ethereum PBS roadmap","url":"https://ethereum.org/en/roadmap/pbs/","kind":"official"}],"entity":"pbs"},
     "mev-boost": {"term":"MEV-Boost","aliases":["MEV-Boost"],"def":"An out-of-protocol Ethereum sidecar through which validators receive blinded block bids from builders via relays.","purpose":"PBS exists today as a market overlay even before the protocol enshrines it.","links":[{"label":"Flashbots MEV-Boost","url":"https://boost.flashbots.net/","kind":"official"}],"entity":"mev-boost"},
     "private-order-flow": {"term":"Private order flow","aliases":["private order flow","private channels","private flow"],"def":"Transactions delivered to selected builders or solvers rather than broadcast to a public mempool.","purpose":"Privacy from public searchers trades away a transparent common queue for a trusted routing relationship.","links":[{"label":"Flashbots Protect docs","url":"https://docs.flashbots.net/flashbots-protect/overview","kind":"docs"}]},
-    "posa": {"term":"Proof of Staked Authority","aliases":["Proof of Staked Authority","proof-of-staked-authority","PoSA"],"def":"BNB Smart Chain consensus in which an elected validator set takes turns producing blocks under stake and authority rules.","purpose":"A compact producer set buys short block times at the cost of a narrower participation boundary.","links":[{"label":"BNB Chain consensus docs","url":"https://docs.bnbchain.org/bnb-smart-chain/introduction/","kind":"official"}]},
-    "maxwell": {"term":"Maxwell hardfork","aliases":["Maxwell hardfork","Maxwell upgrade","Maxwell"],"def":"A BNB Smart Chain network upgrade that shortened block intervals and adjusted consensus timing for faster finality.","purpose":"The latency window narrows, so network propagation and validator proximity matter more.","links":[{"label":"BNB Chain BEPs","url":"https://github.com/bnb-chain/BEPs","kind":"official"}]},
+    "posa": {"term":"Proof of Staked Authority","aliases":["Proof of Staked Authority","proof-of-staked-authority","PoSA"],"def":"BNB Smart Chain consensus in which an elected validator set takes turns producing blocks under stake and authority rules.","purpose":"A compact producer set buys short block times at the cost of a narrower participation boundary.","links":[{"label":"BNB Chain consensus docs","url":"https://docs.bnbchain.org/bnb-smart-chain/introduction/","kind":"official"}],"entity":"posa"},
+    "maxwell": {"term":"Maxwell hardfork","aliases":["Maxwell hardfork","Maxwell upgrade","Maxwell"],"def":"A BNB Smart Chain network upgrade that shortened block intervals and adjusted consensus timing for faster finality.","purpose":"The latency window narrows, so network propagation and validator proximity matter more.","links":[{"label":"BNB Chain BEPs","url":"https://github.com/bnb-chain/BEPs","kind":"official"}],"entity":"maxwell"},
     "mev": {"term":"Maximum extractable value","aliases":["maximum extractable value","MEV"],"def":"Value captured by controlling transaction inclusion, exclusion, or ordering in addition to ordinary block rewards and fees.","purpose":"Where ordering is scarce, a market forms around who sees, places, and protects transactions first.","links":[{"label":"Ethereum MEV docs","url":"https://ethereum.org/en/developers/docs/mev/","kind":"official"}]},
     "atomic-arbitrage": {"term":"Atomic arbitrage","aliases":["atomic arbitrage","atomic arb"],"def":"A transaction that closes a cross-market price gap and reverts as a whole if every required leg cannot execute.","purpose":"Atomicity removes inventory risk, letting searchers bid much of the captured spread into ordering fees.","links":[{"label":"Flashbots Auction docs","url":"https://docs.flashbots.net/flashbots-auction/overview","kind":"docs"}]},
     "sandwich": {"term":"Sandwich attack","aliases":["sandwich attacks","sandwich attack","sandwiching","sandwich"],"def":"An ordering attack placing one trade before and another after a victim swap to profit from the victim's price impact.","purpose":"Slippage tolerance becomes the attacker's budget unless routing or privacy removes the preview.","links":[{"label":"Ethereum MEV docs","url":"https://ethereum.org/en/developers/docs/mev/","kind":"official"}]},
@@ -1967,7 +2004,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     "preconfirmations": {"term":"Preconfirmations","aliases":["preconfirmations","preconfirmation","preconf"],"def":"Credible promises about transaction inclusion or execution issued before the underlying chain reaches full consensus finality.","purpose":"Users buy an earlier certainty signal while the base protocol continues doing slower settlement work.","links":[{"label":"Ethereum research","url":"https://ethresear.ch/t/based-preconfirmations/17353","kind":"research"}],"entity":"preconfirmations"},
     "equihash": {"term":"Equihash","aliases":["Equihash"],"def":"A memory-oriented proof-of-work algorithm based on the generalized birthday problem and used by Zcash mining.","purpose":"Its resource profile aimed to make mining less dominated by raw compute throughput alone.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"equihash"},
     "shielded-pool": {"term":"Shielded pool","aliases":["shielded transactions","shielded txs","shielded pool"],"def":"A Zcash value pool where zero-knowledge proofs hide sender, receiver, and amount while proving conservation and authorization.","purpose":"Hiding the transaction graph removes the visibility that most ordering extraction needs.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}],"entity":"shielded-pool"},
-    "orchard": {"term":"Orchard","aliases":["Orchard"],"def":"Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.","purpose":"Privacy is the default shape of the value pool, not an optional wrapper around transparent coins.","links":[{"label":"Orchard book","url":"https://zcash.github.io/orchard/","kind":"official"}]},
+    "orchard": {"term":"Orchard","aliases":["Orchard"],"def":"Zcash's current shielded payment protocol, using Halo 2 proofs and action-based transfers without a trusted setup.","purpose":"Privacy is the default shape of the value pool, not an optional wrapper around transparent coins.","links":[{"label":"Orchard book","url":"https://zcash.github.io/orchard/","kind":"official"}],"entity":"orchard"},
     "zk-snarks": {"term":"zk-SNARKs","aliases":["zero-knowledge proofs","zk-SNARKs","SNARKs"],"def":"Succinct non-interactive zero-knowledge proofs that let a verifier check a statement without learning its private witness.","purpose":"The chain can verify correctness while never receiving the secret transaction details.","links":[{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"official"}]},
     "arbitrum-nitro": {"term":"Arbitrum Nitro","aliases":["Arbitrum L2","Arbitrum Nitro","Nitro"],"def":"The optimistic-rollup stack Robinhood Chain uses for EVM execution, compressed batches, and Ethereum settlement.","purpose":"Execution can feel local and fast while data availability, dispute resolution, and hard settlement live on a slower parent chain.","links":[{"label":"Arbitrum Nitro repository","url":"https://github.com/OffchainLabs/nitro","kind":"official"}],"entity":"arbitrum-nitro"},
     "sequencer-soft-confirmation": {"term":"Sequencer soft confirmation","aliases":["FCFS sequencer","sequencer soft confirmation","soft confirmation","soft receipt"],"def":"A fast sequencer commitment that an accepted transaction has entered Robinhood Chain's ordered L2 state; it is not Ethereum finality.","purpose":"Applications can acknowledge low-risk activity quickly while reserving irreversible actions for L1-posted or L1-final evidence.","links":[{"label":"Robinhood Chain finality docs","url":"https://docs.robinhood.com/chain/transaction-finality/","kind":"official"}],"entity":"sequencer-soft-confirmation"},
@@ -2263,6 +2300,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["spam", "cexdex", "sandwich"]
     },
     "jito-be": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Jito Block Engine","tagline":"An explicit market for atomic ordering inside a Solana leader's slot.","chains":["sol"],
       "body":["Jito's Block Engine receives signed bundles, simulates them against current Solana state, and forwards profitable combinations to participating leaders. A bundle holds no more than five transactions and executes sequentially, all-or-nothing, within one slot. Tips turn desired placement into a bid, but landing still depends on valid state, account-lock compatibility, compute limits, and reaching the relevant leader before the opportunity expires."],
       "how":{"diagram":"sol-bundle","params":{},"steps":["Searchers simulate and sign an atomic bundle","The engine groups bids with conflicting account locks","Valid combinations compete on tip efficiency","A winning package reaches the scheduled leader"]},
@@ -2271,6 +2309,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["atomic-arb","backrun","shredstream","sol"],"term":"jito-bundle"
     },
     "mev-boost": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Flashbots MEV-Boost / BuilderNet","tagline":"The sidecar and builder network that make proposer-builder separation usable today.","chains":["eth"],
       "body":["MEV-Boost lets an Ethereum validator outsource block construction without handing over proposer authority. Relays collect bids from builders, the validator's sidecar asks for the best blinded header, and the winning builder reveals its payload after the proposer signs. BuilderNet changes who can collaborate on building, but the core bargain remains: specialized builders compete on block value while consensus validators retain the final proposal duty."],
       "how":{"diagram":"intent-batch","params":{},"steps":["Builders assemble candidate execution payloads","Relays validate bids and expose blinded headers","The proposer signs its preferred header","The winning payload is revealed and proposed"]},
@@ -2279,6 +2318,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["pbs","atomic-arb","liquidations","eth"],"term":"mev-boost"
     },
     "bnb-rails": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"bloXroute / 48Club validator rails","tagline":"Private BNB Chain lanes that connect bundles and builder bids to validators.","chains":["bnb"],
       "body":["BNB Chain builder rails sit beside the public transaction pool. Searchers send bundles or private transactions to services such as bloXroute and 48Club; builders simulate candidate ordering, price it, and deliver blocks or bids to compatible validators. These paths reduce public-gossip delay and expose explicit ordering controls, yet they are not consensus: validators still enforce BSC validity, and private delivery does not guarantee inclusion or protection."],
       "how":{"diagram":"intent-batch","params":{},"steps":["A searcher targets a future BSC block","A private rail validates the signed bundle","Builders compare ordering and payment value","A compatible validator receives the candidate"]},
@@ -2287,6 +2327,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["bnb","sandwich","backrun","liquidations"]
     },
     "btc-accel": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Out-of-band accelerators","tagline":"A miner-facing fee market layered over Bitcoin's ordinary mempool auction.","chains":["btc"],
       "body":["A Bitcoin accelerator asks participating miners to prioritize a stuck transaction, usually in exchange for an additional payment outside the transaction's original fee. Some services coordinate pools directly; wallet-native alternatives use replace-by-fee or child-pays-for-parent to raise the effective on-chain feerate. An accelerator can improve access to hashpower, but cannot override transaction validity, a conflicting spend, or a miner's independent template policy."],
       "how":{"diagram":"miners","params":{},"steps":["A sender identifies a delayed transaction","The service estimates an added payment","Participating pools add it to candidate templates","Confirmation occurs only if a participant mines"]},
@@ -2295,6 +2336,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["btc","rbf","btc-priority"]
     },
     "jito-protect": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Jito MEV-protect endpoints","tagline":"Leader-directed Solana submission with revert and sandwich-mitigation controls.","chains":["sol"],
       "body":["Jito's transaction endpoint sends a signed Solana transaction directly toward a validator instead of relying only on general RPC forwarding. A caller can wrap one transaction as a bundle for revert protection, and a `jitodontfront` account marker constrains where marked transactions may appear inside Block Engine bundles. Those controls narrow specific leak and ordering risks; they do not hide every upstream copy or promise inclusion, price, or universal sandwich immunity."],
       "how":{"diagram":"window","params":{},"steps":["The client signs a constrained transaction","Jito routes it toward participating leaders","Bundle-only or dont-front rules are checked","The transaction lands only if valid and selected"]},
@@ -2303,6 +2345,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sandwich","jito-be","sol"]
     },
     "flashbots-protect": {
+      "article": {"status":"published","category":"safety","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Flashbots Protect / MEV Blocker","tagline":"Private Ethereum RPC paths that keep eligible order flow out of the public mempool.","chains":["eth"],
       "body":["Protection RPCs accept signed Ethereum transactions privately and forward them to participating builders rather than broadcasting them through the public mempool first. That removes the easiest preview for sandwich bots. Flashbots Protect and MEV Blocker also support policies around failed-transaction handling or backrun rebates. Users trade public propagation breadth for a controlled builder path, so inclusion, censorship resistance, refund eligibility, and timing still depend on each service's rules."],
       "how":{"diagram":"window","params":{},"steps":["A wallet submits to a private RPC","The service checks transaction and policy","Selected builders receive the private order","Inclusion or a backrun refund is reported"]},
@@ -2311,6 +2354,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sandwich","backrun","mev-boost","eth"]
     },
     "club48": {
+      "article": {"status":"published","category":"safety","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"48Club Privacy RPC / bloXroute protect","tagline":"Private BNB Chain submission that delays or avoids public mempool exposure.","chains":["bnb"],
       "body":["48Club and bloXroute expose BNB Chain RPC routes designed to send a user's signed transaction through private builder or proposer connections. Keeping the payload out of ordinary public gossip during the useful ordering window can deny sandwichers an early copy. The protection boundary ends at participating infrastructure: eventual disclosure, unsupported validators, failed simulation, or separate upstream leakage can still expose or delay the trade."],
       "how":{"diagram":"window","params":{},"steps":["A wallet selects a private BSC RPC","The service receives the signed transaction","A private mempool or proposer path carries it","The selected validator may include it"]},
@@ -2319,6 +2363,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sandwich","bnb-rails","bnb"]
     },
     "zec-shield": {
+      "article": {"status":"published","category":"safety","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Shielded pool (protocol-level)","tagline":"A privacy boundary enforced by Zcash proofs rather than a private relay operator.","chains":["zec"],
       "body":["Zcash shielded pools hide the sender, receiver, and transferred amount while still proving authorization and value conservation. Orchard expresses a payment as actions checked with Halo 2 proofs; nodes verify those proofs without learning the private note contents. This is protocol-level transaction privacy, not an RPC promise. Network observers can still see timing and transaction size, and users can reveal information through address reuse or transparent-pool interactions."],
       "how":{"diagram":"shieldbounce","params":{},"steps":["A wallet selects private notes to spend","It builds outputs and a zero-knowledge proof","Nodes verify balance and authorization","New private notes enter the Orchard pool"]},
@@ -2335,6 +2380,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sol","sandwich","jit"]
     },
     "cow": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"CoW Swap · UniswapX · 1inch Fusion","tagline":"Intent systems where solvers compete to deliver a user's signed outcome.","chains":["eth"],
       "body":["An intent describes the result a user will accept without prescribing one exact on-chain route. CoW Protocol batches orders and lets solvers combine peer-to-peer matches with external liquidity; UniswapX and 1inch Fusion run related competitions around signed swap orders. Solvers pay execution costs and search for surplus, while on-chain settlement checks the user's constraints. Competition can return ordering value, but every system differs in fillers, exclusivity, and cancellation semantics."],
       "how":{"diagram":"intent-batch","params":{},"steps":["Users sign bounded swap intents","Solvers search matching and routing options","Competing solutions are ranked by user outcome","A settlement contract verifies the winning fill"]},
@@ -2343,6 +2389,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sandwich","jit","eth","jupiter"]
     },
     "kyber": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"1inch · KyberSwap","tagline":"BNB Chain aggregation that searches fragmented liquidity before the user signs.","chains":["bnb"],
       "body":["1inch and KyberSwap aggregate quotes across BNB Chain venues, sometimes splitting one swap across several pools or requesting off-chain market-maker liquidity. The route builder returns calldata and minimum-output constraints for the user to inspect and sign. Better route search can reduce price impact, but aggregation is not private by itself: the final transaction can still enter public gossip unless the wallet chooses a protected submission path."],
       "how":{"diagram":"intent-batch","params":{},"steps":["The client requests a bounded BNB Chain quote","Aggregators compare pools and market makers","A route is encoded with slippage protection","The user signs and submits the atomic swap"]},
@@ -2351,6 +2398,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["sandwich","bnb","cow"]
     },
     "shredstream": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Jito ShredStream · Geyser plugins","tagline":"Two ways to observe Solana state before a conventional indexed RPC catches up.","chains":["sol"],
       "body":["ShredStream relays raw Solana shreds near block production so a consumer can reconstruct partial state with minimal network delay. Geyser plugins emit account, transaction, slot, and block updates from inside a validator to an external datastore or stream. One starts close to the wire and the other at validator state boundaries; both demand careful ordering, rollback handling, and independent verification before a trading system acts."],
       "how":{"diagram":"sol-direct","params":{},"steps":["A leader emits ledger shreds or validator updates","A relay or plugin exports the low-latency feed","Consumers order and decode partial observations","Applications reconcile them with rooted RPC state"]},
@@ -2359,6 +2407,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["cexdex","snipe","sol","jito-be"],"term":"shredstream"
     },
     "bdn": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"bloXroute BDN · relay streams","tagline":"A purpose-built relay backbone for low-variance EVM block and transaction delivery.","chains":["eth","bnb"],
       "body":["bloXroute's Blockchain Distribution Network uses globally placed relays, compact block representations, cut-through routing, and persistent gateway links to move chain data outside ordinary peer-to-peer topology. Its streams expose pending transactions and blocks to connected applications, while gateways can validate against local nodes. The advantage is fresher, more predictable delivery—not privileged consensus state—so consumers must still handle duplicates, reorgs, filtering errors, and chain-specific finality."],
       "how":{"diagram":"window","params":{},"steps":["Gateways ingest transactions and blocks","Relays compress and forward data across regions","Subscribers receive filtered stream events","Applications reconcile events with local chain state"]},
@@ -2367,6 +2416,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["cexdex","backrun","eth","bnb"]
     },
     "fibre": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"FIBRE / compact relays · mempool.space APIs","tagline":"Bitcoin propagation and telemetry tools serving different points on the confirmation path.","chains":["btc"],
       "body":["FIBRE was built to move Bitcoin blocks rapidly between miners using compact blocks, forward error correction, and carefully engineered relay paths. Compact-block peers reconstruct a block from transactions already in their mempools, reducing wire payload. mempool.space serves a different layer: public fee, mempool, and block telemetry through documented APIs. Relays improve propagation after a template is found; telemetry helps users estimate the market before submitting."],
       "how":{"diagram":"miners","params":{},"steps":["Nodes cache transactions before a block arrives","A miner announces compact block identifiers","Peers reconstruct locally and request missing data","Public telemetry reports backlog and fee conditions"]},
@@ -2375,6 +2425,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["btc","stratum","btc-priority"]
     },
     "zec-p2p": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Standard p2p","tagline":"Zcash's ordinary peer network for transactions, compact blocks, and consensus messages.","chains":["zec"],
       "body":["Zcash nodes discover peers and relay valid transactions and blocks across a conventional encrypted-or-clear peer network, depending on deployment. Full nodes verify consensus rules locally; Zebra and zcashd do not trust a relay to declare a transaction valid. Shielded transfer contents remain cryptographically private while their enclosing transactions still propagate as network objects, so observers can measure timing and topology even when they cannot read addresses or amounts."],
       "how":{"diagram":"mempool-shielded","params":{},"steps":["A wallet submits a valid Zcash transaction","Peers inventory and request the network object","Each full node verifies proof and consensus rules","Blocks later confirm the relayed transaction"]},
@@ -2383,6 +2434,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["zec","equihash","shielded-pool"]
     },
     "sol-priority": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Priority fees per CU + Jito tips","tagline":"Two Solana bids pricing execution urgency and bundle placement through separate rails.","chains":["sol"],
       "body":["A Solana priority fee multiplies the requested compute-unit limit by a micro-lamport price, signaling how much the transaction pays for scarce scheduler attention. A Jito tip instead bids through the Block Engine for bundle selection and ordering at participating leaders. They are complementary, not interchangeable: priority fees travel with the transaction across validators, while tips matter on the Jito path and cannot fix invalid state or exhausted compute."],
       "how":{"diagram":"feeladder","params":{},"steps":["The client estimates compute and contention","It sets a per-CU priority price","It may add a conditional Jito tip","Leader infrastructure schedules valid bids"]},
@@ -2399,6 +2451,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["eip-1559","mev-boost","liquidations","eth"]
     },
     "bnb-priority": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Gas tips + private bids","tagline":"BNB Chain urgency is priced through public gas and validator-adjacent builder markets.","chains":["bnb"],
       "body":["A BNB Smart Chain transaction carries a gas price or dynamic-fee fields that determine what the sender offers for execution. Public validators can prioritize economically attractive valid transactions, while builder APIs and private rails create a second market for bundles or complete block candidates. The public fee and private bid may both affect landing, but neither bypasses gas limits, nonce order, balance checks, contract reverts, or the validator's consensus obligations."],
       "how":{"diagram":"feeladder","params":{},"steps":["The wallet prices gas for current demand","Private users may submit a bundle bid","Builders simulate a profitable block candidate","The validator proposes a valid ordered block"]},
@@ -2407,6 +2460,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["bnb","bnb-rails","liquidations"]
     },
     "btc-priority": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"sat/vB fee market","tagline":"Bitcoin block space is auctioned by feerate across related transaction packages.","chains":["btc"],
       "body":["Bitcoin transactions pay an absolute fee, but miners compare candidates mainly by satoshis per virtual byte and package economics. A large transaction therefore needs more total sats than a small one at the same priority. Nodes enforce their own mempool policies, miners choose templates independently, and ancestors can affect descendant eligibility. Replace-by-fee and child-pays-for-parent let wallets rebid without creating a separate protocol-level priority lane."],
       "how":{"diagram":"feeladder","params":{},"steps":["A wallet estimates the mempool fee curve","Transaction size turns feerate into total fee","Nodes admit valid transactions under local policy","Miners maximize template value across packages"]},
@@ -2415,6 +2469,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["btc","rbf","btc-accel"]
     },
     "firedancer": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Firedancer · SWQoS · DoubleZero","tagline":"A Solana latency stack spanning validator software, ingress allocation, and network paths.","chains":["sol"],
       "body":["Firedancer is an independent high-performance Solana validator client; SWQoS reserves leader ingress capacity according to stake behind trusted validator connections; DoubleZero offers purpose-built fiber paths for distributed-system traffic. Together they describe three different bottlenecks—software execution, packet admission, and wide-area transport. Buying or deploying one layer does not erase the others, and client diversity matters as much for fault isolation as raw benchmark speed."],
       "how":{"diagram":"swqos-lanes","params":{},"steps":["Packets cross a dedicated or public network path","SWQoS allocates leader ingress by trusted stake","Validator software verifies and schedules work","Independent clients converge on protocol state"]},
@@ -2423,6 +2478,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["swqos","doublezero","sol","shredstream"],"term":"firedancer"
     },
     "eth-edge": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"ePBS research · preconfs · Reth/Erigon perf","tagline":"Ethereum's edge moves across protocol markets, early promises, and client engineering.","chains":["eth"],
       "body":["Enshrined proposer-builder separation aims to move today's relay-mediated builder market into Ethereum's protocol. Preconfirmations explore credible promises about inclusion or execution before ordinary consensus finality. Reth and Erigon attack another boundary: efficient state access, execution, sync, and node operations. These are distinct edges. A faster client cannot manufacture a valid preconfirmation, and a protocol market does not remove the engineering needed to execute and verify the resulting block."],
       "how":{"diagram":"window","params":{},"steps":["Clients observe and execute candidate state","Builders price complete execution payloads","A provider may issue a bounded early promise","Consensus verifies and finalizes the resulting block"]},
@@ -2431,6 +2487,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["pbs","preconfirmations","mev-boost","eth"]
     },
     "bnb-edge": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Fast-finality client tuning","tagline":"BNB Chain client work compressing block cadence while preserving validator agreement.","chains":["bnb"],
       "body":["BNB Smart Chain's Lorentz, Maxwell, and later client upgrades shortened block intervals, changed block-fetch behavior, and tightened fast-finality voting paths. The edge comes from coordinated protocol parameters plus validator software that can import, execute, attest, and propagate within the smaller window. Faster cadence raises sensitivity to network variance and slow state access, so operators need compatible releases and observability; local tuning cannot safely override activation rules shared by the validator set."],
       "how":{"diagram":"window","params":{},"steps":["An upgraded client receives the next block candidate","Execution and access lists reduce critical-path work","Validators propagate blocks and finality votes","Shared fork rules keep the faster network coherent"]},
@@ -2447,6 +2504,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["stratum-v2","btc","fibre"]
     },
     "sol": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":5,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "Solana",
       "tagline": "A parallel execution network whose market structure is shaped by a roughly 400 ms leader clock.",
@@ -2479,6 +2537,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["jito-be", "poh", "turbine", "sealevel", "tower-bft"]
     },
     "eth": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "Ethereum",
       "tagline": "A proof-of-stake settlement network with a public execution market and a specialized block-building supply chain.",
@@ -2511,6 +2570,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "bnb", "sandwich", "backrun", "liquidations"]
     },
     "bnb": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "BNB Chain",
       "tagline": "An EVM network that trades a compact elected validator set for sub-second block cadence.",
@@ -2543,6 +2603,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["eth", "sol", "sandwich", "cexdex", "spam"]
     },
     "btc": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "Bitcoin",
       "tagline": "A permissionless proof-of-work ledger where block space is won by fee rate and history settles probabilistically.",
@@ -2575,6 +2636,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["zec", "eth", "spam", "snipe"]
     },
     "zec": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "Zcash",
       "tagline": "A Bitcoin-shaped proof-of-work chain whose shielded pool removes transaction-graph visibility.",
@@ -2607,6 +2669,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["btc", "sol", "spam", "sandwich"]
     },
     "turbine": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Turbine", "tagline": "A stake-shaped relay tree that turns one block into recoverable shreds.", "chains": ["sol"],
       "body": ["Turbine is Solana's block-propagation protocol. A leader erasure-codes ledger entries into small shreds, then sends distinct pieces to validators arranged in a stake-weighted tree. Each recipient forwards its assigned packets to the next neighborhood, spreading load instead of making the leader serve every validator. Redundant coding lets downstream nodes reconstruct data despite missing packets, so broadcast capacity and loss tolerance arrive from the same structure."],
       "how": {"diagram": "sol-suite", "params": {}, "steps": ["The leader erasure-codes entries into shreds", "Stake selects a layered relay tree", "Validators forward assigned shreds downstream", "Enough received shreds reconstruct the block"]},
@@ -2615,6 +2678,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "poh", "gulf-stream"], "term": "turbine"
     },
     "poh": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Proof of History", "tagline": "A sequential hash clock that makes event order independently checkable.", "chains": ["sol"],
       "body": ["Proof of History is a continuously evaluated SHA-256 chain whose output cannot be produced without completing the preceding steps. A validator can insert data into that sequence, while another can verify the resulting positions in parallel. The chain is not consensus by itself; it supplies a shared, auditable notion of elapsed order that lets leaders schedule work and Tower BFT reason about slots without first negotiating a timestamp for every event."],
       "how": {"diagram": "poh-clock", "params": {}, "steps": ["A hash output becomes the next input", "Events are mixed into selected positions", "The leader publishes the resulting sequence", "Validators verify order and elapsed steps"]},
@@ -2623,6 +2687,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "tower-bft", "turbine"], "term": "poh"
     },
     "sealevel": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Sealevel", "tagline": "A runtime scheduler that converts declared account access into parallel work.", "chains": ["sol"],
       "body": ["Sealevel is Solana's parallel transaction runtime. Every transaction names the accounts it will read and write before execution, giving the scheduler a conflict map. Transactions with disjoint writable state can run across cores together; transactions contending for the same account must serialize. Programs remain reusable, but state lives in explicit accounts. Throughput therefore depends on workload shape as well as hardware: one hot account can collapse an otherwise parallel batch into a queue."],
       "how": {"diagram": "swqos-lanes", "params": {}, "steps": ["Transactions declare readable and writable accounts", "The scheduler identifies conflicting locks", "Disjoint transactions enter parallel execution lanes", "Conflicting work waits for its account locks"]},
@@ -2631,6 +2696,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "gulf-stream", "swqos"], "term": "sealevel"
     },
     "gulf-stream": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Gulf Stream", "tagline": "A forward path that moves transactions toward scheduled leaders before their slots.", "chains": ["sol"],
       "body": ["Gulf Stream describes Solana's mempool-less transaction forwarding model. Because the leader schedule is known, clients and validators can send transactions toward the current and upcoming leaders instead of leaving them in a shared public waiting room. A recent blockhash bounds how long that forwarded work remains valid. The design shortens the visible queue, but it also makes RPC placement, network paths, leader reachability, and retransmission policy part of the inclusion experience."],
       "how": {"diagram": "window", "params": {}, "steps": ["The schedule identifies upcoming leaders", "Clients attach a recent blockhash", "Transactions move toward the active leader", "Unlanded work is retried or expires"]},
@@ -2639,6 +2705,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "swqos", "sealevel"], "term": "gulf-stream"
     },
     "tower-bft": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Tower BFT", "tagline": "A vote-lockout rule that makes repeated Solana commitments harder to unwind.", "chains": ["sol"],
       "body": ["Tower BFT is Solana's consensus voting protocol built around the Proof of History clock. When a validator votes on successive descendants, its lockout grows, preventing it from quickly switching to an incompatible fork. Votes also carry opportunity cost because a validator must wait out a lockout it abandons. The mechanism turns repeated observation into compounding commitment: optimistic confirmation arrives early, while a rooted history emerges after sufficient descendants and stake-weighted votes accumulate."],
       "how": {"diagram": "tower-lockout", "params": {}, "steps": ["A validator votes on a recent slot", "A descendant vote doubles the prior lockout", "Conflicting forks remain unavailable during lockout", "Accumulated votes eventually root older history"]},
@@ -2647,6 +2714,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "poh", "alpenglow"], "term": "tower-bft"
     },
     "swqos": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "SWQoS", "tagline": "Ingress capacity apportioned by the stake behind a validator connection.", "chains": ["sol"],
       "body": ["Stake-weighted quality of service is Solana's way of rationing validator ingress when packet demand exceeds capacity. A leader accepts identified QUIC connections from staked peers and allocates much of its forwarding bandwidth in proportion to their delegated stake, while retaining a smaller path for unstaked traffic. SWQoS does not guarantee that a transaction lands or executes; it makes scarce network access harder to monopolize with anonymous packet floods and turns trusted stake into forwarding priority."],
       "how": {"diagram": "swqos-lanes", "params": {}, "steps": ["A peer opens an identified QUIC connection", "The leader maps that peer to delegated stake", "Ingress capacity is divided across weighted lanes", "Accepted packets still compete for execution"]},
@@ -2655,6 +2723,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "gulf-stream", "doublezero"], "term": "swqos"
     },
     "doublezero": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "DoubleZero", "tagline": "A contributor-operated network built for latency-sensitive distributed systems.", "chains": ["sol"],
       "body": ["DoubleZero is a network of contributed links and filtering devices intended to carry distributed-system traffic on purpose-built paths. Users reach an ingress edge, redundant routes carry their packets across the network, and an egress edge delivers traffic near its destination. The separation can reduce exposure to congestion and denial-of-service noise on the public internet. It is transport infrastructure rather than consensus: chains still decide validity, leaders, votes, and finality under their own rules."],
       "how": {"diagram": "window", "params": {}, "steps": ["Traffic enters through a nearby DoubleZero edge", "Edge devices filter and classify packets", "Redundant contributor links carry the flow", "An egress edge hands traffic to its destination"]},
@@ -2663,6 +2732,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "swqos", "alpenglow"], "term": "doublezero"
     },
     "alpenglow": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Alpenglow", "tagline": "A proposed Solana consensus design separating fast votes from resilient dissemination.", "chains": ["sol"],
       "body": ["Alpenglow is a next-generation consensus design for Solana that replaces Tower BFT's growing lockouts with explicit voting paths and a dissemination layer designed for adversarial network conditions. Its fast path aims to finalize promptly when stake is responsive, while fallback behavior preserves progress when messages arrive unevenly. The design remains distinct from transaction execution and ordering markets: it determines which blocks become canonical, not which user transaction earns a particular position inside a proposed block."],
       "how": {"diagram": "tower-lockout", "params": {}, "steps": ["A leader disseminates block data", "Stake-weighted validators exchange consensus votes", "A responsive quorum drives the fast path", "Fallback rules handle delayed or missing messages"]},
@@ -2671,6 +2741,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["sol", "tower-bft", "turbine"], "term": "alpenglow"
     },
     "rbf": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Replace-by-fee", "tagline": "Bitcoin relay policy that lets a sender rebid an unconfirmed spend.", "chains": ["btc"],
       "body": ["Replace-by-fee is Bitcoin node policy for accepting a new unconfirmed transaction that conflicts with one already in the mempool when the replacement satisfies fee and relay constraints. The confirmed ledger contains only the version a miner includes; earlier versions were never final. RBF gives wallets a way to raise a stuck payment's fee, but it also makes zero-confirmation acceptance explicitly risky because recipients cannot treat the first relayed version as an irreversible promise."],
       "how": {"diagram": "mempool", "params": {}, "steps": ["A wallet broadcasts an unconfirmed transaction", "The sender builds a conflicting higher-fee version", "Nodes test replacement and relay policy", "A miner may confirm one version"]},
@@ -2679,6 +2750,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["btc", "btc-priority", "lightning"], "term": "rbf"
     },
     "stratum-v2": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Stratum v2", "tagline": "An encrypted mining protocol suite with room for miner-selected block jobs.", "chains": ["btc"],
       "body": ["Stratum v2 is a suite of protocols connecting Bitcoin miners, pools, and optional job declarers. It uses a binary encrypted transport, separates share submission from block-template negotiation, and can let miners construct or select transaction sets instead of accepting every template from a pool. Pools still coordinate payouts and difficulty for shares. The design reduces protocol overhead and central points of block construction without changing Bitcoin's proof-of-work validity rules or the probability that a submitted share becomes a block."],
       "how": {"diagram": "stratum-jobs", "params": {}, "steps": ["A pool opens an encrypted mining channel", "A job declarer constructs a candidate template", "Miners search nonces and submit shares", "A network-target solution becomes a Bitcoin block"]},
@@ -2687,6 +2759,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["btc", "stratum", "fibre"], "term": "stratum-v2"
     },
     "lightning": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Lightning Network", "tagline": "Bitcoin payment channels that update balances off-chain and settle only when needed.", "chains": ["btc"],
       "body": ["The Lightning Network is a graph of Bitcoin payment channels. Two peers lock funds in a shared on-chain output, then exchange newer signed commitment states without publishing each payment. Hashed timelock contracts allow a payment to traverse multiple channels atomically, while penalty or revocation rules protect the latest state. The speed comes from local message exchange, not faster blocks; Bitcoin remains the court for opening, cooperative closing, or resolving a disputed channel."],
       "how": {"diagram": "lightning-channel", "params": {}, "steps": ["Peers fund a shared Bitcoin output", "Signed commitments update channel balances", "HTLCs route conditional value across peers", "The latest state settles on-chain when needed"]},
@@ -2695,6 +2768,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["btc", "rbf", "btc-accel"], "term": "lightning"
     },
     "randao": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "RANDAO", "tagline": "Validator-contributed entropy mixed into Ethereum's public randomness state.", "chains": ["eth"],
       "body": ["RANDAO is Ethereum's accumulator for validator-supplied randomness. Each block proposer reveals a value derived from its secret signing material, and the protocol mixes that reveal into the running state. The resulting value helps determine future proposer and committee assignments. A proposer can withhold its own reveal by skipping a block, so the mechanism limits rather than eliminates influence; protocol lookahead, economic cost, and the contributions of many validators constrain any single participant's control."],
       "how": {"diagram": "window", "params": {}, "steps": ["A proposer derives a reveal from its validator secret", "The block carries that signed reveal", "Consensus mixes it into the accumulator", "Future duties are sampled from mixed state"]},
@@ -2703,6 +2777,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["eth", "pbs", "mev-boost"], "term": "randao"
     },
     "eip-1559": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "EIP-1559", "tagline": "Ethereum's adaptive base-fee market with a separate proposer tip.", "chains": ["eth"],
       "body": ["EIP-1559 splits Ethereum transaction pricing into a protocol-computed base fee and an optional priority fee. The base fee rises or falls with recent block usage and is burned when a transaction executes; the priority fee rewards the block proposer. A wallet also declares a maximum total fee, protecting it from paying above its limit. The mechanism improves fee estimation around a moving posted price, but transactions still compete during demand spikes and builders can still order included transactions strategically."],
       "how": {"diagram": "feeladder", "params": {}, "steps": ["Recent block fullness updates the base fee", "A wallet sets max fee and priority fee", "A builder selects and orders eligible transactions", "Execution burns base fee and pays the tip"]},
@@ -2711,6 +2786,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["eth", "eth-priority", "pbs"], "term": "eip-1559"
     },
     "pbs": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Proposer-builder separation", "tagline": "A split between constructing a valuable block and choosing one for consensus.", "chains": ["eth"],
       "body": ["Proposer-builder separation divides Ethereum block production into specialized roles. Builders assemble and price transaction orderings, then proposers choose among commitments or bids without needing the infrastructure to search every opportunity themselves. The separation can broaden proposer access to competitive block value, but it introduces new dependencies on builders, relays, timing, and censorship resistance. MEV-Boost implements an out-of-protocol version today, while protocol research explores rules that enforce the split within consensus itself."],
       "how": {"diagram": "builder", "params": {}, "steps": ["Searchers send candidate bundles to builders", "Builders assemble blocks and publish bids", "A proposer selects a commitment", "The winning payload is revealed and validated"]},
@@ -2719,6 +2795,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["eth", "mev-boost", "preconfirmations"], "term": "pbs"
     },
     "preconfirmations": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Preconfirmations", "tagline": "Credible inclusion or execution promises issued before consensus finality.", "chains": ["eth"],
       "body": ["A preconfirmation is a signed promise that a transaction will receive some future treatment, such as inclusion by a deadline or execution against a stated result, before the base chain finalizes it. The promise is only as credible as the issuer's future block rights, collateral, and penalty mechanism. Preconfirmations can give users a faster certainty signal, but they create a second timing layer: the promise may be economically enforceable while the underlying transaction remains subject to consensus and reorganization risk."],
       "how": {"diagram": "window", "params": {}, "steps": ["A user requests an early execution promise", "An authorized provider signs stated constraints", "The user treats that promise as a fast signal", "Consensus later includes and finalizes the transaction"]},
@@ -2727,6 +2804,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["eth", "pbs", "mev-boost"], "term": "preconfirmations"
     },
     "equihash": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Equihash", "tagline": "A generalized-birthday proof-of-work puzzle used by Zcash mining.", "chains": ["zec"],
       "body": ["Equihash is the proof-of-work family used to mine Zcash. A miner searches for sets of hashed indices whose prefixes collide through successive rounds and whose final values satisfy the network's target. Finding a solution is designed to require substantial memory bandwidth, while checking one is comparatively cheap. The algorithm chooses who may propose a block; it does not provide transaction privacy. Zcash's shielded protocols and proofs operate independently inside the blocks that mining orders."],
       "how": {"diagram": "miners", "params": {}, "steps": ["Miners hash indexed inputs", "Collision rounds combine matching prefixes", "A candidate solution is checked against the target", "The accepted block extends accumulated work"]},
@@ -2735,6 +2813,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["zec", "stratum-v2", "shielded-pool"], "term": "equihash"
     },
     "shielded-pool": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind": "term", "name": "Shielded pool", "tagline": "A Zcash value pool whose proofs hide the public transaction graph.", "chains": ["zec"],
       "body": ["A shielded pool holds Zcash value in commitments rather than publicly traceable coins. A spend proves that authorized notes exist, that they have not been spent before, and that value balances, without revealing sender, receiver, or amount. Nullifiers prevent double-spends while avoiding disclosure of which commitment was consumed. Privacy depends on the pool's anonymity set and wallet behavior as well as cryptography: transparent deposits, withdrawals, timing, and amounts can still leak correlations around its boundary."],
       "how": {"diagram": "mempool-shielded", "params": {}, "steps": ["A note commitment enters the shielded pool", "The wallet constructs a private spend witness", "A proof establishes authority and value balance", "A nullifier blocks reuse without naming the note"]},
@@ -2743,6 +2822,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["zec", "equihash", "zec-shield"], "term": "shielded-pool"
     },
     "robinhood-chain": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":5,"updated":"2026-08","label":"FOUNDATION"},
       "kind": "chain",
       "name": "Robinhood Chain",
       "tagline": "A first-come-first-served Nitro rollup with a fast sequencer receipt and Ethereum-anchored hard settlement.",
@@ -2768,6 +2848,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related": ["robinhood-sequencer","arbitrum-nitro","bold-fraud-proofs","robinhood-feed","robinhood-orderflow","uniswap-launcher"]
     },
     "robinhood-sequencer": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":5,"updated":"2026-08"},
       "kind":"tool","name":"Robinhood Chain FCFS sequencer","tagline":"One operator orders accepted transactions by arrival; gas pays execution and data, not queue position.","chains":["robinhood_chain"],
       "body":[
         "Robinhood operates the chain's sequencer. It accepts signed EVM transactions through direct and provider routes, applies sequencer-level screening, fixes accepted order first-come-first-served by arrival, executes the resulting lane through Nitro, and issues the first soft receipt. Official documentation says Robinhood Chain does not use a priority gas auction: a larger fee does not jump a transaction ahead of one that arrived first.",
@@ -2780,6 +2861,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","sequencer-soft-confirmation","robinhood-fees","robinhood-feed","spam"]
     },
     "robinhood-feed": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Robinhood Chain sequencer feed · WebSockets","tagline":"A low-lag ordered-state stream that must be gap-checked and backfilled before it becomes durable evidence.","chains":["robinhood_chain"],
       "body":[
         "The sequencer feed exposes ordered L2 updates earlier than a conventional indexer, and Nitro full nodes can consume it as an input. Consumers should persist the last contiguous block and hash, detect gaps, duplicates, parent mismatch, and provider-head drift, then backfill bounded ranges over HTTP after any disconnect. Feed delivery is a latency surface, not a substitute for deterministic replay.",
@@ -2791,6 +2873,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-sequencer","robinhood-node","robinhood-streams"]
     },
     "robinhood-orderflow": {
+      "article": {"status":"published","category":"ordering","level":"applied","minutes":5,"updated":"2026-08"},
       "kind":"tool","name":"UniswapX · 0x RFQ · 1inch Fusion · LiFi","tagline":"Offchain quotes and intents reduce public preview while adding solver, maker, and route dependencies.","chains":["robinhood_chain"],
       "body":[
         "Robinhood Chain's documented liquidity surface spans public AMMs, RFQ and intent systems, a propAMM, order-book venues, and aggregators. RFQ or intent routes can keep quote formation offchain until a signed fill settles, structurally limiting public preview. They do not make extraction impossible: providers, solvers, or leaked routes may still expose intent, and users inherit maker availability, rejection, route-policy, spender, and solver-concentration risk.",
@@ -2803,6 +2886,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-sequencer","robinhood-streams","jit","cexdex","sandwich"]
     },
     "robinhood-fees": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"FCFS gas policy","tagline":"ETH pays Nitro execution plus Ethereum data while arrival time—not a larger tip—fixes queue position.","chains":["robinhood_chain"],
       "body":[
         "A Robinhood Chain transaction pays for L2 execution and its compressed share of L1 data publication. Wallet and `eth_estimateGas` results combine those components, so calldata size and current Ethereum conditions can matter even when L2 execution is inexpensive. Batching can amortize overhead but increases atomic revert blast radius and data size.",
@@ -2814,6 +2898,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-sequencer","l1-data-fee"]
     },
     "robinhood-node": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Nitro full node · ArbOS · L1 blob reader","tagline":"Independent Robinhood Chain reads require L2 state plus Ethereum execution and beacon/blob dependencies.","chains":["robinhood_chain"],
       "body":[
         "A Robinhood Chain full node runs Nitro and ArbOS, consumes the sequencer feed for low-lag ordered state, and replays batches against Ethereum data. Independent verification therefore needs L2 storage and compute plus healthy L1 execution and beacon endpoints capable of serving blob data. The official guide's ArbOS and Nitro release pins are operational versions, not timeless protocol properties.",
@@ -2825,6 +2910,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","arbitrum-nitro","robinhood-feed"]
     },
     "robinhood-streams": {
+      "article": {"status":"published","category":"infrastructure","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"tool","name":"Chainlink Data Streams","tagline":"Pull-based signed market reports support fast execution only when staleness, session, and sequencer guards hold.","chains":["robinhood_chain"],
       "body":[
         "Chainlink Data Streams provide signed sub-second offchain market reports that an application can fetch and verify onchain for perps, options, liquidations, and other latency-sensitive paths. The market-data clock starts when the source moves, not when an L2 block appears. Systems should record source, report-sign, local-receipt, verifier, transaction-receipt, and hedge-completion times separately.",
@@ -2836,6 +2922,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","sequencer-uptime-feed","corporate-action-multiplier","liquidations"]
     },
     "uniswap-launcher": {
+      "article": {"status":"published","category":"liquidity","level":"applied","minutes":6,"updated":"2026-08"},
       "kind":"tool","name":"Uniswap Liquidity Launcher","tagline":"A continuous-clearing auction distributes tokens before proceeds and inventory graduate into a Uniswap v4 pool.","chains":["robinhood_chain"],
       "body":[
         "The Liquidity Launcher is an optional path for an ordinary permissionless ERC-20 launch—not a way to create a Robinhood Stock Token or secure a Robinhood product listing. Before code, choose the canonical issuance ledger, fixed or controlled supply, immutable or upgradeable architecture, authority and vesting model, quote asset, distribution mechanism, and legal/compliance path. A simple token should minimize roles and hidden transfer behavior; specialized restrictions, fees, rebasing, bridges, or upgrades require a bespoke threat model.",
@@ -2849,6 +2936,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-sequencer","robinhood-fees","robinhood-orderflow","snipe"]
     },
     "arbitrum-nitro": {
+      "article": {"status":"published","category":"foundation","level":"foundation","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"Arbitrum Nitro","tagline":"The optimistic-rollup execution stack beneath Robinhood Chain's EVM and Ethereum batch pipeline.","chains":["robinhood_chain"],
       "body":["Arbitrum Nitro executes EVM transactions in an L2 state machine, compresses their ordered data into batches, and uses Ethereum for data availability and settlement. On Robinhood Chain, the fast order comes from the sequencer while independent full nodes replay the transition and BoLD validators can challenge invalid assertions. Nitro compatibility carries Arbitrum-specific semantics: `block.number` estimates the L1 height, `ArbSys.arbBlockNumber()` exposes the L2 count, and L1-to-L2 callers are address-aliased."],
       "how":{"diagram":"rollup-stack","params":{},"steps":["The sequencer orders EVM transactions","Nitro executes and compresses the state transition","Full nodes independently replay the ordered data","Ethereum blobs and fraud proofs anchor the result"]},
@@ -2857,6 +2945,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-node","bold-fraud-proofs"],"term":"arbitrum-nitro"
     },
     "sequencer-soft-confirmation": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"Sequencer soft confirmation","tagline":"A fast acceptance signal from the sequencer that precedes L1 publication and Ethereum finality.","chains":["robinhood_chain"],
       "body":["A soft confirmation says the Robinhood-operated sequencer accepted and ordered a transaction in the L2 state it is serving. It is typically sub-second, useful for responsive low-risk UX, and backed by the sequencer's commitment—not Ethereum finality. The record becomes stronger when its batch is posted to Ethereum and stronger again when the containing Ethereum block finalizes. Applications should name the evidence they require instead of calling all three states confirmed."],
       "how":{"diagram":"sequencer-ladder","params":{},"steps":["The sequencer accepts and orders the transaction","A soft receipt returns to the user","The compressed batch is posted to Ethereum","The Ethereum block later reaches finality"]},
@@ -2865,6 +2954,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-sequencer","bold-fraud-proofs"],"term":"sequencer-soft-confirmation"
     },
     "bold-fraud-proofs": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"BoLD fraud proofs","tagline":"A challenge system for invalid rollup assertions whose Robinhood Chain validator set remained allowlisted in 2026-08.","chains":["robinhood_chain"],
       "body":["BoLD is Arbitrum's bounded-liquidity-delay dispute protocol. Validators assert an L2 state derived from posted data, and a challenger can force an interactive dispute that narrows disagreement to a verifiable execution step. Robinhood Chain documentation listed ~2 allowlisted validators operated by Offchain Labs and Alchemy as of 2026-08. Anyone can replay state as a full node, but that does not make the current dispute set permissionless."],
       "how":{"diagram":"rollup-stack","params":{},"steps":["A validator posts an assertion about L2 state","A challenger identifies a conflicting assertion","The dispute narrows to a one-step execution proof","Ethereum resolves which assertion can advance"]},
@@ -2873,6 +2963,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","arbitrum-nitro","sequencer-soft-confirmation"],"term":"bold-fraud-proofs"
     },
     "l1-data-fee": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"L1 data fee","tagline":"The Ethereum publication charge bundled with Robinhood Chain's L2 execution cost.","chains":["robinhood_chain"],
       "body":["Robinhood Chain compresses transaction data into batches and publishes them to Ethereum, so total gas includes L2 execution plus a share of parent-chain data cost. Calldata-heavy transactions can therefore cost more even when their EVM work is modest, and an Ethereum fee spike can change deployment or multicall budgets. Wallet estimates normally combine both pieces; operators should preserve the distinction in telemetry and simulation."],
       "how":{"diagram":"sequencer-ladder","params":{},"steps":["The transaction consumes L2 execution gas","Its calldata contributes to a compressed batch","The batch buys Ethereum blob data","The receipt reflects execution plus the allocated data cost"]},
@@ -2881,6 +2972,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","robinhood-fees","arbitrum-nitro"],"term":"l1-data-fee"
     },
     "erc-8056": {
+      "article": {"status":"published","category":"liquidity","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"ERC-8056","tagline":"The Stock Token UI-multiplier interface used to express corporate-action-adjusted display balances.","chains":["robinhood_chain"],
       "body":["Stock Tokens use 18-decimal ERC-20 accounting and expose `uiMultiplier()` so interfaces can adjust displayed economic units around dividends, splits, and other scheduled events. Integrators must distinguish raw token amounts from UI-adjusted balances and use the canonical registry address. Chainlink's per-token onchain feed already incorporates the multiplier; applying it again is a valuation bug. These issuer-created tokenised debt securities give economic exposure, not ownership of underlying shares."],
       "how":{"diagram":"window","params":{},"steps":["The issuer schedules a corporate-action multiplier","The token exposes the current UI multiplier","Interfaces adjust raw balances for display","Multiplier-adjusted oracle values are consumed without multiplying again"]},
@@ -2889,6 +2981,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["robinhood-chain","corporate-action-multiplier","robinhood-streams"],"term":"erc-8056"
     },
     "corporate-action-multiplier": {
+      "article": {"status":"published","category":"liquidity","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"Corporate-action multiplier","tagline":"A scheduled Stock Token display adjustment that keeps splits and distributions aligned with economic exposure.","chains":["robinhood_chain"],
       "body":["A corporate-action multiplier changes how an interface presents a Stock Token's raw balance when the reference security has a split, dividend, or similar event. The token contract exposes the value through ERC-8056, while the asset registry and read-only API describe scheduled changes and pause state. Integrators need deterministic unit conversions, event monitoring, and a policy for `oraclePaused()`; ordinary holders cannot assume issuer mint and burn access during dislocation."],
       "how":{"diagram":"window","params":{},"steps":["A corporate action is published for the reference asset","The multiplier schedule and pause state are exposed","Balances and risk thresholds are recalculated","Trading or collateral actions resume under fresh oracle evidence"]},
@@ -2897,12 +2990,121 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       "related":["erc-8056","robinhood-streams","sequencer-uptime-feed"],"term":"corporate-action-multiplier"
     },
     "sequencer-uptime-feed": {
+      "article": {"status":"published","category":"safety","level":"applied","minutes":4,"updated":"2026-08"},
       "kind":"term","name":"Sequencer uptime feed","tagline":"A liveness signal that gates price-sensitive actions after a sequencer outage and recovery grace period.","chains":["robinhood_chain"],
       "body":["A sequencer uptime feed tells a contract whether the fast L2 ordering path is available. It must be combined with the price report's age and a configured grace period after recovery: immediately reopening liquidations can punish accounts that had no fair chance to update while the sequencer was unavailable. The feed is a safety input, not proof of pair liquidity, oracle freshness, or Ethereum finality."],
       "how":{"diagram":"sequencer-ladder","params":{},"steps":["The uptime feed reports sequencer status","Price-dependent actions pause during downtime","Recovery starts a configured grace period","Fresh price and liveness checks permit controlled reopening"]},
       "signals":[{"k":"during outage","v":"pause price-sensitive actions"},{"k":"after recovery","v":"enforce grace period"},{"k":"also check","v":"price age + market session"}],
       "links":[{"label":"Robinhood Chain oracles and price feeds","url":"https://docs.robinhood.com/chain/oracles-and-price-feeds/","kind":"official"}],
       "related":["robinhood-streams","sequencer-soft-confirmation","corporate-action-multiplier"],"term":"sequencer-uptime-feed"
+    },
+    "gasper": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Gasper","tagline":"Ethereum consensus as two coupled machines: an agile head choice and slower checkpoint finality.","chains":["eth"],
+      "body":["Gasper is the combination of LMD-GHOST fork choice and Casper FFG checkpoint finality used by Ethereum proof of stake. The fork-choice rule continuously selects the head supported by validators' latest messages, while the finality gadget uses supermajority links between epoch checkpoints to justify and finalize history. Keeping those jobs separate lets the head react every slot without pretending that every new block is irreversible.","A validator vote therefore does two jobs at once: its latest attestation contributes weight to the live head, and its source and target checkpoints contribute to epoch finality. Applications can expose a recent head for responsiveness while reserving irreversible settlement for finalized checkpoints. Missed slots or short reorganizations affect the head path; a conflicting finalized checkpoint would require slashable supermajority behavior."],
+      "how":{"diagram":"window","params":{},"steps":["RANDAO selects a proposer for the slot","Validators attest to the head chosen by LMD-GHOST","Attestations link source and target checkpoints","A two-thirds supermajority justifies, then finalizes, an epoch"]},
+      "signals":[{"k":"head rule","v":"LMD-GHOST"},{"k":"finality gadget","v":"Casper FFG"},{"k":"checkpoint cadence","v":"one epoch · 32 slots"}],
+      "links":[{"label":"Ethereum Gasper documentation","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"},{"label":"Ethereum proof-of-stake documentation","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/","kind":"docs"}],
+      "related":["eth","lmd-ghost","casper-ffg","randao"],"term":"gasper"
+    },
+    "lmd-ghost": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"LMD-GHOST","tagline":"Ethereum's fork choice follows the heaviest branch using each validator's latest attestation.","chains":["eth"],
+      "body":["Latest Message Driven Greediest Heaviest Observed SubTree starts at a justified checkpoint and repeatedly follows the child whose subtree has the greatest attesting balance. Only each validator's latest valid message counts, preventing one validator from adding unlimited weight by repeating votes. The output is the head that clients should build on now, not a claim that the head is finalized.","Because fork choice reacts before epoch finality, network delay, proposer timing, missing attestations, and short competing branches can change the selected head. Honest validators update their latest message as the canonical view develops. Slashing and proposer boost constrain adversarial behavior, while Casper FFG supplies the slower boundary applications use when rollback cost must be substantially higher."],
+      "how":{"diagram":"window","params":{},"steps":["Begin from the latest justified checkpoint","Count each validator's latest attestation by balance","Choose the heaviest observed child subtree","Repeat until the algorithm reaches the current head"]},
+      "signals":[{"k":"input","v":"latest validator messages"},{"k":"output","v":"current canonical head"},{"k":"not equal to","v":"checkpoint finality"}],
+      "links":[{"label":"Ethereum Gasper documentation","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"},{"label":"Ethereum consensus specifications","url":"https://github.com/ethereum/consensus-specs","kind":"research"}],
+      "related":["gasper","casper-ffg","eth","randao"],"term":"lmd-ghost"
+    },
+    "casper-ffg": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Casper FFG","tagline":"A checkpoint finality gadget that turns supermajority attestations into an accountable settlement boundary.","chains":["eth"],
+      "body":["Casper the Friendly Finality Gadget overlays checkpoint votes on Ethereum's live fork-choice process. Validators attest from a justified source checkpoint to a target checkpoint. When at least two-thirds of active stake supports a valid link, the target becomes justified; a following justified link can finalize the preceding checkpoint.","Finality is economic and accountable rather than instantaneous. Producing two incompatible finalized checkpoints requires a slashable supermajority contradiction, so clients can treat finalized history differently from a recent head. During a serious participation failure the chain may continue choosing heads yet delay finality, which is why monitoring head distance and finalized-checkpoint age as separate signals matters."],
+      "how":{"diagram":"window","params":{},"steps":["Validators reference a justified source checkpoint","Attestations vote for the current epoch target","Two-thirds stake justifies the target","A consecutive supermajority link finalizes the prior checkpoint"]},
+      "signals":[{"k":"threshold","v":"at least two-thirds active stake"},{"k":"artifact","v":"justified and finalized checkpoints"},{"k":"failure signal","v":"finalized-checkpoint age"}],
+      "links":[{"label":"Ethereum Gasper documentation","url":"https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/gasper/","kind":"official"},{"label":"Ethereum consensus specifications","url":"https://github.com/ethereum/consensus-specs","kind":"research"}],
+      "related":["gasper","lmd-ghost","eth","preconfirmations"],"term":"casper-ffg"
+    },
+    "posa": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Proof of Staked Authority","tagline":"BNB Smart Chain rotates block production through a compact elected validator set.","chains":["bnb"],
+      "body":["Proof of Staked Authority combines delegated stake with an authority-style active validator set. Candidate validators compete for delegated BNB, an elected set enters the active rotation, and designated producers take turns extending the chain. The compact producer set shortens the coordination path and supports rapid blocks, while narrowing the number of parties that can directly determine order in a given epoch.","Finality and liveness depend on timely votes and connectivity across that set. Operators therefore care about validator geography, propagation variance, missed blocks, and the distribution of delegated stake. Users still interact through familiar EVM transactions and account nonces, but the consensus and ordering boundary is not Ethereum's million-validator proposer landscape."],
+      "how":{"diagram":"window","params":{},"steps":["Delegators back validator candidates with stake","The elected set enters the active rotation","A designated validator produces the next block","The validator set confirms and finalizes the growing chain"]},
+      "signals":[{"k":"producer set","v":"compact elected rotation"},{"k":"selection","v":"stake + authority rules"},{"k":"operational edge","v":"validator proximity + propagation"}],
+      "links":[{"label":"BNB Smart Chain introduction","url":"https://docs.bnbchain.org/bnb-smart-chain/introduction/","kind":"official"},{"label":"BNB Chain BEPs","url":"https://github.com/bnb-chain/BEPs","kind":"research"}],
+      "related":["bnb","maxwell","bnb-edge","bnb-rails"],"term":"posa"
+    },
+    "maxwell": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Maxwell hardfork","tagline":"BNB Chain timing upgrades that compress block cadence and move the bottleneck toward propagation variance.","chains":["bnb"],
+      "body":["The Lorentz and Maxwell upgrade sequence shortened BNB Smart Chain block intervals and adjusted consensus timing toward faster confirmation. Shorter blocks reduce the time a public mempool order can wait, but they also leave validators less margin to receive, execute, and relay each block. Throughput and finality claims must therefore be read with missed-block, reorganization, and propagation measurements rather than cadence alone.","For applications, a shorter clock changes retry budgets, deadline choices, oracle update timing, and the value of validator-adjacent infrastructure. It does not turn sequential EVM execution into parallel execution or erase public order-flow risk. Operators should pin current client releases and parameters from the network's published BEPs instead of encoding dated teaching values as protocol constants."],
+      "how":{"diagram":"window","params":{},"steps":["A network upgrade changes block and vote timing","Validators adopt the corresponding client rules","The shorter cadence drains pending flow more quickly","Monitoring verifies missed blocks, finality, and propagation under load"]},
+      "signals":[{"k":"effect","v":"shorter block interval"},{"k":"new bottleneck","v":"network + client variance"},{"k":"verify","v":"current BEP and client release"}],
+      "links":[{"label":"BNB Chain BEPs","url":"https://github.com/bnb-chain/BEPs","kind":"official"},{"label":"BNB Chain documentation","url":"https://docs.bnbchain.org/","kind":"docs"}],
+      "related":["bnb","posa","bnb-edge","bdn"],"term":"maxwell"
+    },
+    "proof-of-work": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Proof of Work","tagline":"Bitcoin converts deliberately expensive computation into permissionless leader election and accumulated-chain weight.","chains":["btc"],
+      "body":["Bitcoin miners repeatedly hash candidate block headers while varying nonce and coinbase-derived data. A valid header must fall below the current target; the probability of finding one is proportional to contributed hash rate. The winning block proves that real computation was spent, while any full node can check the result cheaply and reject invalid transactions or subsidy rules.","Nodes follow the valid chain with the most accumulated proof of work, not simply the most blocks. Rewriting a confirmed transaction means rebuilding its block and overtaking continuing honest work, so confidence grows with depth rather than crossing an absolute finality line. Mining pools coordinate work at scale, but they do not gain authority to make invalid blocks acceptable to independently verifying nodes."],
+      "how":{"diagram":"miners","params":{},"steps":["A miner builds a valid candidate block","Hashing searches for a header below the target","Peers verify the winning proof and every transaction","Nodes follow the valid history with the most accumulated work"]},
+      "signals":[{"k":"leader election","v":"hash race"},{"k":"node check","v":"cheap deterministic verification"},{"k":"history rule","v":"most accumulated work"}],
+      "links":[{"label":"Bitcoin developer guide · block chain","url":"https://developer.bitcoin.org/devguide/block_chain.html","kind":"official"},{"label":"Bitcoin whitepaper","url":"https://bitcoin.org/bitcoin.pdf","kind":"research"}],
+      "related":["btc","bitcoin-finality","stratum-v2","fibre"],"term":"proof-of-work"
+    },
+    "bitcoin-finality": {
+      "article": {"status":"published","category":"consensus","level":"advanced","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Bitcoin probabilistic finality","tagline":"Each confirmation adds work an attacker must replace; no single block flips history to mathematically final.","chains":["btc"],
+      "body":["Bitcoin finality is a risk policy built on confirmation depth. The transaction enters a block, later blocks add accumulated proof of work above it, and a competing history must overtake the honest chain to remove it. The probability of a successful rewrite falls as confirmations accumulate, but the appropriate depth depends on transaction value, counterparty risk, observed hash power, and operational tolerance.","A mempool observation or zero-confirmation acceptance is weaker than inclusion, and inclusion is weaker than several confirmations. Replace-by-fee and ordinary conflicting spends make unconfirmed settlement especially contingent. Applications should label mempool, included, and depth-qualified states separately and record the block hash they relied on so a reorganization can be detected and reconciled."],
+      "how":{"diagram":"window","params":{},"steps":["A miner includes the transaction in a block","Each successor block adds accumulated proof of work","A monitor tracks depth and canonical block hashes","The application acts when its value-specific risk threshold is met"]},
+      "signals":[{"k":"finality type","v":"probabilistic"},{"k":"risk unit","v":"confirmation depth"},{"k":"reorg evidence","v":"block hash + accumulated work"}],
+      "links":[{"label":"Bitcoin developer guide · block chain","url":"https://developer.bitcoin.org/devguide/block_chain.html","kind":"official"},{"label":"Bitcoin whitepaper","url":"https://bitcoin.org/bitcoin.pdf","kind":"research"}],
+      "related":["btc","proof-of-work","bitcoin-mempool","rbf"]
+    },
+    "bitcoin-mempool": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Bitcoin mempool","tagline":"A node-local waiting room where policy, package ancestry, and fee rate shape what miners can select next.","chains":["btc"],
+      "body":["A Bitcoin mempool is each node's local set of valid unconfirmed transactions. Transactions propagate through peer-to-peer relay after passing consensus checks and the node's stricter relay policy. Because mempools are not a consensus object, two honest nodes may temporarily hold different candidates because of arrival time, eviction, fee thresholds, conflicts, or policy configuration.","Miners build block templates from packages whose fees and virtual size determine economic priority while respecting ancestor, descendant, signature, and block constraints. Replace-by-fee lets a sender rebid eligible unconfirmed transactions; child-pays-for-parent can raise the effective fee rate of a related package. Reliable fee estimation therefore reads a distribution of pending demand, not one global queue position."],
+      "how":{"diagram":"mempool","params":{},"steps":["Peers validate and relay an unconfirmed transaction","Each node applies local admission and eviction policy","A miner evaluates package fee rate and dependencies","The selected package enters a block or remains pending"]},
+      "signals":[{"k":"scope","v":"node-local · not consensus"},{"k":"priority unit","v":"package sat/vB"},{"k":"replacement","v":"RBF + CPFP package economics"}],
+      "links":[{"label":"Bitcoin developer guide · P2P network","url":"https://developer.bitcoin.org/devguide/p2p_network.html","kind":"official"},{"label":"Bitcoin Core mempool policy","url":"https://github.com/bitcoin/bitcoin/tree/master/doc","kind":"research"}],
+      "related":["btc","btc-priority","rbf","fibre"]
+    },
+    "orchard": {
+      "article": {"status":"published","category":"transactions","level":"applied","minutes":4,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Orchard","tagline":"Zcash's modern shielded payment protocol uses Halo 2 actions without a trusted setup.","chains":["zec"],
+      "body":["Orchard represents shielded value as note commitments and spends it through actions that combine a nullifier, new commitment, value commitment, and authorization. Halo 2 proofs show that each action follows the protocol without revealing sender, receiver, amount, or the consumed note. The proving system avoids a trusted setup for the Orchard circuit.","Privacy still depends on the surrounding transaction and wallet behavior. Transparent boundary transfers, unusual amounts, timing, address reuse outside the shielded pool, and network metadata can create correlations even when the proof hides its witness. Implementers should use the audited protocol libraries and ZIP-defined formats rather than construct custom cryptographic primitives."],
+      "how":{"diagram":"mempool-shielded","params":{},"steps":["A wallet selects shielded notes and witnesses","Orchard constructs action commitments and nullifiers","A Halo 2 proof establishes authorization and balance","Nodes verify the proof without learning the private transaction graph"]},
+      "signals":[{"k":"proof system","v":"Halo 2"},{"k":"transfer unit","v":"Orchard action"},{"k":"trusted setup","v":"none for Orchard circuit"}],
+      "links":[{"label":"Orchard protocol book","url":"https://zcash.github.io/orchard/","kind":"official"},{"label":"Orchard source","url":"https://github.com/zcash/orchard","kind":"research"}],
+      "related":["zec","shielded-pool","zec-shield","equihash"],"term":"orchard"
+    },
+    "robinhood-stock-tokens": {
+      "article": {"status":"published","category":"liquidity","level":"applied","minutes":5,"updated":"2026-08","label":"NEW"},
+      "kind":"term","name":"Robinhood Stock Tokens","tagline":"Issuer-created tokenised debt securities whose balances, multipliers, oracle sessions, and access boundaries must be integrated together.","chains":["robinhood_chain"],
+      "body":["Robinhood Stock Tokens are issuer-created ERC-20 tokenised debt securities that provide economic exposure to a referenced stock or ETF. They do not confer ownership of the underlying shares, and a permissionless developer must not assume access to primary mint, burn, or redemption. Integrations should resolve canonical token and registry addresses from current official sources, verify bytecode and interface support, and keep product availability, chain deployment, and Robinhood endorsement as separate facts.","Accounting has two layers. Raw ERC-20 amounts use 18 decimals, while ERC-8056 exposes a UI multiplier that can change around dividends, splits, and other corporate actions. Interfaces and risk systems must label raw versus adjusted units, monitor scheduled multiplier changes and `oraclePaused()` state, and avoid multiplying an oracle value that already incorporates the UI adjustment.","Market time has two layers too. Tokens may transfer or trade around the clock while the referenced market and documented Stock Token price feeds follow a 24/5 schedule. When the underlier is closed, the feed is stale, the sequencer is down, or a recovery grace period is active, applications need explicit policies for size, haircuts, price-dependent openings, liquidations, and user messaging. Venue presence never proves executable depth."],
+      "how":{"diagram":"rollup-stack","params":{},"steps":["Resolve the canonical token and registry from current official sources","Read raw units, multiplier schedule, oracle state, and market session","Apply exactly one deterministic display conversion","Gate price-sensitive actions on freshness, liveness, grace, and measured liquidity"]},
+      "signals":[{"k":"legal form","v":"tokenised debt security · not share ownership"},{"k":"raw decimals","v":"18"},{"k":"display interface","v":"ERC-8056 uiMultiplier()"},{"k":"market clock","v":"24/5 reference · 24/7 transfer"}],
+      "links":[{"label":"Building with Stock Tokens","url":"https://docs.robinhood.com/chain/building-with-stock-tokens/","kind":"official"},{"label":"Stock Token read-only APIs","url":"https://docs.robinhood.com/chain/stock-token-apis/","kind":"docs"}],
+      "related":["robinhood-chain","erc-8056","corporate-action-multiplier","robinhood-streams"]
+    },
+    "robinhood-coin-launch-playbook": {
+      "article": {
+        "status":"published","category":"liquidity","level":"applied","minutes":12,"updated":"2026-08","label":"NEW",
+        "sections":[
+          {"id":"preflight","title":"STEP 01 · FREEZE THE LAUNCH CONTRACT","paragraphs":["**1. Classify the asset.** Record whether this is an ordinary permissionless ERC-20, an issuer-controlled instrument, or a regulated product. A deployment does not create a Robinhood Stock Token or a Robinhood product listing.","**2. Freeze economic inputs.** Approve supply, decimals, vesting, treasury, quote asset, distribution, proceeds, unsold inventory, LP ownership, and bridge policy before deployment artifacts are signed outside this guide.","**3. Publish authority.** List every owner, upgrader, pauser, minter, fee recipient, multisig threshold, timelock, emergency condition, and irrevocable renunciation. Assign one accountable owner to each alert and rollback decision."]},
+          {"id":"rehearsal","title":"STEP 02 · REHEARSE THE FAILURE PLANE","paragraphs":["**4. Pin semantics.** Assert chain IDs 4663 and 46630, reviewed dependency versions, timestamp-based deadlines, Nitro L1/L2 block-number differences, and Arbitrum address aliasing assumptions.","**5. Prove invariants.** Fuzz total supply, role boundaries, vesting conservation, pause transitions, decimal conversions, price bounds, and multicall atomicity. Reproduce bytecode and source verification from the pinned build.","**6. Run two independent rehearsals.** Use separate providers and simulate WebSocket loss, bounded backfill, parent mismatch, sequencer outage, recovery grace, L1 data-fee spikes, stale oracle reports, reverted multicalls, and provider-head divergence."]},
+          {"id":"distribution","title":"STEP 03 · CHOOSE DISTRIBUTION BEFORE PRICE","paragraphs":["**7. Pick the opening mechanism.** A continuous-clearing auction discovers one price before graduation; an instant AMM pool makes initialization and first fill an FCFS network race.","**8. Resolve mutable infrastructure.** Read launcher, strategy, factory, pool manager, router, supported type, owner, and fee-recipient addresses from the current SDK and verify their bytecode and pointers onchain. Never copy a mutable teaching address.","**9. Reproduce the math.** Independently verify token order, decimals, tick spacing, square-root price, price bounds, auction supply, UTC window, proceeds, unsold inventory, and post-graduation LP ranges using real balances in a read-only simulation."]},
+          {"id":"latency-liquidity","title":"STEP 04 · GATE LATENCY AND LIQUIDITY","paragraphs":["**10. Measure three clocks.** Record market-data receipt to decision, decision to sequencer soft receipt, soft receipt to L1 posting, and posting to Ethereum finality. A soft receipt is never fabricated into L1 evidence.","**11. Measure two-way liquidity.** Capture executable 0.5%, 1%, 2%, 5%, and 10% depth in both directions, spread, realized slippage, LP-range utilization, maker liveness, quote age, hedge completion, bridge inventory, and concentration.","**12. Install explicit breakers.** Stop the ramp on stale price, sequencer-down or grace state, provider disagreement, abnormal receipt latency, excessive spread or slippage, insufficient depth, inventory imbalance, elevated reverts, RPC lag, or failed reconciliation."]},
+          {"id":"canary-review","title":"STEP 05 · CANARY, RAMP, REVIEW","paragraphs":["**13. Start with a two-way canary.** Pre-position ETH, token, quote, bridge, and hedge inventory; observe one small buy and sell; reconcile balances, events, fees, soft state, posted state, and final state before increasing exposure.","**14. Ramp one dimension at a time.** Increase route coverage, user cohort, and notional in separate steps. Hold or roll back whenever a breaker trips; do not compensate for FCFS arrival latency by inventing a priority-gas policy.","**15. Close four review gates.** At one hour check mechanics and incidents; at 24 hours check depth and inventory; at seven days check concentration, bridges, and oracle sessions; at 30 days decide whether to expand, redesign, or retire under the published acceptance criteria."]}
+        ]
+      },
+      "kind":"technique","name":"Robinhood Chain coin launch playbook","tagline":"A staged, measurement-first launch path joining contract controls, three finality clocks, two-way liquidity, and rollback gates.","chains":["robinhood_chain"],
+      "body":["Start with scope before code. Decide whether the asset is an ordinary permissionless ERC-20, an issuer-controlled instrument, or a regulated product; a token deployment cannot create a Robinhood Stock Token or a Robinhood product listing. Fix the canonical issuance ledger, supply and vesting model, upgrade and pause authorities, treasury policy, quote asset, distribution mechanism, and legal review. Minimize privileged roles, publish them, and require multisig plus timelock where mutability remains.","Build for Nitro semantics. Pin reviewed dependencies, assert chain IDs 4663 and 46630, use timestamps for deadlines, never use L2 `block.number` as elapsed time or `block.prevrandao` as secure randomness, and test Arbitrum address aliasing for L1-originated calls. Fuzz total-supply and authorization invariants, reproduce deployment bytecode, verify source, and rehearse twice on testnet across independent providers with WebSocket loss, bounded backfill, sequencer downtime, L1 data-fee spikes, and reverted multicalls.","Choose distribution and first price deliberately. A continuous-clearing auction can discover one price before proceeds and inventory graduate into a Uniswap v4 pool; an instant pool is simpler but makes initialization and first fill a first-come-first-served latency race. Resolve launcher, strategy, factory, pool manager, router, fee recipient, and supported types from the current SDK, then verify every address, owner, pointer, decimal, tick, and price-bound calculation onchain. Fund and initialize atomically when possible.","Launch through a canary, not a switch. Pre-position ETH, token, quote, bridge, and hedge inventory; execute small two-way trades; reconcile soft receipt, L1-posted, and Ethereum-final evidence separately; verify oracle freshness and sequencer-up grace; then ramp routes and size only while spread, depth, slippage, inventory, failure, and RPC-lag gates remain healthy. Review at one hour, 24 hours, seven days, and 30 days with explicit owners and rollback criteria."],
+      "how":{"diagram":"cca-graduation","params":{},"steps":["Freeze asset, authority, compliance, distribution, and rollback decisions","Rehearse contracts and observers under provider, sequencer, fee, and revert failures","Run an auction or atomic pool initialization with verified current addresses","Canary both directions, reconcile all clocks, and ramp only through measured gates"]},
+      "signals":[{"k":"ordering reality","v":"FCFS · arrival latency beats gas bidding"},{"k":"three clocks","v":"soft · L1 posted · Ethereum final"},{"k":"liquidity gate","v":"spread + depth + slippage + inventory"},{"k":"review gates","v":"1 h · 24 h · 7 d · 30 d"}],
+      "links":[{"label":"Robinhood Chain integration guide","url":"https://docs.robinhood.com/chain/","kind":"official"},{"label":"Uniswap Liquidity Launcher","url":"https://github.com/Uniswap/liquidity-launcher","kind":"official"},{"label":"Liquidity Launcher SDK usage","url":"https://github.com/Uniswap/sdks/blob/main/sdks/liquidity-launcher-sdk/README.md","kind":"docs"}],
+      "related":["uniswap-launcher","robinhood-sequencer","robinhood-fees","robinhood-orderflow","sequencer-uptime-feed"]
     }
   },
   "==/V3E:JSON==": null,
@@ -3061,6 +3263,50 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         ],
         "bridgeWithdrawal": "~7 days · 2026-08"
       }
+    }
+  },
+  "chainPages": {
+    "sol": {
+      "slug":"solana","name":"Solana","short":"SOL","overview":"sol","summary":"A scheduled-leader execution network built around sub-second slots, parallel account-aware execution, and rapid stake-weighted propagation.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"scheduled leader · stake weighted"},{"k":"slot target","v":"~400 ms"},{"k":"finality","v":"~13 s at 32 rooted slots"},{"k":"priority","v":"fee per CU + optional Jito tip"}],
+      "featured":["sol","poh","jito-be"],
+      "groups":[{"id":"foundation","items":["sol","poh","turbine"]},{"id":"consensus","items":["tower-bft","alpenglow"]},{"id":"transactions","items":["gulf-stream","sealevel","sol-priority"]},{"id":"ordering","items":["jito-be","jito-protect"]},{"id":"infrastructure","items":["shredstream","firedancer","swqos","doublezero"]}],
+      "links":[{"label":"Solana documentation","url":"https://solana.com/docs","kind":"official"},{"label":"Solana explorer","url":"https://explorer.solana.com/","kind":"explorer"}]
+    },
+    "eth": {
+      "slug":"ethereum","name":"Ethereum","short":"ETH","overview":"eth","summary":"A proof-of-stake settlement network whose public execution market feeds a specialized proposer, builder, relay, and protection supply chain.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"RANDAO proposer · builder market"},{"k":"slot target","v":"12 s"},{"k":"finality","v":"~13–15 min · two epochs"},{"k":"priority","v":"EIP-1559 tip + builder bid"}],
+      "featured":["eth","eip-1559","mev-boost"],
+      "groups":[{"id":"foundation","items":["eth"]},{"id":"consensus","items":["gasper","lmd-ghost","casper-ffg","randao"]},{"id":"transactions","items":["eip-1559"]},{"id":"ordering","items":["pbs","preconfirmations","mev-boost","cow"]},{"id":"safety","items":["flashbots-protect"]},{"id":"infrastructure","items":["bdn","eth-edge"]}],
+      "links":[{"label":"Ethereum developer documentation","url":"https://ethereum.org/developers/docs/","kind":"official"},{"label":"Etherscan","url":"https://etherscan.io/","kind":"explorer"}]
+    },
+    "bnb": {
+      "slug":"bnb-chain","name":"BNB Chain","short":"BNB","overview":"bnb","summary":"An EVM network that pairs a compact elected validator set with sub-second block cadence, public gas bidding, and validator-adjacent private rails.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"elected validator rotation"},{"k":"block target","v":"~0.75 s"},{"k":"finality","v":"seconds after fast-finality upgrades"},{"k":"priority","v":"gas tip + private builder bid"}],
+      "featured":["bnb","maxwell","bnb-rails"],
+      "groups":[{"id":"foundation","items":["bnb"]},{"id":"consensus","items":["posa","maxwell"]},{"id":"transactions","items":["bnb-priority"]},{"id":"ordering","items":["bnb-rails","kyber"]},{"id":"safety","items":["club48"]},{"id":"infrastructure","items":["bnb-edge","bdn"]}],
+      "links":[{"label":"BNB Smart Chain documentation","url":"https://docs.bnbchain.org/bnb-smart-chain/","kind":"official"},{"label":"BscScan","url":"https://bscscan.com/","kind":"explorer"}]
+    },
+    "btc": {
+      "slug":"bitcoin","name":"Bitcoin","short":"BTC","overview":"btc","summary":"A permissionless proof-of-work ledger where a public mempool and fee-rate market feed miner selection, while confidence accumulates probabilistically.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"fee-rate market · miner selection"},{"k":"block target","v":"~10 min"},{"k":"finality","v":"probabilistic · depth policy"},{"k":"priority","v":"sat/vB across packages"}],
+      "featured":["btc","bitcoin-mempool","lightning"],
+      "groups":[{"id":"foundation","items":["btc"]},{"id":"consensus","items":["proof-of-work","bitcoin-finality"]},{"id":"transactions","items":["bitcoin-mempool","rbf","btc-priority","lightning"]},{"id":"infrastructure","items":["fibre","btc-accel","stratum-v2"]}],
+      "links":[{"label":"Bitcoin developer guide","url":"https://developer.bitcoin.org/devguide/","kind":"official"},{"label":"mempool.space explorer","url":"https://mempool.space/","kind":"explorer"}]
+    },
+    "zec": {
+      "slug":"zcash","name":"Zcash","short":"ZEC","overview":"zec","summary":"A proof-of-work chain whose Orchard shielded pool uses zero-knowledge proofs to hide the public transaction graph while preserving value conservation.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"Equihash proof of work"},{"k":"block target","v":"75 s"},{"k":"finality","v":"probabilistic"},{"k":"privacy","v":"Orchard shielded actions"}],
+      "featured":["zec","shielded-pool","orchard"],
+      "groups":[{"id":"foundation","items":["zec"]},{"id":"consensus","items":["equihash"]},{"id":"transactions","items":["shielded-pool","orchard"]},{"id":"safety","items":["zec-shield"]},{"id":"infrastructure","items":["zec-p2p"]}],
+      "links":[{"label":"Zcash documentation","url":"https://zcash.readthedocs.io/","kind":"official"},{"label":"Zcash protocol specification","url":"https://zips.z.cash/protocol/protocol.pdf","kind":"research"}]
+    },
+    "robinhood_chain": {
+      "slug":"robinhood-chain","name":"Robinhood Chain","short":"RHC","overview":"robinhood-chain","summary":"A first-come-first-served Arbitrum Nitro rollup with a fast sequencer receipt, Ethereum-anchored hard settlement, and an RWA-focused application stack.","updated":"2026-08",
+      "signals":[{"k":"ordering","v":"single sequencer · FCFS arrival"},{"k":"soft receipt","v":"<1000 ms typ."},{"k":"hard evidence","v":"L1 posted → Ethereum final"},{"k":"gas asset","v":"ETH · chain ID 4663"}],
+      "featured":["robinhood-chain","robinhood-sequencer","robinhood-coin-launch-playbook"],
+      "groups":[{"id":"foundation","items":["robinhood-chain","arbitrum-nitro"]},{"id":"consensus","items":["sequencer-soft-confirmation","bold-fraud-proofs"]},{"id":"transactions","items":["robinhood-fees","l1-data-fee"]},{"id":"ordering","items":["robinhood-sequencer","robinhood-orderflow"]},{"id":"infrastructure","items":["robinhood-node","robinhood-feed","robinhood-streams"]},{"id":"safety","items":["sequencer-uptime-feed"]},{"id":"liquidity","items":["uniswap-launcher","robinhood-stock-tokens","robinhood-coin-launch-playbook","erc-8056","corporate-action-multiplier"]}],
+      "links":[{"label":"Robinhood Chain documentation","url":"https://docs.robinhood.com/chain/","kind":"official"},{"label":"Robinhood Chain Blockscout","url":"https://robinhoodchain.blockscout.com/","kind":"explorer"}]
     }
   },
   "benchCols": ["sol", "eth", "bnb", "btc", "zec", "robinhood_chain"],
@@ -3357,6 +3603,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const handlers = new Map();
     let active = null, activeHash = '';
     const parse = hash=>{
+      const chain = /^#\/c\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
+      if(chain) return {type:'chain',slug:decodeURIComponent(chain[1])};
       const entity = /^#\/e\/([a-z0-9][a-z0-9-]*)$/i.exec(hash);
       if(entity) return {type:'entity',id:decodeURIComponent(entity[1])};
       const cue = /^#\/cue\/(\d+)$/.exec(hash);
@@ -3375,6 +3623,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const on = (type,fn)=>{
       if(!handlers.has(type)) handlers.set(type,new Set());
       handlers.get(type).add(fn);
+      if(active?.type===type) queueMicrotask(()=>{ if(active?.type===type) fn(active,null); });
       return ()=>handlers.get(type).delete(fn);
     };
     const go = (path,{replace=false}={})=>{
@@ -4064,20 +4313,30 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const links=(entity.links || []).map(link=>({...link,safe:safeUrl(link.url)})).filter(link=>link.safe).sort((a,b)=>(linkOrder[a.kind] ?? 9)-(linkOrder[b.kind] ?? 9));
     const related=(entity.related || []).filter(key=>entities[key]);
     const appears=appearsOn(id,entity);
+    const article=entity.article || null;
+    const chainContext=scope.ChainIndex?.contextFor(id) || null;
+    const breadcrumb=chainContext ? `<nav class="entity-breadcrumb" aria-label="Breadcrumb"><a href="#/c/${esc(chainContext.slug)}">${esc(chainContext.page.name)} INDEX</a><span aria-hidden="true">/</span><span aria-current="page">${esc(entity.name)}</span></nav>` : '<nav class="entity-breadcrumb" aria-label="Breadcrumb"><span>REFERENCE INDEX</span><span aria-hidden="true">/</span><span aria-current="page">ARTICLE</span></nav>';
+    const articleSections=(article?.sections || []).map((section,index)=>`<section class="entity-article-section" aria-labelledby="entitySection${index}"><h3 class="entity-section-label" id="entitySection${index}">${esc(section.title)}</h3>${(section.paragraphs || []).map(para=>`<p>${renderLite(para)}</p>`).join('')}</section>`).join('');
+    const moreOn=chainContext ? chainContext.page.groups.flatMap(group=>group.items).filter(key=>key!==id && entities[key]?.article?.status==='published').sort((a,b)=>Number(related.includes(b))-Number(related.includes(a))).slice(0,4) : [];
     page.innerHTML=`
       <header class="entity-mast">
+        ${breadcrumb}
         <p class="entity-kicker">${esc(entity.kind || 'entity')} · ${esc(id)}</p>
         <h2 id="entityTitle" tabindex="-1">${esc(entity.name)}</h2>
         <p class="entity-tagline">${esc(entity.tagline)}</p>
         <div class="entity-badges" aria-label="Chains">${(entity.chains || []).map(chain=>{ const meta=chainMeta(chain); return `<span class="entity-badge" style="--badge-c:${esc(meta.color)}"><i></i>${esc(meta.name)}</span>`; }).join('')}</div>
+        ${article ? `<div class="entity-article-meta"><span>${esc(article.category)}</span><span>${esc(article.level)}</span><span>${esc(article.minutes)} MIN READ</span><span>UPDATED ${esc(article.updated)}</span></div>` : ''}
+        ${entity.kind==='chain' && chainContext ? `<a class="entity-chain-return" href="#/c/${esc(chainContext.slug)}">EXPLORE ${esc(chainContext.page.name.toUpperCase())} ARTICLES ▸</a>` : ''}
       </header>
       <div class="entity-layout">
         <div class="entity-copy">
           <section aria-labelledby="entityWhat"><h3 class="entity-section-label" id="entityWhat">WHAT IT IS</h3>${(entity.body || []).map(para=>`<p>${renderLite(para)}</p>`).join('')}</section>
           <section aria-labelledby="entityHow"><h3 class="entity-section-label" id="entityHow">HOW IT WORKS</h3><div class="entity-diagram-wrap">${diagramHtml(entity)}<ol class="entity-steps">${(entity.how?.steps || []).map(step=>`<li><span>${esc(step)}</span></li>`).join('')}</ol></div></section>
+          ${articleSections}
           <section aria-labelledby="entityLinks"><h3 class="entity-section-label" id="entityLinks">LINKS</h3><ul class="entity-link-list">${links.map(link=>`<li><a href="${esc(link.safe)}" target="_blank" rel="noopener"><span class="entity-link-kind">${esc(link.kind)}</span><span>${esc(link.label)}</span><span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>
           <section aria-labelledby="entityRelated"><h3 class="entity-section-label" id="entityRelated">RELATED</h3><div class="entity-related">${related.length ? related.map(key=>`<button type="button" class="entity-chip entity-door" data-entity-id="${esc(key)}">${esc(entities[key].name)}</button>`).join('') : '<span class="entity-empty">No related channels loaded.</span>'}</div></section>
           <section aria-labelledby="entityAppears"><h3 class="entity-section-label" id="entityAppears">APPEARS ON</h3><div class="entity-appears">${appears.length ? appears.map(hit=>`<a class="entity-appear-link" href="${esc(hit.href)}">${esc(hit.label)}</a>`).join('') : '<span class="entity-empty">Reference index only.</span>'}</div></section>
+          ${chainContext ? `<section class="entity-more" aria-labelledby="entityMore"><h3 class="entity-section-label" id="entityMore">MORE ON ${esc(chainContext.page.name.toUpperCase())}</h3><div class="entity-more-list">${moreOn.map(key=>`<a class="chain-more-link" href="#/e/${esc(key)}" data-entity-id="${esc(key)}">${esc(entities[key].name)} <span aria-hidden="true">→</span></a>`).join('')}</div><a class="entity-chain-return" href="#/c/${esc(chainContext.slug)}">VIEW ALL ${esc(chainContext.page.name.toUpperCase())} ARTICLES ▸</a></section>` : ''}
         </div>
         <aside class="entity-signals" aria-label="Signals"><header>SIGNALS</header><dl>${(entity.signals || []).map(signal=>`<div class="entity-signal"><dt>${esc(signal.k)}</dt><dd>${esc(signal.v)}</dd></div>`).join('')}</dl></aside>
       </div>`;
@@ -4093,9 +4352,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         element:shell,trigger:pendingTrigger,focusTarget:closeButton,
         modal:true,scrim:false,lockScroll:true,outsideClose:false,sheet:false,
         onClose:()=>{
-          stopLoop(); document.title=baseTitle; activeId='';
+          stopLoop(); activeId='';
           if(closingFromRoute) closingFromRoute=false;
-          else scope.Router.close();
+          else{ document.title=baseTitle; scope.Router.close(); }
         }
       });
     }else page.querySelector('#entityTitle')?.focus({preventScroll:true});
@@ -4181,8 +4440,8 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   }
 
   scope.Router.on('entity',openEntity);
-  addEventListener('hashchange',()=>{ if(!scope.Router.parse(location.hash)) closeForRoute(); });
-  addEventListener('popstate',()=>{ if(!scope.Router.parse(location.hash)) closeForRoute(); });
+  addEventListener('hashchange',()=>{ const route=scope.Router.parse(location.hash); if(!route || route.type!=='entity') closeForRoute(); });
+  addEventListener('popstate',()=>{ const route=scope.Router.parse(location.hash); if(!route || route.type!=='entity') closeForRoute(); });
   closeButton.addEventListener('click',()=>scope.Overlay.close(shell,{reason:'button'}));
   [prevButton,nextButton].forEach(button=>button.addEventListener('click',()=>{
     if(button.dataset.entityTarget) scope.Router.go('/e/'+button.dataset.entityTarget);
@@ -4199,6 +4458,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const id=door.dataset.entityId || scope.Router.parse(door.getAttribute('href') || '')?.id;
     if(!id || !entities[id]) return;
     event.preventDefault();event.stopPropagation();event.stopImmediatePropagation();
+    if(door.closest('#chainChannel') && scope.ChainIndex?.openArticle(id,door)) return;
     goEntity(id,door);
   },true);
   new MutationObserver(queueDecorate).observe(document.body,{subtree:true,childList:true});
@@ -5368,6 +5628,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 <script src="vendor/fuse.basic.min.js"></script>
+<script src="scripts/chain-index.js"></script>
 <script src="scripts/reader-dock.js"></script>
 <script src="scripts/command-palette.js"></script>
 </body>

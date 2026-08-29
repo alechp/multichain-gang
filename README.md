@@ -44,6 +44,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 ## Layout
 
     index.html                      v3 instrument core (CH-01 … CH-05)
+    scripts/chain-index.js          six routed chain hubs, filters, Link Veil
+    styles/chain-index.css          responsive chain/article index surfaces
     scripts/command-palette.js      command channel, search index, keyboard bridge
     styles/command-palette.css      responsive command-channel surface
     scripts/reader-dock.js          persisted top/bottom reading-bar dock
@@ -70,8 +72,14 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
   teaching surfaces and remains optional.
 - Field-note controls are temporarily hidden while their interaction model is
   repaired; existing local note data is left intact.
-- 68 unique hash-routed entity channels spanning techniques, tools, chains, and
+- Six full-screen chain indexes at `#/c/<slug>` with three featured reads,
+  topic filters, comparative lenses, official source rails, direct article
+  routes, Back/Forward scroll restoration, and an opt-in hover + `L` Link Veil.
+- 79 unique hash-routed entity channels spanning techniques, tools, chains, and
   term targets, plus an exact JavaScript-off ENTITY INDEX mirror.
+- 69 chain-page placements across 68 distinct published articles, including
+  complete Gasper, PoSA, Bitcoin finality/mempool, Orchard, Stock Token, and
+  15-step Robinhood Chain launch-playbook readers.
 - A five-comparator/six-bench-chain Robinhood Chain extension with FCFS,
   three-stage finality, launch/liquidity guidance, and exact static mirrors.
 - Parallel read-only Solana and Robinhood Chain observation records, paper
@@ -86,10 +94,11 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-degradation.mjs
     node scripts/audit-command-channel.mjs
     node scripts/audit-robinhood-chain.mjs
+    node scripts/audit-chain-index.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
 
 v3.0 shipped on 2026-08-14; the Robinhood Chain extension was implemented on
-2026-08-28. The figures are illustrative orders of magnitude dated 2026-08,
+2026-08-28 and the six chain indexes on 2026-08-29. The figures are illustrative orders of magnitude dated 2026-08,
 not live telemetry; live observations remain local to the journal.

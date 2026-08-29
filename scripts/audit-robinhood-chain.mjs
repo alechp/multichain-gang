@@ -14,7 +14,7 @@ const EXPECTED = {
   tools: 30,
   terms: 56,
   cues: 26,
-  entities: 68
+  entities: 79
 };
 
 const comparator = {
@@ -561,4 +561,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('ROBINHOOD CHAIN PASS — 5 comparator chains / 6 bench columns / 8 techniques / 30 tools / 56 terms / 26 cues / 68 entities; comparator, finality, window semantics, brand, mirrors, responsive hooks, relations, and journal read-only safety pass.');
+console.log('ROBINHOOD CHAIN PASS — 5 comparator chains / 6 bench columns / 8 techniques / 30 tools / 56 terms / 26 cues / 79 entities; comparator, finality, window semantics, brand, mirrors, responsive hooks, relations, and journal read-only safety pass.');

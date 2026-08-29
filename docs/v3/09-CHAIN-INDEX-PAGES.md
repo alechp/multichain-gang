@@ -1,6 +1,6 @@
 # 09 — CHAIN INDEX PAGES: curated chain hubs, article registers, and Link Veil
 
-> **Status:** proposed 2026-08-29 — implementation not started
+> **Status:** implemented 2026-08-29
 > **Owner lanes:** `F-data`, `F-runtime`, `F-surface`, `F-QA`
 > **Depends on:** `01-HOVERDOCS.md`, `04-STYLE-READABILITY.md`,
 > `05-ENTITY-PAGES.md`, and the Robinhood Chain integration spec
@@ -902,3 +902,21 @@ The feature is complete only when:
 - static mirrors contain the same published article inventory;
 - all legacy and new audits pass; and
 - Pages deployment serves the exact committed route/data revision.
+
+---
+
+## 19. Implementation record
+
+Implemented on 2026-08-29 in the repository-root static application:
+
+- `index.html` owns the six `chainPages` manifests, 79-entity corpus, published
+  article metadata, eleven new deep readers, routed shells, and exact
+  JavaScript-off chain/entity mirrors;
+- `scripts/chain-index.js` owns `#/c/<slug>` rendering, filters, history
+  restoration, chain-to-article context, the chain launcher, and Link Veil;
+- `styles/chain-index.css` owns the responsive industrial index surface and
+  fine-pointer-only veil behavior;
+- `scripts/command-palette.js` indexes the six chain hubs ahead of overview
+  articles; and
+- `scripts/audit-chain-index.mjs` enforces schema, inventory, responsive,
+  route, Link Veil, history, safety, and no-JavaScript contracts.

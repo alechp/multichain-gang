@@ -1,6 +1,6 @@
 # SOLANA//SCOPE — project context
 
-v3.0 and the Robinhood Chain extension are implemented and published from
+v3.0, the Robinhood Chain extension, and six chain article indexes are implemented and published from
 `main` / repository root at
 https://alechp.github.io/solana/. The instrument has a single-file static core
 plus local interaction assets; `journal/` is a separate local-only Bun/SQLite
@@ -11,6 +11,8 @@ application and must never be deployed with the page.
 - `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
 - `scripts/command-palette.js` + `styles/command-palette.css` — local command
   channel, section routing, global transport keys, and responsive presentation.
+- `scripts/chain-index.js` + `styles/chain-index.css` — six `#/c/<slug>`
+  article hubs, filters, history restoration, source rails, and Link Veil.
 - `scripts/reader-dock.js` + `styles/reader-dock.css` — persisted top/bottom
   reader placement and the temporary field-note UI suppression layer.
 - `vendor/fuse.basic.min.js` — pinned Fuse.js 7.5.0 basic browser build;
@@ -50,7 +52,8 @@ application and must never be deployed with the page.
   full name, preserve the soft/L1-posted/L1-final clocks, and never invent a
   compact glyph or treat `windowMs` as a block-time measurement.
 - Preserve channel/chain tokens, reading-scale hooks, stable
-  `data-note-anchor` values, and hash routes shaped as `#/e/<id>`.
+  `data-note-anchor` values, and hash routes shaped as `#/e/<id>` and
+  `#/c/<chain-slug>`.
 - Keep termified prose inside a containing element when its parent is flex/grid;
   injected `.term` buttons must not split anonymous text into layout items.
 - Every animation degrades. Reduced motion renders a manual reader; anime-CDN
@@ -77,7 +80,8 @@ application and must never be deployed with the page.
 ## QA gate for any change
 
 Run the five existing page audits plus
-`node scripts/audit-robinhood-chain.mjs`, then
+`node scripts/audit-robinhood-chain.mjs` and
+`node scripts/audit-chain-index.mjs`, then
 exercise 360/390/430/768/1200 across motion,
 reduced motion, CDN blocked, and JS off. No document-level horizontal overflow;
 the intentional inner pipeline scroller is the only exception. For journal
