@@ -147,7 +147,6 @@
   });
   document.addEventListener('keydown',event=>{
     const editor=event.target.closest?.('input,textarea,select,[contenteditable="true"]');
-    const arrowOwned=event.target.closest?.('[role="grid"],[role="listbox"],[role="tablist"],[role="slider"],[role="spinbutton"],.tcell,.chip');
     if((event.metaKey||event.ctrlKey)&&!event.altKey&&!event.shiftKey&&event.key.toLowerCase()==='k'){
       event.preventDefault();event.stopImmediatePropagation();scope.Overlay.isOpen(panel)?close({reason:'shortcut'}):open(document.activeElement);return;
     }
@@ -155,9 +154,6 @@
       event.preventDefault();event.stopImmediatePropagation();open(document.activeElement);return;
     }
     if(editor||event.metaKey||event.ctrlKey||event.altKey||event.shiftKey||scope.Overlay.top()||!document.documentElement.hasAttribute('data-scope-unlocked'))return;
-    if((event.key==='ArrowLeft'||event.key==='ArrowRight')&&!arrowOwned){
-      event.preventDefault();event.stopImmediatePropagation();transport(event.key==='ArrowLeft'?'previous':'next');return;
-    }
     if(event.code==='Space'&&!event.target.closest?.('a,button,[role="button"]')){
       event.preventDefault();event.stopImmediatePropagation();transport('toggle');
     }

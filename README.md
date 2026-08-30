@@ -69,7 +69,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 - A 26-cue read-through transport with titled authored takeaways, a target
   spotlight, persisted reading scale and top/bottom docking, desktop Escape
   exit, reduced-motion stepping, and CDN-independent autoplay.
-- Global Left/Right focus traversal and Space autoplay/pause, plus a `⌘K` /
+- Engaged-reader Left/Right focus traversal—including when an arrow control
+  has focus—and Space autoplay/pause, plus a `⌘K` /
   `Ctrl+K` command channel with five-section jumps and fuzzy local search across
   section, cue, entity, tool, chain, and glossary records.
 - A static, motion-free top navigation reference; diagram motion stays in the

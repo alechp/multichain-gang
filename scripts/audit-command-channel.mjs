@@ -48,6 +48,21 @@ try{
     await page.keyboard.press('ArrowLeft');
     await page.waitForTimeout(1050);
     if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: ArrowLeft did not hold after scroll settled`);
+    const readerKeys=await page.evaluate(()=>({previous:document.querySelector('.p-v')?.getAttribute('aria-keyshortcuts'),next:document.querySelector('.p-n')?.getAttribute('aria-keyshortcuts')}));
+    if(readerKeys.previous!=='ArrowLeft'||readerKeys.next!=='ArrowRight')failures.push(`${width}px: reader controls omit discoverable key shortcuts ${JSON.stringify(readerKeys)}`);
+    await page.locator('.p-n').focus();await page.keyboard.press('ArrowRight');await page.waitForTimeout(1050);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==1)failures.push(`${width}px: focused Next control did not accept global ArrowRight`);
+    await page.locator('.p-v').focus();await page.keyboard.press('ArrowLeft');await page.waitForTimeout(1050);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: focused Previous control did not accept global ArrowLeft`);
+    await page.keyboard.press('Meta+K');await page.keyboard.press('ArrowRight');await page.waitForTimeout(50);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: Overlay-owned ArrowRight leaked into reader navigation`);
+    await page.keyboard.press('Escape');
+    await page.keyboard.down('Shift');await page.keyboard.press('ArrowRight');await page.keyboard.up('Shift');await page.waitForTimeout(50);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: modified ArrowRight leaked into reader navigation`);
+    await page.evaluate(()=>{const input=document.createElement('input');input.id='readerKeyGuard';document.body.append(input);input.focus()});
+    await page.keyboard.press('ArrowRight');await page.waitForTimeout(50);
+    if((await page.evaluate(()=>SCOPE.Playbar.state.index))!==0)failures.push(`${width}px: editable-owned ArrowRight leaked into reader navigation`);
+    await page.evaluate(()=>document.getElementById('readerKeyGuard')?.remove());
     await page.keyboard.press('Space');
     if((await page.evaluate(()=>SCOPE.Playbar.state.state))!=='playing')failures.push(`${width}px: Space did not start autoplay`);
     await page.keyboard.press('Space');
@@ -134,4 +149,4 @@ if(failures.length){
   console.error(`COMMAND CHANNEL FAIL (${failures.length})`);failures.forEach(failure=>console.error('- '+failure));
   process.exitCode=1;throw new Error('COMMAND CHANNEL AUDIT FAILED');
 }
-console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 data-derived local index, chain-directory, article-page, and Chain Tools routing, persisted top/bottom reader docking, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');
+console.log('COMMAND CHANNEL PASS — Fuse 7.5.0 data-derived local index, chain-directory, article-page, and Chain Tools routing, persisted top/bottom reader docking, focused-control Left/Right hotkeys, guarded keyboard ownership, inverted Author Note placement, hidden Notes UI, settled cue traversal, CDN-blocked autoplay, desktop Escape, static navbar, focus isolation, and 390/1200px overflow pass.');

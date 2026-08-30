@@ -104,7 +104,12 @@ shape — dependency-free, escapes `<`).
 
 ## 5. Keyboard
 
-Bar-focused: `Space` play/pause, `←/→` prev/next cue, `Home/End` first/last.
+While reader mode is engaged, unmodified `←/→` move to the previous/next cue
+without requiring focus on the bar; this includes focus resting on either
+arrow button. The reader never captures arrows from editable fields, grids,
+listboxes, tablists, sliders, spinbuttons, heat-grid cells, filter chips, or an
+open Overlay layer. The arrow controls expose matching `aria-keyshortcuts`.
+Bar-focused: `Space` play/pause and `Home/End` first/last.
 `Esc` collapses an open cue list first; on desktop, a subsequent `Esc` exits
 the engaged reader, Author Note, and spotlight. Global shortcuts **off by default** (frauthy note:
 "global shortcuts must be explicit and discoverable") — a `⌨` toggle in the
@@ -132,8 +137,8 @@ INPUT/TEXTAREA/SELECT/contentEditable and any modifier key; state persists.
   auto-advances; stepping works.
 - A+ twice: body copy scales to 1.25 with no figure overflow at any QA width;
   reload shows the scaled size with no flash of unscaled text.
-- Bar and cue list fully operable by keyboard; global shortcuts only after
-  explicit opt-in.
+- Bar and cue list fully operable by keyboard; engaged-reader `←/→` work from
+  ordinary page focus, while global `j/k` still require explicit opt-in.
 - Progress segments color-match their channels; current cue readout always
   matches the scroll-spy section while idle.
 - Page weight: PLAYBAR CSS+JS ≤ 12 KB raw.
