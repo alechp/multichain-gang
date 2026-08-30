@@ -44,7 +44,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 ## Layout
 
     index.html                      v3 instrument core (CH-01 … CH-05)
-    scripts/chain-index.js          chain atlas, six routed hubs, CTRL Link Veil
+    scripts/chain-index.js          chain atlas, six routed hubs, shared Link Veil
     styles/chain-index.css          responsive chain/article index surfaces
     scripts/global-chrome.js        persistent navigation + universal Link Veil controller
     styles/global-chrome.css        measured global/route chrome geometry
@@ -76,15 +76,16 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
   teaching surfaces and remains optional. The same header persists above every
   chain, tooling, and article route, with route-local controls directly below.
 - One site-wide Link Veil preference controls root, chain, tools, and article
-  Hoverdocs. Fine pointers use the bare `CTRL` reveal chord; touch retains a
-  visible disabled status control and directly usable links.
+  Hoverdocs. Its compact switch exposes a settings dialog for `CTRL`, `ALT`,
+  `SHIFT`, or `META` reveal chords; touch retains a visible disabled status
+  control and directly usable links.
 - Field-note controls are temporarily hidden while their interaction model is
   repaired; existing local note data is left intact.
 - A full-screen chain atlas at `#/chains`, plus six chain indexes at
   `#/c/<slug>` with three featured reads,
   topic filters, comparative lenses, official source rails, direct article
   routes, Back/Forward scroll restoration, footer deep links, and an opt-in
-  hover + hold `CTRL` Link Veil.
+  hover + hold configurable-modifier Link Veil.
 - A 177-record command index that exposes the chain directory, all six chain
   hubs, and every published reader as an explicitly labeled article page.
 - 79 unique hash-routed entity channels spanning techniques, tools, chains, and

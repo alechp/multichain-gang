@@ -23,24 +23,37 @@
 .chapter-subnav a[aria-current="location"]{color:var(--ink);border-color:var(--cyan)}
 .nav-chips{display:none!important}
 
-.scope-veil-toggle{
-  flex:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:34px;
-  padding:0 9px;border:1px solid var(--line);border-radius:2px;background:var(--panel);color:var(--lbl);
-  font:600 .6rem/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer
+.scope-veil-cluster{
+  --veil-c:var(--amber);flex:none;display:inline-flex;align-items:center;height:36px;border:1px solid var(--line);
+  border-radius:3px;background:var(--panel);box-shadow:inset 2px 0 0 color-mix(in srgb,var(--veil-c) 55%,transparent);overflow:hidden
 }
-.scope-veil-toggle[hidden]{display:none!important}
-.scope-veil-toggle::before{content:"◫";color:var(--amber);font-size:.8rem}
-.scope-veil-toggle kbd,.entity-veil-toggle kbd{
-  padding:3px 5px;border:1px solid var(--line);border-bottom-color:var(--lbl);border-radius:2px;
-  background:var(--bg);color:var(--amber);font:inherit
+.scope-veil-cluster[hidden],.scope-veil-switch[hidden]{display:none!important}
+button[data-link-veil-control]{
+  appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:auto;min-width:72px;min-height:34px;
+  padding:0 8px;border:0!important;border-right:1px solid var(--line)!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:var(--lbl)!important;font:600 .58rem/1 "IBM Plex Mono",monospace!important;letter-spacing:.09em;cursor:pointer
 }
-.scope-veil-toggle[aria-pressed="true"]{border-color:var(--amber);box-shadow:inset 3px 0 var(--amber);color:var(--amber)}
-.scope-veil-toggle:is(:hover,:focus-visible){border-color:var(--amber);color:var(--ink)}
+button[data-link-veil-control] .scope-veil-track{
+  position:relative;display:block;width:28px;height:14px;border:1px solid var(--lbl);border-radius:8px;background:var(--bg)
+}
+button[data-link-veil-control] .scope-veil-track::after{
+  content:"";position:absolute;left:2px;top:2px;width:8px;height:8px;border-radius:50%;background:var(--lbl);transform:none
+}
+button[data-link-veil-control][aria-pressed="true"]{color:var(--veil-c)!important}
+button[data-link-veil-control][aria-pressed="true"] .scope-veil-track{border-color:var(--veil-c);background:color-mix(in srgb,var(--veil-c) 18%,var(--bg))}
+button[data-link-veil-control][aria-pressed="true"] .scope-veil-track::after{left:16px;background:var(--veil-c);box-shadow:0 0 8px color-mix(in srgb,var(--veil-c) 50%,transparent)}
+button[data-link-veil-control]:is(:hover,:focus-visible){outline:2px solid color-mix(in srgb,var(--veil-c) 42%,transparent)!important;outline-offset:-3px;color:var(--ink)!important}
+.scope-veil-settings-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:62px;min-height:34px;padding:0 7px;border:0;
+  background:transparent;color:var(--lbl);font:600 .52rem/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer
+}
+.scope-veil-settings-button kbd{padding:3px 5px;border:1px solid var(--line);border-bottom-color:var(--lbl);border-radius:2px;background:var(--bg);color:var(--veil-c);font:inherit}
+.scope-veil-settings-button:is(:hover,:focus-visible){outline:2px solid color-mix(in srgb,var(--veil-c) 42%,transparent);outline-offset:-3px;color:var(--ink)}
 
 .chain-subnav{position:relative;flex:none}
 .chain-subnav-menu{
-  position:fixed;top:calc(var(--scope-global-h) + 6px);right:max(12px,calc((100vw - 1200px)/2 + 24px));
-  left:auto;z-index:210
+  position:fixed;top:calc(var(--scope-global-h) + 6px);left:var(--scope-chains-x,12px);right:auto;z-index:210;
+  width:min(260px,calc(100vw - 24px))
 }
 
 .chain-channel,.tools-channel,.entity-channel{
@@ -50,20 +63,60 @@
 .chain-slotbar,.tools-slotbar,.entity-slotbar{top:0;padding-top:7px}
 
 .entity-slotbar{grid-template-columns:minmax(0,1fr) auto auto auto;min-height:var(--scope-context-h)}
-.entity-veil-toggle{
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:44px;min-height:44px;
-  padding:0 12px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:var(--lbl);
-  font:600 .62rem/1 "IBM Plex Mono",monospace;letter-spacing:.08em;cursor:pointer
-}
-.entity-veil-toggle[aria-pressed="true"]{border-color:var(--violet);box-shadow:inset 3px 0 var(--violet);color:var(--violet)}
-.entity-veil-toggle:is(:hover,:focus-visible){border-color:var(--violet);color:var(--violet)}
+.chain-slotbar>.scope-veil-cluster{--veil-c:var(--cc);height:44px}
+.tools-slotbar>.scope-veil-cluster{--veil-c:var(--tools-accent);height:44px}
+.entity-slotbar>.scope-veil-cluster{--veil-c:var(--violet);height:44px}
+.chain-slotbar>.scope-veil-cluster>button,.tools-slotbar>.scope-veil-cluster>button,.entity-slotbar>.scope-veil-cluster>button{min-height:42px}
 
 /* Directory pages still own definitions, so their route-local Veil slot remains present. */
+.chain-channel[data-view="directory"] .chain-slotbar{grid-template-columns:minmax(0,1fr) auto auto}
 .chain-channel[data-view="directory"] .chain-veil-toggle{display:flex}
 
-.chain-veil-toggle:disabled,.tools-veil-toggle:disabled,.entity-veil-toggle:disabled,.scope-veil-toggle:disabled{
+button[data-link-veil-control]:disabled{
   opacity:.58;cursor:not-allowed;box-shadow:none
 }
+
+.scope-veil-dialog[hidden]{display:none!important}
+.scope-veil-dialog{
+  --veil-c:var(--amber);position:fixed;left:50%;top:max(calc(var(--scope-global-h) + 18px),8vh);z-index:230;
+  width:min(650px,calc(100vw - 28px));max-height:min(82dvh,720px);padding:0;overflow:hidden;transform:translateX(-50%);
+  border:1px solid var(--line);border-top:3px solid var(--veil-c);background:rgba(16,20,29,.985);
+  box-shadow:0 34px 100px rgba(0,0,0,.66),0 0 42px color-mix(in srgb,var(--veil-c) 7%,transparent)
+}
+.scope-veil-dialog::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;background:linear-gradient(rgba(35,45,65,.38) 1px,transparent 1px),linear-gradient(90deg,rgba(35,45,65,.3) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(#000,transparent 45%)}
+.scope-veil-form{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr) auto;max-height:min(82dvh,717px)}
+.scope-veil-dialog-body{min-height:0;overflow:auto;overscroll-behavior:contain}
+.scope-veil-dialog-head{display:flex;align-items:start;justify-content:space-between;gap:18px;padding:19px 20px 15px;border-bottom:1px solid var(--line)}
+.scope-veil-dialog-kicker{margin:0 0 5px;color:var(--veil-c);font:600 .55rem/1 "IBM Plex Mono",monospace;letter-spacing:.11em}
+.scope-veil-dialog-title{margin:0;font:700 1.65rem/1 "Chakra Petch",sans-serif;letter-spacing:.03em}
+.scope-veil-dialog-close{min-width:58px;min-height:42px;border:1px solid var(--line);background:var(--panel);color:var(--lbl);font:600 .58rem "IBM Plex Mono",monospace;cursor:pointer}
+.scope-veil-dialog-close:is(:hover,:focus-visible){border-color:var(--veil-c);color:var(--ink)}
+.scope-veil-dialog-intro{max-width:68ch;margin:0;padding:16px 20px;color:var(--lbl);font-size:.8rem;line-height:1.65}
+.scope-veil-mode{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:12px;margin:0 20px 18px;padding:13px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.scope-veil-mode input{position:absolute;opacity:0;pointer-events:none}
+.scope-veil-mode-track{position:relative;width:36px;height:20px;border:1px solid var(--lbl);border-radius:11px;background:var(--bg)}
+.scope-veil-mode-track::after{content:"";position:absolute;left:3px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--lbl)}
+.scope-veil-mode input:checked+.scope-veil-mode-track{border-color:var(--veil-c);background:color-mix(in srgb,var(--veil-c) 16%,var(--bg))}
+.scope-veil-mode input:checked+.scope-veil-mode-track::after{left:19px;background:var(--veil-c)}
+.scope-veil-mode input:focus-visible+.scope-veil-mode-track{outline:2px solid var(--cyan);outline-offset:3px}
+.scope-veil-mode-copy{display:grid;gap:4px}.scope-veil-mode-copy b,.scope-veil-hotkey b{color:var(--ink);font:600 .64rem/1.2 "IBM Plex Mono",monospace;letter-spacing:.06em}.scope-veil-mode-copy small,.scope-veil-hotkey small{color:var(--lbl);font-size:.65rem;line-height:1.35}
+.scope-veil-hotkeys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:0;padding:0 20px;border:0}
+.scope-veil-hotkeys legend{display:block;width:100%;margin-bottom:9px;color:var(--veil-c);font:600 .56rem/1 "IBM Plex Mono",monospace;letter-spacing:.11em}
+.scope-veil-hotkey{position:relative;display:grid;grid-template-columns:14px auto 1fr;align-items:center;gap:10px;min-height:66px;padding:10px;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.scope-veil-hotkey input{position:absolute;opacity:0;pointer-events:none}
+.scope-veil-hotkey>i{width:10px;height:10px;border:1px solid var(--lbl);border-radius:50%}
+.scope-veil-hotkey input:checked+ i{border:3px solid var(--bg);background:var(--veil-c);box-shadow:0 0 0 1px var(--veil-c)}
+.scope-veil-hotkey:has(input:checked){border-color:var(--veil-c);background:color-mix(in srgb,var(--veil-c) 7%,var(--panel))}
+.scope-veil-hotkey:has(input:focus-visible){outline:2px solid var(--cyan);outline-offset:2px}
+.scope-veil-hotkey kbd,.scope-veil-test kbd{min-width:48px;padding:6px;border:1px solid var(--line);border-bottom-color:var(--lbl);background:var(--bg);color:var(--veil-c);text-align:center;font:600 .58rem/1 "IBM Plex Mono",monospace}
+.scope-veil-hotkey>span{display:grid;gap:3px}
+.scope-veil-test{display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:10px;margin:16px 20px 0;padding:11px;border-left:3px solid var(--veil-c);background:color-mix(in srgb,var(--veil-c) 6%,var(--panel));font:600 .55rem/1.4 "IBM Plex Mono",monospace;letter-spacing:.07em;color:var(--lbl)}
+.scope-veil-test p{margin:0;font:500 .64rem/1.45 system-ui,sans-serif;letter-spacing:0}
+.scope-veil-compatibility{margin:13px 20px 0;color:var(--lbl);font-size:.68rem;line-height:1.55}
+.scope-veil-dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:17px;padding:13px 20px 17px;border-top:1px solid var(--line)}
+.scope-veil-dialog-actions button{min-height:42px;padding:0 13px;border:1px solid var(--line);background:var(--panel);color:var(--lbl);font:600 .58rem "IBM Plex Mono",monospace;letter-spacing:.07em;cursor:pointer}
+.scope-veil-dialog-actions .scope-veil-apply{border-color:var(--veil-c);background:color-mix(in srgb,var(--veil-c) 9%,var(--panel));color:var(--ink)}
+.scope-veil-dialog-actions button:is(:hover,:focus-visible){border-color:var(--cyan);color:var(--ink)}
 
 /* Modal layers sit above the persistent navigation; route shells remain below it. */
 .scope-overlay-scrim{z-index:220}
@@ -72,6 +125,7 @@
 
 #scopeRootMain{padding-top:max(0px,calc(var(--scope-global-h) - 96px));scroll-margin-top:var(--scope-global-h)}
 .chain-page,.tools-page,.entity-page{scroll-margin-top:var(--scope-context-h)}
+.tools-channel[data-link-veil="true"] .tools-row:not(:focus-within):not(.is-control-peek) .tools-details-button::after{content:"HOLD " var(--scope-veil-key,"CTRL")}
 
 @media(max-width:820px){
   .chapter-subnav{
@@ -97,22 +151,23 @@
   .chain-nav,.tools-nav,.entity-nav{
     grid-column:1;grid-row:2;justify-self:start;padding-top:0;border-top:0
   }
-  .chain-veil-toggle,.tools-veil-toggle,.entity-veil-toggle{
-    display:inline-flex;grid-column:2/4;grid-row:2;justify-self:end;max-width:100%;min-height:44px
-  }
+  .chain-slotbar>.scope-veil-cluster,.tools-slotbar>.scope-veil-cluster,.entity-slotbar>.scope-veil-cluster{grid-column:2/4;grid-row:2;justify-self:end;max-width:100%}
   .chain-channel[data-view="directory"] .chain-slotbar{grid-template-columns:minmax(0,1fr) auto auto}
-  .chain-channel[data-view="directory"] .chain-veil-toggle{grid-column:2/4;grid-row:2}
-  .chain-subnav-menu{left:12px;right:12px;top:calc(var(--scope-global-h) + 6px);width:auto}
+  .chain-channel[data-view="directory"] .chain-slotbar>.scope-veil-cluster{grid-column:2/4;grid-row:2}
+  .chain-subnav-menu{left:var(--scope-chains-x,12px);right:auto;top:calc(var(--scope-global-h) + 6px);width:min(260px,calc(100vw - 24px))}
 }
 
 @media(max-width:520px){
-  .tools-veil-toggle{display:inline-flex}
-  .scope-veil-toggle span,.chain-veil-toggle span,.tools-veil-toggle span,.entity-veil-toggle span{font-size:0}
-  .scope-veil-toggle span::after,.chain-veil-toggle span::after,.tools-veil-toggle span::after,.entity-veil-toggle span::after{content:"VEIL";font-size:.58rem}
+  .scope-veil-settings-button>span{display:none}
+  .scope-veil-settings-button{min-width:48px}
+  .scope-veil-hotkeys{grid-template-columns:1fr}
+  .scope-veil-test{grid-template-columns:auto auto}.scope-veil-test p{grid-column:1/-1}
+  .scope-veil-dialog{inset:auto 0 0;top:auto;width:100%;max-height:88dvh;transform:none;border-width:1px 0 0;border-top-width:3px;padding-bottom:env(safe-area-inset-bottom)}
+  .scope-veil-form{max-height:calc(88dvh - 3px - env(safe-area-inset-bottom))}
 }
 
 @media(pointer:coarse),(hover:none){
-  .chain-veil-toggle,.tools-veil-toggle,.entity-veil-toggle,.scope-veil-toggle{display:inline-flex!important}
+  button[data-link-veil-control]{display:inline-flex!important}
   .chain-article-link{pointer-events:auto!important}
   .chain-article-route{opacity:1!important;transform:none!important}
   .chain-veil-hint{display:none!important}
@@ -120,9 +175,9 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .slotbar,.slotbar *,.chain-slotbar,.tools-slotbar,.entity-slotbar,.scope-skip{animation:none!important;transition:none!important}
+  .slotbar,.slotbar *,.chain-slotbar,.tools-slotbar,.entity-slotbar,.scope-skip,.scope-veil-dialog,.scope-veil-track,.scope-veil-track::after{animation:none!important;transition:none!important}
 }
 
 @media(forced-colors:active){
-  .slotbar,.chain-slotbar,.tools-slotbar,.entity-slotbar,.scope-veil-toggle,.entity-veil-toggle{background:Canvas;color:CanvasText;border-color:CanvasText}
+  .slotbar,.chain-slotbar,.tools-slotbar,.entity-slotbar,.scope-veil-cluster,.scope-veil-dialog{background:Canvas;color:CanvasText;border-color:CanvasText}
 }

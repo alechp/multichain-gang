@@ -1,14 +1,14 @@
 # 00 — PERSISTENT GLOBAL CHROME AND UNIVERSAL LINK VEIL
 
 > **Status:** implemented
-> **Version:** 1.0
-> **Dated:** 2026-08-29
+> **Version:** 1.1
+> **Dated:** 2026-08-30
 > **Applies to:** root readout, chain directory, chain hubs, Chain Tools directory, chain-specific tool landscapes, and entity/article readers
 > **Primary surfaces:** `index.html`, `scripts/chain-index.js`, `scripts/chain-tools.js`, the entity router in `index.html`, shared Overlay/Router primitives, and the site audit suite
 
 > **Implementation:** `scripts/global-chrome.js`, `styles/global-chrome.css`, and
 > `scripts/audit-global-chrome.mjs`; shipped as page revision
-> `v5-2026-08-29.1`.
+> `v5-2026-08-30.1`.
 
 ## 1. Executive summary
 
@@ -26,7 +26,7 @@ This specification changes the chrome model from **replacement** to
    on every routed surface.
 2. Chain, tool, and entity routes retain a second, page-local control rail below
    the global header.
-3. The Link Veil / `CTRL` preference becomes one shared site-wide capability and
+3. The Link Veil / reveal-hotkey preference becomes one shared site-wide capability and
    is represented on every page.
 4. Only one Link Veil control is visible and focusable at a time. It appears in
    the global action area on the root readout and in the page-local rail on
@@ -116,7 +116,7 @@ focus target.
 - Do not redesign page content, tables, chain cards, or article prose.
 - Do not remove the local previous/next/close controls.
 - Do not turn chapter links into route tabs.
-- Do not make `CTRL` a navigation shortcut.
+- Do not make the configured reveal modifier a navigation shortcut.
 - Do not hide primary navigation, official sources, safety warnings,
   breadcrumbs, or primary calls to action behind Link Veil.
 - Do not create different Link Veil preferences for chain pages, tools pages,
@@ -153,7 +153,7 @@ mixed.
 │               CH-01  CH-02  CH-03  CH-04  CH-05                         │
 └──────────────────────────── global header ───────────────────────────────┘
 ┌──────────────────────────────────────────────────────────────────────────┐
-│ CH-REF · CHAIN · sol                     [←] [→] [LINK VEIL CTRL] [×]    │
+│ CH-REF · CHAIN · sol                     [←] [→] [VEIL ◉][CTRL TUNE] [×] │
 └──────────────────────────── context rail ────────────────────────────────┘
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                                                                          │
@@ -166,7 +166,7 @@ On the root surface, the context rail is absent. The Link Veil control occupies
 the root/global action slot:
 
 ```text
-[CHAINS⌄] [LINKS VISIBLE CTRL] [FIND ⌘K]
+[CHAINS⌄] [VEIL ◉][CTRL TUNE] [FIND ⌘K]
 ```
 
 On a routed surface, the root/global Link Veil instance is not visible or
@@ -252,6 +252,8 @@ Requirements:
 - Closing with `Escape` restores focus to `CHAINS`.
 - The menu may overlay the context rail, but must not be clipped by a route
   shell or scroll container.
+- Its left edge aligns with the `CHAINS` trigger whenever viewport space allows;
+  near a viewport edge it clamps to the 12 px safe boundary.
 - The current destination receives `aria-current="page"` when applicable.
 
 ### 7.4 Find command
@@ -358,9 +360,13 @@ Recommended API:
 SCOPE.LinkVeil = Object.freeze({
   toggle(),
   set(enabled),
+  setHotkey('Control' | 'Alt' | 'Shift' | 'Meta'),
+  openSettings(trigger),
   subscribe(listener),
   canPointerPreview(target),
   get enabled(),
+  get hotkey(),
+  get hotkeyLabel(),
   get controlHeld(),
   get effective()
 });
@@ -369,7 +375,7 @@ SCOPE.LinkVeil = Object.freeze({
 `effective` is `enabled && finePointer && hoverCapable`.
 
 Consumers subscribe to state and ask whether a pointer preview is allowed.
-They do not register independent global Control key listeners.
+They do not register independent global modifier-key listeners.
 
 ### 9.2 Storage and migration
 
@@ -378,7 +384,8 @@ Use one local preference:
 ```json
 {
   "v": 1,
-  "enabled": false
+  "enabled": false,
+  "hotkey": "Control"
 }
 ```
 
@@ -387,7 +394,8 @@ Canonical key: `scope.linkVeil`.
 Migration requirements:
 
 1. If `scope.linkVeil` is absent, read the existing `chain.linkVeil` value.
-2. If valid, copy its enabled value into `scope.linkVeil`.
+2. If valid, copy its enabled value into `scope.linkVeil` and default its
+   missing hotkey to `Control`.
 3. Do not delete the legacy key during the first implementation release.
 4. If storage is denied, use a session-only value and default to links visible.
 5. State is local UI preference and is never transmitted.
@@ -407,11 +415,13 @@ Separate DOM buttons may mirror the singleton state, but hidden mirrors must be
 both `hidden` and removed from the tab order. A preferred implementation uses a
 shared renderer/controller rather than copying route-specific logic.
 
-Labels:
+The visible slot is one compact cluster rather than a wide text button:
 
-- Off: `LINKS VISIBLE` + `CTRL` keycap
-- On: `LINK VEIL · HOLD CTRL` + `CTRL` keycap
-- Compact: `VEIL` + `CTRL` keycap, while retaining the full accessible name
+- a `VEIL` switch button using `aria-pressed`;
+- an adjacent current-hotkey keycap / `TUNE` button;
+- the keycap button opens one shared modal with enable state plus `Control`,
+  `Option / Alt`, `Shift`, and `Command / Meta` radio choices;
+- the compact cluster stays below 160 CSS px at all supported widths.
 
 Semantics:
 
@@ -432,26 +442,26 @@ When Link Veil is on:
 
 - ordinary hover does not open a definition Hoverdoc;
 - supported secondary route affordances remain visually veiled;
-- holding bare `Control` while hovering reveals the definition preview and the
+- holding the configured bare modifier while hovering reveals the definition preview and the
   hovered component's supported secondary route;
-- releasing `Control` immediately closes an unpinned Hoverdoc and conceals the
+- releasing that modifier immediately closes an unpinned Hoverdoc and conceals the
   route again;
-- moving to another eligible target while holding `Control` transfers the peek;
+- moving to another eligible target while holding it transfers the peek;
 - window blur, visibility loss, route change, toggle change, or pointer exit
   clears held/peek state;
-- `Control` with Meta, Alt, or Shift is ignored;
-- pressing or releasing `Control` never activates a route.
+- a chord containing any unconfigured modifier is ignored;
+- pressing or releasing the modifier never activates a route.
 
 ### 9.5 Keyboard behavior
 
-Keyboard access never requires holding `Control`.
+Keyboard access never requires holding the configured modifier.
 
 - Focusing a term exposes its definition preview.
 - Focusing a veiled route exposes that route.
 - Enter/Space activate according to native element semantics.
 - Pinned definition dialogs preserve existing dialog behavior.
 - Focus leaving an unpinned preview closes it after the existing safe delay.
-- Pressing `Control` inside an input, textarea, select, combobox,
+- Pressing the configured modifier inside an input, textarea, select, combobox,
   `[contenteditable]`, or code editor does not change peek state.
 
 ### 9.6 Touch and coarse-pointer behavior
@@ -563,7 +573,7 @@ Exact numbers may vary, but these ordering relationships are mandatory:
 - Global utility row uses the full site grid.
 - Chapter sub-navigation remains a second row aligned to the right edge.
 - Context reference may use the remaining flexible width.
-- Full Link Veil label and keycap are visible.
+- Compact Veil switch and hotkey keycap are visible.
 
 ### 12.2 Tablet and narrow desktop: 768–1199 px
 
@@ -734,14 +744,14 @@ chrome module. It owns:
 
 - persistence/migration;
 - compatible-input detection;
-- Control keydown/keyup;
+- configured modifier keydown/keyup and persisted hotkey selection;
 - editor exclusion;
 - blur/visibility cleanup;
 - subscribers;
 - state announcements.
 
 Existing chain, tools, and Hoverdocs code consumes the controller and removes
-its duplicate global Control listeners.
+its duplicate global modifier listeners.
 
 ### 16.3 Route context shape
 
@@ -767,9 +777,9 @@ shared chrome controller renders/synchronizes the rail controls.
 |---|---|
 | `index.html` | Keep one global header outside route shells; add root Link Veil slot; add entity Link Veil slot or shared context rail mount; add shared CSS variables/fallback |
 | `scripts/global-chrome.js` | New canonical global chrome measurement, route context, menu, active-main, and Link Veil slot synchronization |
-| `scripts/link-veil.js` or shared chrome section | New singleton state, migration, Control tracking, effective-mode logic, subscriptions |
-| `scripts/chain-index.js` | Supply chain route context; stop owning persistence/global Control events; keep route rendering and article filtering |
-| `scripts/chain-tools.js` | Supply tools route context; consume shared veil state; stop owning persistence/global Control events |
+| `scripts/link-veil.js` or shared chrome section | New singleton state, migration, configured-modifier tracking, effective-mode logic, subscriptions |
+| `scripts/chain-index.js` | Supply chain route context; stop owning persistence/global modifier events; keep route rendering and article filtering |
+| `scripts/chain-tools.js` | Supply tools route context; consume shared veil state; stop owning persistence/global modifier events |
 | entity renderer in `index.html` | Supply entity route context and visible Link Veil slot; consume shared veil state for term previews |
 | `styles/chain-index.css` | Remove assumptions that chain shells start at viewport top; reuse shared context rail tokens |
 | `styles/chain-tools.css` | Remove assumptions that tools shells start at viewport top; reuse shared context rail tokens |
@@ -799,7 +809,7 @@ acceptance behavior are mandatory.
 ### Phase 3 — Centralize Link Veil
 
 1. Add canonical shared storage with legacy migration.
-2. Centralize Control tracking and cleanup.
+2. Centralize configured-modifier tracking and cleanup.
 3. Convert Hoverdocs, chain routes, and tools routes to subscribers.
 4. Remove route-owned duplicate listeners only after parity tests pass.
 
@@ -883,14 +893,16 @@ Run on root, chain hub, tools landscape, and entity reader:
 
 1. Toggle off: ordinary term hover shows one definition preview.
 2. Toggle on: ordinary term hover shows none.
-3. Hold bare Control while hovering: one preview appears.
-4. Release Control: unpinned preview closes.
-5. Move target while holding Control: preview follows the new target.
-6. Focus term with keyboard while on: preview appears without Control.
+3. Hold the configured bare modifier while hovering: one preview appears.
+4. Release it: unpinned preview closes.
+5. Move target while holding it: preview follows the new target.
+6. Focus term with keyboard while on: preview appears without the modifier.
 7. Click/tap term: pinned definition remains usable.
 8. Focus supported secondary route while on: route becomes visible.
 9. Blur/visibility change: no held or peek classes remain.
-10. Editor focus + Control: no page peek state changes.
+10. Editor focus + configured modifier: no page peek state changes.
+11. Open `TUNE`, select a different modifier, apply, and verify the old chord
+    no longer reveals while the new chord does.
 11. Route transition while held: no stuck peek state on destination.
 12. Refresh/direct-load: state persists and visible toggle label agrees.
 13. Touch mode: toggle is present but disabled/effectively bypassed; all links
@@ -912,7 +924,7 @@ Run on root, chain hub, tools landscape, and entity reader:
 - exactly one `.slotbar` source instance;
 - no route renderer contains copied global header markup;
 - one canonical storage key and one migration path;
-- no more than one global Control keydown/keyup owner;
+- no more than one global modifier keydown/keyup owner;
 - no duplicate `id` values among chrome controls;
 - no wallet signing, transaction submission, or unsafe external URL behavior is
   introduced;
@@ -937,10 +949,11 @@ Implementation is complete only when all conditions below are true.
    preference.
 9. Link Veil on suppresses ordinary pointer Hoverdocs on root, chain, tools,
    and entity pages.
-10. Bare Control reveals only the hovered eligible preview/action; key release
+10. The configured bare modifier reveals only the hovered eligible
+    preview/action; key release
     conceals it.
 11. Keyboard focus, click, touch, and JavaScript-off behavior remain usable
-    without Control.
+    without a modifier.
 12. Global navigation, primary actions, official sources, warnings, and
     breadcrumbs are never veiled.
 13. Chains and Find layer correctly above an open route and close without

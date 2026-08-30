@@ -33,7 +33,7 @@
       <a class="chain-article-link" href="#/e/${esc(item.id)}" data-chain-article="${esc(item.id)}">
         <span class="chain-card-meta">${cardMeta(entity,item.group)}</span>
         <h4>${esc(entity.name)}</h4><p>${esc(entity.tagline)}</p>
-        <span class="chain-article-route">READ ARTICLE →</span><span class="chain-veil-hint">HOVER + HOLD CTRL</span>
+        <span class="chain-article-route">READ ARTICLE →</span><span class="chain-veil-hint">HOVER + HOLD ${esc(scope.LinkVeil.hotkeyLabel)}</span>
       </a>
     </article>`;
   }
@@ -114,7 +114,7 @@
   }
   function veilEnabled(){return scope.LinkVeil.enabled}
   function applyVeil(){
-    const enabled=scope.LinkVeil.effective;shell.classList.toggle('chain-link-veil',enabled);updatePeek();
+    const enabled=scope.LinkVeil.effective;shell.classList.toggle('chain-link-veil',enabled);pageNode.querySelectorAll('.chain-veil-hint').forEach(hint=>{hint.textContent=`HOVER + HOLD ${scope.LinkVeil.hotkeyLabel}`});updatePeek();
   }
   function updatePeek(){pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'));if(scope.LinkVeil.controlHeld&&hoveredCard&&scope.LinkVeil.effective)hoveredCard.classList.add('chain-link-revealed')}
   function clearHeld(){hoveredCard=null;pageNode.querySelectorAll('.chain-link-revealed').forEach(card=>card.classList.remove('chain-link-revealed'))}
