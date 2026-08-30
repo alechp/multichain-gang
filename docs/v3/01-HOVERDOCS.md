@@ -81,8 +81,9 @@ One shared singleton element (frauthy: one delegated listener set on
   phantom-hover.
 - **Click/tap/Enter (pinned):** card pins open (adds links + OPEN CHANNEL row),
   becomes the active Overlay layer (focus moves in, Esc/outside-click closes,
-  focus returns to trigger). On <700px, pinning uses the Overlay bottom-sheet
-  variant (same sheet as grid popovers).
+  focus returns to trigger). Pinned and preview cards remain target-anchored at
+  every viewport width; their internal body scrolls only when neither side can
+  expose the natural card height.
 
 ### 3.1 Visual spec
 
@@ -109,10 +110,13 @@ Scope aesthetic, not generic tooltip:
 ### 3.2 Positioning
 
 Port frauthy's `computeOverlayPosition` geometry (flip / shift / arrow offset /
-padding) as a ~120-line pure function in the 04 foundation; HOVERDOCS consumes
-it with `placement: 'top'`, `offset: 10`, viewport boundary, flip-to-bottom
-when `rect.top` is inside the top 250px (frauthy heuristic), clamp with 12px
-gutters. Re-position on scroll/resize while open (capture-phase listener).
+padding) as a pure function in the 04 foundation. Every target-linked popup is
+ported to the document overlay layer and consumes `positionTargetOverlay` with
+an above/below preference, fixed-header-aware viewport boundary, and 10–12px
+gutters. If the natural card does not fit either side, use the side with more
+space and cap the card height there; never clamp it across its trigger or leave
+it inside an `overflow:hidden` figure. Re-position on scroll/resize while open
+(capture-phase listener).
 
 ## 4. Accessibility
 
@@ -138,11 +142,12 @@ gutters. Re-position on scroll/resize while open (capture-phase listener).
 
 - Hovering "Turbine" in CH-01 prose shows the REF card within 200ms of intent
   delay, cyan-edged; the same word inside `FIG 1.1` SVG text is untouched.
-- Tap on iPhone-width: no phantom hover; first tap pins the bottom sheet with
-  links; Esc/scrim closes and focus returns.
+- Tap on iPhone-width: no phantom hover; first tap pins the target-anchored card
+  with links; Esc/scrim closes and focus returns.
 - Keyboard-only: Tab reaches the first "Sealevel" in CH-02, tooltip shows on
   focus, Enter pins, Tab cycles links, Esc returns focus.
-- No tooltip is ever clipped by the viewport at 360/390/430/768/1200.
+- No tooltip is clipped by a figure, table, route shell, or viewport at
+  360/390/430/700/768/820/900/1200.
 - `termify()` runs over a freshly opened BTC dock and binds terms inside
   metric values (e.g. "RBF") exactly once.
 - With anime CDN blocked: cards open instantly and are fully functional.

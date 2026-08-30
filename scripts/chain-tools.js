@@ -151,7 +151,7 @@
   const next=document.getElementById('toolsNext');
   const veilButton=document.getElementById('toolsVeil');
   const closeButton=document.getElementById('toolsClose');
-  const ready=!!(scope?.Overlay&&scope?.Router&&scope?.LinkVeil&&scope?.positionOverlay&&shell&&page);
+  const ready=!!(scope?.Overlay&&scope?.Router&&scope?.LinkVeil&&scope?.positionTargetOverlay&&shell&&page);
   const baseTitle=document.title;
   let activeView='',activeSlug='',routeTrigger=null,closingForRoute=false,filterState=null,expandedTool='',compareIds=[],hoverTimer=0,hoverdoc=null,hoverTrigger=null,hoverPinned=false,hoveredRow=null,hoveredToolTrigger=null,searchTimer=0,lastRenderedHash='';
 
@@ -322,7 +322,7 @@
     hoverdoc=node('aside',{class:'tools-hoverdoc',id:'toolsHoverdoc',role:'dialog',ariaLabel:`${name} definition`});const categories=allCategories(tool,placement);hoverdoc.append(node('div',{class:'tools-hoverdoc-meta'},[...categories.map(id=>text('span','tools-chip primary',id)),node('span',{class:'tools-state',dataset:{state:placement.status},text:placement.status}),node('span',{class:'tools-scope',text:placement.scope})]),text('h3','',name),text('p','',tool.summary),text('small','',`CHECKED ${checkedDate(placement)||'NOT DOCUMENTED'} · ${categoryNames(categories).join(' · ')}`));const actions=node('div',{class:'tools-hoverdoc-actions'},[node('button',{type:'button',class:'tools-detail-link',text:'DETAILS',dataset:{hoverDetails:tool.id}}),externalLink('OFFICIAL',tool.officialUrl,'tools-detail-link')]);hoverdoc.append(actions);document.body.append(hoverdoc);trigger.setAttribute('aria-describedby',hoverdoc.id);positionHoverdoc();
     hoverdoc.addEventListener('pointerenter',()=>clearTimeout(hoverTimer));hoverdoc.addEventListener('pointerleave',()=>{if(!hoverPinned)scheduleHoverClose()});hoverdoc.addEventListener('focusout',event=>{if(!hoverdoc?.contains(event.relatedTarget)&&!hoverPinned)scheduleHoverClose()});actions.querySelector('[data-hover-details]').addEventListener('click',()=>{closeHoverdoc();toggleDetails(tool.id,trigger)});
   }
-  function positionHoverdoc(){if(!hoverdoc||!hoverTrigger)return;const pos=scope.positionOverlay(hoverTrigger.getBoundingClientRect(),hoverdoc.getBoundingClientRect(),{placement:'bottom',offset:9,padding:12});hoverdoc.style.left=`${pos.left}px`;hoverdoc.style.top=`${pos.top}px`;hoverdoc.dataset.placement=pos.placement}
+  function positionHoverdoc(){if(!hoverdoc||!hoverTrigger)return;scope.positionTargetOverlay(hoverTrigger,hoverdoc,{placement:'bottom',offset:9,padding:12})}
   function scheduleHoverClose(){clearTimeout(hoverTimer);hoverTimer=setTimeout(()=>{if(!hoverPinned)closeHoverdoc()},160)}
   function closeHoverdoc(){clearTimeout(hoverTimer);if(hoverTrigger){if(hoverTrigger.dataset.definitionId)hoverTrigger.setAttribute('aria-describedby',hoverTrigger.dataset.definitionId);else hoverTrigger.removeAttribute('aria-describedby')}hoverdoc?.remove();hoverdoc=null;hoverTrigger=null;hoverPinned=false}
 

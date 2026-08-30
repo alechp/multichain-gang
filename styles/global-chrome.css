@@ -120,7 +120,7 @@ button[data-link-veil-control]:disabled{
 
 /* Modal layers sit above the persistent navigation; route shells remain below it. */
 .scope-overlay-scrim{z-index:220}
-.cmd-panel,#refCard,.tools-compare-dialog,.sn-card,.sn-draw,.p-d{z-index:230}
+.cmd-panel,#refCard,.tpop,.tools-hoverdoc,.tools-compare-dialog,.sn-card,.sn-draw,.p-d{z-index:230}
 .cmd-panel{top:max(calc(var(--scope-global-h) + 12px),9vh)}
 
 #scopeRootMain{padding-top:max(0px,calc(var(--scope-global-h) - 96px));scroll-margin-top:var(--scope-global-h)}

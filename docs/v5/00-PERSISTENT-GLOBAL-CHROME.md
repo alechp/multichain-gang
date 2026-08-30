@@ -8,7 +8,7 @@
 
 > **Implementation:** `scripts/global-chrome.js`, `styles/global-chrome.css`, and
 > `scripts/audit-global-chrome.mjs`; shipped as page revision
-> `v5-2026-08-30.1`.
+> `v5-2026-08-30.2`.
 
 ## 1. Executive summary
 

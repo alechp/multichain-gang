@@ -21,7 +21,7 @@ for (const lane of lanes) {
   else if (requireEmpty && json[1].trim()) failures.push(`V3${lane}:JSON zone is not empty`);
 }
 
-for (const primitive of ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify', 'Runtime']) {
+for (const primitive of ['Overlay', 'Router', 'Store', 'positionOverlay', 'positionTargetOverlay', 'termify', 'Runtime']) {
   const comment = new RegExp(`/\\* ${primitive} usage:([\\s\\S]*?)\\*/`).exec(source);
   if (!comment || ![1, 2, 3, 4, 5].every(number => comment[1].includes(`* ${number}.`))) failures.push(`${primitive} lacks the required five-line usage comment`);
 }
@@ -30,7 +30,7 @@ const browser = await launchAuditBrowser();
 try {
   const { context, page, errors } = await openAuditPage(browser, 1200);
   const runtime = await page.evaluate(() => {
-    const required = ['Overlay', 'Router', 'Store', 'positionOverlay', 'termify', 'Runtime'];
+    const required = ['Overlay', 'Router', 'Store', 'positionOverlay', 'positionTargetOverlay', 'termify', 'Runtime'];
     const missing = required.filter(key => !window.SCOPE || window.SCOPE[key] == null);
     const anchors = document.querySelectorAll('[data-note-anchor]').length;
     const revs = [document.body.dataset.rev, JSON.parse(document.getElementById('chainData').textContent)._rev];
@@ -115,9 +115,19 @@ try {
   await page.locator('.tcell').first().click();
   const opened = await page.evaluate(() => {
     const pop = document.querySelector('.tpop');
-    return { open: window.SCOPE.Overlay.isOpen(pop), hidden: pop.hidden, focused: pop.contains(document.activeElement) };
+    const trigger=document.querySelector('.tcell[aria-expanded="true"]');
+    const rect=pop.getBoundingClientRect(),target=trigger.getBoundingClientRect();
+    const header=document.querySelector('.slotbar').getBoundingClientRect();
+    const placement=pop.dataset.placement;
+    const adjacent=placement==='bottom'?Math.abs(rect.top-target.bottom-8)<=1:Math.abs(target.top-rect.bottom-8)<=1;
+    return {
+      open:window.SCOPE.Overlay.isOpen(pop),hidden:pop.hidden,focused:pop.contains(document.activeElement),
+      bodyLayer:pop.parentElement===document.body,position:getComputedStyle(pop).position,placement,adjacent,
+      viewportSafe:rect.left>=9&&rect.right<=innerWidth-9&&rect.top>=header.bottom+9&&rect.bottom<=innerHeight-9,
+      panelClipped:pop.closest('#gridPanel')!==null,rect:rect.toJSON(),target:target.toJSON()
+    };
   });
-  if (!opened.open || opened.hidden || !opened.focused) failures.push(`grid popover Overlay open failed: ${JSON.stringify(opened)}`);
+  if (!opened.open || opened.hidden || !opened.focused || !opened.bodyLayer || opened.position!=='fixed' || !opened.adjacent || !opened.viewportSafe || opened.panelClipped) failures.push(`grid popover anchored Overlay failed: ${JSON.stringify(opened)}`);
   await page.keyboard.press('Escape');
   const closed = await page.evaluate(() => {
     const pop = document.querySelector('.tpop');
@@ -147,6 +157,19 @@ try {
       });
     });
     if (watermark) failures.push(`${width}px watermark overlaps a latency value`);
+    await p.locator('#gridPanel .tcell').last().click();
+    const popupGeometry=await p.evaluate(()=>{
+      const pop=document.querySelector('.tpop:not([hidden])'),trigger=document.querySelector('.tcell[aria-expanded="true"]');
+      const rect=pop?.getBoundingClientRect(),target=trigger?.getBoundingClientRect(),header=document.querySelector('.slotbar')?.getBoundingClientRect(),placement=pop?.dataset.placement;
+      return {
+        bodyLayer:pop?.parentElement===document.body,placement,
+        adjacent:placement==='bottom'?Math.abs(rect.top-target.bottom-8)<=1:Math.abs(target.top-rect.bottom-8)<=1,
+        viewportSafe:rect.left>=9&&rect.right<=innerWidth-9&&rect.top>=header.bottom+9&&rect.bottom<=innerHeight-9,
+        scrollable:pop.scrollHeight<=pop.clientHeight+1||getComputedStyle(pop).overflowY==='auto'
+      };
+    });
+    if(!popupGeometry.bodyLayer||!['top','bottom'].includes(popupGeometry.placement)||!popupGeometry.adjacent||!popupGeometry.viewportSafe||!popupGeometry.scrollable)failures.push(`${width}px grid popup escapes its target/viewport: ${JSON.stringify(popupGeometry)}`);
+    await p.keyboard.press('Escape');
     pageErrors.forEach(error => failures.push(`${width}px page error: ${error}`));
     await ctx.close();
   }
@@ -159,4 +182,4 @@ if (failures.length) {
   failures.forEach(failure => console.error('- ' + failure));
   process.exit(1);
 }
-console.log(`FOUNDATION PASS — zones byte-unique${requireEmpty ? '/empty' : ''}; five primitives + frozen Runtime bridge live; anchors, ambients, termify, Store, Overlay grid migration, title fit, and watermark guard pass.`);
+console.log(`FOUNDATION PASS — zones byte-unique${requireEmpty ? '/empty' : ''}; seven primitives + frozen Runtime bridge live; anchors, ambients, termify, Store, target-safe popup geometry, title fit, and watermark guard pass.`);

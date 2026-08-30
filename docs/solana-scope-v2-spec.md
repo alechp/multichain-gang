@@ -204,7 +204,7 @@ The section's centerpiece: a matrix of trading techniques (rows) × chains (colu
   6. CEX–DEX arb — off-chain vs on-chain price gaps → SOL hot, ETH hot, BNB active, BTC limited (venue-to-venue only), ZEC limited
   7. Spam / probabilistic racing — duplicate-flooding for placement → SOL hot (declining with SWQoS pricing), ETH limited, BNB active, BTC none, ZEC none
   8. Mint / launch sniping — first-block buys on new listings → SOL hot (memecoin launchpads), ETH active, BNB active, BTC limited (ordinals-era), ZEC none
-- **Detail interaction:** tapping a cell opens a small popover (mobile: bottom sheet-style fixed panel) with 2–3 sentences: how the technique manifests on that chain + which tool from Component B enables/defends it (cross-link by tool id, scrolls-to + flashes the tool card).
+- **Detail interaction:** tapping a cell opens a document-layer, fixed popover directly above or below that cell with 2–3 sentences: how the technique manifests on that chain + which tool from Component B enables/defends it (cross-link by tool id, scrolls-to + flashes the tool card). Placement flips toward the roomier side, clamps horizontally to the viewport, and caps its own scrollable height so a figure's `overflow:hidden` boundary can never clip it. This target relationship remains intact on mobile.
 - **Animation:** on section reveal, cells cascade in diagonally (anime stagger `grid` mode, 24ms). Row hover: that row's cells tick up 1.06 scale. One-time, then static.
 - **Mobile:** grid stays a grid (it's the whole point) — 8×5 fits at 390px with 36px cells and rotated column glyphs (chain glyph, not name). Left definitions collapse to icon-only; tapping the row label opens the definition as the first popover line.
 

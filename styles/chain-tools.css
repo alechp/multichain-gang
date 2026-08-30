@@ -222,7 +222,7 @@
 .tools-gap-card p{margin:9px 0 0;color:var(--tools-muted);font-size:.83rem;line-height:1.58}
 .tools-method{margin-top:54px;padding-bottom:8px;border-top:1px solid var(--tools-rule)}
 .tools-method-routes{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.tools-hoverdoc{position:fixed;z-index:130;width:min(390px,calc(100vw - 24px));padding:15px;border:1px solid var(--tools-rule);border-top:3px solid var(--tools-accent);background:var(--tools-panel-raised);box-shadow:0 24px 58px rgba(0,0,0,.56);animation:tools-hoverdoc-in 140ms var(--tools-ease) both}
+.tools-hoverdoc{position:fixed;z-index:130;width:min(390px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;padding:15px;border:1px solid var(--tools-rule);border-top:3px solid var(--tools-accent);background:var(--tools-panel-raised);box-shadow:0 24px 58px rgba(0,0,0,.56);animation:tools-hoverdoc-in 140ms var(--tools-ease) both}
 .tools-hoverdoc[hidden]{display:none!important}
 .tools-hoverdoc-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
 .tools-hoverdoc h3{margin:0;color:var(--tools-text);font:700 1.35rem/1.05 "Chakra Petch","Chakra Petch Fallback",sans-serif;text-transform:uppercase}

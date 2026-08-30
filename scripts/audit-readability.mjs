@@ -59,13 +59,19 @@ try {
       await page.waitForTimeout(220);
       const preview = await page.locator('#refCard').evaluate(card => {
         const entity = document.querySelector('.entity-channel');
+        const trigger=document.querySelector('.term[aria-describedby="refCard"]');
+        const rect=card.getBoundingClientRect(),target=trigger.getBoundingClientRect(),header=document.querySelector('.slotbar').getBoundingClientRect();
+        const placement=card.dataset.placement;
         return {
           hidden: card.hidden,
           definition: document.querySelector('#refDef').textContent.trim(),
           purpose: document.querySelector('#refPurpose').textContent.trim(),
           hint: document.querySelector('#refHint').textContent.trim(),
           z: Number(getComputedStyle(card).zIndex),
-          entityZ: Number(getComputedStyle(entity).zIndex)
+          entityZ: Number(getComputedStyle(entity).zIndex),
+          placement,
+          adjacent:placement==='bottom'?Math.abs(rect.top-target.bottom-10)<=1:Math.abs(target.top-rect.bottom-10)<=1,
+          viewportSafe:rect.left>=11&&rect.right<=innerWidth-11&&rect.top>=header.bottom+11&&rect.bottom<=innerHeight-11
         };
       });
       expect(!preview.hidden, 'desktop term hover does not reveal a reference card');
@@ -73,6 +79,7 @@ try {
       expect(preview.purpose.length >= 24, 'desktop reference preview omits the operational purpose');
       expect(/CLICK TO PIN/.test(preview.hint), 'desktop reference preview does not explain how to open sources');
       expect(preview.z > preview.entityZ, `reference card z-index ${preview.z} does not clear entity reader ${preview.entityZ}`);
+      expect(['top','bottom'].includes(preview.placement)&&preview.adjacent&&preview.viewportSafe, `desktop reference preview is not target-anchored and viewport-safe: ${JSON.stringify(preview)}`);
     }
 
     await term.click();

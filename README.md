@@ -79,6 +79,9 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
   Hoverdocs. Its compact switch exposes a settings dialog for `CTRL`, `ALT`,
   `SHIFT`, or `META` reveal chords; touch retains a visible disabled status
   control and directly usable links.
+- Target-linked technique, glossary, and tooling surfaces share
+  fixed-header-aware above/below geometry; document-layer popups cannot be
+  clipped by panels, tables, or route containers.
 - Field-note controls are temporarily hidden while their interaction model is
   repaired; existing local note data is left intact.
 - A full-screen chain atlas at `#/chains`, plus six chain indexes at

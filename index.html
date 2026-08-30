@@ -496,9 +496,10 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
   .tlabel{padding-right:4px}
   .tlabel b{font-size:.64rem;letter-spacing:0}
 }
-/* cell popover / mobile bottom sheet */
+/* target-anchored cell popover */
 .tpop{
-  position:absolute;z-index:30;width:min(330px, calc(100% - 20px));
+  position:fixed;z-index:130;width:min(350px, calc(100vw - 24px));
+  max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;
   background:var(--panel-2);border:1px solid color-mix(in srgb, var(--violet) 45%, var(--line));
   border-radius:8px;padding:14px 16px;box-shadow:0 14px 34px rgba(0,0,0,.55);
 }
@@ -520,13 +521,7 @@ svg.hero-svg-m,svg.pipe-v,svg.sand-m{display:none}
   font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.06em;
 }
 .tp-tool:hover{color:var(--ink);border-color:var(--violet)}
-@media(max-width:700px){
-  .tpop{
-    position:fixed;left:0;right:0;bottom:0;top:auto;width:auto;max-width:none;
-    border-radius:12px 12px 0 0;border-left:none;border-right:none;border-bottom:none;
-    padding:16px 18px calc(18px + env(safe-area-inset-bottom));z-index:70;
-  }
-}
+@media(max-width:700px){.tpop{width:min(350px,calc(100vw - 20px));padding:15px}}
 /* ---------- v2 CH-05: tool bench ---------- */
 .bench{margin-top:26px}
 .panel-label-inline{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;color:var(--faint)}
@@ -888,9 +883,9 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 /* ==V3C:CSS== */
 .sn-ctl{display:flex;gap:5px}.sn-ctl,.sn-head,.sn-ctx,.sn-group h3{font-family:"IBM Plex Mono",monospace}.sn-ctl button,.sn-btn{min-height:44px;padding:6px 9px;border:1px solid var(--line);background:var(--panel);color:var(--lbl);font:600 .62rem "IBM Plex Mono",monospace}.sn-ctl [aria-pressed=true]{color:var(--amber);border-color:var(--amber)}.sn-mob{display:none}
 .sn-on [data-note-anchor]{cursor:crosshair!important}.sn-on .term{pointer-events:none}.sn-line{display:none;position:fixed;z-index:54;left:0;right:0;top:var(--sn-y);border-top:1px solid var(--amber);pointer-events:none}.sn-on .sn-line{display:block}.sn-pins{position:absolute;z-index:45;pointer-events:none}.sn-pin{position:absolute;width:44px;height:44px;border:0;background:none;color:var(--amber);pointer-events:auto;font-size:18px;opacity:.55}.sn-pin:before{content:"";position:absolute;right:31px;top:21px;width:13px;border-top:1px dashed}.sn-pin:is(:hover,:focus-visible),.sn-flash{opacity:1}.sn-pin b{position:absolute;font-size:9px}
-.sn-card,.sn-draw{position:fixed;z-index:65;padding:18px;border:1px solid var(--line);border-left:3px solid var(--amber);background:var(--panel-2)}.sn-card{width:min(430px,calc(100vw - 24px))}.sn-draw{inset:0 0 0 auto;width:min(440px,100vw);overflow:auto}.sn-head{display:flex;justify-content:space-between;margin-bottom:12px;color:var(--lbl);font-size:.66rem}.sn-head strong,.sn-warn,.sn-group h3{color:var(--amber)}.sn-x{min-width:44px;min-height:44px;margin:-12px -10px 0 0;border:0;background:none;color:var(--lbl)}.sn-ctx{margin-bottom:9px;color:var(--lbl);font-size:.7rem}.sn-card textarea{width:100%;min-height:132px;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}.sn-actions,.sn-foot{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.sn-body{overflow-wrap:anywhere}.sn-read,.sn-item{padding:10px 0;border-bottom:1px dashed var(--line)}.sn-group{margin-top:18px}.sn-jump{width:100%;min-height:44px;border:0;background:none;text-align:left;color:var(--ink)}.sn-jump small{display:block;color:var(--lbl)}.sn-warn{padding:7px;border:1px dashed}
+.sn-card,.sn-draw{position:fixed;z-index:65;padding:18px;border:1px solid var(--line);border-left:3px solid var(--amber);background:var(--panel-2)}.sn-card{width:min(430px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain}.sn-draw{inset:0 0 0 auto;width:min(440px,100vw);overflow:auto}.sn-head{display:flex;justify-content:space-between;margin-bottom:12px;color:var(--lbl);font-size:.66rem}.sn-head strong,.sn-warn,.sn-group h3{color:var(--amber)}.sn-x{min-width:44px;min-height:44px;margin:-12px -10px 0 0;border:0;background:none;color:var(--lbl)}.sn-ctx{margin-bottom:9px;color:var(--lbl);font-size:.7rem}.sn-card textarea{width:100%;min-height:132px;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}.sn-actions,.sn-foot{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.sn-body{overflow-wrap:anywhere}.sn-read,.sn-item{padding:10px 0;border-bottom:1px dashed var(--line)}.sn-group{margin-top:18px}.sn-jump{width:100%;min-height:44px;border:0;background:none;text-align:left;color:var(--ink)}.sn-jump small{display:block;color:var(--lbl)}.sn-warn{padding:7px;border:1px dashed}
 @keyframes snf{from{filter:drop-shadow(0 0 12px var(--amber))}}.sn-flash{animation:snf .6s}.sn-live{position:fixed;left:12px;bottom:12px}
-@media(max-width:820px){.sn-desk{display:none}.sn-mob{display:flex}}@media(max-width:700px){.sn-card,.sn-draw{width:100%;max-height:88dvh;bottom:0;top:auto;overflow:auto}}@media(prefers-reduced-motion:reduce){.sn-line{display:none!important}.sn-flash{animation:none}}
+@media(max-width:820px){.sn-desk{display:none}.sn-mob{display:flex}}@media(max-width:700px){.sn-card{width:min(430px,calc(100vw - 20px))}.sn-draw{width:100%;max-height:88dvh;bottom:0;top:auto;overflow:auto}}@media(prefers-reduced-motion:reduce){.sn-line{display:none!important}.sn-flash{animation:none}}
 /* ==/V3C:CSS== */
 /* ==V3E:CSS== */
 .entity-channel{
@@ -1033,7 +1028,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 })();
 </script>
 </head>
-<body data-rev="v5-2026-08-30.1">
+<body data-rev="v5-2026-08-30.2">
 
 <section class="access-gate" id="scopeAccessGate" role="dialog" aria-modal="true" aria-labelledby="scopeAccessTitle">
   <div class="access-console">
@@ -2475,7 +2470,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 <!-- ═══════════ v2 DATA — single source for docks, grid, bench ═══════════ -->
 <script type="application/json" id="chainData">
 {
-  "_rev": "v5-2026-08-30.1",
+  "_rev": "v5-2026-08-30.2",
   "==V3A:JSON==": null,
   "terms": {
     "turbine": {"term":"Turbine","aliases":["Turbine protocol","Turbine"],"def":"Solana's block-propagation protocol, which divides ledger entries into shreds and relays them through a stake-weighted fan-out tree.","purpose":"A block reaches thousands of validators without the leader sending a full copy to every machine.","links":[{"label":"Solana whitepaper","url":"https://solana.com/solana-whitepaper.pdf","kind":"research"}],"entity":"turbine"},
@@ -4229,13 +4224,15 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     const pad=options.padding ?? 12, offset=options.offset ?? 10;
     const preferred=options.placement || 'top';
     const opposite={top:'bottom',bottom:'top',left:'right',right:'left'};
-    const fits = placement=>{
-      if(placement==='top') return tr.top-height-offset>=boundary.top+pad;
-      if(placement==='bottom') return tr.bottom+height+offset<=boundary.bottom-pad;
-      if(placement==='left') return tr.left-width-offset>=boundary.left+pad;
-      return tr.right+width+offset<=boundary.right-pad;
+    const room={
+      top:tr.top-boundary.top-pad-offset,
+      bottom:boundary.bottom-pad-tr.bottom-offset,
+      left:tr.left-boundary.left-pad-offset,
+      right:boundary.right-pad-tr.right-offset
     };
-    const placement=fits(preferred) ? preferred : (fits(opposite[preferred]) ? opposite[preferred] : preferred);
+    const fits=placement=>(placement==='top'||placement==='bottom'?height:width)<=room[placement];
+    const alternate=opposite[preferred];
+    const placement=fits(preferred) ? preferred : (fits(alternate) ? alternate : (room[alternate]>room[preferred]?alternate:preferred));
     let left=tr.left+(tr.width-width)/2, top=tr.top+(tr.height-height)/2;
     if(placement==='top') top=tr.top-height-offset;
     if(placement==='bottom') top=tr.bottom+offset;
@@ -4247,6 +4244,43 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
       ? Math.max(8,Math.min(width-8,tr.left+tr.width/2-left))
       : Math.max(8,Math.min(height-8,tr.top+tr.height/2-top));
     return {left,top,x:left,y:top,placement,beamOffset};
+  }
+
+  /* positionTargetOverlay usage:
+   * 1. Pass the target element and a visible popup that lives in the document overlay layer.
+   * 2. The popup is placed directly above or below its target; side placements are rejected.
+   * 3. The fixed global header and visual viewport form the default clipping boundary.
+   * 4. Height is capped to the chosen side and overflow remains reachable inside the popup.
+   * 5. Re-run after scroll, resize, or popup content changes; the returned geometry is immutable data.
+   */
+  function positionTargetOverlay(trigger,overlay,options={}){
+    if(!(trigger instanceof Element) || !(overlay instanceof HTMLElement) || overlay.hidden) return null;
+    const viewport=window.visualViewport;
+    const viewportLeft=viewport?.offsetLeft||0,viewportTop=viewport?.offsetTop||0;
+    const viewportWidth=viewport?.width||innerWidth,viewportHeight=viewport?.height||innerHeight;
+    const header=document.querySelector('.slotbar');
+    const headerRect=header?.getClientRects().length ? header.getBoundingClientRect() : null;
+    const boundary=options.boundary||{
+      left:viewportLeft,
+      top:Math.max(viewportTop,headerRect?.bottom||viewportTop),
+      right:viewportLeft+viewportWidth,
+      bottom:viewportTop+viewportHeight,
+      width:viewportWidth,
+      height:viewportHeight
+    };
+    const padding=options.padding??12,offset=options.offset??10;
+    const preferred=options.placement==='top'?'top':'bottom';
+    overlay.style.position='fixed';overlay.style.left='0px';overlay.style.top='0px';overlay.style.maxHeight='';
+    const triggerRect=trigger.getBoundingClientRect(),naturalRect=overlay.getBoundingClientRect();
+    const first=positionOverlay(triggerRect,naturalRect,{placement:preferred,offset,padding,boundary});
+    const room=first.placement==='top'
+      ? triggerRect.top-boundary.top-padding-offset
+      : boundary.bottom-padding-triggerRect.bottom-offset;
+    overlay.style.maxHeight=Math.max(1,Math.min(naturalRect.height,room))+'px';
+    const overlayRect=overlay.getBoundingClientRect();
+    const placed=positionOverlay(triggerRect,overlayRect,{placement:first.placement,offset,padding,boundary});
+    overlay.style.left=placed.left+'px';overlay.style.top=placed.top+'px';overlay.dataset.placement=placed.placement;
+    return Object.freeze({...placed,boundary:Object.freeze({...boundary}),availableHeight:Math.max(0,room)});
   }
 
   /* termify usage:
@@ -4345,7 +4379,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     isVisible:(...args)=>runtimeCall('isVisible',args)
   });
 
-  Object.assign(scope,{Overlay,Router,Store,positionOverlay,termify,stampAnchors,Runtime});
+  Object.assign(scope,{Overlay,Router,Store,positionOverlay,positionTargetOverlay,termify,stampAnchors,Runtime});
   document.documentElement.style.setProperty('--interference-y',(26+Math.random()*48).toFixed(1)+'%');
   const stamp=()=>stampAnchors(document);
   if(document.readyState==='loading') addEventListener('DOMContentLoaded',stamp,{once:true}); else setTimeout(stamp,0);
@@ -4359,7 +4393,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
 (function(scope){
   'use strict';
 
-  const required=['Overlay','Router','positionOverlay','termify'];
+  const required=['Overlay','Router','positionTargetOverlay','termify'];
   if(required.some(key=>!scope[key])) throw new Error('HOVERDOCS: required SCOPE primitive missing');
   const data=(()=>{ try{return JSON.parse(document.getElementById('chainData').textContent);}catch(error){return null;} })();
   const terms=data && data.terms;
@@ -4438,14 +4472,10 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     positionFrame=0;
     if(card.hidden||!activeTrigger){hideBeam();return;}
     if(!activeTrigger.isConnected){if(pinned)scope.Overlay.close(card,{restoreFocus:false,reason:'detached'});else closePreview();return;}
-    if(pinned&&mobile()){hideBeam();card.style.left='';card.style.top='';return;}
     const triggerRect=activeTrigger.getBoundingClientRect();
-    card.style.left='0px';card.style.top='0px';
-    const cardRect=card.getBoundingClientRect();
     const preferred=triggerRect.top<250?'bottom':'top';
-    const pos=scope.positionOverlay(triggerRect,cardRect,{placement:preferred,offset:10,padding:12});
-    card.style.left=pos.left+'px';card.style.top=pos.top+'px';
-    drawBeam(pos,triggerRect,cardRect);
+    const pos=scope.positionTargetOverlay(activeTrigger,card,{placement:preferred,offset:10,padding:12});
+    if(pos)drawBeam(pos,triggerRect,card.getBoundingClientRect());else hideBeam();
   }
   const queuePosition=()=>{if(!card.hidden&&activeTrigger&&!positionFrame)positionFrame=requestAnimationFrame(reposition);};
 
@@ -4453,7 +4483,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     clearTimers();if(positionFrame)cancelAnimationFrame(positionFrame);positionFrame=0;
     card.hidden=true;card.classList.remove('ref-pinned');card.removeAttribute('aria-modal');
     card.removeAttribute('aria-label');card.removeAttribute('aria-labelledby');card.removeAttribute('role');
-    card.style.left='';card.style.top='';hideBeam();
+    card.style.left='';card.style.top='';card.style.maxHeight='';hideBeam();
     if(trigger){trigger.removeAttribute('aria-describedby');trigger.setAttribute('aria-expanded','false');}
     activeTrigger=null;activeKey='';pinned=false;
   }
@@ -4488,7 +4518,7 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     card.classList.add('ref-pinned');card.setAttribute('role','dialog');card.setAttribute('aria-labelledby',name.id);card.hidden=false;
     const isMobile=mobile();
     scope.Overlay.open({
-      element:card,trigger,modal:true,sheet:true,scrim:isMobile,lockScroll:isMobile,outsideClose:true,
+      element:card,trigger,modal:true,sheet:false,scrim:isMobile,lockScroll:isMobile,outsideClose:true,
       focusTarget:closeButton,
       onClose:reason=>{
         const opener=activeTrigger;resetCard(opener);
@@ -5969,11 +5999,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
   }
 
   function wireGrid(mount){
-    const panel = document.getElementById('gridPanel');
     const pop = document.createElement('div');
     pop.className = 'tpop'; pop.setAttribute('role','dialog'); pop.hidden = true;
-    panel.appendChild(pop);
+    document.body.appendChild(pop);
     let opener = null;
+    function positionPop(){
+      if(pop.hidden||!opener?.isConnected)return;
+      window.SCOPE.positionTargetOverlay(opener,pop,{placement:'bottom',offset:8,padding:10});
+    }
     function closePop(focusBack){
       if(pop.hidden) return;
       window.SCOPE.Overlay.close(pop,{restoreFocus:focusBack,reason:'grid'});
@@ -5994,20 +6027,14 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
         (cid ? `<p>${esc(t.notes[cid])}</p>` : '')+
         (tool ? `<div class="tp-tools"><button class="tp-tool" data-tool="${tool.id}">↳ ${esc(tool.name)}</button></div>` : '');
       window.SCOPE.Overlay.open({
-        element:pop,trigger:btn,modal:true,sheet:true,outsideClose:true,
+        element:pop,trigger:btn,modal:true,sheet:false,outsideClose:true,
         focusTarget:pop.querySelector('.tp-close'),
         onClose:()=>{
           if(opener){ opener.setAttribute('aria-expanded','false'); opener=null; }
-          pop.style.left=''; pop.style.top='';
+          pop.style.left='';pop.style.top='';pop.style.maxHeight='';delete pop.dataset.placement;
         }
       });
-      if(!window.matchMedia('(max-width:700px)').matches){
-        const pb = panel.getBoundingClientRect(), bb = btn.getBoundingClientRect();
-        const pos = window.SCOPE.positionOverlay(bb,pop.getBoundingClientRect(),{
-          placement:'bottom',offset:8,padding:10,boundary:pb
-        });
-        pop.style.left = (pos.left-pb.left)+'px'; pop.style.top = (pos.top-pb.top)+'px';
-      } else { pop.style.left=''; pop.style.top=''; }
+      positionPop();requestAnimationFrame(()=>requestAnimationFrame(positionPop));
     }
     mount.addEventListener('click', e=>{
       const btn = e.target.closest('.tcell, .tlabel'); if(!btn) return;
@@ -6016,9 +6043,12 @@ body.scope-scroll-lock{overflow:hidden;padding-right:var(--scope-scrollbar,0)}
     });
     pop.addEventListener('click', e=>{
       if(e.target.closest('.tp-close')){ closePop(true); return; }
+      if(e.target.closest('[data-entity-id]')){closePop(false);return;}
       const tb = e.target.closest('.tp-tool');
       if(tb){ closePop(false); jumpToTool(tb.dataset.tool); }
     });
+    addEventListener('resize',positionPop,{passive:true});
+    addEventListener('scroll',positionPop,{capture:true,passive:true});
   }
 
   function renderBench(){
