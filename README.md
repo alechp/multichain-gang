@@ -14,6 +14,11 @@ Open `index.html` directly, or serve the repository root:
 
     npx serve .
 
+The standalone Robinhood Chain edition is additive and lives at
+`robinhood/index.html` (`/robinhood/` when served). The original root
+`SOLANA//SCOPE` document is protected by a release checksum and remains the
+site root.
+
 There is no page build step. Fuse.js 7.5.0 is vendored locally for the command
 palette; anime.js and the web fonts are optional network enhancements. Reduced
 motion, a blocked CDN, and JavaScript-off all preserve the teaching content.
@@ -61,6 +66,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     docs/solana-scope-v2-spec.md    implemented v2 baseline
     docs/robinhood-chain-integration-spec.md
                                     implemented comparison, journal, and launch playbook
+    robinhood/                      standalone SCOPE//ROBINHOOD CHAIN instrument
+    docs/robinhood-scope/           implemented specs, source ledger, and release evidence
 
 ## v3 highlights
 
@@ -114,11 +121,17 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-chain-index.mjs
     node scripts/audit-chain-tools.mjs
     node scripts/audit-global-chrome.mjs
+    node scripts/audit-robinhood-scope.mjs
+    node scripts/audit-robinhood-scope-fit.mjs
+    node scripts/audit-robinhood-scope-degrade.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
 
 v3.0 shipped on 2026-08-14; the Robinhood Chain extension was implemented on
 2026-08-28, the six chain indexes on 2026-08-29, and persistent v5 route chrome
-on 2026-08-29. The figures are illustrative orders of magnitude dated 2026-08,
-not live telemetry; live observations remain local to the journal.
+on 2026-08-29. The standalone Robinhood Scope release candidate was completed
+on 2026-08-31 under `robinhood/`; external publication awaits the brand/legal
+sign-off recorded in its release ledger. The figures are illustrative orders
+of magnitude dated 2026-08, not live telemetry; live observations remain local
+to the journal.

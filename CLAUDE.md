@@ -6,6 +6,11 @@ https://alechp.github.io/solana/. The instrument has a single-file static core
 plus local interaction assets; `journal/` is a separate local-only Bun/SQLite
 application and must never be deployed with the page.
 
+A standalone `SCOPE//ROBINHOOD CHAIN` release candidate is implemented under
+`robinhood/`. It is additive: do not replace or edit the root Solana
+`index.html` while changing the standalone edition. Its protected baseline is
+recorded in `robinhood/.solana-baseline.sha256`.
+
 ## Files
 
 - `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
@@ -21,6 +26,10 @@ application and must never be deployed with the page.
 - `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
 - `docs/robinhood-chain-integration-spec.md` — implemented Robinhood Chain
   comparator, read-only journal, coin-launch, latency, and liquidity contract.
+- `robinhood/` — standalone Robinhood Chain page, readable source CSS, served
+  minified CSS, local controllers, inline data, and exact no-JavaScript mirrors.
+- `docs/robinhood-scope/` — implemented `SCOPE//ROBINHOOD CHAIN` product,
+  research, content, comparison, data, interaction, release specs, and evidence.
 - `scripts/audit-*.mjs` — executable page regression gates.
 - `journal/` — read-only collectors, SQLite store, CLI, paper simulators, and localhost workbench.
 - `docs/solana-scope-v2-spec.md` — implemented v2 baseline for untouched behavior.
@@ -92,3 +101,10 @@ changes, run `bun test`, `bun build src/cli.ts --target=bun`, token sync, and th
 Robinhood Chain audit from the repository root; it includes the prohibited
 wallet/submission-API scan. A skipped external/profile check is recorded as
 skipped, never passed.
+
+For any `robinhood/` change, also run
+`node scripts/audit-robinhood-scope.mjs`,
+`node scripts/audit-robinhood-scope-fit.mjs`, and
+`node scripts/audit-robinhood-scope-degrade.mjs`. The first gate fails if the
+root Solana checksum changes. Regenerate `styles/scope.min.css` mechanically
+from readable `styles/scope.css` whenever the source stylesheet changes.
