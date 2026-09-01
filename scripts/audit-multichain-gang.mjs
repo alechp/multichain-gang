@@ -11,9 +11,10 @@ const pages = [
   { id: 'solana-scope', path: 'multichain/solana/index.html', h1: 'Solana,', nav: ['SCOPE', 'CHAINS', 'TOOLS'] },
   { id: 'solana-chains', path: 'multichain/solana/chains/index.html', h1: 'Solana', nav: ['Scope', 'Chains', 'Tools'] },
   { id: 'solana-tools', path: 'multichain/solana/tools/index.html', h1: 'Solana', nav: ['Scope', 'Chains', 'Tools'] },
-  { id: 'robinhood-scope', path: 'multichain/robinhood/index.html', h1: 'Robinhood Chain', nav: ['SCOPE', 'CHAINS', 'TOOLS'] },
-  { id: 'robinhood-chains', path: 'multichain/robinhood/chains/index.html', h1: 'Robinhood', nav: ['Scope', 'Chains', 'Tools'] },
-  { id: 'robinhood-tools', path: 'multichain/robinhood/tools/index.html', h1: 'Robinhood', nav: ['Scope', 'Chains', 'Tools'] }
+  { id: 'robinhood-scope', path: 'multichain/robinhood/index.html', h1: 'Robinhood Chain', nav: ['SCOPE', 'CHAINS', 'TOOLS', 'SOURCE'] },
+  { id: 'robinhood-chains', path: 'multichain/robinhood/chains/index.html', h1: 'Robinhood', nav: ['Scope', 'Chains', 'Tools', 'Source'] },
+  { id: 'robinhood-tools', path: 'multichain/robinhood/tools/index.html', h1: 'Robinhood', nav: ['Scope', 'Chains', 'Tools', 'Source'] },
+  { id: 'robinhood-source', path: 'multichain/robinhood/source/index.html', h1: 'Public code', nav: ['Scope', 'Chains', 'Tools', 'Source'] }
 ];
 
 for (const page of pages) {
@@ -34,7 +35,7 @@ check(authSource.includes("location.protocol === 'file:'") && authSource.include
 check(readFileSync('index.html', 'utf8').includes('multichain/solana/') && readFileSync('index.html', 'utf8').includes('multichain/robinhood/'), 'portal does not link both instruments');
 check(solanaSource.includes('href="chains/"') && solanaSource.includes('href="tools/"'), 'Solana Scope mode navigation incomplete');
 const robinhoodSource = readFileSync('multichain/robinhood/index.html', 'utf8');
-check(robinhoodSource.includes('href="chains/"') && robinhoodSource.includes('href="tools/"'), 'Robinhood Scope mode navigation incomplete');
+check(robinhoodSource.includes('href="chains/"') && robinhoodSource.includes('href="tools/"') && robinhoodSource.includes('href="source/"'), 'Robinhood Scope mode navigation incomplete');
 
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (existsSync(macChrome) ? macChrome : undefined) });

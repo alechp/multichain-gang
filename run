@@ -163,5 +163,6 @@ server.listen(port, host, () => {
   console.log(`  Portal:    ${origin}/`);
   console.log(`  Solana:    ${origin}/multichain/solana/`);
   console.log(`  Robinhood: ${origin}/multichain/robinhood/`);
+  console.log(`  RH Source: ${origin}/multichain/robinhood/source/`);
   console.log('\nPress Ctrl+C to stop.\n');
 });
