@@ -124,7 +124,7 @@ function safeReviewedUrl(value) {
 
 function corruptFirstDigest(source) {
   let mutated = false;
-  const body = source.replace(/(["']?digest["']?\s*:\s*["'])[0-9a-f]{64}(["'])/i, (match, prefix, suffix) => {
+  const body = source.replace(/("digest"\s*:\s*")[0-9a-f]{64}(")/, (match, prefix, suffix) => {
     mutated = true;
     return `${prefix}${'0'.repeat(64)}${suffix}`;
   });
@@ -579,7 +579,7 @@ async function browserTreeAudit(page, audit) {
   const live = page.locator('[aria-live="polite"]');
   audit.check(await live.count() > 0, 'tree: polite loading/status live region missing');
 
-  const showAll = page.locator('[data-show-all-categories]:visible, button:visible').filter({ hasText: /SHOW ALL CATEGORIES/i }).first();
+  const showAll = page.locator('#showAllCategories:visible');
   audit.check(await showAll.count() === 1, 'tree: SHOW ALL CATEGORIES control missing while repository drawer is open');
   if (await showAll.count()) {
     await showAll.click();
@@ -844,12 +844,20 @@ async function browserResponsiveAudit(browser, options, audit) {
   const forced = await openPage(browser, options, { width: 1200, height: 900, forcedColors: 'active' });
   try {
     const result = await forced.page.evaluate(() => {
-      const target = document.querySelector('[role="treeitem"], button, a[href]');
+      const target = document.querySelector('#showAllCategories');
       target?.focus();
       const style = target ? getComputedStyle(target) : null;
-      return { active: matchMedia('(forced-colors: active)').matches, outline: style?.outlineStyle, outlineWidth: style?.outlineWidth };
+      const rect = target?.getBoundingClientRect();
+      return {
+        active: matchMedia('(forced-colors: active)').matches,
+        visible: Boolean(rect?.width && rect?.height) && style?.display !== 'none' && style?.visibility !== 'hidden',
+        focused: document.activeElement === target,
+        outline: style?.outlineStyle,
+        outlineWidth: style?.outlineWidth
+      };
     });
     audit.check(result.active, 'forced-colors: emulation did not activate');
+    audit.check(result.visible && result.focused, `forced-colors: visible Source control was not focused ${JSON.stringify(result)}`);
     audit.check(result.outline !== 'none' && result.outlineWidth !== '0px', `forced-colors: focused control lacks outline (${JSON.stringify(result)})`);
   } finally { await forced.context.close(); }
 
@@ -976,11 +984,12 @@ async function runSelfTest() {
   test('safe path accepts nested source path', () => assert.equal(safeRepositoryPath('execution/gethexec/sequencer.go'), true));
   for (const path of ['/etc/passwd', '../secret', 'src/%2e%2e/secret', 'C:/secret', 'src\\secret']) test(`unsafe path rejected: ${path}`, () => assert.equal(safeRepositoryPath(path), false));
   test('reviewed HTTPS URL accepted', () => assert.equal(safeReviewedUrl(`https://github.com/OffchainLabs/nitro/blob/${NITRO_COMMIT}/README.md`), true));
-  test('quoted JSON shard digest is corrupted deterministically', () => {
-    const original = JSON.stringify({ digest: 'a'.repeat(64), entries: [] });
+  test('exact quoted JSON shard digest is corrupted without touching treeDigest', () => {
+    const original = JSON.stringify({ treeDigest: 'a'.repeat(64), digest: 'b'.repeat(64), entries: [] });
     const result = corruptFirstDigest(original);
     assert.equal(result.mutated, true);
     assert.match(result.body, new RegExp(`"digest":"${'0'.repeat(64)}"`));
+    assert.equal(JSON.parse(result.body).treeDigest, 'a'.repeat(64));
   });
   for (const url of ['http://github.com/example', 'javascript:alert(1)', 'https://user:pass@example.test/x', 'data:text/html,bad']) test(`unsafe URL rejected: ${url}`, () => assert.equal(safeReviewedUrl(url), false));
   for (const [name, mutation] of fixtures.unsafeRuntimeMutations) expectsFailure(`runtime rejects ${name}`, audit => scanRuntimeSource(`${fixtures.validRuntimeSource}\n${mutation}`, 'mutated.js', audit), 'prohibited');
