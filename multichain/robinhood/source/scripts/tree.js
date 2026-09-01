@@ -483,7 +483,7 @@
     q('#sourceSearch').addEventListener('input', event => {
       state.query = event.target.value.slice(0, 120);
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(runSearch, 90);
+      searchTimer = setTimeout(runSearch, 20);
       persistViewState();
     });
     q('[data-clear-search]').addEventListener('click', () => {

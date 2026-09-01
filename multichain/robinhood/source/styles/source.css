@@ -356,9 +356,12 @@ body[data-overlay-open="true"] { overflow: hidden; }
   .source-workbench { grid-template-columns: minmax(280px, 35fr) minmax(0, 65fr); }
   .inspector-pane { border-right: 0; }
   .notebook-pane { grid-column: 1 / -1; border-top: 1px solid var(--src-line-hot); }
-  .notebook-content { max-height: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .notebook-content section { border-right: 1px solid var(--src-line); }
-  .notebook-content section:last-child { border-right: 0; }
+  .notebook-content { max-height: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .notebook-content section { min-width: 0; border-right: 1px solid var(--src-line); }
+  .notebook-content section:nth-child(3n) { border-right: 0; }
+  .notebook-content section:nth-child(5) { grid-column: span 2; border-right: 0; }
+  .notebook-content section:last-child { grid-column: 1 / -1; border-right: 0; }
+  .notebook-content :is(p, li, a) { min-width: 0; overflow-wrap: anywhere; }
   .hotspot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .boundary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chapter-rail { overflow-x: auto; grid-template-columns: repeat(8, minmax(120px, 1fr)); }
