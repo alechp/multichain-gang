@@ -27,13 +27,30 @@ try {
       const sections = [...document.querySelectorAll('.hero,.channel')].filter(node => node.getClientRects().length).length;
       const figures = [...document.querySelectorAll('figure')].filter(node => node.getClientRects().length).map(node => ({ id: node.id, left: node.getBoundingClientRect().left, right: node.getBoundingClientRect().right }));
       const oversizedChrome = [...document.querySelectorAll('.clockbar button')].filter(node => node.getClientRects().length && node.getBoundingClientRect().width > 240).map(node => ({ label: node.textContent.trim(), width: node.getBoundingClientRect().width }));
-      return { overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth, small, sections, figures, oversizedChrome };
+      const pipelineNode = document.querySelector('.pipeline');
+      const pipelineNodes = [...pipelineNode.querySelectorAll('.pipe-node')].map(node => {
+        const rect = node.getBoundingClientRect();
+        return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, overflow: node.scrollWidth - node.clientWidth };
+      });
+      const delayed = pipelineNode.querySelector('.delayed-branch').getBoundingClientRect();
+      const pipeline = {
+        direction: getComputedStyle(pipelineNode).flexDirection,
+        overflow: pipelineNode.scrollWidth - pipelineNode.clientWidth,
+        arrows: pipelineNode.querySelectorAll(':scope > i').length,
+        nodes: pipelineNodes,
+        delayedTop: delayed.top
+      };
+      return { overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth, small, sections, figures, oversizedChrome, pipeline };
     });
     if (initial.overflow > 1) failures.push(`${width}px: ${initial.overflow}px document overflow`);
     if (initial.sections !== 6) failures.push(`${width}px: ${initial.sections}/6 main sections visible`);
     initial.small.forEach(item => failures.push(`${width}px: undersized control ${item.label} (${item.rect.width.toFixed(1)}×${item.rect.height.toFixed(1)})`));
     initial.oversizedChrome.forEach(item => failures.push(`${width}px: oversized fixed-header control ${item.label} (${item.width.toFixed(1)}px)`));
     initial.figures.filter(figure => figure.left < -1 || figure.right > width + 1).forEach(figure => failures.push(`${width}px: ${figure.id} escapes viewport (${figure.left.toFixed(1)}..${figure.right.toFixed(1)})`));
+    if (initial.pipeline.direction !== 'column' || initial.pipeline.nodes.length !== 8 || initial.pipeline.arrows !== 7) failures.push(`${width}px: settlement pipeline is not an 8-stage vertical flow`);
+    if (initial.pipeline.overflow > 1 || initial.pipeline.nodes.some(node => node.overflow > 1)) failures.push(`${width}px: settlement pipeline content overflows horizontally`);
+    if (initial.pipeline.nodes.some((node, index, nodes) => index && (node.top <= nodes[index - 1].bottom || Math.abs(node.left - nodes[0].left) > 1 || Math.abs(node.right - nodes[0].right) > 1))) failures.push(`${width}px: settlement pipeline stages do not form one aligned vertical stack`);
+    if (initial.pipeline.delayedTop <= initial.pipeline.nodes.at(-1).bottom) failures.push(`${width}px: delayed-inbox fallback does not follow the primary vertical flow`);
 
     await page.locator('.compare-dock[data-section="latency"] .dock-toggle').click();
     const dockOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -54,4 +71,4 @@ if (failures.length) {
   console.error(`ROBINHOOD SCOPE FIT FAIL (${failures.length})`);
   failures.forEach(failure => console.error(`- ${failure}`));
   process.exitCode = 1;
-} else console.log(`ROBINHOOD SCOPE FIT PASS — ${widths.join('/')}px; no document overflow, escaped figure, undersized primary control, dock overflow, route overflow, or offscreen evidence sheet.`);
+} else console.log(`ROBINHOOD SCOPE FIT PASS — ${widths.join('/')}px; vertical 8-stage settlement flow, no document overflow, escaped figure, undersized primary control, dock overflow, route overflow, or offscreen evidence sheet.`);
