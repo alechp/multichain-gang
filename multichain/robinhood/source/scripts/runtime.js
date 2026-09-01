@@ -393,8 +393,15 @@
       if (event.key === 'Escape' && current()) { event.preventDefault(); close(); }
       else trap(event);
     });
-    q('#sourceBackdrop')?.addEventListener('pointerdown', () => close());
-    q('#linkVeil')?.addEventListener('pointerdown', event => { if (event.target === event.currentTarget) close('linkVeil'); });
+    q('#sourceBackdrop')?.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      close();
+    });
+    q('#linkVeil')?.addEventListener('pointerdown', event => {
+      if (event.target !== event.currentTarget) return;
+      event.preventDefault();
+      close('linkVeil');
+    });
     return Object.freeze({ open, close, current });
   })();
 
