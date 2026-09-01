@@ -525,6 +525,9 @@
     if (event.detail.type === 'catalog') { populateRepoSelect(); renderRepositories(); }
     if (event.detail.type === 'directory' && event.detail.payload?.repoId === state.repoId) renderTree();
   });
+  app.listen('directory-invalid', event => {
+    if (event.detail.repoId === state.repoId) renderTree();
+  });
 
   if (store.catalog) onCoreReady({ detail: { available: true } });
 

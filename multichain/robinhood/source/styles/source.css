@@ -36,6 +36,11 @@ button,
 
 button { border-radius: 0; }
 
+:is(a, button, input, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--src-cyan) !important;
+  outline-offset: 3px;
+}
+
 .source-grid-texture {
   position: fixed;
   z-index: -1;
@@ -450,6 +455,11 @@ body[data-overlay-open="true"] { overflow: hidden; }
 }
 
 @media (forced-colors: active) {
+  :is(a, button, input, select, [tabindex]):focus,
+  :is(a, button, input, select, [tabindex]):focus-visible {
+    outline: 2px solid Highlight !important;
+    outline-offset: 3px;
+  }
   .source-hero h1 em { color: CanvasText; -webkit-text-stroke: 0; }
   .source-grid-texture { display: none; }
   .boundary-stamp,

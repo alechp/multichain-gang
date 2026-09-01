@@ -90,6 +90,59 @@
 
   const registrationKey = (repoId, directoryPath) => `${repoId}\u0000${directoryPath || ''}`;
 
+  const rebuildDirectoryAggregate = key => {
+    const pages = store.directoryPages.get(key);
+    if (!pages?.size) {
+      store.directoryPages.delete(key);
+      store.directories.delete(key);
+      return null;
+    }
+    const ordered = [...pages.entries()].sort((a, b) => a[0] - b[0]).map(([, page]) => page);
+    const expected = Math.max(...ordered.map(page => Number(page.pageCount ?? 1)));
+    const aggregate = {
+      ...ordered[0],
+      pageIndex: 0,
+      pageCount: expected,
+      loadedPageCount: ordered.length,
+      entries: ordered.flatMap(page => page.entries),
+      pageDigests: ordered.map(page => page.digest)
+    };
+    store.directories.set(key, aggregate);
+    return aggregate;
+  };
+
+  const canonicalDirectoryRecord = record => {
+    const { digest, ...base } = record;
+    return JSON.stringify(base).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+  };
+
+  const sha256Hex = async value => {
+    if (!window.crypto?.subtle) throw new Error('Web Crypto unavailable');
+    const bytes = new TextEncoder().encode(value);
+    const digest = await window.crypto.subtle.digest('SHA-256', bytes);
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  };
+
+  const verifyDirectoryRecord = async (record, key, pageIndex) => {
+    let actual = null;
+    try {
+      actual = await sha256Hex(canonicalDirectoryRecord(record));
+    } catch (error) {
+      actual = null;
+    }
+    const expected = typeof record.digest === 'string' && /^[a-f0-9]{64}$/i.test(record.digest) ? record.digest.toLowerCase() : null;
+    if (actual && expected && actual === expected) return true;
+    const pages = store.directoryPages.get(key);
+    if (pages?.get(pageIndex) === record) {
+      pages.delete(pageIndex);
+      rebuildDirectoryAggregate(key);
+    }
+    const path = record.directoryPath || '<root>';
+    showError('SOURCE CHANGED', `Directory digest mismatch for ${record.repoId}:${path} page ${pageIndex + 1}. The affected page was removed.`);
+    emit('directory-invalid', { repoId: record.repoId, directoryPath: record.directoryPath || '', pageIndex });
+    return false;
+  };
+
   const acceptCatalog = payload => {
     if (!payload || payload.schemaVersion !== SCHEMA_VERSION || !Array.isArray(payload.repositories)) throw new Error('catalog schema mismatch');
     store.catalog = payload;
@@ -143,16 +196,8 @@
       if (pages.has(pageIndex)) throw new Error(`duplicate directory page ${pageIndex} for ${record.directoryPath || '<root>'}`);
       pages.set(pageIndex, record);
       store.directoryPages.set(key, pages);
-      const ordered = [...pages.entries()].sort((a, b) => a[0] - b[0]).map(([, page]) => page);
-      const expected = Math.max(pageCount, ...ordered.map(page => Number(page.pageCount ?? 1)));
-      store.directories.set(key, {
-        ...ordered[0],
-        pageIndex: 0,
-        pageCount: expected,
-        loadedPageCount: ordered.length,
-        entries: ordered.flatMap(page => page.entries),
-        pageDigests: ordered.map(page => page.digest)
-      });
+      rebuildDirectoryAggregate(key);
+      void verifyDirectoryRecord(record, key, pageIndex);
     });
   };
 
