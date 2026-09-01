@@ -382,7 +382,13 @@ body[data-overlay-open="true"] { overflow: hidden; }
   .source-hero { padding-top: 75px; }
   .source-hero h1 { font-size: clamp(3.7rem, 18vw, 6.5rem); }
   .chapter-rail { top: 0; margin-inline: -14px; }
-  .workbench-section { width: calc(100vw - 16px); padding-bottom: 80px; }
+  .workbench-section {
+    width: calc(100vw - 16px);
+    margin-right: 0;
+    margin-left: calc((100% - 100vw + 16px) / 2);
+    translate: none;
+    padding-bottom: 80px;
+  }
   .bench-toolbar { grid-template-columns: 1fr 1fr; }
   .mobile-pane-trigger { display: inline-flex; }
   .source-workbench { display: block; min-height: 0; }
