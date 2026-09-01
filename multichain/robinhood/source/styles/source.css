@@ -388,10 +388,12 @@ body[data-overlay-open="true"] { overflow: hidden; }
   .source-workbench { display: block; min-height: 0; }
   .repository-pane,
   .notebook-pane { position: fixed; z-index: 190; top: 0; bottom: 0; width: min(420px, calc(100vw - 28px)); max-width: 100%; overflow: auto; visibility: hidden; transition: translate 220ms linear, visibility 220ms linear; }
-  .repository-pane { left: 0; translate: -102% 0; border-right: 1px solid var(--src-line-hot); }
-  .notebook-pane { right: 0; translate: 102% 0; border-left: 1px solid var(--src-line-hot); }
+  .repository-pane,
+  .notebook-pane { display: none; translate: 0; }
+  .repository-pane { left: 0; border-right: 1px solid var(--src-line-hot); }
+  .notebook-pane { right: 0; border-left: 1px solid var(--src-line-hot); }
   .repository-pane[data-open="true"],
-  .notebook-pane[data-open="true"] { visibility: visible; translate: 0; }
+  .notebook-pane[data-open="true"] { display: block; visibility: visible; }
   .pane-close { display: block; flex: 0 0 44px; }
   .repo-groups { max-height: 38vh; }
   .source-tree { height: 48vh; }

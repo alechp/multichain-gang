@@ -343,6 +343,7 @@
         item.node.dataset.open = 'false';
         item.node.setAttribute('aria-hidden', 'true');
       }
+      item.trigger?.setAttribute?.('aria-expanded', 'false');
       const next = current();
       const shade = backdrop();
       if (shade) shade.hidden = !next || next.node instanceof HTMLDialogElement;
@@ -358,6 +359,7 @@
       if (active) close(active.name, { restoreFocus: false });
       const item = { name, node, trigger };
       stack.push(item);
+      trigger?.setAttribute?.('aria-expanded', 'true');
       if (node instanceof HTMLDialogElement) {
         if (!node.open) node.showModal();
       } else {
