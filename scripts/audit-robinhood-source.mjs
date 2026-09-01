@@ -579,6 +579,13 @@ async function browserTreeAudit(page, audit) {
   const live = page.locator('[aria-live="polite"]');
   audit.check(await live.count() > 0, 'tree: polite loading/status live region missing');
 
+  const showAll = page.locator('[data-show-all-categories]:visible, button:visible').filter({ hasText: /SHOW ALL CATEGORIES/i }).first();
+  audit.check(await showAll.count() === 1, 'tree: SHOW ALL CATEGORIES control missing while repository drawer is open');
+  if (await showAll.count()) {
+    await showAll.click();
+    audit.check(await showAll.getAttribute('aria-pressed') === 'true', 'tree: SHOW ALL CATEGORIES did not enter active state');
+  }
+
   const mobileTrigger = page.locator('[data-source-overlay-trigger="repositoryDrawer"]:visible, [aria-controls="repositoryPane"]:visible').first();
   if (await mobileTrigger.count() === 1 && await mobileTrigger.getAttribute('aria-expanded') === 'true') {
     await page.keyboard.press('Escape');
@@ -610,14 +617,6 @@ async function browserSearchAndPathAudit(page, audit) {
   await page.waitForTimeout(160);
   audit.check(/NO SEARCH RESULTS/i.test(await page.locator('body').innerText()), 'search: no-result query lacks authored NO SEARCH RESULTS state');
   await search.fill('');
-
-  const showAll = page.locator('[data-show-all-categories]:visible, button:visible').filter({ hasText: /SHOW ALL CATEGORIES/i }).first();
-  audit.check(await showAll.count() === 1, 'tree: SHOW ALL CATEGORIES control missing');
-  if (await showAll.count()) {
-    await showAll.click();
-    const state = await showAll.getAttribute('aria-pressed');
-    audit.check(state === null || state === 'true', 'tree: SHOW ALL CATEGORIES did not enter active state');
-  }
 
   const paths = [
     ['execution/gethexec/sequencer.go', /sequencer\.go/i],
