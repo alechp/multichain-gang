@@ -3,7 +3,8 @@
 Two interactive engineering instruments—Solana Scope and Robinhood Scope—share
 one cross-chain research system. Each chain has stable Scope, Chains, and Tools
 entry pages while preserving its own topology, transaction-flow, order-flow,
-latency, evidence, and visual language.
+latency, evidence, and visual language. Robinhood also includes a commit-pinned
+Source explorer for public runtime and integration code.
 
 **Live:** https://alechp.github.io/multichain-gang/
 
@@ -19,6 +20,7 @@ options, including the `MG_HOST` and `MG_PORT` environment variables.
 The full instruments are served at `/multichain/solana/` and
 `/multichain/robinhood/`. Each directory also exposes `/chains/` and `/tools/`
 indexes that route into the existing article and verified-tool engines.
+Robinhood's source workbench is at `/multichain/robinhood/source/`.
 
 There is no page build step. Fuse.js 7.5.0 is vendored locally for the command
 palette; anime.js and the web fonts are optional network enhancements. Reduced
@@ -59,6 +61,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     multichain/robinhood/index.html full Robinhood Scope instrument
     multichain/robinhood/chains/    Robinhood article/comparison index
     multichain/robinhood/tools/     Robinhood verified-tools index
+    multichain/robinhood/source/    Robinhood public-source explorer and local data shards
     scripts/chain-index.js          chain atlas, six routed hubs, shared Link Veil
     styles/chain-index.css          responsive chain/article index surfaces
     scripts/global-chrome.js        persistent navigation + universal Link Veil controller
@@ -115,6 +118,9 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
   15-step Robinhood Chain launch-playbook readers.
 - A five-comparator/six-bench-chain Robinhood Chain extension with FCFS,
   three-stage finality, launch/liquidity guidance, and exact static mirrors.
+- An offline-capable Robinhood Source workbench with exhaustive commit-pinned
+  repository trees, reviewed syntax-highlighted performance hotspots, explicit
+  public/private source boundaries, and a five-axis cross-chain source lens.
 - Parallel read-only Solana and Robinhood Chain observation records, paper
   simulators, a localhost-only workbench, and an 80-column CLI.
 
@@ -134,6 +140,8 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-robinhood-scope-fit.mjs
     node scripts/audit-robinhood-scope-degrade.mjs
     node scripts/audit-multichain-gang.mjs
+    node scripts/validate-robinhood-source.mjs
+    node scripts/audit-robinhood-source.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
@@ -141,6 +149,7 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 v3.0 shipped on 2026-08-14; the Robinhood Chain extension was implemented on
 2026-08-28, the six chain indexes on 2026-08-29, and persistent v5 route chrome
 on 2026-08-29. Robinhood Scope was completed on 2026-08-31 and both instruments
-were migrated into Multichain Gang on 2026-08-31. The figures are illustrative
-orders of magnitude dated 2026-08, not live telemetry; live observations remain
-local to the journal.
+were migrated into Multichain Gang on 2026-08-31. The authenticated Robinhood
+Source explorer was added on 2026-09-01. The figures are illustrative orders of
+magnitude dated 2026-08, not live telemetry; live observations remain local to
+the journal.
