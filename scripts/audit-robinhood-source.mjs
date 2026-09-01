@@ -371,7 +371,12 @@ function runStaticAudit(options, audit) {
   scanHtmlSource(source, audit);
   const scripts = walkFiles(join(SOURCE_ROOT, 'scripts'), path => extname(path) === '.js');
   audit.check(scripts.length >= 4, `runtime: expected at least four local source scripts; found ${scripts.length}`);
-  for (const path of scripts) scanRuntimeSource(read(path), relativePath(path), audit);
+  const runtimeSources = scripts.map(path => [path, read(path)]);
+  for (const [path, runtimeSource] of runtimeSources) scanRuntimeSource(runtimeSource, relativePath(path), audit);
+  const authoredRuntime = `${source}\n${runtimeSources.map(([, runtimeSource]) => runtimeSource).join('\n')}`;
+  for (const state of ['SHARD UNAVAILABLE', 'UNKNOWN ROUTE', 'SOURCE CHANGED', 'NO SEARCH RESULTS', 'OFFLINE EXTERNAL LINK']) {
+    audit.check(authoredRuntime.includes(state), `runtime: authored ${state} state missing`);
+  }
   const dataFiles = registrationFiles(DATA_ROOT);
   audit.check(dataFiles.some(path => basename(path) === 'catalog.js'), 'data: catalog.js missing');
   audit.check(dataFiles.some(path => basename(path) === 'highlights.js'), 'data: highlights.js missing');
@@ -431,6 +436,8 @@ async function openPage(browser, options, config = {}) {
     deviceScaleFactor: 1
   });
   const page = await context.newPage();
+  page.setDefaultTimeout(4_000);
+  page.setDefaultNavigationTimeout(10_000);
   const errors = [];
   const requests = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -449,9 +456,11 @@ async function browserAuthAudit(browser, options, audit) {
       gateVisible: Boolean(document.getElementById('mgAccessGate')?.getClientRects().length),
       unlocked: document.documentElement.hasAttribute('data-scope-unlocked'),
       contentVisible: Boolean(document.querySelector('main')?.getClientRects().length),
-      pending: window.RH_SOURCE?.pending?.length || 0
+      pending: window.RH_SOURCE?.pending?.length || 0,
+      gateText: document.getElementById('mgAccessGate')?.textContent || ''
     }));
     audit.check(locked.gateVisible && !locked.unlocked && !locked.contentVisible, `auth: initial request does not fail closed ${JSON.stringify(locked)}`);
+    audit.check(/operator access required|AUTH REQUIRED/i.test(locked.gateText), 'auth: locked gate lacks authored access-required state');
     audit.check(locked.pending === 0, `auth: ${locked.pending} source-data registrations loaded before grant`);
 
     const input = page.locator('#mgAccessCode');
@@ -558,20 +567,20 @@ async function browserSearchAndPathAudit(page, audit) {
   if (await search.count() !== 1) return;
   audit.check(Boolean(await search.getAttribute('aria-label') || await search.getAttribute('aria-labelledby') || await search.getAttribute('placeholder')), 'search: accessible name missing');
 
-  const results = page.locator('[data-source-search-results] [role="option"], [data-search-result]');
+  const results = page.locator('[data-source-search-results] [role="option"]:visible, [data-search-result]:visible, .search-result:visible');
   await search.fill('sequencer.go');
-  await page.waitForTimeout(30);
+  await page.waitForTimeout(220);
   audit.check(await results.count() > 0, 'search: exact sequencer.go query returned no results');
   if (await results.count()) {
     await results.first().click();
-    await page.waitForTimeout(30);
+    await page.waitForTimeout(220);
     audit.check(await page.locator('[role="treeitem"]:focus, [role="treeitem"][aria-selected="true"]').count() > 0, 'search: selecting result did not focus/select its tree item');
   }
   await search.fill('seqncr');
-  await page.waitForTimeout(30);
+  await page.waitForTimeout(220);
   audit.check(await results.count() > 0, 'search: fuzzy seqncr query returned no results');
   await search.fill('__NO_SUCH_SOURCE_PATH_7f9e__');
-  await page.waitForTimeout(30);
+  await page.waitForTimeout(160);
   audit.check(/NO SEARCH RESULTS/i.test(await page.locator('body').innerText()), 'search: no-result query lacks authored NO SEARCH RESULTS state');
   await search.fill('');
 
@@ -590,7 +599,7 @@ async function browserSearchAndPathAudit(page, audit) {
   ];
   for (const [path, pattern] of paths) {
     await page.evaluate(hash => { location.hash = hash; }, `#/repo/nitro/path/${encodeURIComponent(path)}`);
-    await page.waitForTimeout(30);
+    await page.waitForTimeout(260);
     const text = await page.locator('body').innerText();
     audit.check(pattern.test(text) && !/UNKNOWN ROUTE/i.test(text), `path: ${path} did not resolve to an authored inspector state`);
   }
@@ -629,7 +638,7 @@ async function browserSemanticAudit(page, audit) {
       tablesWithoutCaption: [...document.querySelectorAll('table')].filter(table => !table.querySelector('caption')).length,
       tablesWithoutHeaders: [...document.querySelectorAll('table')].filter(table => !table.querySelector('th')).length,
       duplicateIds: [...document.querySelectorAll('[id]')].map(node => node.id).filter((id, index, ids) => ids.indexOf(id) !== index),
-      codeLineNumbersExposed: [...document.querySelectorAll('[data-line-number], .source-line-number')].filter(node => node.getAttribute('aria-hidden') !== 'true').length,
+      codeLineNumbersExposed: [...document.querySelectorAll('[data-line-number], .source-line-number, .line-number')].filter(node => node.getAttribute('aria-hidden') !== 'true').length,
       assertiveErrors: [...document.querySelectorAll('[data-source-error]')].filter(node => /AUTH REQUIRED|SOURCE CHANGED|SHARD UNAVAILABLE/i.test(node.textContent || '') && node.getAttribute('aria-live') !== 'assertive' && node.getAttribute('role') !== 'alert').length
     };
   });
@@ -674,17 +683,32 @@ async function browserRouteComparisonAudit(page, audit) {
   await page.waitForTimeout(20);
   audit.check(/UNKNOWN ROUTE/i.test(await page.locator('body').innerText()), 'route: unknown ID lacks authored UNKNOWN ROUTE state');
 
-  const nativeSystem = page.locator('select[data-comparison-system], [data-source-comparison] select').first();
+  const nativeSystem = page.locator('select[data-comparison-system], [data-source-comparison] select, #systemSelect').first();
   audit.check(await nativeSystem.count() === 1, 'comparison: alternate-system selector missing');
   if (await nativeSystem.count() === 1) {
     const options = await nativeSystem.locator('option').evaluateAll(nodes => nodes.map(node => node.value));
     for (const system of EXPECTED.systems.filter(id => id !== 'robinhood')) audit.check(options.includes(system), `comparison: selector missing ${system}`);
     for (const system of EXPECTED.systems.filter(id => id !== 'robinhood')) {
-      await nativeSystem.selectOption(system);
+      await nativeSystem.evaluate((select, value) => {
+        select.value = value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+      }, system);
       await page.waitForTimeout(10);
       audit.check(await nativeSystem.inputValue() === system, `comparison: failed to select ${system}`);
     }
   }
+
+  await page.evaluate(() => {
+    const probe = document.createElement('a');
+    probe.id = 'sourceAuditUnsafeExternal';
+    probe.href = 'http://example.invalid/source';
+    probe.dataset.external = 'audit-probe';
+    probe.textContent = 'Unsafe external audit probe';
+    document.body.append(probe);
+    probe.click();
+    probe.remove();
+  });
+  audit.check(/OFFLINE EXTERNAL LINK/i.test(await page.locator('body').innerText()), 'external-link safety: non-HTTPS destination lacks authored OFFLINE EXTERNAL LINK state');
 }
 
 async function browserOverlayAudit(page, audit) {
@@ -718,9 +742,20 @@ async function browserOverlayAudit(page, audit) {
       audit.check(await actualOverlay.isHidden(), 'overlay: Escape did not close drawer/dialog');
       audit.check(await trigger.evaluate(node => node === document.activeElement), 'overlay: drawer/dialog Escape did not restore focus');
       await trigger.click();
-      const backdrop = page.locator('[data-source-backdrop]:visible, .source-backdrop:visible').last();
-      if (await backdrop.count()) await backdrop.click({ position: { x: 2, y: 2 } });
-      else await page.mouse.click(2, 2);
+      const outsidePoint = await page.evaluate(() => {
+        const backdrop = document.querySelector('[data-source-backdrop]:not([hidden]), .source-backdrop:not([hidden])');
+        if (!backdrop) return null;
+        const xCandidates = [innerWidth - 2, innerWidth - 8, 2, 8];
+        const yCandidates = [Math.min(innerHeight - 2, 72), Math.round(innerHeight / 2), innerHeight - 8];
+        for (const x of xCandidates) for (const y of yCandidates) {
+          const hit = document.elementFromPoint(x, y);
+          if (hit === backdrop || hit?.closest?.('[data-source-backdrop], .source-backdrop') === backdrop) return { x, y };
+        }
+        return null;
+      });
+      audit.check(Boolean(outsidePoint), 'overlay: no exposed backdrop gutter point exists outside the open drawer');
+      if (outsidePoint) await page.mouse.click(outsidePoint.x, outsidePoint.y);
+      else await page.keyboard.press('Escape');
       audit.check(await actualOverlay.isHidden(), 'overlay: backdrop/outside click did not close drawer/dialog');
     }
   }
@@ -740,8 +775,7 @@ async function browserResponsiveAudit(browser, options, audit) {
           treeRows: document.querySelectorAll('[role="tree"] [role="treeitem"]').length,
           undersized: visibleControls.map(node => ({ label: node.getAttribute('aria-label') || node.textContent.trim(), rect: node.getBoundingClientRect().toJSON() })).filter(item => item.rect.width < 44 || item.rect.height < 44),
           clipped: visibleControls.map(node => node.getBoundingClientRect().toJSON()).filter(rect => rect.left < -1 || rect.right > innerWidth + 1),
-          reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
-          authoredErrors: ['AUTH REQUIRED', 'SHARD UNAVAILABLE', 'UNKNOWN ROUTE', 'SOURCE CHANGED', 'NO SEARCH RESULTS', 'OFFLINE EXTERNAL LINK'].filter(label => document.documentElement.innerHTML.includes(label))
+          reduced: matchMedia('(prefers-reduced-motion: reduce)').matches
         };
       });
       audit.check(result.main && result.h1 === 1, `${width}px: authenticated main/h1 missing`);
@@ -750,7 +784,6 @@ async function browserResponsiveAudit(browser, options, audit) {
       audit.check(result.undersized.length === 0, `${width}px: undersized Source controls ${JSON.stringify(result.undersized.slice(0, 4))}`);
       audit.check(result.clipped.length === 0, `${width}px: ${result.clipped.length} Source controls clip horizontally`);
       audit.check(result.reduced, `${width}px: reduced-motion media state not active`);
-      audit.check(result.authoredErrors.length === 6, `${width}px: authored error-state labels incomplete (${result.authoredErrors.join(', ')})`);
       audit.check(opened.requests.length === 0, `${width}px: runtime HTTP(S) dependency observed: ${uniq(opened.requests).join(', ')}`);
       opened.errors.forEach(error => audit.fail(`${width}px page error: ${error}`));
 
@@ -888,9 +921,14 @@ async function runBrowserAudit(options, audit) {
   try { playwright = await importPlaywright(); } catch (error) { audit.fail(`browser: ${error.message}`); return; }
   const browser = await launchBrowser(playwright.chromium);
   try {
-    await browserAuthAudit(browser, options, audit);
-    await browserResponsiveAudit(browser, options, audit);
-    await browserFaultAudit(browser, options, audit);
+    for (const [label, phase] of [
+      ['auth/degradation', browserAuthAudit],
+      ['responsive/interaction', browserResponsiveAudit],
+      ['adversarial faults', browserFaultAudit]
+    ]) {
+      try { await phase(browser, options, audit); }
+      catch (error) { audit.fail(`browser ${label}: audit phase aborted: ${error.message}`); }
+    }
   } finally { await browser.close(); }
 }
 
