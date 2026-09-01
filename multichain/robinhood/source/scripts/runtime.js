@@ -25,6 +25,7 @@
     build: null,
     manifests: new Map(),
     directories: new Map(),
+    directoryPages: new Map(),
     searches: new Map(),
     loadedScripts: new Map(),
     registrationErrors: []
@@ -134,7 +135,24 @@
     records.forEach(record => {
       const repoId = normalizeId(record?.repoId);
       if (!repoId || record.schemaVersion !== SCHEMA_VERSION || !Array.isArray(record.entries)) throw new Error('directory schema mismatch');
-      store.directories.set(registrationKey(repoId, record.directoryPath || ''), record);
+      const key = registrationKey(repoId, record.directoryPath || '');
+      const pageIndex = Number(record.pageIndex ?? 0);
+      const pageCount = Number(record.pageCount ?? 1);
+      if (!Number.isInteger(pageIndex) || !Number.isInteger(pageCount) || pageIndex < 0 || pageCount < 1 || pageIndex >= pageCount) throw new Error(`invalid directory page for ${record.directoryPath || '<root>'}`);
+      const pages = store.directoryPages.get(key) || new Map();
+      if (pages.has(pageIndex)) throw new Error(`duplicate directory page ${pageIndex} for ${record.directoryPath || '<root>'}`);
+      pages.set(pageIndex, record);
+      store.directoryPages.set(key, pages);
+      const ordered = [...pages.entries()].sort((a, b) => a[0] - b[0]).map(([, page]) => page);
+      const expected = Math.max(pageCount, ...ordered.map(page => Number(page.pageCount ?? 1)));
+      store.directories.set(key, {
+        ...ordered[0],
+        pageIndex: 0,
+        pageCount: expected,
+        loadedPageCount: ordered.length,
+        entries: ordered.flatMap(page => page.entries),
+        pageDigests: ordered.map(page => page.digest)
+      });
     });
   };
 

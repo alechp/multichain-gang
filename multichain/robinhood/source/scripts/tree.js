@@ -114,14 +114,18 @@
     target.replaceChildren(groups.length ? fragment(groups) : el('p', { className: 'authored-state', text: 'No repositories match the current evidence filter.' }));
   };
 
-  const resolveShardSource = (manifest, path) => {
+  const resolveShardSources = (manifest, path) => {
     const mapping = manifest.directoryToShard || {};
     const directoryRecord = directory(path);
-    const key = directoryRecord?.directoryKey || (path === '' ? manifest.rootKey : null);
+    const key = directoryRecord?.directoryKey || findLoadedEntry(path)?.key || (path === '' ? manifest.rootKey : null);
     const mapped = mapping[path] ?? (key ? mapping[key] : null);
-    if (typeof mapped === 'string' && mapped.startsWith('data/')) return mapped;
-    const shard = manifest.shards.find(candidate => candidate.id === mapped || candidate.src === mapped || candidate.directoryKeys?.includes(key));
-    return shard?.src || null;
+    const references = Array.isArray(mapped) ? mapped : [mapped];
+    const sources = references.filter(Boolean).map(reference => {
+      if (typeof reference === 'string' && reference.startsWith('data/')) return reference;
+      return manifest.shards.find(candidate => candidate.id === reference || candidate.src === reference)?.src || null;
+    }).filter(Boolean);
+    if (sources.length) return [...new Set(sources)];
+    return manifest.shards.filter(candidate => candidate.directoryKeys?.includes(key)).map(candidate => candidate.src).filter(Boolean);
   };
 
   const loadManifest = async repoId => {
@@ -135,17 +139,18 @@
 
   const loadDirectory = async path => {
     const existing = directory(path);
-    if (existing) return existing;
+    if (existing && Number(existing.loadedPageCount ?? 1) >= Number(existing.pageCount ?? 1)) return existing;
     const manifest = currentManifest();
     if (!manifest) throw new Error(`manifest not loaded for ${state.repoId}`);
-    const source = resolveShardSource(manifest, path);
-    if (!source) throw new Error(`no shard maps directory ${path || '<root>'}`);
+    const sources = resolveShardSources(manifest, path);
+    if (!sources.length) throw new Error(`no shard maps directory ${path || '<root>'}`);
     q('#sourceTree').setAttribute('aria-busy', 'true');
     app.status(`Loading ${path || 'repository root'} from the local snapshot…`);
     try {
-      await app.loadScript(source);
+      await Promise.all(sources.map(source => app.loadScript(source)));
       const loaded = directory(path);
       if (!loaded) throw new Error(`shard did not register directory ${path || '<root>'}`);
+      if (Number(loaded.loadedPageCount ?? 1) !== Number(loaded.pageCount ?? 1)) throw new Error(`directory ${path || '<root>'} registered ${loaded.loadedPageCount || 1} of ${loaded.pageCount || 1} pages`);
       return loaded;
     } finally {
       q('#sourceTree').setAttribute('aria-busy', 'false');
