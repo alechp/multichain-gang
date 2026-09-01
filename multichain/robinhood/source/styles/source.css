@@ -426,7 +426,7 @@ body[data-overlay-open="true"] { overflow: hidden; }
   .source-hero h1 { font-size: clamp(3rem, 15vw, 4.4rem); }
   .source-hero h1 em { overflow-wrap: normal; }
   .source-button { width: 100%; }
-  .section-heading h2 { font-size: clamp(2.9rem, 15vw, 4.7rem); }
+  .section-heading h2 { max-width: 100%; font-size: clamp(2.15rem, 10.5vw, 3rem); overflow-wrap: anywhere; }
   .source-breadcrumb { font-size: 9px; }
   .file-register dd { font-size: 8px; }
   .code-region pre { font-size: 11px; }
