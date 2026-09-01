@@ -122,6 +122,15 @@ function safeReviewedUrl(value) {
   }
 }
 
+function corruptFirstDigest(source) {
+  let mutated = false;
+  const body = source.replace(/(["']?digest["']?\s*:\s*["'])[0-9a-f]{64}(["'])/i, (match, prefix, suffix) => {
+    mutated = true;
+    return `${prefix}${'0'.repeat(64)}${suffix}`;
+  });
+  return { body, mutated };
+}
+
 function scanRuntimeSource(source, label, audit) {
   const rules = [
     [/\.innerHTML\s*=/, 'innerHTML assignment'],
@@ -455,7 +464,12 @@ async function browserAuthAudit(browser, options, audit) {
     const locked = await page.evaluate(() => ({
       gateVisible: Boolean(document.getElementById('mgAccessGate')?.getClientRects().length),
       unlocked: document.documentElement.hasAttribute('data-scope-unlocked'),
-      contentVisible: Boolean(document.querySelector('main')?.getClientRects().length),
+      contentVisible: (() => {
+        const main = document.getElementById('main');
+        if (!main?.getClientRects().length) return false;
+        const style = getComputedStyle(main);
+        return style.visibility !== 'hidden' && style.display !== 'none';
+      })(),
       pending: window.RH_SOURCE?.pending?.length || 0,
       gateText: document.getElementById('mgAccessGate')?.textContent || ''
     }));
@@ -495,7 +509,12 @@ async function browserAuthAudit(browser, options, audit) {
   const noJs = await openPage(browser, options, { width: 390, height: 844, unlocked: false, javaScriptEnabled: false });
   try {
     const result = await noJs.page.evaluate(() => ({
-      mainVisible: Boolean(document.querySelector('main')?.getClientRects().length),
+      mainVisible: (() => {
+        const main = document.getElementById('main');
+        if (!main?.getClientRects().length) return false;
+        const style = getComputedStyle(main);
+        return style.visibility !== 'hidden' && style.display !== 'none';
+      })(),
       warning: [...document.querySelectorAll('noscript')].some(node => node.getClientRects().length && /JavaScript is required to verify the access code/i.test(node.textContent || '')),
       overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
     }));
@@ -559,6 +578,14 @@ async function browserTreeAudit(page, audit) {
   }
   const live = page.locator('[aria-live="polite"]');
   audit.check(await live.count() > 0, 'tree: polite loading/status live region missing');
+
+  const mobileTrigger = page.locator('[data-source-overlay-trigger="repositoryDrawer"]:visible, [aria-controls="repositoryPane"]:visible').first();
+  if (await mobileTrigger.count() === 1 && await mobileTrigger.getAttribute('aria-expanded') === 'true') {
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(20);
+    audit.check(await mobileTrigger.getAttribute('aria-expanded') === 'false', 'tree: Escape did not close the mobile repository drawer before toolbar search');
+    audit.check(await mobileTrigger.evaluate(node => node === document.activeElement), 'tree: closing the mobile repository drawer did not restore trigger focus');
+  }
 }
 
 async function browserSearchAndPathAudit(page, audit) {
@@ -897,11 +924,12 @@ async function browserFaultAudit(browser, options, audit) {
   const corrupt = await openPage(browser, options, {
     width: 1200,
     height: 900,
-    routeSetup: page => page.route('**/data/trees/**/*.js', route => fulfillMutatedScript(route, body => body.replace(/(\bdigest\s*:\s*["'])[0-9a-f]{64}(["'])/i, (match, prefix, suffix) => {
-      if (digestMutated) return match;
-      digestMutated = true;
-      return `${prefix}${'0'.repeat(64)}${suffix}`;
-    })))
+    routeSetup: page => page.route('**/data/trees/**/*.js', route => fulfillMutatedScript(route, body => {
+      if (digestMutated) return body;
+      const result = corruptFirstDigest(body);
+      digestMutated = result.mutated;
+      return result.body;
+    }))
   });
   try {
     await corrupt.page.evaluate(() => { location.hash = '#/repo/nitro/path/execution'; });
@@ -949,6 +977,12 @@ async function runSelfTest() {
   test('safe path accepts nested source path', () => assert.equal(safeRepositoryPath('execution/gethexec/sequencer.go'), true));
   for (const path of ['/etc/passwd', '../secret', 'src/%2e%2e/secret', 'C:/secret', 'src\\secret']) test(`unsafe path rejected: ${path}`, () => assert.equal(safeRepositoryPath(path), false));
   test('reviewed HTTPS URL accepted', () => assert.equal(safeReviewedUrl(`https://github.com/OffchainLabs/nitro/blob/${NITRO_COMMIT}/README.md`), true));
+  test('quoted JSON shard digest is corrupted deterministically', () => {
+    const original = JSON.stringify({ digest: 'a'.repeat(64), entries: [] });
+    const result = corruptFirstDigest(original);
+    assert.equal(result.mutated, true);
+    assert.match(result.body, new RegExp(`"digest":"${'0'.repeat(64)}"`));
+  });
   for (const url of ['http://github.com/example', 'javascript:alert(1)', 'https://user:pass@example.test/x', 'data:text/html,bad']) test(`unsafe URL rejected: ${url}`, () => assert.equal(safeReviewedUrl(url), false));
   for (const [name, mutation] of fixtures.unsafeRuntimeMutations) expectsFailure(`runtime rejects ${name}`, audit => scanRuntimeSource(`${fixtures.validRuntimeSource}\n${mutation}`, 'mutated.js', audit), 'prohibited');
   expectsFailure('missing secondary hotspot rejected', audit => validateHighlights([{ type: 'highlights', payload: fixtures.validPayloads.highlights.filter(item => item.id !== 'H13') }], audit), 'hotspot IDs differ');
