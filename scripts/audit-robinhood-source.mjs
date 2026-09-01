@@ -135,7 +135,7 @@ function scanRuntimeSource(source, label, audit) {
     [/\bWebSocket\s*\(/, 'WebSocket'],
     [/\bEventSource\s*\(/, 'EventSource'],
     [/\bnavigator\.credentials\b/, 'Credential Management API'],
-    [/\b(?:window\.)?ethereum\b/, 'wallet provider'],
+    [/(?:\b(?:window|globalThis)\.ethereum\b|(?:^|[^\w.])ethereum\s*\.\s*request\s*\()/m, 'wallet provider'],
     [/\b(?:eth_sendRawTransaction|eth_sendTransaction|personal_sign|wallet_requestPermissions|signTransaction|signTypedData|privateKeyToAccount)\b/i, 'signing/submission API'],
     [/\b(?:sendBundle|sendTransaction)\s*\(/, 'transaction/bundle submission'],
     [/\bjavascript\s*:/i, 'javascript URL'],
@@ -890,6 +890,8 @@ async function runSelfTest() {
 
   test('valid static HTML contract', () => { const audit = new Audit(); scanHtmlSource(fixtures.validPageSource, audit); assert.deepEqual(audit.failures, []); });
   test('valid runtime safety contract', () => { const audit = new Audit(); scanRuntimeSource(fixtures.validRuntimeSource, 'fixture-runtime.js', audit); assert.deepEqual(audit.failures, []); });
+  test('ordinary Ethereum system label is not wallet access', () => { const audit = new Audit(); scanRuntimeSource("const systemId = 'ethereum'; const label = 'Ethereum';", 'chain-label.js', audit); assert.deepEqual(audit.failures, []); });
+  expectsFailure('unqualified ethereum.request wallet access rejected', audit => scanRuntimeSource("ethereum.request({ method: 'eth_chainId' });", 'provider.js', audit), 'wallet provider');
   test('valid hotspot contract', () => { const audit = new Audit(); validateHighlights([{ type: 'highlights', payload: fixtures.validPayloads.highlights }], audit); assert.deepEqual(audit.failures, []); });
   test('valid comparison contract', () => { const audit = new Audit(); validateComparisons([{ type: 'comparisons', payload: fixtures.validPayloads.comparisons }], audit); assert.deepEqual(audit.failures, []); });
   test('safe path accepts nested source path', () => assert.equal(safeRepositoryPath('execution/gethexec/sequencer.go'), true));
