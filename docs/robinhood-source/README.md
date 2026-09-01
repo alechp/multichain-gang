@@ -1,6 +1,6 @@
 # Robinhood Source Explorer specifications
 
-> **Status:** implementation-ready specification package  
+> **Status:** implemented and release-verified
 > **Research cutoff:** 2026-09-01 (America/Los_Angeles)  
 > **Target route:** `/multichain/robinhood/source/`  
 > **Product:** Multichain Gang  
@@ -36,6 +36,7 @@ legacy `robinhood` GitHub organizations at the research cutoff.
 | [05 — Cross-chain source comparison](05-CROSS-CHAIN-SOURCE-COMPARISON.md) | Normalized source-path matrix and comparison data contract for Robinhood, Solana, Bitcoin, Ethereum, BNB Chain, and Zcash. |
 | [06 — QA, security, performance, and release](06-QA-SECURITY-PERFORMANCE-RELEASE.md) | Automated gates, browser matrix, budgets, failure modes, release evidence, and maintenance. |
 | [07 — Implementation orchestrator](07-IMPLEMENTATION-ORCHESTRATOR.md) | Four-slot, dependency-aware implementation plan with isolated worktrees, file ownership, integration gates, and handoff cards. |
+| [2026-09-01 release record](releases/2026-09-01/README.md) | Immutable source pins, generated totals, measured budgets, verification evidence, and public-source gaps for the first production release. |
 
 ## Frozen first-release decisions
 
