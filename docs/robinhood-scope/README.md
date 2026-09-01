@@ -1,13 +1,13 @@
-# SCOPE//ROBINHOOD CHAIN — specification suite
+# Robinhood Scope · Multichain Gang — specification suite
 
-> **Status:** implemented release candidate at `../../robinhood/`
+> **Status:** implemented release candidate at `../../multichain/robinhood/`
 >
 > **Research snapshot:** 2026-08-31 (America/Los_Angeles)
 >
-> **Reference implementation:** the current `SOLANA//SCOPE` page in
-> `index.html`
+> **Reference implementation:** Solana Scope at
+> `../../multichain/solana/index.html`
 >
-> **Public naming recommendation:** `SCOPE//ROBINHOOD CHAIN`
+> **Public naming:** `Robinhood Scope · Multichain Gang`
 
 > **Release evidence:** [2026-08-31](releases/2026-08-31/README.md)
 
@@ -17,7 +17,7 @@ changing the point of view: Robinhood Chain becomes the primary system under
 the scope, and Solana joins Bitcoin, Ethereum, BNB Chain, and Zcash as the five
 comparison systems.
 
-The recommended title puts the project's own `SCOPE` identity first. This is
+The published title puts the project's own `Multichain Gang` identity first. This is
 intentional. Robinhood permits accurate educational references to Robinhood
 Chain, but its current brand terms require third-party identity to remain
 primary and prohibit unofficial abbreviations, misleading affiliation, and

@@ -8,7 +8,9 @@ const widths = [320, 360, 390, 430, 768, 1200, 1440];
 const failures = [];
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (existsSync(macChrome) ? macChrome : undefined) });
-const target = pathToFileURL(resolve('robinhood/index.html')).href;
+const targetUrl = new URL(pathToFileURL(resolve('multichain/robinhood/index.html')).href);
+targetUrl.searchParams.set('scope-audit', '1');
+const target = targetUrl.href;
 
 try {
   for (const width of widths) {

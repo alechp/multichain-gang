@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-const localAuditUrl = new URL(pathToFileURL(resolve('index.html')).href);
+const localAuditUrl = new URL(pathToFileURL(resolve('multichain/solana/index.html')).href);
 localAuditUrl.searchParams.set('scope-audit', '1');
 export const targetUrl = process.env.SCOPE_URL || localAuditUrl.href;
 

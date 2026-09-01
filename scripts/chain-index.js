@@ -38,7 +38,7 @@
     </article>`;
   }
   function renderDirectory(){
-    activeId='';activeSlug='';filter='all';shell.dataset.view='directory';shell.dataset.chain='directory';shell.style.setProperty('--cc','var(--violet)');ref.textContent=`ALL CHAINS · ${String(ordered.length).padStart(2,'0')} PATHS`;document.title='Chain directory — SOLANA//SCOPE';
+    activeId='';activeSlug='';filter='all';shell.dataset.view='directory';shell.dataset.chain='directory';shell.style.setProperty('--cc','var(--violet)');ref.textContent=`ALL CHAINS · ${String(ordered.length).padStart(2,'0')} PATHS`;document.title='Chain directory — Multichain Gang';
     pageNode.innerHTML=`
       <header class="chain-directory-mast">
         <p class="chain-kicker">CHAIN DIRECTORY · SIX EXECUTION ENVIRONMENTS</p>
@@ -85,7 +85,7 @@
     const index=ordered.findIndex(([key])=>key===id),previous=ordered[(index-1+ordered.length)%ordered.length],following=ordered[(index+1)%ordered.length];
     prev.dataset.chainSlug=previous[1].slug;prev.title=`Previous: ${previous[1].name}`;prev.setAttribute('aria-label',`Previous chain index: ${previous[1].name}`);
     next.dataset.chainSlug=following[1].slug;next.title=`Next: ${following[1].name}`;next.setAttribute('aria-label',`Next chain index: ${following[1].name}`);
-    document.title=`${chainPage.name} index — SOLANA//SCOPE`;
+    document.title=`${chainPage.name} index — Multichain Gang`;
     pageNode.innerHTML=`
       <header class="chain-mast">
         <div><p class="chain-kicker">CHAIN INDEX · ${esc(chainPage.short)} · UPDATED ${esc(chainPage.updated)}</p><h1 id="chainIndexTitle" tabindex="-1">${esc(chainPage.name)}</h1><p class="chain-summary">${esc(chainPage.summary)}</p>

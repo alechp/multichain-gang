@@ -15,7 +15,9 @@ const modes = [
 const failures = [];
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (existsSync(macChrome) ? macChrome : undefined) });
-const target = pathToFileURL(resolve('robinhood/index.html')).href;
+const targetUrl = new URL(pathToFileURL(resolve('multichain/robinhood/index.html')).href);
+targetUrl.searchParams.set('scope-audit', '1');
+const target = targetUrl.href;
 
 try {
   for (const width of widths) for (const mode of modes) {
@@ -51,15 +53,16 @@ try {
       staticGlossary: Boolean(document.querySelector('#noscriptGlossary')?.getClientRects().length),
       dynamicGrid: document.querySelectorAll('.technique-grid tbody tr').length,
       dynamicTools: document.querySelectorAll('.tool-card').length,
+      authWarning: document.body.innerText.toLowerCase().includes('javascript is required to verify the access code'),
       jsOff
     }), { jsOff: mode.javaScriptEnabled === false });
     if (result.overflow > 1) failures.push(`${width}px ${mode.name}: ${result.overflow}px document overflow`);
-    if (result.visibleMain !== 6) failures.push(`${width}px ${mode.name}: ${result.visibleMain}/6 main sections visible`);
-    if (result.hiddenReveal) failures.push(`${width}px ${mode.name}: ${result.hiddenReveal} authored blocks hidden`);
-    if (!result.clocks || !result.notice) failures.push(`${width}px ${mode.name}: clocks or independence notice missing`);
     if (mode.javaScriptEnabled === false) {
-      if (result.staticTables < 6 || !result.staticGlossary) failures.push(`${width}px js-off: incomplete semantic mirrors (${result.staticTables} tables, glossary ${result.staticGlossary})`);
+      if (!result.authWarning || result.visibleMain !== 0 || result.staticTables !== 0) failures.push(`${width}px js-off: access gate did not fail closed ${JSON.stringify(result)}`);
     } else {
+      if (result.visibleMain !== 6) failures.push(`${width}px ${mode.name}: ${result.visibleMain}/6 main sections visible`);
+      if (result.hiddenReveal) failures.push(`${width}px ${mode.name}: ${result.hiddenReveal} authored blocks hidden`);
+      if (!result.clocks || !result.notice) failures.push(`${width}px ${mode.name}: clocks or independence notice missing`);
       if (result.dynamicGrid !== 8 || result.dynamicTools !== 7) failures.push(`${width}px ${mode.name}: enhanced grid/bench incomplete`);
       if (mode.reducedMotion === 'reduce') {
         await page.locator('#readerToggle').click();
@@ -76,4 +79,4 @@ if (failures.length) {
   console.error(`ROBINHOOD SCOPE DEGRADATION FAIL (${failures.length})`);
   failures.forEach(failure => console.error(`- ${failure}`));
   process.exitCode = 1;
-} else console.log(`ROBINHOOD SCOPE DEGRADATION PASS — ${widths.length * modes.length} cases across reduced motion, blocked CDN, denied/corrupt storage, and JavaScript-off semantic parity.`);
+} else console.log(`ROBINHOOD SCOPE DEGRADATION PASS — ${widths.length * modes.length} cases across reduced motion, blocked CDN, denied/corrupt storage, and JavaScript-off locked failure.`);

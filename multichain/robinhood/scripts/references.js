@@ -115,7 +115,7 @@
   };
   const renderTools = () => {
     kind.textContent = 'TOOLS · VERIFIED TEACHING SUBSET'; title.textContent = 'Robinhood Chain landscape';
-    body.innerHTML = `<p>The CH-05 bench is organized by market function. It is not a recommendation, market-share claim, or proof of deployment liquidity.</p><table><thead><tr><th>Function</th><th>Surface</th><th>Evidence</th></tr></thead><tbody>${data.tools.map(tool => `<tr><td>${escape(tool.function)}</td><td><a href="#/e/${escape(tool.entity)}">${escape(tool.name)}</a></td><td>${escape(tool.evidence)} · ${escape(tool.checked)}</td></tr>`).join('')}</tbody></table><p><a href="../#/tools/robinhood-chain">Open the existing verified 17-category landscape in SOLANA//SCOPE →</a></p>`;
+    body.innerHTML = `<p>The CH-05 bench is organized by market function. It is not a recommendation, market-share claim, or proof of deployment liquidity.</p><table><thead><tr><th>Function</th><th>Surface</th><th>Evidence</th></tr></thead><tbody>${data.tools.map(tool => `<tr><td>${escape(tool.function)}</td><td><a href="#/e/${escape(tool.entity)}">${escape(tool.name)}</a></td><td>${escape(tool.evidence)} · ${escape(tool.checked)}</td></tr>`).join('')}</tbody></table><p><a href="../solana/#/tools/robinhood-chain">Open the verified 17-category landscape in Solana Scope →</a></p>`;
   };
   const renderChains = () => {
     kind.textContent = 'CHAIN ATLAS · SIX SYSTEMS'; title.textContent = 'Same axes, different guarantees';
@@ -134,7 +134,7 @@
     else if (parts[0] === 'chains') { renderChains(); rendered = true; }
     if (!rendered) renderNotFound(path);
     previousTitle = SCOPE.Overlay.isOpen(shell) ? previousTitle : document.title;
-    document.title = `${title.textContent} — SCOPE//ROBINHOOD CHAIN`;
+    document.title = `${title.textContent} — Robinhood Scope · Multichain Gang`;
     SCOPE.Overlay.open(shell, trigger, { modal: true });
     shell.scrollTop = 0;
     SCOPE.announce(`${title.textContent} route opened`);

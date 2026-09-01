@@ -4,7 +4,7 @@ import {launchAuditBrowser,targetUrl} from './audit-helpers.mjs';
 
 const failures=[];
 const check=(condition,message)=>{if(!condition)failures.push(message)};
-const source=readFileSync('index.html','utf8');
+const source=readFileSync('multichain/solana/index.html','utf8');
 const chromeSource=existsSync('scripts/global-chrome.js')?readFileSync('scripts/global-chrome.js','utf8'):'';
 const chainSource=readFileSync('scripts/chain-index.js','utf8');
 const toolsSource=readFileSync('scripts/chain-tools.js','utf8');

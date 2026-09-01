@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { launchAuditBrowser, openAuditPage } from './audit-helpers.mjs';
 
-const source = readFileSync('index.html', 'utf8');
+const source = readFileSync('multichain/solana/index.html', 'utf8');
 const failures = [];
 const requireEmpty = process.argv.includes('--require-empty');
 const lanes = ['A', 'B', 'C', 'E'];

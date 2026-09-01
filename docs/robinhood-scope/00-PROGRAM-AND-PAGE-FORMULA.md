@@ -9,16 +9,18 @@ between fast local acknowledgement and Ethereum-backed settlement impossible
 to miss, and compares the chain against Solana, Bitcoin, Ethereum, BNB Chain,
 and Zcash without producing a synthetic winner score.
 
-The implemented artifact is `../../robinhood/index.html`. It does not modify
-the current root `index.html` and adds no transaction, wallet, key, signing, or
-submission behavior. External publication remains governed by the release
-gate in `06-IMPLEMENTATION-ORCHESTRATION-QA.md`.
+The implemented artifact is `../../multichain/robinhood/index.html`. The root
+`index.html` is now the Multichain Gang portal; the Solana instrument remains
+at `../../multichain/solana/index.html`. The migration adds no transaction,
+wallet, key, signing, or submission behavior. Publication was explicitly
+authorized on 2026-08-31 and remains governed by the evidence gate in
+`06-IMPLEMENTATION-ORCHESTRATION-QA.md`.
 
 ## 1. Product name and independence
 
 ### 1.1 Public title
 
-Use:
+The implemented Multichain Gang shell uses:
 
 ```text
 SCOPE//ROBINHOOD CHAIN

@@ -53,7 +53,7 @@ function recursivelyFrozen(value,seen=new Set()){
 }
 
 const required=[
-  'index.html','styles/chain-tools.css','scripts/chain-tools.js','data/chain-tools/taxonomy.json',
+  'multichain/solana/index.html','styles/chain-tools.css','scripts/chain-tools.js','data/chain-tools/taxonomy.json',
   'data/chain-tools/canonical-tools.json','data/chain-tools/catalog.js','data/chain-tools/noscript.html',
   ...chainSlugs.map(slug=>`data/chain-tools/${slug}.json`)
 ];
@@ -165,7 +165,7 @@ if(exists('data/chain-tools/catalog.js')){
 }
 
 let html='',css='',uiSource='';
-try{html=read('index.html')}catch(error){fail(`static: index.html read failed: ${error.message}`)}
+try{html=read('multichain/solana/index.html')}catch(error){fail(`static: Solana index read failed: ${error.message}`)}
 if(exists('styles/chain-tools.css'))css=read('styles/chain-tools.css');
 if(exists('scripts/chain-tools.js'))uiSource=read('scripts/chain-tools.js');
 let commandFoundationCount=0;
@@ -325,7 +325,7 @@ async function auditWidth(browser,width){
       const placementNames=new Map(active.map(item=>[item.toolId,item.displayName]));
       const renderedNames=await page.evaluate(()=>Array.from(document.querySelectorAll('.tools-row')).map(row=>[row.dataset.toolId,row.querySelector('.tools-name')?.textContent.trim()]));
       check(renderedNames.every(([id,name])=>placementNames.get(id)===name),`runtime: ${width}px/${slug} row display names differ from placement displayName`);
-      check(rendered.image.small===`assets/chain-tools/${slug}-landscape-960.webp`&&rendered.image.large===`assets/chain-tools/${slug}-landscape-1440.webp`&&rendered.image.alt===''&&rendered.image.naturalWidth>0&&/CONCEPTUAL TOPOLOGY/i.test(rendered.image.caption),`runtime: ${width}px/${slug} responsive decorative visual differs ${JSON.stringify(rendered.image)}`);
+      check(rendered.image.small?.endsWith(`assets/chain-tools/${slug}-landscape-960.webp`)&&rendered.image.large?.endsWith(`assets/chain-tools/${slug}-landscape-1440.webp`)&&rendered.image.alt===''&&rendered.image.naturalWidth>0&&/CONCEPTUAL TOPOLOGY/i.test(rendered.image.caption),`runtime: ${width}px/${slug} responsive decorative visual differs ${JSON.stringify(rendered.image)}`);
       check(!rendered.unsafeLinks.length&&!rendered.remoteImages.length,`runtime: ${width}px/${slug} has unsafe links/assets ${JSON.stringify({links:rendered.unsafeLinks,images:rendered.remoteImages})}`);
       check(rendered.detailsTarget==='44px',`runtime: ${width}px/${slug} details target is ${rendered.detailsTarget}, not 44px`);
       if(width<=430)check(rendered.summaryVisible&&rendered.cellsLabeled,`runtime: ${width}px/${slug} mobile disclosure/card labels are incomplete`);

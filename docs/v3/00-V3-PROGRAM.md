@@ -2,7 +2,7 @@
 
 > **Status:** implemented — released as `v3.0` on 2026-08-14
 > **Date:** 2026-08-13
-> **Base:** `index.html` at v2 (commit `4514fbb`), live at https://alechp.github.io/solana/
+> **Base:** `index.html` at v2 (commit `4514fbb`), live at https://alechp.github.io/multichain-gang/
 > **Companion orchestration:** `08-ORCHESTRATION.md` owns scheduling, file ownership, and merge order
 > **Convention source:** spec/orchestration structure follows `~/Code/frauthy/root/specs/` conventions
 

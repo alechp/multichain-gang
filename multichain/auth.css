@@ -1,0 +1,91 @@
+:root {
+  --mg-auth-bg: #080b0f;
+  --mg-auth-panel: #10161d;
+  --mg-auth-line: #2a3642;
+  --mg-auth-ink: #e8eef3;
+  --mg-auth-muted: #93a2ae;
+  --mg-auth-signal: #c9ff36;
+  --mg-auth-danger: #ff786f;
+}
+
+html.mg-auth:not([data-scope-unlocked]) { overflow: hidden; background: var(--mg-auth-bg); }
+html.mg-auth:not([data-scope-unlocked]) body { overflow: hidden; }
+html.mg-auth:not([data-scope-unlocked]) body > :not(#mgAccessGate) { visibility: hidden !important; }
+
+.mg-access-gate {
+  --gate-signal: var(--mg-auth-signal);
+  visibility: visible !important;
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  color: var(--mg-auth-ink);
+  background:
+    linear-gradient(rgba(77, 98, 115, .18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 98, 115, .18) 1px, transparent 1px),
+    radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--gate-signal) 10%, transparent), transparent 33%),
+    var(--mg-auth-bg);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html[data-scope-unlocked] .mg-access-gate { display: none; }
+.mg-access-console {
+  position: relative;
+  width: min(540px, 100%);
+  padding: 28px;
+  border: 1px solid var(--mg-auth-line);
+  background: rgba(16, 22, 29, .97);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .58), 0 0 48px color-mix(in srgb, var(--gate-signal) 7%, transparent);
+  clip-path: polygon(0 12px, 12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+.mg-access-console::before,
+.mg-access-console::after {
+  content: "";
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  pointer-events: none;
+}
+.mg-access-console::before { left: 8px; top: 8px; border-left: 1px solid var(--gate-signal); border-top: 1px solid var(--gate-signal); }
+.mg-access-console::after { right: 8px; bottom: 8px; border-right: 1px solid var(--gate-signal); border-bottom: 1px solid var(--gate-signal); }
+.mg-access-kicker,
+.mg-access-title span,
+.mg-access-readout,
+.mg-access-form label,
+.mg-access-status {
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+.mg-access-kicker { margin: 0 0 18px; color: var(--gate-signal); font-size: .65rem; }
+.mg-access-title { margin: 0; font: 700 clamp(2rem, 8vw, 3.25rem)/.9 "Arial Narrow", "Inter Tight", sans-serif; letter-spacing: -.045em; text-transform: uppercase; }
+.mg-access-title span { display: block; margin-top: 10px; color: var(--mg-auth-muted); font: 600 .62rem/1.4 "IBM Plex Mono", monospace; }
+.mg-access-readout { margin: 22px 0; color: var(--mg-auth-muted); font-size: .66rem; line-height: 1.75; }
+.mg-access-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.mg-access-form label,
+.mg-access-status { grid-column: 1 / -1; color: var(--mg-auth-muted); font-size: .59rem; }
+.mg-access-form input,
+.mg-access-form button {
+  min-height: 48px;
+  border: 1px solid var(--mg-auth-line);
+  border-radius: 0;
+  font: 600 .76rem "IBM Plex Mono", monospace;
+}
+.mg-access-form input { min-width: 0; padding: 0 14px; background: #080c10; color: var(--mg-auth-ink); letter-spacing: .08em; }
+.mg-access-form input:focus { outline: 2px solid var(--gate-signal); outline-offset: 2px; }
+.mg-access-form button { padding: 0 18px; background: var(--mg-auth-panel); color: var(--gate-signal); cursor: pointer; }
+.mg-access-form button:is(:hover, :focus-visible) { border-color: var(--gate-signal); color: var(--mg-auth-ink); }
+.mg-access-form button:disabled { opacity: .5; cursor: wait; }
+.mg-access-status { min-height: 1.5em; margin: 4px 0 0; }
+.mg-access-console[data-denied] { --gate-signal: var(--mg-auth-danger); }
+.mg-access-console[data-denied] .mg-access-status { color: var(--mg-auth-danger); }
+
+@media (max-width: 520px) {
+  .mg-access-console { padding: 24px 18px; }
+  .mg-access-form { grid-template-columns: 1fr; }
+  .mg-access-form label,
+  .mg-access-status { grid-column: 1; }
+  .mg-access-form button { width: 100%; }
+}

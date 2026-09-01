@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import { launchAuditBrowser, targetUrl } from './audit-helpers.mjs';
 
-const source=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const source=fs.readFileSync(new URL('../multichain/solana/index.html',import.meta.url),'utf8');
 const failures=[];
 const match=source.match(/<script\s+type="application\/json"\s+id="chainData">([\s\S]*?)<\/script>/);
 let data;

@@ -1,4 +1,4 @@
-/* SOLANA//SCOPE persistent navigation and universal Link Veil. */
+/* Multichain Gang persistent navigation and universal Link Veil. */
 (function globalChrome(scope){
   'use strict';
 

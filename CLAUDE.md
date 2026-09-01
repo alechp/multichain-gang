@@ -1,19 +1,20 @@
-# SOLANA//SCOPE — project context
+# Multichain Gang — project context
 
-v3.0, the Robinhood Chain extension, and six chain article indexes are implemented and published from
-`main` / repository root at
-https://alechp.github.io/solana/. The instrument has a single-file static core
-plus local interaction assets; `journal/` is a separate local-only Bun/SQLite
-application and must never be deployed with the page.
+Solana Scope, Robinhood Scope, and six cross-chain article/tool indexes are
+published from `main` at https://alechp.github.io/multichain-gang/. The root is
+an access-code-gated Multichain Gang portal. The full instruments live at
+`multichain/solana/` and `multichain/robinhood/`; `journal/` is a separate
+local-only Bun/SQLite application and must never be deployed with the page.
 
-A standalone `SCOPE//ROBINHOOD CHAIN` release candidate is implemented under
-`robinhood/`. It is additive: do not replace or edit the root Solana
-`index.html` while changing the standalone edition. Its protected baseline is
-recorded in `robinhood/.solana-baseline.sha256`.
+Robinhood Scope is additive. Do not replace or substantively rewrite the Solana
+instrument while changing it. The protected Solana baseline is recorded in
+`multichain/robinhood/.solana-baseline.sha256`.
 
 ## Files
 
-- `index.html` — self-contained static instrument, CH-01…CH-05, no build step.
+- `index.html` — access-code-gated Multichain Gang portal.
+- `multichain/solana/index.html` — self-contained Solana instrument, CH-01…CH-05.
+- `multichain/{solana,robinhood}/{chains,tools}/` — stable chain-specific indexes.
 - `scripts/command-palette.js` + `styles/command-palette.css` — local command
   channel, section routing, global transport keys, and responsive presentation.
 - `scripts/chain-index.js` + `styles/chain-index.css` — the `#/chains` atlas,
@@ -26,7 +27,7 @@ recorded in `robinhood/.solana-baseline.sha256`.
 - `docs/v3/` — implemented v3 specs; `08-ORCHESTRATION.md` ends with the release ledger.
 - `docs/robinhood-chain-integration-spec.md` — implemented Robinhood Chain
   comparator, read-only journal, coin-launch, latency, and liquidity contract.
-- `robinhood/` — standalone Robinhood Chain page, readable source CSS, served
+- `multichain/robinhood/` — standalone Robinhood Chain page, readable source CSS, served
   minified CSS, local controllers, inline data, and exact no-JavaScript mirrors.
 - `docs/robinhood-scope/` — implemented `SCOPE//ROBINHOOD CHAIN` product,
   research, content, comparison, data, interaction, release specs, and evidence.
@@ -36,7 +37,7 @@ recorded in `robinhood/.solana-baseline.sha256`.
 
 ## Page conventions
 
-- Keep the instrument core in `index.html`: inline core CSS/JS/JSON, Google
+- Keep the Solana instrument core in `multichain/solana/index.html`: inline core CSS/JS/JSON, Google
   Fonts, and anime.js via cdnjs; no framework. Local command/search and reader
   docking assets are deliberate exceptions so they remain testable offline.
 - The access console stores only a SHA-256 digest and unlocks per browser tab.
@@ -67,8 +68,8 @@ recorded in `robinhood/.solana-baseline.sha256`.
 - Keep termified prose inside a containing element when its parent is flex/grid;
   injected `.term` buttons must not split anonymous text into layout items.
 - Every animation degrades. Reduced motion renders a manual reader; anime-CDN
-  failure keeps timed reader progression over static figures. JS-off exposes
-  the fallback tables, glossary, and entity index. The top navbar is always
+  failure keeps timed reader progression over static figures. Because the site
+  is gated, JS-off fails closed with an access warning. The top navbar is always
   static: no live counter, sweep, entrance animation, or transition.
 - Register legacy loops through `registerLoop(el, inst)` so offscreen animation
   is paused. Figures remain illustrative, dated 2026-08, with `~` on volatile values.
@@ -89,7 +90,7 @@ recorded in `robinhood/.solana-baseline.sha256`.
 
 ## QA gate for any change
 
-Run the five existing page audits plus
+Run `node scripts/audit-multichain-gang.mjs`, the five existing page audits, plus
 `node scripts/audit-robinhood-chain.mjs` and
 `node scripts/audit-chain-index.mjs` and
 `node scripts/audit-chain-tools.mjs` and
@@ -102,9 +103,9 @@ Robinhood Chain audit from the repository root; it includes the prohibited
 wallet/submission-API scan. A skipped external/profile check is recorded as
 skipped, never passed.
 
-For any `robinhood/` change, also run
+For any `multichain/robinhood/` change, also run
 `node scripts/audit-robinhood-scope.mjs`,
 `node scripts/audit-robinhood-scope-fit.mjs`, and
 `node scripts/audit-robinhood-scope-degrade.mjs`. The first gate fails if the
-root Solana checksum changes. Regenerate `styles/scope.min.css` mechanically
+protected Solana checksum changes. Regenerate `styles/scope.min.css` mechanically
 from readable `styles/scope.css` whenever the source stylesheet changes.

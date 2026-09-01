@@ -13,10 +13,10 @@
 Build the Robinhood edition as a standalone static page at:
 
 ```text
-/robinhood/
+/multichain/robinhood/
 ```
 
-The public artifact is `robinhood/index.html`. It may reuse proven local
+The public artifact is `multichain/robinhood/index.html`. It may reuse proven local
 foundations from the Solana edition, but it must own its authored content,
 figures, baseline data, no-JavaScript mirrors, source ledger, and regression
 audit. The existing root `index.html` remains the Solana edition.
@@ -35,7 +35,7 @@ The following are frozen for the first release:
 
 | Decision | Contract |
 |---|---|
-| Public path | `/robinhood/` |
+| Public path | `/multichain/robinhood/` |
 | Public title | `SCOPE//ROBINHOOD CHAIN` |
 | Baseline | Robinhood Chain |
 | Comparators | Solana, Bitcoin, Ethereum, BNB Chain, Zcash |
@@ -111,7 +111,7 @@ must work when optional shared assets are absent.
 ### 2.2 One-writer rule
 
 During implementation, assign one writer to each path or byte-unique zone.
-The most collision-prone file is `robinhood/index.html`; stamp these zones
+The most collision-prone file is `multichain/robinhood/index.html`; stamp these zones
 before parallel feature work begins:
 
 ```text
@@ -178,7 +178,7 @@ on the methodology route as `conflicted` until reconciled.
 
 Tasks:
 
-1. Create the `/robinhood/` static document with skip link, landmarks, chapter
+1. Create the `/multichain/robinhood/` static document with skip link, landmarks, chapter
    navigation, hero, five channel sections, methodology/footer, overlays, and
    empty route mount.
 2. Define stable IDs for every section, figure, cue target, comparator, term,
@@ -562,7 +562,7 @@ and answer:
 Review every title, masthead, metadata string, social preview, favicon, asset,
 disclaimer, Stock Token description, venue mention, and metric. Confirm:
 
-- `SCOPE` remains the primary identity;
+- `Multichain Gang` remains the primary identity;
 - Robinhood Chain is written in full;
 - no Robinhood or synthetic logo was created or modified;
 - the independence notice is conspicuous;
@@ -610,7 +610,7 @@ rollback_commit:
 
 The Robinhood Scope page is done only when all of the following are true:
 
-- `/robinhood/` is a standalone, source-linked, Robinhood-first publication;
+- `/multichain/robinhood/` is a standalone, source-linked, Robinhood-first publication;
 - the five-channel and 26-cue formula matches the Solana Scope instrument;
 - all eight primary surfaces teach the correct Robinhood Chain mechanism;
 - soft confirmation, posting, Ethereum finality, and withdrawal are visibly
@@ -620,8 +620,8 @@ The Robinhood Scope page is done only when all of the following are true:
 - every load-bearing rendered claim has a current evidence record and state;
 - every known conflict or unknown is labelled or suppressed, never guessed;
 - entity, source, methodology, search, deep-link, and history behavior passes;
-- JavaScript-off output is semantically complete and exactly mirrors the
-  enhanced data;
+- JavaScript-off fails closed with an access warning because the static gate
+  cannot verify the operator code without JavaScript;
 - accessibility, responsive, motion, storage, and CDN-failure gates pass;
 - the page contains no wallet, signing, submission, secret, brokerage, or
   trading behavior;
@@ -637,7 +637,7 @@ done. The release is one coherent instrument in every supported mode.
 ## 13. Rollback and maintenance
 
 Because publication is static, rollback is a redeploy of the last verified
-commit. Preserve the prior `/robinhood/` artifact until the production smoke
+commit. Preserve the prior `/multichain/robinhood/` artifact until the production smoke
 test passes. Do not patch live copy outside version control.
 
 After release:

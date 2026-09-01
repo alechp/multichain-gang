@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { launchAuditBrowser, openAuditPage, printTable } from './audit-helpers.mjs';
 
-const source = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../multichain/solana/index.html', import.meta.url), 'utf8');
 const failures = [];
 const rows = [];
 const expect = (condition, message) => { if (!condition) failures.push(message); };

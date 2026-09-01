@@ -3,7 +3,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { launchAuditBrowser, openAuditPage } from './audit-helpers.mjs';
 
-const source = readFileSync('index.html', 'utf8');
+const source = readFileSync('multichain/solana/index.html', 'utf8');
 const failures = [];
 const RH = 'robinhood_chain';
 const DISPLAY = 'Robinhood Chain';

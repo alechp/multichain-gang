@@ -1,0 +1,127 @@
+:root {
+  color-scheme: dark;
+  --bg: #080b0f;
+  --panel: #10161d;
+  --panel-2: #151d25;
+  --ink: #e8eef3;
+  --muted: #93a2ae;
+  --line: #2a3642;
+  --acid: #c9ff36;
+  --cyan: #58d9ed;
+  --sol: #7ee7d1;
+  --rh: #ccff00;
+  --max: 1280px;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display: "Inter Tight", "Arial Narrow", sans-serif;
+  --sans: "DM Sans", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at 84% 8%, color-mix(in srgb, var(--signal, var(--acid)) 7%, transparent), transparent 27rem),
+    linear-gradient(rgba(69, 88, 104, .16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(69, 88, 104, .16) 1px, transparent 1px),
+    var(--bg);
+  background-size: auto, 56px 56px, 56px 56px, auto;
+  color: var(--ink);
+  font: 16px/1.6 var(--sans);
+}
+body[data-chain="solana"] { --signal: var(--sol); }
+body[data-chain="robinhood"] { --signal: var(--rh); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--signal, var(--acid)); outline-offset: 3px; }
+.skip { position: fixed; z-index: 100; top: 8px; left: 8px; transform: translateY(-150%); padding: 10px 14px; background: var(--ink); color: var(--bg); }
+.skip:focus { transform: none; }
+
+.gangbar {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 68px;
+  padding: 9px max(18px, calc((100vw - var(--max)) / 2));
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 11, 15, .94);
+  backdrop-filter: blur(14px);
+}
+.gangmark { font: 700 14px/1 var(--mono); letter-spacing: .07em; text-decoration: none; text-transform: uppercase; }
+.gangmark b { color: var(--signal, var(--acid)); }
+.chain-coordinate { color: var(--muted); font: 600 10px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.mode-nav { display: flex; align-items: center; gap: 3px; }
+.mode-nav a { min-height: 44px; display: grid; place-items: center; padding: 0 13px; border: 1px solid transparent; color: var(--muted); font: 600 10px var(--mono); letter-spacing: .08em; text-decoration: none; text-transform: uppercase; }
+.mode-nav a:is(:hover, :focus-visible), .mode-nav a[aria-current="page"] { border-color: var(--signal, var(--acid)); color: var(--ink); background: color-mix(in srgb, var(--signal, var(--acid)) 8%, transparent); }
+
+.portal-main, .directory-main { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; }
+.portal-hero { min-height: min(760px, calc(100svh - 68px)); display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(280px, .72fr); align-items: center; gap: clamp(40px, 8vw, 120px); padding: clamp(80px, 12vw, 150px) 0; }
+.eyebrow, .coordinate, .card-kicker, .route-kicker, .directory-meta, .portal-footer { color: var(--muted); font: 600 10px/1.5 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+.eyebrow { color: var(--acid); }
+h1, h2, h3 { margin: 0; font-family: var(--display); }
+.portal-hero h1 { max-width: 850px; margin-top: 20px; font-size: clamp(4rem, 10vw, 9.5rem); line-height: .78; letter-spacing: -.075em; text-transform: uppercase; }
+.portal-hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1px var(--muted); }
+.portal-deck { max-width: 62ch; margin: 34px 0 0; color: #c6d0d7; font-size: clamp(17px, 1.6vw, 21px); }
+.signal-register { align-self: stretch; display: grid; align-content: center; gap: 1px; }
+.signal-register article { position: relative; min-height: 112px; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 16px; padding: 20px; border: 1px solid var(--line); background: rgba(16, 22, 29, .82); }
+.signal-register article::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--card-signal); }
+.signal-register b { color: var(--card-signal); font: 700 12px var(--mono); }
+.signal-register h2 { font-size: 1.5rem; letter-spacing: -.03em; }
+.signal-register span { color: var(--muted); font: 600 9px var(--mono); text-align: right; }
+
+.scope-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 0 clamp(90px, 12vw, 150px); }
+.scope-card { --card-signal: var(--sol); position: relative; min-height: 490px; display: grid; align-content: end; overflow: hidden; padding: clamp(26px, 4vw, 52px); border: 1px solid var(--line); background: linear-gradient(155deg, color-mix(in srgb, var(--card-signal) 9%, transparent), transparent 46%), var(--panel); text-decoration: none; }
+.scope-card.robinhood { --card-signal: var(--rh); }
+.scope-card::before { content: attr(data-index); position: absolute; top: -20px; right: 22px; color: color-mix(in srgb, var(--card-signal) 10%, transparent); font: 700 12rem/.9 var(--display); letter-spacing: -.08em; }
+.scope-card::after { content: ""; position: absolute; inset: 18px; border: 1px solid color-mix(in srgb, var(--card-signal) 22%, transparent); clip-path: polygon(0 0, 54px 0, 54px 1px, 100% 1px, 100% 100%, calc(100% - 54px) 100%, calc(100% - 54px) calc(100% - 1px), 0 calc(100% - 1px)); }
+.scope-card > * { position: relative; z-index: 1; }
+.scope-card h2 { max-width: 9ch; margin: 10px 0 18px; font-size: clamp(3rem, 6vw, 6rem); line-height: .88; letter-spacing: -.06em; text-transform: uppercase; }
+.scope-card p { max-width: 55ch; margin: 0; color: #b9c5cc; }
+.scope-card .open { margin-top: 36px; color: var(--card-signal); font: 700 11px var(--mono); letter-spacing: .1em; }
+.scope-card:is(:hover, :focus-visible) { border-color: var(--card-signal); transform: translateY(-4px); box-shadow: 0 26px 80px rgba(0,0,0,.35); }
+.scope-card { transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease; }
+
+.directory-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .55fr); gap: clamp(36px, 8vw, 100px); align-items: end; padding: clamp(80px, 12vw, 150px) 0 70px; border-bottom: 1px solid var(--line); }
+.directory-hero h1 { margin-top: 17px; font-size: clamp(4rem, 9vw, 8.7rem); line-height: .82; letter-spacing: -.07em; text-transform: uppercase; }
+.directory-hero h1 em { display: block; color: var(--signal); font-style: normal; }
+.directory-intro { max-width: 58ch; color: #c4cdd3; font-size: 18px; }
+.directory-meta { margin-top: 22px; color: var(--signal); }
+.route-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 60px 0 110px; }
+.route-card { min-height: 260px; display: grid; align-content: space-between; padding: 28px; border: 1px solid var(--line); background: rgba(16, 22, 29, .88); text-decoration: none; }
+.route-card.featured { grid-column: 1 / -1; min-height: 320px; background: linear-gradient(135deg, color-mix(in srgb, var(--signal) 9%, transparent), transparent 46%), var(--panel); }
+.route-card h2 { max-width: 17ch; margin: 12px 0 18px; font-size: clamp(2rem, 4vw, 4.2rem); line-height: .9; letter-spacing: -.05em; }
+.route-card p { max-width: 65ch; margin: 0; color: #b9c4cb; }
+.route-card .route-open { align-self: end; margin-top: 32px; color: var(--signal); font: 700 10px var(--mono); letter-spacing: .1em; }
+.route-card:is(:hover, :focus-visible) { border-color: var(--signal); background-color: var(--panel-2); }
+.route-card { transition: border-color 180ms linear, background-color 180ms linear; }
+.portal-footer { padding: 28px max(18px, calc((100vw - var(--max)) / 2)); border-top: 1px solid var(--line); }
+
+@media (max-width: 850px) {
+  .gangbar { grid-template-columns: 1fr auto; gap: 8px; }
+  .chain-coordinate { display: none; }
+  .portal-hero, .directory-hero { grid-template-columns: 1fr; }
+  .portal-hero { min-height: auto; }
+  .signal-register { grid-template-columns: 1fr 1fr; }
+  .scope-card { min-height: 430px; }
+}
+@media (max-width: 650px) {
+  .gangbar { position: relative; grid-template-columns: 1fr; padding: 12px 16px; }
+  .mode-nav { width: 100%; }
+  .mode-nav a { flex: 1; }
+  .portal-main, .directory-main { width: min(100% - 28px, var(--max)); }
+  .portal-hero h1 { font-size: clamp(3.7rem, 20vw, 6rem); }
+  .signal-register, .scope-grid, .route-grid { grid-template-columns: 1fr; }
+  .route-card.featured { grid-column: auto; }
+  .scope-card { min-height: 380px; padding: 28px; }
+  .scope-card::before { font-size: 8rem; }
+  .directory-hero h1 { font-size: clamp(3.7rem, 19vw, 6rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .scope-card, .route-card { transition: none; }
+}

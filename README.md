@@ -1,27 +1,26 @@
-# SOLANA//SCOPE
+# Multichain Gang
 
-An interactive engineering instrument for Solana: five oscilloscope-styled
-channels cover consensus topology, transaction flow, MEV, low-latency
-infrastructure, and a cross-chain bench. The core instrument remains one HTML
-file, with local interaction assets; a separate local journal collects
-public observations and runs paper-only historical simulators.
+Two interactive engineering instruments—Solana Scope and Robinhood Scope—share
+one cross-chain research system. Each chain has stable Scope, Chains, and Tools
+entry pages while preserving its own topology, transaction-flow, order-flow,
+latency, evidence, and visual language.
 
-**Live:** https://alechp.github.io/solana/
+**Live:** https://alechp.github.io/multichain-gang/
 
 ## Run the page
 
-Open `index.html` directly, or serve the repository root:
+Open the root `index.html` portal directly, or serve the repository root:
 
     npx serve .
 
-The standalone Robinhood Chain edition is additive and lives at
-`robinhood/index.html` (`/robinhood/` when served). The original root
-`SOLANA//SCOPE` document is protected by a release checksum and remains the
-site root.
+The full instruments are served at `/multichain/solana/` and
+`/multichain/robinhood/`. Each directory also exposes `/chains/` and `/tools/`
+indexes that route into the existing article and verified-tool engines.
 
 There is no page build step. Fuse.js 7.5.0 is vendored locally for the command
 palette; anime.js and the web fonts are optional network enhancements. Reduced
-motion, a blocked CDN, and JavaScript-off all preserve the teaching content.
+motion and a blocked CDN preserve the teaching content. JavaScript-off fails
+closed because the access code cannot be verified without it.
 
 The live page opens behind a session-only access-code console. This is a casual
 access gate, not a security boundary: GitHub Pages still serves the HTML and
@@ -48,7 +47,15 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
 
 ## Layout
 
-    index.html                      v3 instrument core (CH-01 … CH-05)
+    index.html                      access-code-gated Multichain Gang portal
+    multichain/auth.{css,js}        shared session access-code gate
+    multichain/site.css             portal and chain-directory shell
+    multichain/solana/index.html    full Solana Scope instrument (CH-01 … CH-05)
+    multichain/solana/chains/       stable Solana article/comparison index
+    multichain/solana/tools/        stable Solana verified-tools index
+    multichain/robinhood/index.html full Robinhood Scope instrument
+    multichain/robinhood/chains/    Robinhood article/comparison index
+    multichain/robinhood/tools/     Robinhood verified-tools index
     scripts/chain-index.js          chain atlas, six routed hubs, shared Link Veil
     styles/chain-index.css          responsive chain/article index surfaces
     scripts/global-chrome.js        persistent navigation + universal Link Veil controller
@@ -66,7 +73,6 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     docs/solana-scope-v2-spec.md    implemented v2 baseline
     docs/robinhood-chain-integration-spec.md
                                     implemented comparison, journal, and launch playbook
-    robinhood/                      standalone SCOPE//ROBINHOOD CHAIN instrument
     docs/robinhood-scope/           implemented specs, source ledger, and release evidence
 
 ## v3 highlights
@@ -124,14 +130,14 @@ simulator result is stamped `PAPER · HYPOTHETICAL`.
     node scripts/audit-robinhood-scope.mjs
     node scripts/audit-robinhood-scope-fit.mjs
     node scripts/audit-robinhood-scope-degrade.mjs
+    node scripts/audit-multichain-gang.mjs
     cd journal && bun test && bun run check:tokens
 
 ## Status
 
 v3.0 shipped on 2026-08-14; the Robinhood Chain extension was implemented on
 2026-08-28, the six chain indexes on 2026-08-29, and persistent v5 route chrome
-on 2026-08-29. The standalone Robinhood Scope release candidate was completed
-on 2026-08-31 under `robinhood/`; external publication awaits the brand/legal
-sign-off recorded in its release ledger. The figures are illustrative orders
-of magnitude dated 2026-08, not live telemetry; live observations remain local
-to the journal.
+on 2026-08-29. Robinhood Scope was completed on 2026-08-31 and both instruments
+were migrated into Multichain Gang on 2026-08-31. The figures are illustrative
+orders of magnitude dated 2026-08, not live telemetry; live observations remain
+local to the journal.

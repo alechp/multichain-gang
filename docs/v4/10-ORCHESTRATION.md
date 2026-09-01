@@ -395,7 +395,7 @@ GitHub Pages publishes the repository root from `main`. Deployment verification:
 ```sh
 gh api repos/alechp/solana/pages
 gh run list --limit 10
-curl -I -L https://alechp.github.io/solana/
+curl -I -L https://alechp.github.io/multichain-gang/
 ```
 
 Then open the live site with cache busting and verify `#/tools`, one dense chain (Solana), one scope-sensitive chain (Bitcoin), one gap-heavy chain (Zcash), and Robinhood Chain. Compare the deployed commit SHA/source against local `HEAD`. A successful push is not a successful deployment until the live asset and routes are verified.

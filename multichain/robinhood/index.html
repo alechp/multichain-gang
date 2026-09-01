@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07090b">
   <meta name="description" content="An independent engineering instrument for Robinhood Chain sequencing, settlement, order flow, latency, and cross-chain comparison.">
-  <title>SCOPE//ROBINHOOD CHAIN — sequencing, settlement, and onchain markets</title>
+  <title>Robinhood Scope — Multichain Gang</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter+Tight:ital,wght@0,500;0,600;1,500&display=swap">
+  <link rel="stylesheet" href="../auth.css">
   <link rel="stylesheet" href="styles/scope.min.css">
-  <noscript><style>.reveal{opacity:1!important;transform:none!important}.reader,.command-trigger,.clock-picker{display:none!important}</style></noscript>
+  <script src="../auth.js"></script>
+  <noscript><style>body>*{display:none!important}body>noscript#mgNoScriptWrap{display:block!important}#mgNoScriptWrap>.mg-access-gate{display:grid!important}</style></noscript>
 </head>
-<body>
+<body data-auth-scope="ROBINHOOD / SCOPE">
+  <noscript id="mgNoScriptWrap"><main class="mg-access-gate"><div class="mg-access-console"><p class="mg-access-kicker">RESTRICTED DIRECTORY · AUTH CHANNEL 00</p><h2 class="mg-access-title">Multichain Gang <span>JavaScript required</span></h2><p class="mg-access-readout">JavaScript is required to verify the access code for this static site.</p></div></main></noscript>
   <a class="skip-link" href="#main">Skip to the instrument</a>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="clockbar" id="top">
-    <a class="brand" href="./" aria-label="SCOPE Robinhood Chain home"><span>SCOPE</span><i>//</i>ROBINHOOD CHAIN</a>
+    <a class="brand" href="../../" aria-label="Multichain Gang home"><b>MULTICHAIN</b> <span>GANG</span><small>ROBINHOOD / SCOPE</small></a>
     <div class="clock-picker">
       <button class="clock-trigger" id="clockTrigger" type="button" aria-expanded="false" aria-controls="clockMenu">
         <span class="clock-dot" aria-hidden="true"></span><span id="clockValue">SOFT · &lt;1 s typ.</span><span aria-hidden="true">⌄</span>
@@ -29,6 +32,7 @@
     </div>
     <div class="clock-sweep" aria-hidden="true"><span></span></div>
     <nav class="chapter-nav" aria-label="Chapters">
+      <a href="./" aria-current="page" data-site-route>SCOPE</a><a href="chains/" data-site-route>CHAINS</a><a href="tools/" data-site-route>TOOLS</a>
       <a href="#ch1">01 TOPOLOGY</a><a href="#ch2">02 TX FLOW</a><a href="#ch3">03 MEV</a><a href="#ch4">04 LATENCY</a><a href="#ch5">05 BENCH</a>
     </nav>
     <button class="command-trigger" type="button" data-open-command aria-label="Open search and command palette">⌘K</button>
@@ -142,8 +146,8 @@
     <p class="footer-statement">The fast number is not the whole guarantee. Every figure is a sourced model, not live telemetry; volatile values are dated; documented integrations are not endorsements or liquidity claims.</p>
     <nav aria-label="Research and site routes"><a href="#/methodology">METHODOLOGY</a><a href="#/sources">SOURCE LEDGER</a><a href="#/c/robinhood-chain">ROBINHOOD CHAIN ARTICLES</a><a href="#/tools/robinhood-chain">VERIFIED TOOLS</a><a href="#/chains">ALL CHAIN PATHS</a><a href="https://docs.robinhood.com/chain/">OFFICIAL DOCUMENTATION ↗</a></nav>
     <p class="independence">SCOPE is an independent educational project. It is not affiliated with, endorsed by, sponsored by, or officially connected with Robinhood Markets, Inc. or its affiliates. Robinhood Chain and Stock Tokens are described from public documentation; inclusion of a protocol or service is not an endorsement or investment recommendation.</p>
-    <p class="footer-meta">RESEARCH SNAPSHOT 2026-08-31 · STATIC EDUCATIONAL INSTRUMENT · NO WALLET · NO TELEMETRY</p>
-    <a class="solana-return" href="../">OPEN THE ORIGINAL SOLANA//SCOPE →</a>
+    <p class="footer-meta">MULTICHAIN GANG · ROBINHOOD SCOPE · RESEARCH SNAPSHOT 2026-08-31 · STATIC EDUCATIONAL INSTRUMENT · NO WALLET · NO TELEMETRY</p>
+    <a class="solana-return" href="../solana/">OPEN SOLANA SCOPE →</a>
   </footer>
 
   <noscript>
@@ -181,7 +185,7 @@
 
   <div class="hovercard" id="hovercard" role="dialog" aria-label="Reference" hidden><button type="button" class="hover-close" aria-label="Close reference">×</button><div class="hover-content"></div></div>
   <div class="detail-pop" id="detailPop" role="dialog" aria-modal="false" hidden><button type="button" class="detail-close">CLOSE ×</button><div></div></div>
-  <div class="route-shell" id="routeShell" role="dialog" aria-modal="true" aria-labelledby="routeTitle" hidden><div class="route-bar"><button type="button" data-close-route>← BACK</button><span>SCOPE//ROBINHOOD CHAIN</span><button type="button" data-open-command>SEARCH ⌘K</button></div><article class="route-content"><p class="route-kind" id="routeKind"></p><h2 id="routeTitle"></h2><div id="routeBody"></div></article><button type="button" class="route-close-bottom" data-close-route>CLOSE ROUTE</button></div>
+  <div class="route-shell" id="routeShell" role="dialog" aria-modal="true" aria-labelledby="routeTitle" hidden><div class="route-bar"><button type="button" data-close-route>← BACK</button><span>MULTICHAIN GANG · ROBINHOOD SCOPE</span><button type="button" data-open-command>SEARCH ⌘K</button></div><article class="route-content"><p class="route-kind" id="routeKind"></p><h2 id="routeTitle"></h2><div id="routeBody"></div></article><button type="button" class="route-close-bottom" data-close-route>CLOSE ROUTE</button></div>
   <div class="command-shell" id="commandShell" role="dialog" aria-modal="true" aria-labelledby="commandTitle" hidden><div class="command-box"><div class="command-head"><h2 id="commandTitle">Search the instrument</h2><button type="button" data-close-command aria-label="Close search">ESC</button></div><label class="command-input"><span class="sr-only">Search channels, terms, sources, and entities</span><input id="commandInput" type="search" autocomplete="off" placeholder="Try “soft confirmation” or “Stock Tokens”"></label><p class="command-hint">ARROWS MOVE · ENTER OPENS · ESC CLOSES</p><ul id="commandResults" role="listbox" aria-label="Search results"></ul></div></div>
   <aside class="reader" id="reader" aria-label="Authored read-through"><button type="button" id="readerPrev" aria-label="Previous cue">←</button><button type="button" id="readerToggle" aria-pressed="false">READ THROUGH</button><div class="reader-copy"><span id="readerCount">00 / 26</span><p id="readerNote">A 26-cue guided tour of the instrument.</p></div><label class="reader-scale"><span class="sr-only">Reading scale</span><select id="readerScale" aria-label="Reading scale"><option value="85">85%</option><option value="95">95%</option><option value="100" selected>100%</option><option value="110">110%</option><option value="120">120%</option></select></label><button type="button" id="readerNext" aria-label="Next cue">→</button><button type="button" id="readerExit" aria-label="Exit read-through">×</button></aside>
   <div class="sr-only" id="appLive" aria-live="polite"></div>
@@ -340,7 +344,7 @@
   ]
 }
   </script>
-  <script defer src="../vendor/fuse.basic.min.js"></script>
+  <script defer src="../../vendor/fuse.basic.min.js"></script>
   <script defer src="scripts/runtime.js"></script>
   <script defer src="scripts/figures.js"></script>
   <script defer src="scripts/compare.js"></script>

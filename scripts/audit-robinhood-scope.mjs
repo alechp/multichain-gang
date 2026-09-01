@@ -5,12 +5,12 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
 
-const source = readFileSync('robinhood/index.html', 'utf8');
-const rootSource = readFileSync('index.html');
+const source = readFileSync('multichain/robinhood/index.html', 'utf8');
+const rootSource = readFileSync('multichain/solana/index.html');
 const failures = [];
-const expectedRoot = readFileSync('robinhood/.solana-baseline.sha256', 'utf8').trim().split(/\s+/)[0];
+const expectedRoot = readFileSync('multichain/robinhood/.solana-baseline.sha256', 'utf8').trim().split(/\s+/)[0];
 const actualRoot = createHash('sha256').update(rootSource).digest('hex');
-if (actualRoot !== expectedRoot) failures.push(`Solana index.html changed: ${actualRoot}; expected protected baseline ${expectedRoot}`);
+if (actualRoot !== expectedRoot) failures.push(`Solana Scope changed: ${actualRoot}; expected protected baseline ${expectedRoot}`);
 
 const dataMatch = source.match(/<script type="application\/json" id="chainData">([\s\S]*?)<\/script>/);
 let data;
@@ -84,13 +84,14 @@ expect((source.match(/<h1\b/g) || []).length === 1, 'exactly one h1 required');
 expect((source.match(/class="compare-dock"/g) || []).length === 4, 'four compare docks required');
 expect((source.match(/<noscript>/g) || []).length >= 2, 'head safety and semantic no-JavaScript mirrors required');
 expect(source.includes('SCOPE is an independent educational project.'), 'independence notice missing');
-expect(source.includes('OPEN THE ORIGINAL SOLANA//SCOPE'), 'return path to original Solana Scope missing');
+expect(source.includes('OPEN SOLANA SCOPE'), 'return path to Solana Scope missing');
 const visibleSource = source.replace(dataMatch?.[0] || '', '');
 for (const [label, pattern] of [['ROBINHOOD//SCOPE', /ROBINHOOD\/\/SCOPE/], ['HOOD//SCOPE', /(^|[^A-Z])HOOD\/\/SCOPE/], ['HOOD CHAIN', /(^|[^A-Z])HOOD CHAIN/], ['RHC', /\bRHC\b/]]) expect(!pattern.test(visibleSource), `prohibited visible shorthand ${label}`);
 for (const banned of ['eth_sendRawTransaction','sendTransaction','signTransaction','signTypedData','privateKeyToAccount','walletClient','window.ethereum.request']) expect(!visibleSource.includes(banned), `prohibited wallet/submission API ${banned}`);
 expect(!/sub-second finality/i.test(visibleSource), 'unqualified sub-second finality language found');
 
-const target = new URL(pathToFileURL(resolve('robinhood/index.html')).href);
+const target = new URL(pathToFileURL(resolve('multichain/robinhood/index.html')).href);
+target.searchParams.set('scope-audit', '1');
 const macChrome = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (existsSync(macChrome) ? macChrome : undefined) });
 try {
