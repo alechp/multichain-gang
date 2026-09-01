@@ -248,6 +248,9 @@ button { border-radius: 0; }
 .tok-type { color: #ffc96d; }
 .tok-function { color: #75e4f2; }
 .source-verification { min-height: 38px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--src-line); color: var(--src-dim); font: 500 8px var(--src-mono); letter-spacing: .06em; }
+.source-verification > span { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.source-verification > span:first-child { flex: 1 1 240px; }
+.source-verification > span:last-child { flex: 0 1 auto; }
 .source-verification span:last-child { color: var(--src-acid); }
 .inspector-empty { margin: 14px; padding: 18px; border: 1px solid var(--src-danger); background: color-mix(in srgb, var(--src-danger) 6%, var(--src-panel)); }
 .inspector-empty strong { color: var(--src-danger); font: 600 11px var(--src-mono); }
