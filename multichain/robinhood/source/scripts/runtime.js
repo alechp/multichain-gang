@@ -67,8 +67,14 @@
     if (assertive) target.setAttribute('aria-live', 'assertive');
   };
 
+  let fatalSourceError = null;
   const showError = (kind, message) => {
     const label = safeText(kind || 'SOURCE ERROR').toUpperCase();
+    if (fatalSourceError) {
+      emit('error-suppressed', { kind: label, message: safeText(message), fatal: fatalSourceError });
+      return false;
+    }
+    if (label === 'SOURCE CHANGED') fatalSourceError = { kind: label, message: safeText(message) };
     const target = q('#sourceAlert');
     if (target) {
       target.replaceChildren(el('strong', { text: label }), document.createTextNode(` · ${safeText(message)}`));
@@ -84,9 +90,14 @@
       target.setAttribute('aria-live', 'assertive');
     }
     emit('error', { kind: label, message: safeText(message) });
+    return true;
   };
 
-  const clearError = () => status('', { error: true });
+  const clearError = () => {
+    if (fatalSourceError) return false;
+    status('', { error: true });
+    return true;
+  };
 
   const registrationKey = (repoId, directoryPath) => `${repoId}\u0000${directoryPath || ''}`;
 
