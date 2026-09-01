@@ -108,7 +108,9 @@ try {
     innerKeyVisible: document.body.innerText.includes('robinhood_chain'),
     runtime: ['openDock','closeDock','openGridCell','filterBench','restartFigure'].every(key => typeof window.SCOPE?.Runtime?.[key] === 'function'),
     terms: Object.keys(window.SCOPE?.data?.terms || {}).length,
-    commandRecords: window.SCOPE?.Command?.records?.length || 0
+    commandRecords: window.SCOPE?.Command?.records?.length || 0,
+    customSelects: window.MultichainSelectUI?.size || 0,
+    hiddenNativeSelects: document.querySelectorAll('select.mg-native-select[aria-hidden="true"]').length
   }));
   expect(initial.gridRows === 8, `browser grid has ${initial.gridRows}/8 rows`);
   expect(initial.toolCards === 7, `browser bench has ${initial.toolCards}/7 records`);
@@ -116,13 +118,41 @@ try {
   expect(initial.runtime, 'runtime bridge incomplete');
   expect(initial.terms === 24, 'runtime term count mismatch');
   expect(initial.commandRecords >= 100, `command index unexpectedly small: ${initial.commandRecords}`);
+  expect(initial.customSelects === 4 && initial.hiddenNativeSelects === 4, `custom select enhancement incomplete: ${JSON.stringify(initial)}`);
 
   await page.locator('.compare-dock[data-section="topology"] .dock-toggle').click();
   expect(await page.locator('.compare-dock[data-section="topology"] [role="tab"]').count() === 5, 'topology dock tab count mismatch');
   expect(await page.locator('.compare-dock[data-section="topology"] .compare-table tr').count() === 6, 'topology dock metric count mismatch');
   await page.locator('.technique-grid [data-technique="launch"][data-chain="robinhood_chain"]').click();
   expect(await page.locator('#detailPop').isVisible(), 'technique evidence detail did not open');
-  await page.locator('#detailPop .detail-close').click();
+  await page.mouse.click(8, 300);
+  expect(await page.locator('#detailPop').isHidden(), 'outside click did not dismiss technique evidence detail');
+  await page.locator('.technique-grid [data-technique="launch"][data-chain="robinhood_chain"]').click();
+  expect(await page.locator('#detailPop').isVisible(), 'technique evidence detail did not reopen');
+  await page.keyboard.press('Escape');
+  expect(await page.locator('#detailPop').isHidden(), 'Escape did not dismiss technique evidence detail');
+
+  const chainSelectTrigger = page.locator('label:has(#benchChain) .mg-select-trigger');
+  await chainSelectTrigger.click();
+  const openSelectMenu = page.locator('.mg-select-menu:not([hidden])');
+  expect(await openSelectMenu.isVisible(), 'site-native chain select menu did not open');
+  const menuStyle = await openSelectMenu.evaluate(element => ({
+    background: getComputedStyle(element).backgroundColor,
+    border: getComputedStyle(element).borderTopColor
+  }));
+  expect(menuStyle.background !== 'rgb(255, 255, 255)' && menuStyle.border !== 'rgb(255, 255, 255)', `select menu fell back to light OS styling: ${JSON.stringify(menuStyle)}`);
+  await page.keyboard.press('Escape');
+  expect(await openSelectMenu.isHidden(), 'Escape did not close custom select menu');
+  await chainSelectTrigger.click();
+  await page.locator('.mg-select-menu:not([hidden]) [role="option"]').filter({ hasText: 'Solana' }).click();
+  expect(await page.locator('#benchChain').inputValue() === 'sol', 'custom select did not update the native chain value');
+  await page.locator('#benchReset').click();
+  expect(await page.locator('#benchChain').inputValue() === 'robinhood_chain', 'bench reset no longer updates the enhanced select');
+
+  await page.locator('#clockTrigger').click();
+  expect(await page.locator('#clockMenu').isVisible(), 'clock dropdown did not open');
+  await page.keyboard.press('Escape');
+  expect(await page.locator('#clockMenu').isHidden(), 'Escape did not close the clock dropdown');
   await page.evaluate(() => window.SCOPE.Router.open('methodology'));
   expect(await page.locator('#routeShell').isVisible(), 'methodology route did not open');
   expect((await page.locator('#routeTitle').textContent()) === 'What the instrument knows', 'methodology route title mismatch');
@@ -131,7 +161,11 @@ try {
   await page.locator('#commandInput').fill('Stock Tokens');
   expect(await page.locator('#commandResults [role="option"]').count() > 0, 'command search returned no Stock Token result');
   await page.keyboard.press('Escape');
+  expect(await page.locator('#commandShell').isHidden(), 'Escape did not close the command modal');
+  expect(await page.locator('#routeShell').isVisible(), 'closing the command modal also closed the underlying route');
   await page.keyboard.press('Escape');
+  await page.waitForTimeout(30);
+  expect(await page.locator('#routeShell').isHidden(), 'Escape did not close the route modal');
   errors.forEach(error => failures.push(`page error: ${error}`));
   await context.close();
 } finally { await browser.close(); }

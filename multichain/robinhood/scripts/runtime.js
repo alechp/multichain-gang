@@ -73,6 +73,7 @@
     const top = Overlay.top();
     if (event.key === 'Escape' && top) {
       event.preventDefault();
+      event.stopPropagation();
       if (top.element.id === 'routeShell' && location.hash.startsWith('#/')) history.back();
       else Overlay.close(top.element);
       return;
@@ -84,6 +85,11 @@
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
+  document.addEventListener('pointerdown', event => {
+    const top = Overlay.top();
+    if (!top || top.element.contains(event.target) || top.trigger?.contains?.(event.target)) return;
+    Overlay.close(top.element, { restore: false });
+  }, true);
 
   const safeUrl = value => {
     try {
@@ -136,6 +142,14 @@
       trigger?.setAttribute('aria-expanded', 'false');
     }
   });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || menu?.hidden) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    menu.hidden = true;
+    trigger?.setAttribute('aria-expanded', 'false');
+    trigger?.focus({ preventScroll: true });
+  }, true);
 
   const revealNodes = [...document.querySelectorAll('.reveal')];
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) revealNodes.forEach(node => node.classList.add('visible'));

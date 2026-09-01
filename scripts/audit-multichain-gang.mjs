@@ -72,6 +72,11 @@ try {
     check(result.h1.toUpperCase().includes(spec.h1.toUpperCase()), `${width}px ${spec.id}: authored h1 mismatch (${result.h1.slice(0, 60)})`);
     check(result.labels.length === spec.nav.length, `${width}px ${spec.id}: visible mode navigation incomplete (${result.labels.join(', ')})`);
     check(result.unlocked, `${width}px ${spec.id}: local audit unlock failed`);
+    if(spec.id==='portal'){
+      const launchTargets=await page.locator('.signal-register a').evaluateAll(links=>links.map(link=>link.getAttribute('href')));
+      check(JSON.stringify(launchTargets)===JSON.stringify(['multichain/solana/','multichain/robinhood/']),
+        `${width}px portal: quick-launch rows are not complete links (${launchTargets.join(', ')})`);
+    }
     errors.forEach(error => failures.push(`${width}px ${spec.id}: ${error}`));
     await context.close();
   }
