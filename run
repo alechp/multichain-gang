@@ -5,15 +5,19 @@
 const fs = require('node:fs');
 const http = require('node:http');
 const path = require('node:path');
+const { spawnSync } = require('node:child_process');
 
 const root = fs.realpathSync(__dirname);
 let host = process.env.MG_HOST || '127.0.0.1';
 let port = Number(process.env.MG_PORT || 4173);
 
 const usage = () => {
-  console.log(`Usage: ./run [options]
+  console.log(`Usage: ./run [check] [options]
 
 Serve the complete Multichain Gang site from the repository root.
+
+Commands:
+  check             Run the Robinhood Source release gate and existing site audits
 
 Options:
   --host <address>  Bind address (default: 127.0.0.1; env: MG_HOST)
@@ -22,9 +26,35 @@ Options:
 
 Examples:
   ./run
+  ./run check
   ./run --port 8080
   MG_HOST=0.0.0.0 MG_PORT=3000 ./run`);
 };
+
+if (process.argv[2] === 'check') {
+  const checks = [
+    'scripts/validate-robinhood-source.mjs',
+    'scripts/audit-robinhood-source.mjs',
+    'scripts/audit-robinhood-scope.mjs',
+    'scripts/audit-multichain-gang.mjs',
+    'scripts/audit-global-chrome.mjs',
+    'scripts/audit-degradation.mjs'
+  ];
+  for (const script of checks) {
+    if (!fs.existsSync(path.join(root, script))) {
+      console.error(`Missing release check: ${script}`);
+      process.exit(1);
+    }
+    const result = spawnSync(process.execPath, [script], { cwd: root, env: process.env, stdio: 'inherit' });
+    if (result.error) {
+      console.error(result.error.message);
+      process.exit(1);
+    }
+    if (result.status !== 0) process.exit(result.status || 1);
+  }
+  console.log('\nMULTICHAIN GANG RELEASE GATE PASS\n');
+  process.exit(0);
+}
 
 for (let index = 2; index < process.argv.length; index += 1) {
   const argument = process.argv[index];
