@@ -499,7 +499,19 @@ async function visibleTreeItems(page) {
   return page.locator('[role="tree"] [role="treeitem"]:visible');
 }
 
+async function revealMobileTree(page, audit) {
+  const tree = page.locator('[data-source-tree], [role="tree"]').first();
+  if (await tree.count() !== 1 || await tree.isVisible()) return;
+  const trigger = page.locator('[data-source-overlay-trigger="repositoryDrawer"]:visible, [aria-controls="repositoryPane"]:visible').first();
+  audit.check(await trigger.count() === 1, 'tree: mobile repository-drawer trigger missing');
+  if (await trigger.count() !== 1) return;
+  await trigger.click();
+  await page.waitForTimeout(20);
+  audit.check(await tree.isVisible(), 'tree: mobile repository drawer did not reveal the tree');
+}
+
 async function browserTreeAudit(page, audit) {
+  await revealMobileTree(page, audit);
   const tree = page.locator('[data-source-tree], [role="tree"]').first();
   audit.check(await tree.count() === 1, 'tree: exactly one source tree required');
   if (await tree.count() !== 1) return;
@@ -563,7 +575,7 @@ async function browserSearchAndPathAudit(page, audit) {
   audit.check(/NO SEARCH RESULTS/i.test(await page.locator('body').innerText()), 'search: no-result query lacks authored NO SEARCH RESULTS state');
   await search.fill('');
 
-  const showAll = page.locator('[data-show-all-categories], button').filter({ hasText: /SHOW ALL CATEGORIES/i }).first();
+  const showAll = page.locator('[data-show-all-categories]:visible, button:visible').filter({ hasText: /SHOW ALL CATEGORIES/i }).first();
   audit.check(await showAll.count() === 1, 'tree: SHOW ALL CATEGORIES control missing');
   if (await showAll.count()) {
     await showAll.click();
@@ -676,7 +688,9 @@ async function browserRouteComparisonAudit(page, audit) {
 }
 
 async function browserOverlayAudit(page, audit) {
-  const selectTrigger = page.locator('.mg-select-trigger').first();
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(20);
+  const selectTrigger = page.locator('.mg-select-trigger:visible').first();
   audit.check(await selectTrigger.count() > 0, 'overlay: site-styled custom select trigger missing');
   if (await selectTrigger.count()) {
     await selectTrigger.focus();
@@ -691,7 +705,7 @@ async function browserOverlayAudit(page, audit) {
     audit.check(await menu.isHidden(), 'overlay: outside click did not close custom select');
   }
 
-  const trigger = page.locator('[data-source-overlay-trigger], button[aria-haspopup="dialog"]').first();
+  const trigger = page.locator('[data-source-overlay-trigger]:visible, button[aria-haspopup="dialog"]:visible').first();
   audit.check(await trigger.count() > 0, 'overlay: mobile drawer/dialog trigger missing');
   if (await trigger.count()) {
     await trigger.focus();
