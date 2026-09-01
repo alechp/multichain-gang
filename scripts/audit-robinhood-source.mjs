@@ -843,9 +843,10 @@ async function browserResponsiveAudit(browser, options, audit) {
 
   const forced = await openPage(browser, options, { width: 1200, height: 900, forcedColors: 'active' });
   try {
-    const result = await forced.page.evaluate(() => {
+    const result = await forced.page.evaluate(async () => {
       const target = document.querySelector('#showAllCategories');
       target?.focus();
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       const style = target ? getComputedStyle(target) : null;
       const rect = target?.getBoundingClientRect();
       return {
