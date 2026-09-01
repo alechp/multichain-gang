@@ -9,9 +9,12 @@ latency, evidence, and visual language.
 
 ## Run the page
 
-Open the root `index.html` portal directly, or serve the repository root:
+From the repository root, start the dependency-free local server:
 
-    npx serve .
+    ./run
+
+It defaults to `http://127.0.0.1:4173/`. Use `./run --help` for host and port
+options, including the `MG_HOST` and `MG_PORT` environment variables.
 
 The full instruments are served at `/multichain/solana/` and
 `/multichain/robinhood/`. Each directory also exposes `/chains/` and `/tools/`
